@@ -18,8 +18,9 @@ Made by Rick Anderson and Sonia Yaco.
 | I want to… | Go to |
 |---|---|
 | See what to buy | [docs/parts.md](docs/parts.md) · [docs/bom.csv](docs/bom.csv) |
+| See the circuit | [schematic](docs/images/schematic.svg) · [wiring notes](docs/wiring.md) |
 | Print the parts | [cad/stl](cad/stl/README.md) |
-| Wire it | [docs/wiring.md](docs/wiring.md) · [cut list](docs/cut-list.csv) |
+| Wire it | [schematic](docs/images/schematic.svg) · [docs/wiring.md](docs/wiring.md) · [cut list](docs/cut-list.csv) |
 | Build it | [docs/assembly.md](docs/assembly.md) |
 | Flash the firmware | [firmware/README.md](firmware/README.md) |
 | Use it with students | [classroom/README.md](classroom/README.md) |
@@ -28,8 +29,8 @@ Made by Rick Anderson and Sonia Yaco.
 
 ## Quick start
 
-1. **Print** `Panel_Fit_Coupon` and `Fit_Test_Coupon` first to check the controls and the servo spline, then the mount, pod, and the adapter and bushing for your dowel size.
-2. **Wire** the electronics from the [wire list](docs/wiring.md). Set the PD board to 5 V and check it with a meter before connecting anything.
+1. **Print** the test pieces first: `Panel_Fit_Coupon` (button, switch and knob holes), `Fit_Test_Coupon` (servo spline) and the `Dowel_Gauge` strip for your dowel size. Then print the mount, pod, and the adapter and bushing for your dowel. See the [print order](cad/stl/README.md#print-order-for-a-fit-test).
+2. **Wire** the electronics from the [schematic](docs/images/schematic.svg) and [wire list](docs/wiring.md). Set the PD board to 5 V and check it with a meter before connecting anything.
 3. **Flash** the firmware:
    ```sh
    cd firmware/web && npm install && npm run build && cd ..

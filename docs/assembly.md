@@ -10,7 +10,7 @@ The images show the 3/4" dowel setup. The 5/8" and 1/4" setups are the same with
 
 **Control side.** The yellow adapter sits on the servo's output spline, with the bushing directly above it in the flange. The controls sit inside the pod, clear of the spinning adapter.
 
-![X-ray from the electronics side: the USB-C PD board and XIAO in their wall pockets, the capacitor and diode beside the XIAO, and the servo below.](images/xray_minusY.png)
+![X-ray from the electronics side: the USB-C PD board and XIAO in their wall pockets, the capacitor in its seat beside the XIAO, the wiring, and the servo below.](images/xray_minusY.png)
 
 **Electronics side.** The PD board (blue) and XIAO sit in pockets in the wall, held with zip ties. The capacitor snaps into a seat in the wall beside the XIAO; the diode sits in a channel on the inside of that wall, with its leads poking through. Every wire from the [wire list](wiring.md) is modeled, in its own colour.
 
@@ -24,8 +24,11 @@ The images show the 3/4" dowel setup. The 5/8" and 1/4" setups are the same with
 
 ## Wiring, as modeled
 
-![Straight-on view of the electronics side: power leads down the left edge, control wires on the XIAO's top row, power on its bottom row, orange signal up the right side through the resistor.](images/wiring_electronics.png)
+The circuit is in the [schematic](images/schematic.svg); the wire-by-wire list and cut lengths are in [wiring.md](wiring.md). This is how it lays out on the mount.
 
+![Straight-on view of the electronics side: the capacitor beside the XIAO, power leads down the left edge, control wires on the XIAO's top row, power on its bottom row, orange signal up the right side through the resistor.](images/wiring_electronics.png)
+
+- **C1 and D1:** the capacitor snaps into a round seat beside the XIAO. The diode is on the inside of the same wall, so it's hidden here; its two leads come out through the wall just below the capacitor, where L3 and W3 are soldered on.
 - **PD board screw terminal (top left):** + takes the servo red, C1's + lead (L1) and D1's anode (L3). GND takes the servo brown, C1's − lead (L2) and W4.
 - **XIAO top row,** from the USB end: D0 orange through R1, then D1 (button lead), D2 yellow, D3 green and D4 blue.
 - **XIAO bottom row,** from the USB end: 5V red from D1's banded end (W3), GND with two blacks (W4 from the terminal, W11 to the pod), and 3V3 violet.
@@ -96,9 +99,11 @@ Full list with sources: [parts.md](parts.md) and [hardware/README.md](../hardwar
 
 ### 4. Mount and wire the electronics
 
-![The PD board, XIAO, capacitor and diode pulled away from the mount's electronics side wall.](images/step4_electronics.png)
+![The PD board, XIAO and capacitor pulled away from the mount's electronics side wall, and the diode pulled out of the mount's open end.](images/step4_electronics.png)
 
-*Parts:* PD board, XIAO ESP32-C6, 1N5817 diode, 470 µF capacitor, 330 Ω resistor, zip ties.
+![See-through close-up of the electronics side wall: the diode lies in a channel on the inside face at the floor, and the capacitor sits in its round seat on the outside.](images/c1_d1_seats.png)
+
+*Parts:* PD board, XIAO ESP32-C6, 1N5817 diode, 470 µF capacitor (8 mm), 330 Ω resistor, zip ties, a dab of glue. Circuit: [schematic](images/schematic.svg).
 
 1. Set the PD board to 5 V. Plug in a charger and confirm 5 V with a meter before connecting anything else.
 2. **Diode first, from inside the mount.** Bend the 1N5817's leads 90° right at the body, banded end toward the XIAO's side. Working through the mount's open end, lay the diode in the half-round channel at the bottom of the electronics-side wall's inner face and push both leads out through the two 1 mm holes. A dab of glue in the channel keeps it there. It sits below the adapter and clear of the servo.
@@ -109,9 +114,7 @@ Full list with sources: [parts.md](parts.md) and [hardware/README.md](../hardwar
 
 ### 5. Build and attach the control pod
 
-![The control pod pulled away from the mount, with its controls pulled out.](images/step5_pod.png)
-
-*This render predates the 12 mm button; see the pod images above for its position.*
+![The control pod pulled away from the mount, with the 12 mm button, switch, knob and four M3 screws pulled out.](images/step5_pod.png)
 
 *Parts:* `Control_Pod`, pot and knob, toggle switch, 12 mm button, 4 × M3 screws.
 

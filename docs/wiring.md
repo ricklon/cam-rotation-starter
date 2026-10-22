@@ -2,7 +2,11 @@
 
 A USB-C PD trigger board set to 5 V powers the MG90S servo directly and feeds the XIAO ESP32-C6 through a diode. The XIAO drives the servo's signal wire from D0. A push button, a speed knob and a forward / stop / reverse switch give hands-on control without a phone. All grounds are tied together.
 
-![Schematic: PD board 5 V to the servo and, through diode D1, to the XIAO 5V pin; 470 µF capacitor across 5 V; XIAO D0 through 330 Ω to the servo signal; button S1 from D1 to ground; 10 kΩ knob RV1 between 3.3 V and ground with its wiper on D2; switch SW1 common to ground, throws to D3 and D4.](images/schematic.svg)
+## Schematic
+
+[Open the schematic full size](images/schematic.svg) (SVG, rev C). It shows the circuit only; where each part sits on the mount is in [assembly step 4](assembly.md#4-mount-and-wire-the-electronics).
+
+![Schematic: PD board 5 V to the servo and, through diode D1, to the XIAO 5V pin; 470 µF capacitor across 5 V; XIAO D0 through 330 Ω to the servo signal; 12 mm button S1 from D1 to ground; 10 kΩ knob RV1 between 3.3 V and ground with its wiper on D2; switch SW1 common to ground, throws to D3 and D4.](images/schematic.svg)
 
 ![Wire colour key](images/wire-colors.svg)
 
@@ -28,8 +32,8 @@ A USB-C PD trigger board set to 5 V powers the MG90S servo directly and feeds th
 | U1 | USB-C PD trigger board | Set to 5 V |
 | U2 | Seeed XIAO ESP32-C6 | In the mount's side pocket |
 | M1 | MG90S, 360° continuous | Horn removed; adapter on the spline |
-| D1 | Schottky diode, 1 A (1N5817 or SS14) | Stripe toward the XIAO |
-| C1 | Electrolytic, 470 µF, ≥ 10 V | Mind polarity |
+| D1 | Schottky diode, 1 A (1N5817 or SS14) | Axial. Lies in a channel inside the mount wall, leads out through two holes; stripe toward the XIAO |
+| C1 | Electrolytic, 470 µF, ≥ 10 V, 8 mm diameter | Press-fits into the seat beside the XIAO; mind polarity |
 | R1 | Resistor, 330 Ω | In line on the servo signal |
 | S1 | 12 mm stainless momentary push button, 1 NO, pre-wired 150 mm leads | In the pod's outer face |
 | RV1 | 9 mm potentiometer, 10 kΩ linear (B10K), M7 bushing, with knob | Pod side face |
@@ -88,9 +92,9 @@ Lengths measured along the routes in the 3D model, plus 15% slack for routing an
 | W1 | red | servo cable | 65 mm from the servo case | **trim to 85** |
 | W2 | brown | servo cable | 59 mm | **trim to 80** |
 | W5 | orange | servo cable | 74 mm to R1 | **trim to 95** |
-| L1 | red | 22–26 AWG | 44 mm | **65** |
-| L2 | black | 22–26 AWG | 30 mm | **45** |
-| L3 | red | 22–26 AWG | 34 mm | **50** |
+| L1 | red | 22–26 AWG | 49 mm | **70** |
+| L2 | black | 22–26 AWG | 35 mm | **50** |
+| L3 | red | 22–26 AWG | 36 mm | **55** |
 | W3 | red | 22–26 AWG | 25 mm | **40** |
 | W4 | black | 22–26 AWG | 59 mm | **80** |
 | W6 | button lead | pre-wired | 141 mm | **use the 150 mm lead** |
@@ -118,7 +122,7 @@ Lengths measured along the routes in the 3D model, plus 15% slack for routing an
 
 1. Set the PD board to 5 V. Plug in the charger and measure OUT+ to OUT− with a meter before wiring anything.
 2. Before applying power, use the meter's continuity mode to check each row of the terminal check table, and confirm that + and GND are not connected to each other.
-3. Wire ground first, then +5V, then the signal. Check C1's polarity (stripe = −) and D1's orientation (stripe toward the XIAO).
+3. Wire ground first, then +5V, then the signal. Check C1's polarity (stripe = −) and D1's orientation (stripe toward the XIAO). D1 goes into the mount before you solder its leads; see [assembly step 4](assembly.md#4-mount-and-wire-the-electronics).
 4. Flash the firmware (see [`firmware/README.md`](../firmware/README.md)). On first power-up, open Settings → Stop trim and adjust until the shaft stands still.
 5. Check the controls: the button should start and pause a story, the knob should change speed, and the switch should run forward, stop in the centre, and reverse.
 

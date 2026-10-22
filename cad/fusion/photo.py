@@ -9,15 +9,19 @@ def occs():
     return {o.component.name:o for o in d.rootComponent.occurrences}
 def shoot(name, hide=(), opacity=None, move=None, eye=(0,0,0), target=(0,0,0), up=(0,0,1), ortho=False, w=1800, h=1100, extent=None, save=True):
     """move: {comp: (dx,dy,dz) mm}; opacity: {comp: 0..1}; eye/target in mm"""
-    O=occs(); log=[]
-    state={n:(o.isLightBulbOn,[(b,b.opacity) for b in o.bRepBodies],o.transform2.copy()) for n,o in O.items()}
+    # names match every top-level occurrence of that component (imported hardware often has several)
+    ALLO=list(d.rootComponent.occurrences); log=[]
+    named=lambda n:[o for o in ALLO if o.component.name==n]
+    state=[(o,o.isLightBulbOn,[(b,b.opacity) for b in o.bRepBodies],o.transform2.copy()) for o in ALLO]
     try:
         for n in hide:
-            if n in O: O[n].isLightBulbOn=False
+            for o in named(n): o.isLightBulbOn=False
         for n,v in (opacity or {}).items():
-            for b in O[n].bRepBodies: b.opacity=v
+            for o in named(n):
+                for b in o.bRepBodies: b.opacity=v
         for n,(dx,dy,dz) in (move or {}).items():
-            m=O[n].transform2.copy(); t=m.translation; t.add(Vc(dx/10,dy/10,dz/10)); m.translation=t; O[n].transform2=m
+            for o in named(n):
+                m=o.transform2.copy(); t=m.translation; t.add(Vc(dx/10,dy/10,dz/10)); m.translation=t; o.transform2=m
         for c in d.allComponents:
             for attr in ('isJointsFolderLightBulbOn','isJointOriginsFolderLightBulbOn','isConstructionFolderLightBulbOn','isSketchFolderLightBulbOn','isOriginFolderLightBulbOn'):
                 try: setattr(c,attr,False)
@@ -40,8 +44,8 @@ def shoot(name, hide=(), opacity=None, move=None, eye=(0,0,0), target=(0,0,0), u
     except: log.append(traceback.format_exc())
     finally:
         if save:
-            for n,(lb,ops,tr) in state.items():
-                o=O[n]; o.transform2=tr; o.isLightBulbOn=lb
+            for o,lb,ops,tr in state:
+                o.transform2=tr; o.isLightBulbOn=lb
                 for b,v in ops: b.opacity=v
             log.append('restored; pending snapshot=%s'%d.snapshots.hasPendingSnapshot)
     return '\n'.join(log)

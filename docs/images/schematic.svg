@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 860" role="img" aria-label="Schematic. Power: PD board 5 volt output to servo red wire and through diode D1 to XIAO 5V pin; 470 microfarad capacitor across the 5 volt supply; XIAO D0 through 330 ohm resistor to servo orange signal wire; all grounds common. Controls: push button S1 from XIAO D1 to ground; 10 kilohm speed knob RV1 between 3.3 volts and ground with its wiper to D2; three-position switch SW1 with common to ground and its two throws to D3 (forward) and D4 (reverse)."><style>.grid{stroke:#e9eeed;stroke-width:1}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 860" role="img" aria-label="Schematic. Power: PD board 5 volt output to servo red wire and through diode D1 to XIAO 5V pin; 470 microfarad capacitor across the 5 volt supply; XIAO D0 through 330 ohm resistor to servo orange signal wire; all grounds common. Controls: 12 millimetre stainless push button S1 from XIAO D1 to ground; 10 kilohm speed knob RV1 between 3.3 volts and ground with its wiper to D2; three-position switch SW1 with common to ground and its two throws to D3 (forward) and D4 (reverse)."><style>.grid{stroke:#e9eeed;stroke-width:1}
 .w-pwr{stroke:#c23b2a;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .w-gnd{stroke:#2f3a3d;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .w-sig{stroke:#d07a1c;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -145,8 +145,9 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <path class="w-gnd" d="M202 660 H240 V690"/>
         <path class="sym" d="M224 690 H256 M230 697 H250 M236 704 H244"/>
         <text class="ref" x="146" y="610">S1</text>
-        <text class="small" x="120" y="735">Push button (N.O.)</text>
-        <text class="small" x="120" y="752">start · pause · next</text>
+        <text class="small" x="120" y="735">12 mm push button (N.O.)</text>
+        <text class="small" x="120" y="752">stainless, pre-wired leads</text>
+        <text class="small" x="120" y="769">start · pause · next</text>
 
         <!-- RV1 speed knob: 3V3 / wiper to SPEED / GND -->
         <text class="net c" x="420" y="604" text-anchor="middle">+3V3</text>
@@ -182,7 +183,7 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <text class="tbt" x="592" y="809">TITLE</text>
         <text class="tbv" x="646" y="809">Cam Rotation Starter</text>
         <text class="tbt" x="852" y="809">REV</text>
-        <text class="tbv" x="890" y="809">B · 2026-10-21</text>
+        <text class="tbv" x="890" y="809">C · 2026-10-22</text>
         <text class="tbt" x="592" y="837">SUPPLY</text>
         <text class="tbv" x="652" y="837">5 V USB-C PD</text>
         <text class="tbt" x="852" y="837">MCU</text>

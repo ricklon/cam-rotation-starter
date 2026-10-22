@@ -1,6 +1,6 @@
 # Parts
 
-Everything for one drive unit. The same list is in [`bom.csv`](bom.csv). Fasteners, with McMaster part numbers and STEP models, are detailed in [`hardware/README.md`](../hardware/README.md).
+Everything for one drive unit. The same list is in [`bom.csv`](bom.csv). How it all connects is in the [schematic](images/schematic.svg) and [wiring notes](wiring.md). Fasteners, with McMaster part numbers and STEP models, are detailed in [`hardware/README.md`](../hardware/README.md).
 
 ## Electronics
 
@@ -9,8 +9,8 @@ Everything for one drive unit. The same list is in [`bom.csv`](bom.csv). Fastene
 | U2 | 1 | Seeed Studio XIAO ESP32-C6 | Make sure it's the **C6**; the firmware is built for it. |
 | U1 | 1 | USB-C PD trigger board with screw terminal | Must have a **5 V** setting. The mount's pocket fits a board about 28 × 11 mm. |
 | M1 | 1 | MG90S servo, **360° continuous rotation**, metal gear | The plain MG90S is the 180° positional version and won't turn a cam. |
-| D1 | 1 | 1N5817 Schottky diode (or SS14) | |
-| C1 | 1 | 470 µF electrolytic capacitor, ≥ 10 V | |
+| D1 | 1 | 1N5817 Schottky diode (or SS14) | Through-hole (axial); its leads pass through the mount wall. |
+| C1 | 1 | 470 µF electrolytic capacitor, ≥ 10 V | **8 mm diameter**, radial: it press-fits into a seat in the mount. For another size, change `c1_seat_dia` and reprint. |
 | R1 | 1 | 330 Ω resistor | |
 | — | 1 | USB-C charger that supports PD | Most phone and laptop chargers do. |
 
@@ -32,7 +32,9 @@ Print files and settings are in [`cad/stl`](../cad/stl/README.md).
 | `Control_Pod` | 1 | Front panel down |
 | `Adapter_075` / `Adapter_0625` / `Adapter_025` | 1 for your dowel | Spline end down |
 | `Bushing_075` / `Bushing_0625` / `Bushing_025` | 1 to match | Flange down |
+| `Panel_Fit_Coupon` | 1 | Test the button, switch and knob holes before printing the pod |
 | `Fit_Test_Coupon` | 1 | Print first to check the spline fit |
+| `Dowel_Gauge_075` / `_0625` / `_025` | 1 for your dowel | Find the right socket and bushing clearance for your dowels |
 | Clamps, sleeved adapter, shims | optional | For sanded dowels; see [assembly](assembly.md#sanded-or-undersize-dowels) |
 
 ## Fasteners
@@ -52,5 +54,6 @@ Print files and settings are in [`cad/stl`](../cad/stl/README.md).
 - 30 AWG silicone or Kynar wire: white, yellow, violet, green, blue, black
 - 22–26 AWG wire: red and black
 - Heat-shrink assortment
+- Hot glue or CA glue (a dab to hold the diode)
 - Small zip ties, 2.5–3.5 mm wide
 - Wooden dowels: 3/4", 5/8" or 1/4"
