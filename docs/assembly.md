@@ -31,7 +31,7 @@ The images show the 3/4" dowel setup. The 5/8" and 1/4" setups are the same with
 - **XIAO bottom row,** from the USB end: 5V red from D1's banded end (W3), GND with two blacks (W4 from the terminal, W11 to the pod), and 3V3 violet.
 - **R1** sits under heat-shrink on the orange wire's run up the right side.
 
-![Outside of the control pod: the 12 mm stainless button in the outer face, the knob and the toggle switch on the side face.](images/pod_button_outside.png)
+![Outside of the control pod: the polished 12 mm stainless button in the outer face, the knob and the toggle switch on the side face.](images/pod_button_outside.png)
 
 ![Inside the control pod: the button body and nut, the switch and pot, and the wires from the bundle.](images/pod_button_inside.png)
 
