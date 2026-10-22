@@ -1,0 +1,10 @@
+{
+  "name": "tide",
+  "loop": true,
+  "steps": [
+    { "label": "Tide comes in",  "speed": 25,  "ms": 5000, "ramp": 2000 },
+    { "label": "High water",     "speed": 0,   "ms": 2500, "ramp": 1500 },
+    { "label": "Tide goes out",  "speed": -25, "ms": 5000, "ramp": 2000 },
+    { "label": "Low water",      "speed": 0,   "ms": 2500, "ramp": 1500 }
+  ]
+}

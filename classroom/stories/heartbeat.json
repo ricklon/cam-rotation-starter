@@ -1,0 +1,10 @@
+{
+  "name": "heartbeat",
+  "loop": true,
+  "steps": [
+    { "label": "Beat",       "speed": 60, "ms": 250, "ramp": 100 },
+    { "label": "Pause",      "speed": 0,  "ms": 150, "ramp": 100 },
+    { "label": "Beat again", "speed": 60, "ms": 250, "ramp": 100 },
+    { "label": "Rest",       "speed": 0,  "ms": 900, "ramp": 200 }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "storm",
+  "loop": true,
+  "steps": [
+    { "label": "Wake up",        "speed": 20,  "ms": 3000, "ramp": 1500 },
+    { "label": "Storm builds",   "speed": 70,  "ms": 4000, "ramp": 2500 },
+    { "label": "Sudden calm",    "speed": 0,   "ms": 2000, "ramp": 400 },
+    { "label": "Wind turns",     "speed": -40, "ms": 3000, "ramp": 1200 },
+    { "label": "Rest",           "speed": 0,   "ms": 3000, "ramp": 1500 }
+  ]
+}

@@ -1,0 +1,28 @@
+group,ref,qty,part,spec,source,notes
+electronics,U2,1,Seeed Studio XIAO ESP32-C6,ESP32-C6 Wi-Fi 6 / BLE,Seeed / DigiKey / Amazon,must be the C6
+electronics,U1,1,USB-C PD trigger board,5 V setting; screw terminal; about 28 x 11 mm,,
+electronics,M1,1,MG90S servo,360 degree continuous rotation; metal gear,,180 degree version will not work
+electronics,D1,1,1N5817 Schottky diode,1 A (SS14 also fine),,stripe toward XIAO
+electronics,C1,1,electrolytic capacitor,470 uF >= 10 V,,
+electronics,R1,1,resistor,330 ohm,,
+electronics,,1,USB-C PD charger,,,
+controls,S1,1,12 mm stainless momentary push button,1 NO; IP65; M12x0.75; pre-wired 150 mm,Amazon B09BKWMNJ9,pod outer face; 12.2 mm hole
+controls,SW1,1,MTS-103 mini toggle,ON-OFF-ON; 3 pin; 1/4 in bushing,,pod side face; 6.2 mm hole
+controls,RV1,1,9 mm potentiometer with knob,10k linear (B10K); M7 bushing,,pod side face; 7.2 mm hole
+printed,,1,Servo_Mount,PLA,cad/stl,
+printed,,1,Control_Pod,PLA,cad/stl,
+printed,,1,adapter for your dowel,Adapter_075 / Adapter_0625 / Adapter_025,cad/stl,
+printed,,1,bushing to match,Bushing_075 / Bushing_0625 / Bushing_025,cad/stl,
+printed,,1,Fit_Test_Coupon,PLA,cad/stl,print first
+fastener,,2,wall screw,#14 x 3/4 in brass rounded head wood screw,McMaster 98685A950,pilot 7/64 softwood; 9/64 hardwood
+fastener,,2,washer,1/4 in USS; 0.734 in OD,McMaster 98026A029,
+fastener,,2,adapter grip screw,#4 x 3/8 in flat head wood screw,McMaster 90031A108,3/4 and 5/8 adapters
+fastener,,2,adapter grip screw (1/4 in),#4 x 1/4 in brass flat head wood screw,McMaster 92114A106,1/4 adapter only
+fastener,,4,pod screw,M3 x 8 wafer or pan head,,M3 x 6 also fits
+fastener,,2,clamp screw,M2.5 x 10 button head ISO 7380,,per clamp; optional
+fastener,,3,servo screws,2 tab + 1 horn,included with MG90S,
+wire,,1,30 AWG wire,white; yellow; violet; green; blue; black,,see docs/cut-list.csv
+wire,,1,22-26 AWG wire,red; black,,
+misc,,1,heat-shrink assortment,,,
+misc,,4,zip ties,2.5-3.5 mm wide,,
+misc,,1,wooden dowel,3/4; 5/8 or 1/4 in,,

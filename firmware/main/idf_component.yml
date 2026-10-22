@@ -1,0 +1,4 @@
+dependencies:
+  idf: ">=5.3"
+  joltwallet/littlefs: "^1.14"
+  espressif/mdns: "^1.4"

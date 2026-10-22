@@ -1,0 +1,16 @@
+# ESP-IDF / firmware build output
+firmware/build/
+firmware/managed_components/
+firmware/dependencies.lock
+firmware/sdkconfig
+firmware/sdkconfig.old
+# web app
+firmware/web/node_modules/
+firmware/web/dist/
+# CAD scratch
+cad/stl/raw/
+__pycache__/
+*.pyc
+# OS
+.DS_Store
+Thumbs.db
