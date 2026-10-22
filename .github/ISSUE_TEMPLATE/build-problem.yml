@@ -1,0 +1,23 @@
+name: Build or wiring problem
+description: Something doesn't work after assembly
+labels: [build]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What's wrong?
+      description: e.g. "servo creeps at stop", "button does nothing", "box Wi-Fi doesn't appear"
+    validations: {required: true}
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checked so far
+      options:
+        - label: PD board measures 5 V
+        - label: Terminal check table in docs/wiring.md passes
+        - label: Stop trim set in Settings
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Which dowel size, which firmware version, photos of the wiring if you can.

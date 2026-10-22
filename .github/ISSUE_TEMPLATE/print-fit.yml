@@ -1,0 +1,26 @@
+name: Print fit report
+description: A printed part is too tight, too loose, warped or won't print well
+labels: [print-fit]
+body:
+  - type: dropdown
+    id: part
+    attributes:
+      label: Which part?
+      options: [Servo_Mount, Control_Pod, Adapter (3/4"), Adapter (5/8"), Adapter (1/4"), Bushing, Clamp or cap, Shim or sleeved adapter, Fit_Test_Coupon, Other]
+    validations: {required: true}
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: e.g. "spline pocket too tight", "dowel won't slide through the bushing", "button nut hits the pod wall"
+    validations: {required: true}
+  - type: input
+    id: printer
+    attributes:
+      label: Printer, material and slicer settings
+      placeholder: "Prusa MK4, PLA, 0.2 mm layers, 3 walls"
+  - type: input
+    id: measured
+    attributes:
+      label: Measurements (if you have calipers)
+      placeholder: "dowel 18.6 mm, socket 19.2 mm"
