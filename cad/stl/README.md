@@ -19,6 +19,7 @@ Exported from Fusion and oriented for printing (z = 0 is the bed) by [`../fusion
 | Adapter_Clamp_025 | 1/4 clamp, spline end down | 19.9 × 16.3 × 24.0 | 130 |
 | Clamp_025_cap | 1/4 clamp cap, split face down | 19.9 × 17.5 × 9.2 | 222 |
 | Adapter_075_Sleeved | 3/4 sleeved, spline end down | 26.5 × 26.5 × 24.0 | 492 |
+| Panel_Fit_Coupon | front panel down, like the pod | 27.0 × 38.0 × 20.7 | 955 |
 | Shim_075_for_19p0mm | shim for 19.0 mm dowel, on end | 21.5 × 21.5 × 17.5 | 73 |
 | Shim_075_for_18p5mm | shim for 18.5 mm dowel, on end | 21.5 × 21.5 × 17.5 | 88 |
 | Shim_075_for_18p0mm | shim for 18.0 mm dowel, on end | 21.5 × 21.5 × 17.5 | 102 |
@@ -29,9 +30,10 @@ All files were checked: watertight, no non-manifold edges, and volumes match Fus
 
 ## Print order for a fit test
 
-1. **Fit_Test_Coupon** first; it is the quickest print. Push it onto the servo spline: the pocket that grips without forcing should be the 5.0 mm one the adapters use (`spline_dia`). If a different pocket fits best, change `spline_dia` in Fusion and re-export the adapters.
-2. **Bushings and adapters** next (3/4", 5/8" and 1/4" sets). Check them against real dowels: the dowel should slide through the bushing and sit snugly in the adapter socket. The clearances are `fit_clear` 0.3 mm (adapter socket) and `hole_clear` 0.5 mm (bushing bore).
-3. **Servo_Mount and Control_Pod** last. They are the long prints.
+1. **Panel_Fit_Coupon**: a slice of the control pod with the button, switch and pot holes and the wall next to the button nut, printed the same way up as the pod. Fit all three controls and tighten the button's nut: it has only 0.2 mm to spare against the side wall. If anything is tight, fix it before printing the full pod (see "If the panel coupon doesn't fit" below).
+2. **Fit_Test_Coupon** next; it is the quickest print. Push it onto the servo spline: the pocket that grips without forcing should be the 5.0 mm one the adapters use (`spline_dia`). If a different pocket fits best, change `spline_dia` in Fusion and re-export the adapters.
+3. **Bushings and adapters** next (3/4", 5/8" and 1/4" sets). Check them against real dowels: the dowel should slide through the bushing and sit snugly in the adapter socket. The clearances are `fit_clear` 0.3 mm (adapter socket) and `hole_clear` 0.5 mm (bushing bore).
+4. **Servo_Mount and Control_Pod** last. They are the long prints.
 
 ## Suggested settings (PLA)
 
@@ -70,3 +72,16 @@ If a dowel has been sanded below its nominal size, use these instead of the plai
 **Clamps:** fit the cap loosely before sliding onto the shaft. Turn the adapter by hand so each screw faces an open end of the mount, then tighten evenly until the gap closes on the dowel. All clamp parts stay within 13.25 mm of the axis, 1.5 mm clear of the mount's side walls.
 
 Print caps split face down. Print the clamp bodies, sleeved adapter and shims standing on end. Use 4 walls on the clamps for thread strength.
+
+## If the panel coupon doesn't fit
+
+![The panel fit coupon with the button, switch and pot fitted.](../../docs/images/panel_fit_coupon.png)
+
+| Problem | Fix |
+|---|---|
+| Button won't go through its hole | The hole prints sideways and its top edge can sag. Ream it with a 12 mm (15/32") drill by hand, or raise `btn12_hole` from 12.2 to 12.4 mm. |
+| Button nut hits the side wall | Turn the nut so a flat faces the wall. If it still binds, move the button over by lowering `btn12_x` from 7.0 to 6.5 mm (it still clears the switch). |
+| Switch or pot won't go in | Ream the hole, or raise `pod_sw_hole` (6.2 mm) or `pod_pot_hole` (7.2 mm) by 0.2 mm. |
+| Everything loose | Your printer prints holes large; lower the hole parameters, or reduce the slicer's hole compensation. |
+
+Change the parameter in Fusion, then re-export the pod and the coupon.

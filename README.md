@@ -28,7 +28,7 @@ Made by Rick Anderson and Sonia Yaco.
 
 ## Quick start
 
-1. **Print** `Fit_Test_Coupon` first and check the servo spline fit, then the mount, pod, and the adapter and bushing for your dowel size.
+1. **Print** `Panel_Fit_Coupon` and `Fit_Test_Coupon` first to check the controls and the servo spline, then the mount, pod, and the adapter and bushing for your dowel size.
 2. **Wire** the electronics from the [wire list](docs/wiring.md). Set the PD board to 5 V and check it with a meter before connecting anything.
 3. **Flash** the firmware:
    ```sh
