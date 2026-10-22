@@ -42,7 +42,7 @@ All files were checked: watertight, no non-manifold edges, and volumes match Fus
 4. **Bushings and adapters** for your dowel sizes, once the gauge says the clearances are right.
 5. **Servo_Mount and Control_Pod** last. They are the long prints.
 
-**Capacitor and diode seats:** the mount's electronics-side wall has a 3 mm-deep curved seat for the capacitor (C1) and a half-round channel for the diode (D1) and its leads, beside the XIAO. Both parts sit partly inside the wall so they can't slide or flex; glue them in after soldering (see [assembly step 4](../../docs/assembly.md#4-mount-and-wire-the-electronics)).
+**Capacitor and diode seats:** the capacitor (C1) press-fits into a round seat in the outside of the electronics-side wall, beside the XIAO. The seat is 8.0 mm across and 4.9 mm deep, deeper than the can's radius, so its lips (7.8 mm apart) hold the can once it snaps in. The diode (D1) lies in a half-round channel on the inside of the same wall, at the floor, and its leads go out through two 1 mm holes to be soldered on the XIAO side (see [assembly step 4](../../docs/assembly.md#4-mount-and-wire-the-electronics)). If your capacitor isn't 8 mm, measure it and set `c1_seat_dia` to that.
 
 ## Suggested settings (PLA)
 

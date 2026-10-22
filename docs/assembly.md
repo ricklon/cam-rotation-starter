@@ -12,7 +12,7 @@ The images show the 3/4" dowel setup. The 5/8" and 1/4" setups are the same with
 
 ![X-ray from the electronics side: the USB-C PD board and XIAO in their wall pockets, the capacitor and diode beside the XIAO, and the servo below.](images/xray_minusY.png)
 
-**Electronics side.** The PD board (blue) and XIAO sit in pockets in the wall, held with zip ties. The capacitor and diode sit in printed seats in the wall beside the XIAO. Every wire from the [wire list](wiring.md) is modeled, in its own colour.
+**Electronics side.** The PD board (blue) and XIAO sit in pockets in the wall, held with zip ties. The capacitor snaps into a seat in the wall beside the XIAO; the diode sits in a channel on the inside of that wall, with its leads poking through. Every wire from the [wire list](wiring.md) is modeled, in its own colour.
 
 ![Exploded view of every part pulled out along the direction it goes in.](images/exploded_full.png)
 
@@ -49,7 +49,7 @@ Full list with sources: [parts.md](parts.md) and [hardware/README.md](../hardwar
 | 1 | MG90S **360° continuous** servo, with its 2 tab screws and horn screw | 2, 3 |
 | 2 | #4 × 3/8" flat-head wood screws (#4 × 1/4" for the 1/4" adapter) | 7 |
 | 1 each | XIAO ESP32-C6, USB-C PD trigger board, 1N5817 diode, 470 µF capacitor (8 mm diameter), 330 Ω resistor | 4 |
-| — | Hot glue or CA for the capacitor and diode | 4 |
+| — | Hot glue or CA (a dab for the diode) | 4 |
 | 2–4 | Small zip ties, 2.5–3.5 mm wide | 4 |
 | 1 each | 9 mm B10K pot with knob, MTS-103 ON-OFF-ON toggle, 12 mm stainless momentary button | 5 |
 | 4 | M3 × 8 (or × 6) wafer- or pan-head screws | 5 |
@@ -101,10 +101,11 @@ Full list with sources: [parts.md](parts.md) and [hardware/README.md](../hardwar
 *Parts:* PD board, XIAO ESP32-C6, 1N5817 diode, 470 µF capacitor, 330 Ω resistor, zip ties.
 
 1. Set the PD board to 5 V. Plug in a charger and confirm 5 V with a meter before connecting anything else.
-2. Wire the power and servo connections from the [wire list](wiring.md): diode stripe toward the XIAO, capacitor stripe to ground.
-3. Set the PD board in the upper pocket and the XIAO in the lower pocket, USB-C toward the open end so you can reach it for programming. Thread zip ties through the slots.
-4. Press the capacitor into its curved seat beside the XIAO and the diode into the channel beside it, leads along the slot. Slide heat-shrink over the diode's anode joint first. Fix both with a dab of hot glue or CA, kept off the solder joints.
-5. Run the servo cable along the outer half of the wide groove, from under the base up to the PD board. Leave the inner half free for the control bundle.
+2. **Diode first, from inside the mount.** Bend the 1N5817's leads 90° right at the body, banded end toward the XIAO's side. Working through the mount's open end, lay the diode in the half-round channel at the bottom of the electronics-side wall's inner face and push both leads out through the two 1 mm holes. A dab of glue in the channel keeps it there. It sits below the adapter and clear of the servo.
+3. **Capacitor.** Press the 470 µF capacitor into the round seat on the outside of the same wall, legs down, until it snaps in past the lips. Its legs drop into the slot below the seat. If it won't go in, scrape the lips a little with a knife or raise `c1_seat_dia` by 0.1–0.2 mm and reprint; if it's loose, add a dab of glue.
+4. Wire the power and servo connections from the [wire list](wiring.md): capacitor stripe to ground, and solder L3 and W3 to the diode leads where they come through the wall. Put heat-shrink over those two joints.
+5. Set the PD board in the upper pocket and the XIAO in the lower pocket, USB-C toward the open end so you can reach it for programming. Thread zip ties through the slots.
+6. Run the servo cable along the outer half of the wide groove, from under the base up to the PD board. Leave the inner half free for the control bundle.
 
 ### 5. Build and attach the control pod
 

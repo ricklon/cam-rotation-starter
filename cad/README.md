@@ -25,8 +25,8 @@ Import `step/cam-rotation-starter.f3d` into Fusion (File → Open → Open from 
 | `clamp_gap` | 1.5 mm | Split-clamp take-up for sanded dowels |
 | `shim_dowel` | 18.5 mm | Measured diameter a 3/4" shim is made for |
 | `hs_len` | 3.8 mm | Servo horn screw length under the head (measured) |
-| `c1_seat_dia`, `c1_seat_depth` | 8.3, 3 mm | Capacitor seat in the electronics-side wall (for an 8 mm can) |
-| `d1_seat_dia`, `d1_lead_slot` | 2.9, 1.1 mm | Diode body channel and lead slot |
+| `c1_seat_dia`, `c1_seat_depth` | 8.0, 4.9 mm | Capacitor press-fit seat in the electronics-side wall; set the diameter to your capacitor's |
+| `d1_seat_dia`, `d1_lead_slot`, `d1_lead_hole` | 2.9, 1.1, 1.0 mm | Diode channel on the inside of that wall, and the holes its leads go out through |
 
 The XIAO in the model is the S3 Sense, used as a stand-in; it has the same footprint as the ESP32-C6.
 

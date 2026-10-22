@@ -46,8 +46,8 @@ Follow this table one wire at a time and tick each off. The colours match the 3D
 | W2 | brown | Servo brown (GND) | U1 GND terminal | |
 | L1 | red | C1 + (long leg) | U1 + terminal | Lead extends the capacitor leg. |
 | L2 | black | C1 − (stripe side) | U1 GND terminal | Reversed polarity damages the capacitor. |
-| L3 | red | D1 anode (plain end) | U1 + terminal | |
-| W3 | red | D1 cathode (banded end) | XIAO 5V (VIN) | Heat-shrink over the diode. |
+| L3 | red | D1 anode (plain end) | U1 + terminal | Solder to the lead where it comes through the wall; heat-shrink the joint. |
+| W3 | red | D1 cathode (banded end) | XIAO 5V (VIN) | Solder to the lead where it comes through the wall; heat-shrink the joint. |
 | W4 | black | U1 GND terminal | XIAO GND | |
 | **Servo signal** | | | | |
 | W5 | orange | Servo orange (signal) | R1 → XIAO D0 | R1's own lead covers the last 15 mm; heat-shrink over it. |
