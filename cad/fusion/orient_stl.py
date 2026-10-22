@@ -29,6 +29,10 @@ PLAN = {
     'Adapter_Clamp_025': (FLIP, '1/4 clamp, spline end down'),
     'Clamp_025_cap':   (SIDE + FLIP, '1/4 clamp cap, split face down'),
     'Adapter_075_Sleeved': (FLIP, '3/4 sleeved, spline end down'),
+    'Panel_Fit_Coupon': (SIDE + FLIP, 'front panel down, like the pod'),
+    'Dowel_Gauge_075': (FLIP, '3/4 dowel gauge strip, flat'),
+    'Dowel_Gauge_0625': (FLIP, '5/8 dowel gauge strip, flat'),
+    'Dowel_Gauge_025': (FLIP, '1/4 dowel gauge strip, flat'),
 }
 for _n, _d in (('19p0', '19.0'), ('18p5', '18.5'), ('18p0', '18.0'), ('17p5', '17.5')):
     PLAN['Shim_075_for_%smm' % _n] = (FLIP, 'shim for %s mm dowel, on end' % _d)

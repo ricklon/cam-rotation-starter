@@ -20,6 +20,9 @@ Exported from Fusion and oriented for printing (z = 0 is the bed) by [`../fusion
 | Clamp_025_cap | 1/4 clamp cap, split face down | 19.9 × 17.5 × 9.2 | 222 |
 | Adapter_075_Sleeved | 3/4 sleeved, spline end down | 26.5 × 26.5 × 24.0 | 492 |
 | Panel_Fit_Coupon | front panel down, like the pod | 27.0 × 38.0 × 20.7 | 955 |
+| Dowel_Gauge_075 | 3/4 dowel gauge strip, flat | 151.5 × 28.8 × 4.0 | 2584 |
+| Dowel_Gauge_0625 | 5/8 dowel gauge strip, flat | 132.4 × 25.6 × 4.0 | 2148 |
+| Dowel_Gauge_025 | 1/4 dowel gauge strip, flat | 75.3 × 16.1 × 4.0 | 997 |
 | Shim_075_for_19p0mm | shim for 19.0 mm dowel, on end | 21.5 × 21.5 × 17.5 | 73 |
 | Shim_075_for_18p5mm | shim for 18.5 mm dowel, on end | 21.5 × 21.5 × 17.5 | 88 |
 | Shim_075_for_18p0mm | shim for 18.0 mm dowel, on end | 21.5 × 21.5 × 17.5 | 102 |
@@ -32,14 +35,21 @@ All files were checked: watertight, no non-manifold edges, and volumes match Fus
 
 1. **Panel_Fit_Coupon**: a slice of the control pod with the button, switch and pot holes and the wall next to the button nut, printed the same way up as the pod. Fit all three controls and tighten the button's nut: it has only 0.2 mm to spare against the side wall. If anything is tight, fix it before printing the full pod (see "If the panel coupon doesn't fit" below).
 2. **Fit_Test_Coupon** next; it is the quickest print. Push it onto the servo spline: the pocket that grips without forcing should be the 5.0 mm one the adapters use (`spline_dia`). If a different pocket fits best, change `spline_dia` in Fusion and re-export the adapters.
-3. **Bushings and adapters** next (3/4", 5/8" and 1/4" sets). Check them against real dowels: the dowel should slide through the bushing and sit snugly in the adapter socket. The clearances are `fit_clear` 0.3 mm (adapter socket) and `hole_clear` 0.5 mm (bushing bore).
-4. **Servo_Mount and Control_Pod** last. They are the long prints.
+3. **Dowel_Gauge_075 / _0625 / _025**, one strip per dowel size you have. Each strip has six holes, labelled with how much bigger than the nominal dowel they are: +0.1, +0.2, **+0.3 A**, +0.4, **+0.5 B**, +0.7 mm. Try a real dowel in each:
+   - **A** is the adapter socket clearance (`fit_clear`). The dowel should push in snugly by hand.
+   - **B** is the bushing bore clearance (`hole_clear`). The dowel should slide and turn freely.
+   - If a different hole gives the right feel, set `fit_clear` or `hole_clear` to that number in Fusion and re-export the adapters or bushings. A dowel that won't enter even +0.7 is oversize or swollen; one that rattles in +0.1 is sanded, so use the clamps or shims below.
+4. **Bushings and adapters** for your dowel sizes, once the gauge says the clearances are right.
+5. **Servo_Mount and Control_Pod** last. They are the long prints.
+
+**Capacitor and diode seats:** the mount's electronics-side wall has a 3 mm-deep curved seat for the capacitor (C1) and a half-round channel for the diode (D1) and its leads, beside the XIAO. Both parts sit partly inside the wall so they can't slide or flex; glue them in after soldering (see [assembly step 4](../../docs/assembly.md#4-mount-and-wire-the-electronics)).
 
 ## Suggested settings (PLA)
 
 | Part | Layer | Walls | Infill | Supports |
 |---|---|---|---|---|
 | Fit_Test_Coupon | 0.2 mm | 3 | 20% | none |
+| Dowel gauges | 0.16 mm | 3 | 20% | none |
 | Adapters | 0.12–0.16 mm | 4 | 40% | none |
 | Bushings | 0.16 mm | 3 | 30% | none |
 | Control_Pod | 0.2 mm | 3 | 20% | build plate only, if the slicer flags the screw bosses |
