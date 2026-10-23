@@ -8,7 +8,7 @@ firmware/sdkconfig.old
 firmware/web/node_modules/
 firmware/web/dist/
 # CAD scratch
-cad/stl/raw/
+drives/*/cad/stl/raw/
 __pycache__/
 *.pyc
 # OS

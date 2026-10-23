@@ -1,6 +1,6 @@
 import os
 REPO=os.environ.get('CAM_REPO', os.path.expanduser('~/cam-rotation-starter'))
-exec(open(os.path.join(REPO,'cad','fusion','photo.py')).read(), globals())
+exec(open(os.path.join(os.environ.get('CAM_DRIVE', os.path.join(REPO,'drives','mg90s')),'cad','fusion','photo.py')).read(), globals())
 ALT=('Adapter_025','Dowel_025','Bushing_025','Fit_Test_Coupon','Panel_Fit_Coupon','Dowel_Fit_Gauge','92114A106_Brass_Flat_Head_Wood_Screw_4x1-4')
 ORDER=[ # build order
  ('Servo_Mount',),

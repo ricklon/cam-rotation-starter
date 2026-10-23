@@ -18,7 +18,7 @@ Firmware for the Cam Rotation Starter: a Seeed XIAO ESP32-C6 runs a continuous-r
 | User LED | on board | 15 | Active low. |
 | RF switch enable / antenna select | on board | 3 / 14 | Driven low: on-board antenna. |
 
-The full point-to-point wire list (W1–W11, L1–L3, J1–J2) is in [`docs/wiring.md`](../docs/wiring.md). Pins are defined in `main/board.h`.
+The full point-to-point wire list (W1–W11, L1–L3, J1–J2) is in [`docs/wiring.md`](../drives/mg90s/docs/wiring.md). Pins are defined in `main/board.h`.
 
 ## Panel controls
 
