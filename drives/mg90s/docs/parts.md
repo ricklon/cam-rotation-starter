@@ -1,6 +1,6 @@
 # Parts
 
-Everything for one drive unit. The same list is in [`bom.csv`](bom.csv). How it all connects is in the [schematic](images/schematic.svg) and [wiring notes](wiring.md). Fasteners, with McMaster part numbers and STEP models, are detailed in [`hardware/README.md`](../hardware/README.md).
+Everything for one drive unit. The same list is in [`bom.csv`](bom.csv). How it all connects is in the [schematic](images/schematic.svg) and [wiring notes](wiring.md). Fasteners, with McMaster part numbers and STEP models, are detailed in [`hardware/README.md`](../../../hardware/README.md).
 
 ## Electronics
 

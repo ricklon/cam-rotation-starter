@@ -1,58 +1,53 @@
 # Cam Rotation Starter
 
-A small servo drive that turns a wooden camshaft through the wall of a box, so students can build cam-driven story animations with found objects inside. It also automates hand-cranked cam pieces. You program a "story" of speeds and pauses from a phone, then play it with a button, a speed knob and a direction switch, with no phone, laptop or internet needed.
+A small motor drive that turns a wooden camshaft through the wall of a box, so students can build cam-driven story animations with found objects inside. It also automates hand-cranked cam pieces. You program a "story" of speeds and pauses from a phone, then play it with a button, a speed knob and a direction switch, with no phone, laptop or internet needed.
 
-![X-ray view of the drive unit: a 3D-printed mount with the servo, the adapter that grips the dowel, the electronics on one side and the control pod on the other.](docs/images/xray_minusY.png)
+![X-ray view of the MG90S drive unit: a 3D-printed mount with the servo, the adapter that grips the dowel, the electronics on one side and the control pod on the other.](drives/mg90s/docs/images/xray_minusY.png)
 
 Made by Rick Anderson and Sonia Yaco.
 
-## What it is
+## Pick a drive
 
-- **Mount:** a 3D-printed bracket that screws to the outside of a box wall. The camshaft (a 3/4", 5/8" or 1/4" wooden dowel) passes through the wall into a printed adapter on the servo, so nothing has to be reached from inside the box.
-- **Drive:** an MG90S continuous-rotation servo, powered from any USB-C charger through a PD trigger board.
+The drive comes in more than one version. They share the brain, the controls, the firmware's story player and web app, and the dowel bushings and gauges. What differs is the motor, the mount it sits in, the adapter that couples it to the dowel, and the wiring.
+
+| Drive | Motor | Status | Start here |
+|---|---|---|---|
+| **MG90S** | MG90S continuous-rotation micro servo | Design complete; first build in progress. Tagged [`v1.0-mg90s`](https://github.com/ricklon/cam-rotation-starter/releases/tag/v1.0-mg90s). | [drives/mg90s](drives/mg90s/README.md) |
+| **N20** | 6 V N20 metal gearmotor (no encoder) with a DRV8833 driver | Planning: parts and wiring plan written, mount not designed yet. | [drives/n20](drives/n20/README.md) |
+
+Both run from any USB-C charger through a PD trigger board set to 5 V, on a Seeed XIAO ESP32-C6.
+
+## What every version has
+
+- **Mount:** a 3D-printed bracket that screws to the outside of a box wall. The camshaft (a 3/4", 5/8" or 1/4" wooden dowel) passes through the wall into a printed adapter on the motor, so nothing has to be reached from inside the box.
 - **Brain:** a Seeed XIAO ESP32-C6 running ESP-IDF firmware. It makes its own Wi-Fi network and serves a web app for live control, story editing (including record-by-performing) and gallery mode.
 - **Controls:** a 12 mm stainless button (play, pause, next), a speed knob, and a forward / stop / reverse switch.
 
-## Start here
+## Shared parts of the repository
 
 | I want to… | Go to |
 |---|---|
-| See what to buy | [docs/parts.md](docs/parts.md) · [docs/bom.csv](docs/bom.csv) |
-| See the circuit | [schematic](docs/images/schematic.svg) · [wiring notes](docs/wiring.md) |
-| Print the parts | [cad/stl](cad/stl/README.md) |
-| Wire it | [schematic](docs/images/schematic.svg) · [docs/wiring.md](docs/wiring.md) · [cut list](docs/cut-list.csv) |
-| Build it | [docs/assembly.md](docs/assembly.md) |
 | Flash the firmware | [firmware/README.md](firmware/README.md) |
 | Use it with students | [classroom/README.md](classroom/README.md) |
-| Change the design | [cad/README.md](cad/README.md) |
 | Look up a screw | [hardware/README.md](hardware/README.md) |
-
-## Quick start
-
-1. **Print** the test pieces first: `Panel_Fit_Coupon` (button, switch and knob holes), `Fit_Test_Coupon` (servo spline) and the `Dowel_Gauge` strip for your dowel size. Then print the mount, pod, and the adapter and bushing for your dowel. See the [print order](cad/stl/README.md#print-order-for-a-fit-test).
-2. **Wire** the electronics from the [schematic](docs/images/schematic.svg) and [wire list](docs/wiring.md). Set the PD board to 5 V and check it with a meter before connecting anything.
-3. **Flash** the firmware:
-   ```sh
-   cd firmware/web && npm install && npm run build && cd ..
-   idf.py set-target esp32c6 && idf.py build
-   idf.py -p /dev/cu.usbmodemXXXX flash
-   ```
-4. **Assemble** the unit on the bench, slide it onto the shaft (28 mm sticking out of the wall), and screw it down.
-5. **Connect** to the `CamBox-XXXX` Wi-Fi network, set the stop trim, and play the demo story.
 
 ## Repository layout
 
 ```
-cad/          Fusion design (STEP + .f3d), print-ready STLs, design scripts
-docs/         parts, wiring, cut list, assembly guide, images
-firmware/     ESP-IDF firmware and the Vite web app it serves
-hardware/     fastener list and McMaster STEP models
-classroom/    how stories work, example stories, teaching notes
+drives/
+  mg90s/      MG90S servo drive: cad/ (Fusion exports, STLs, scripts) and docs/ (parts, wiring, assembly, images)
+  n20/        N20 gearmotor drive: same layout, being designed
+firmware/     ESP-IDF firmware and the Vite web app it serves (shared by all drives)
+hardware/     fastener list and McMaster STEP models (shared)
+classroom/    how stories work, example stories, teaching notes (shared)
 ```
 
-## Status
+Each drive folder is self-contained: its `cad/` and `docs/` sit side by side, so the scripts and links inside it work the same way for every drive.
 
-The design, firmware and documentation are complete and the firmware compiles with ESP-IDF v5.4.1. The first physical build is in progress; expect fit adjustments after test prints. Please open an issue with print-fit reports or build problems.
+## Versions
+
+- Each drive's releases are tagged `vMAJOR.MINOR-<drive>`, for example `v1.0-mg90s`.
+- The Fusion design for each drive is its own document in the owner's Fusion project (MovementStudy › Cam Rotation Tool). Each drive's `cad/README.md` names the document and the Fusion version a tag was cut from.
 
 ## License
 

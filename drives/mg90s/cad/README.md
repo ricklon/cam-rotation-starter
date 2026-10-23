@@ -1,6 +1,6 @@
 # CAD
 
-The design lives in Autodesk Fusion. This folder holds copies you can open without Fusion, the print files, and the scripts used to build and document the model.
+The design lives in Autodesk Fusion, as the document *Cam Rotation Starter* in MovementStudy › Cam Rotation Tool. Tag `v1.0-mg90s` matches Fusion version 47 of that document. This folder holds copies you can open without Fusion, the print files, and the scripts used to build and document the model.
 
 | Folder | What's in it |
 |---|---|
