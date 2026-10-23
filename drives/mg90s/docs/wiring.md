@@ -123,7 +123,7 @@ Lengths measured along the routes in the 3D model, plus 15% slack for routing an
 1. Set the PD board to 5 V. Plug in the charger and measure OUT+ to OUT− with a meter before wiring anything.
 2. Before applying power, use the meter's continuity mode to check each row of the terminal check table, and confirm that + and GND are not connected to each other.
 3. Wire ground first, then +5V, then the signal. Check C1's polarity (stripe = −) and D1's orientation (stripe toward the XIAO). D1 goes into the mount before you solder its leads; see [assembly step 4](assembly.md#4-mount-and-wire-the-electronics).
-4. Flash the firmware (see [`firmware/README.md`](../firmware/README.md)). On first power-up, open Settings → Stop trim and adjust until the shaft stands still.
+4. Flash the firmware (see [`firmware/README.md`](../../../firmware/README.md)). On first power-up, open Settings → Stop trim and adjust until the shaft stands still.
 5. Check the controls: the button should start and pause a story, the knob should change speed, and the switch should run forward, stop in the centre, and reverse.
 
 Pin mapping and the 5V-pin diode guidance are from Seeed's XIAO ESP32-C6 wiki. Check your PD board's markings for its exact voltage setting.

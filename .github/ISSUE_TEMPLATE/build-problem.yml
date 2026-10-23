@@ -14,7 +14,7 @@ body:
       label: Checked so far
       options:
         - label: PD board measures 5 V
-        - label: Terminal check table in docs/wiring.md passes
+        - label: Terminal check table in drives/<your drive>/docs/wiring.md passes
         - label: Stop trim set in Settings
   - type: textarea
     id: details

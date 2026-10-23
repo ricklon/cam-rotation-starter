@@ -44,7 +44,7 @@ The circuit is in the [schematic](images/schematic.svg); the wire-by-wire list a
 
 ## What you need
 
-Full list with sources: [parts.md](parts.md) and [hardware/README.md](../hardware/README.md).
+Full list with sources: [parts.md](parts.md) and [hardware/README.md](../../../hardware/README.md).
 
 | Qty | Item | Step |
 |---|---|---|

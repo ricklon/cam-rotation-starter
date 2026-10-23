@@ -1,5 +1,5 @@
 """Rotate exported STLs (model frame) into print orientation, drop to z=0, center on x/y.
-Usage: python3 cad/fusion/orient_stl.py  (reads cad/stl/raw/*.stl exported from Fusion, writes print-ready cad/stl/*.stl and updates the parts table in cad/stl/README.md)"""
+Usage: python3 drives/mg90s/cad/fusion/orient_stl.py  (reads cad/stl/raw/*.stl exported from Fusion, writes print-ready cad/stl/*.stl and updates the parts table in cad/stl/README.md)"""
 import numpy as np, struct, os, sys
 BASE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(BASE, '..', '..'))

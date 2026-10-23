@@ -3,7 +3,9 @@ app=adsk.core.Application.get(); d=adsk.fusion.Design.cast(app.activeProduct)
 import os
 # Fusion runs these scripts with exec(), so set REPO to your checkout of the repository.
 REPO=os.environ.get('CAM_REPO', os.path.expanduser('~/cam-rotation-starter'))
-OUT=os.path.join(REPO,'docs','images')+'/'
+# this drive's folder inside the repo (scripts, docs and images live under drives/<name>/)
+DRIVE=os.environ.get('CAM_DRIVE', os.path.join(REPO,'drives','mg90s'))
+OUT=os.path.join(DRIVE,'docs','images')+'/'
 P=adsk.core.Point3D.create; Vc=adsk.core.Vector3D.create
 def occs():
     return {o.component.name:o for o in d.rootComponent.occurrences}
