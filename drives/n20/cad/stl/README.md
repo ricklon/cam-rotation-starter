@@ -17,7 +17,7 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 | N20_Clamp_025_cap | 1/4 clamp cap, split face down | 19.9 × 17.5 × 9.2 | 218 |
 <!-- /parts -->
 
-Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them from [`drives/mg90s/cad/stl`](../../../mg90s/cad/stl/README.md): `Control_Pod`, `Panel_Fit_Coupon`, the bushings, the dowel gauges, the shims and the clamp caps (`Clamp_0625_cap`, `Clamp_025_cap`).
+Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them from [`drives/mg90s/cad/stl`](../../../mg90s/cad/stl/README.md): `Control_Pod`, `Panel_Fit_Coupon`, the bushings, the dowel gauges and the shims. The clamp caps are the same on both drives; they are included here so each clamp set is complete.
 
 ## Print the fit coupon first
 
@@ -25,7 +25,7 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 
 | Section | Check | If it's wrong |
 |---|---|---|
-| Motor plate and sleeve (centre) | The gearbox drops into the sleeve and sits flat on the plate. Two pairs of 1.9 mm holes are in the plate: a **diagonal** pair (as in the N20 model, 9.4 mm apart) and an **inline** pair across the 12 mm width (9 mm apart). See which pair lines up with the threaded holes in your gearbox face. | Tight sleeve: raise `n20_clear` (0.3 mm). If the inline pair matches, set `n20_hole_x` = 4.5 mm and `n20_hole_y` = 0. |
+| Motor plate and sleeve (centre) | Drop the motor in shaft first, so the gearbox face sits flat on the plate and the shaft comes out underneath. Two pairs of 1.9 mm holes go through the plate: a **diagonal** pair (as in the N20 model, 9.4 mm apart) and an **inline** pair across the 12 mm width (9 mm apart). See which pair lines up with the threaded holes in your gearbox face. The motor sits face down here, so the diagonal pair is the mirror image of the one in the mount; both match the same motor. | Tight sleeve: raise `n20_clear` (0.3 mm). If the inline pair matches, set `n20_hole_x` = 4.5 mm and `n20_hole_y` = 0. |
 | D-bore bosses (left) | Push the motor shaft into each boss. One notch = 0.10 mm clearance, two = 0.15 mm, three = 0.25 mm. Pick the one that goes on by hand and doesn't wobble. | Set `n20_bore_clear` to that value (default 0.15 mm, two notches). |
 | DRV8833 pocket (right) | The module drops into the 1 mm pocket, component side up. | Raise `board_clear` (0.3 mm). |
 
