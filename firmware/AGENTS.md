@@ -11,6 +11,7 @@ Read README.md first. It covers the pins, panel behaviour, the API and the story
 ## Invariants
 - **Init order in `app_main.c` matters:** `player_init()` must run before `controls_init()`, because control callbacks call into the player.
 - **The servo is continuous-rotation.** "Position" means nothing; speed is −100..100, and pulse = `trim_us + speed/100 * range_us`. Every command goes through `servo_set_target()`, which applies slew. Never write LEDC directly from elsewhere.
+- **Two drive types, one interface.** `CONFIG_CAM_DRIVE_N20` (menuconfig → CamBox, or `sdkconfig.n20`) builds `motor_drv8833.c` instead of `servo.c`; both implement `servo.h`. Keep them in step: a change to slew or idle release in one belongs in the other. Build both before committing.
 - **The direction switch is applied in the player** (`target = cmd * dir`). It affects web commands too, on purpose: the physical switch is the safety override.
 - **Settings live in NVS as one JSON blob** (namespace `cambox`, key `cfg`). `settings_apply_json()` clamps every field. Add new fields in `settings.h`, in the defaults, and in both `settings_to_json` and `settings_apply_json`. Never return passwords from the API; only `*_pass_set` flags.
 - **Story names** match `^[A-Za-z0-9_-]{1,31}$`. This is enforced in both `storage.c` and the UI. Stories are capped at 64 steps (`STORY_MAX_STEPS`) and 32 KB.

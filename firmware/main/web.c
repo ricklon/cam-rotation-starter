@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include "web.h"
+#include "board.h"
 #include "player.h"
 #include "servo.h"
 #include "settings.h"
@@ -57,6 +58,7 @@ static cJSON *full_status(void)
 {
     cJSON *j = player_status();
     cJSON_AddItemToObject(j, "net", net_status());
+    cJSON_AddStringToObject(j, "drive", DRIVE_NAME);
     cJSON_AddNumberToObject(j, "trim_us", g_settings.trim_us);
     cJSON_AddNumberToObject(j, "free_heap", esp_get_free_heap_size());
     return j;

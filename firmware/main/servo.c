@@ -84,4 +84,5 @@ void servo_set_target(float speed)
 float servo_get_speed(void)  { return s_speed; }
 float servo_get_target(void) { return s_target; }
 int   servo_pulse_us(void)   { return s_pulse; }
+int   servo_duty_pct(void)   { return 0; }
 void  servo_preview_trim(int trim_us) { s_preview_trim = trim_us; }

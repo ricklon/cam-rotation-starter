@@ -250,6 +250,7 @@ cJSON *player_status(void)
     cJSON_AddNumberToObject(j, "speed", roundf(servo_get_speed() * 10) / 10);
     cJSON_AddNumberToObject(j, "target", roundf(servo_get_target() * 10) / 10);
     cJSON_AddNumberToObject(j, "pulse_us", servo_pulse_us());
+    cJSON_AddNumberToObject(j, "duty", servo_duty_pct());
     cJSON_AddNumberToObject(j, "uptime_s", (double)(esp_timer_get_time() / 1000000));
     return j;
 }

@@ -1,0 +1,16 @@
+menu "CamBox"
+
+    choice CAM_DRIVE
+        prompt "Drive type"
+        default CAM_DRIVE_MG90S
+        help
+            Which motor this box drives. Both build from the same firmware;
+            only the motor output differs (servo.c or motor_drv8833.c).
+
+        config CAM_DRIVE_MG90S
+            bool "MG90S continuous servo"
+        config CAM_DRIVE_N20
+            bool "N20 gearmotor + DRV8833"
+    endchoice
+
+endmenu

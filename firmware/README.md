@@ -1,6 +1,6 @@
 # CamBox firmware
 
-Firmware for the Cam Rotation Starter: a Seeed XIAO ESP32-C6 runs a continuous-rotation servo that turns a cam shaft. It can be driven from a phone, from the panel controls, or by playing back stored **stories**: timelines of speed beats. The board makes its own Wi-Fi network and serves the web app itself, so no internet connection is needed.
+Firmware for the Cam Rotation Starter: a Seeed XIAO ESP32-C6 runs a motor that turns a cam shaft: an MG90S continuous-rotation servo, or an N20 gearmotor through a DRV8833 driver (chosen at build time, see [Drive type](#drive-type)). It can be driven from a phone, from the panel controls, or by playing back stored **stories**: timelines of speed beats. The board makes its own Wi-Fi network and serves the web app itself, so no internet connection is needed.
 
 - **Play tab:** shows what is playing and lets you drive the servo by hand, with a big Stop button and the story speed.
 - **Stories tab:** a list of stories and a beat editor with a timeline preview. **Record by performing** turns slider moves into beats, and stories can be imported or exported as `.json` files.
@@ -10,7 +10,10 @@ Firmware for the Cam Rotation Starter: a Seeed XIAO ESP32-C6 runs a continuous-r
 
 | Function | XIAO pin | GPIO | Notes |
 |---|---|---|---|
-| Servo signal | D0 | 0 | 50 Hz LEDC PWM. The servo takes 5 V from the PD board, not from the XIAO. |
+| Servo signal (MG90S) | D0 | 0 | 50 Hz LEDC PWM. The servo takes 5 V from the PD board, not from the XIAO. |
+| DRV8833 AIN1 (N20) | D0 | 0 | 20 kHz LEDC PWM. |
+| DRV8833 AIN2 (N20) | D5 | 23 | 20 kHz LEDC PWM. |
+| DRV8833 nSLEEP (N20) | D8 | 19 | Held low until the firmware runs, and after the motor has been stopped for `idle_release_ms`. |
 | Button (to GND) | D1 | 1 | Internal pull-up. |
 | Speed knob wiper | D2 | 2 | 10 k pot between 3V3 and GND. ADC, 12 dB attenuation. |
 | Direction switch FWD (to GND) | D3 | 21 | ON-OFF-ON switch, common to GND. |
@@ -18,7 +21,7 @@ Firmware for the Cam Rotation Starter: a Seeed XIAO ESP32-C6 runs a continuous-r
 | User LED | on board | 15 | Active low. |
 | RF switch enable / antenna select | on board | 3 / 14 | Driven low: on-board antenna. |
 
-The full point-to-point wire list (W1–W11, L1–L3, J1–J2) is in [`docs/wiring.md`](../drives/mg90s/docs/wiring.md). Pins are defined in `main/board.h`.
+The full point-to-point wire list for the MG90S drive (W1–W11, L1–L3, J1–J2) is in [`docs/wiring.md`](../drives/mg90s/docs/wiring.md); the N20 wiring plan is in [`drives/n20/README.md`](../drives/n20/README.md#wiring-plan). Pins are defined in `main/board.h`.
 
 ## Panel controls
 
@@ -60,6 +63,17 @@ idf.py -p /dev/cu.usbmodemXXXX flash monitor
 
 On the first build, the component manager downloads `joltwallet/littlefs` and `espressif/mdns`. The littlefs component also creates a small Python venv with `littlefs-python` to build the image.
 
+### Drive type
+
+The default build drives the MG90S servo. For the N20 + DRV8833 drive, build with the `sdkconfig.n20` fragment, or set **CamBox → Drive type** in `idf.py menuconfig`:
+
+```sh
+idf.py -B build/n20 -D SDKCONFIG=build/n20/sdkconfig -D SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.n20" build
+idf.py -B build/n20 -p PORT flash
+```
+
+The N20 build uses slow-decay PWM (the off phase brakes), so speed follows duty closely and the motor stops dead at zero. It has no stop trim: the Settings tab hides the trim and the µs range, and `trim_us`/`range_us` are ignored. After `idle_release_ms` at zero the driver sleeps and the motor turns freely.
+
 `data/www` already holds an unbundled copy of the web app, so the box works even if you skip step 1. `npm run build` replaces it with the minified, gzipped build.
 
 ### Developing the web app
@@ -97,7 +111,7 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 
 | Method | Path | Body / result |
 |---|---|---|
-| GET | `/api/status` | Player status plus `net`, `trim_us`, `free_heap` |
+| GET | `/api/status` | Player status plus `net`, `drive` (`"mg90s"` or `"n20"`), `trim_us`, `free_heap`. The motor output is `pulse_us` (servo) or `duty` (N20, −100..100 %). |
 | GET | `/api/settings` | Settings. Passwords are not returned; `ap_pass_set` / `sta_pass_set` say whether one is stored. |
 | POST | `/api/settings` | Any subset of the settings fields. Returns the settings plus `restart_needed`. |
 | POST | `/api/restart` | Restarts the box. |
@@ -120,10 +134,10 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 
 | Field | Default | Meaning |
 |---|---|---|
-| `trim_us` | 1500 | Pulse at which this servo stands still. |
-| `range_us` | 400 | Pulse offset at ±100 % speed. |
+| `trim_us` | 1500 | Pulse at which this servo stands still. MG90S only. |
+| `range_us` | 400 | Pulse offset at ±100 % speed. MG90S only. |
 | `slew` | 150 | Maximum change in speed, in % per second (smoothing). |
-| `idle_release_ms` | 1500 | Stop sending pulses after this long at zero, so the servo doesn't creep or hum. 0 = never. |
+| `idle_release_ms` | 1500 | Stop sending pulses after this long at zero, so the servo doesn't creep or hum. On the N20 the driver sleeps instead. 0 = never. |
 | `knob_enabled`, `switch_installed` | true | Whether the panel controls are fitted. |
 | `autoplay`, `autoplay_story` | false, "" | Gallery mode: play this story when powered on. |
 | `rest_every`, `rest_ms` | 0, 5000 | Pause for `rest_ms` after every N loops. |
@@ -137,7 +151,8 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 main/          firmware (C, ESP-IDF)
   app_main.c   start-up order, LED, Wi-Fi reset
   board.h      pin map
-  servo.c      LEDC PWM, slew, idle release, trim preview
+  servo.c      MG90S: LEDC PWM, slew, idle release, trim preview
+  motor_drv8833.c  N20: two-channel LEDC PWM to the DRV8833, slew, sleep on idle
   controls.c   button / knob / switch → events
   player.c     manual + story playback, gallery rests
   storage.c    LittleFS, story files

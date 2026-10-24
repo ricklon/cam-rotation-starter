@@ -179,7 +179,7 @@ function updateLive() {
     pills.replaceChildren(
       h('span', { class: `pill ${s.dir === 0 ? 'warn' : ''}` }, `Switch: ${DIR_LABEL[String(s.dir)]}`),
       h('span', { class: 'pill' }, `Knob ${s.knob}%`),
-      h('span', { class: 'pill mono' }, s.pulse_us ? `${s.pulse_us} µs` : 'released'),
+      h('span', { class: 'pill mono' }, outputLabel(s)),
       story && !s.paused ? h('span', { class: 'pill on' }, 'Playing') : null);
   }
   const mc = document.getElementById('masterCard');
@@ -187,7 +187,13 @@ function updateLive() {
   const mv = /** @type {HTMLInputElement} */ (document.getElementById('master'));
   if (mv && document.activeElement !== mv) { mv.value = s.master; set('masterVal', `${s.master}%`); }
   const tl = document.getElementById('trimLive');
-  if (tl) tl.textContent = s.pulse_us ? `${s.pulse_us} µs` : 'released';
+  if (tl) tl.textContent = outputLabel(s);
+}
+
+// What the motor output is doing: servo pulse width, or N20 PWM duty.
+function outputLabel(s) {
+  if (s.drive === 'n20') return s.duty ? `${s.duty}% duty` : 'stopped';
+  return s.pulse_us ? `${s.pulse_us} µs` : 'released';
 }
 
 // ---------------------------------------------------------------- Stories tab
@@ -396,13 +402,14 @@ function renderSettings() {
   const text = (key, label, type = 'text', placeholder = '') => h('label', { class: 'field' }, label,
     h('input', { type, id: `set_${key}`, value: type === 'password' ? '' : s[key] || '', placeholder, autocomplete: 'off' }));
   const net = state.status?.net || {};
+  const servo = state.status?.drive !== 'n20';   // the N20 stops dead at zero: no trim, no pulse range
 
   const trimInput = h('input', { type: 'range', id: 'trimRange', min: 1300, max: 1700, step: 1, value: s.trim_us,
     oninput: (e) => { $('#trimVal').textContent = `${e.target.value} µs`; sendTrim(Number(e.target.value)); } });
   const nudge = (d) => h('button', { class: 'btn small', onclick: () => { trimInput.value = String(Number(trimInput.value) + d); trimInput.dispatchEvent(new Event('input')); } }, d > 0 ? `+${d}` : `${d}`);
 
   return [
-    h('section', { class: 'card' },
+    servo && h('section', { class: 'card' },
       h('h2', {}, 'Stop trim'),
       h('p', { class: 'muted', style: 'margin:0;font-size:14px' }, 'Every continuous servo stops at a slightly different pulse. Move this until the shaft stands still, then save. The servo follows as you drag.'),
       trimInput,
@@ -415,11 +422,11 @@ function renderSettings() {
     h('section', { class: 'card' },
       h('h2', {}, 'Motion'),
       h('div', { class: 'grid2' },
-        numField('range_us', 'Full-speed offset (µs)', 50, 900),
+        servo && numField('range_us', 'Full-speed offset (µs)', 50, 900),
         numField('slew', 'Smoothing (% per second)', 10, 2000),
         numField('idle_release_ms', 'Release after stop (s, 0 = never)', 0, 60, 0.1, 1000)),
       h('div', { class: 'grid2' }, check('knob_enabled', 'Use the speed knob'), check('switch_installed', 'Direction switch is wired')),
-      h('button', { class: 'btn primary', style: 'justify-self:start', onclick: () => saveSettings(collect(['range_us', 'slew', ['idle_release_ms', 1000], 'knob_enabled', 'switch_installed'])) }, 'Save motion')),
+      h('button', { class: 'btn primary', style: 'justify-self:start', onclick: () => saveSettings(collect([...(servo ? ['range_us'] : []), 'slew', ['idle_release_ms', 1000], 'knob_enabled', 'switch_installed'])) }, 'Save motion')),
 
     h('section', { class: 'card' },
       h('h2', {}, 'Gallery mode'),
@@ -490,7 +497,7 @@ async function saveSettings(body) {
 function render() {
   document.querySelectorAll('.tabs button').forEach((/** @type {HTMLButtonElement} */ b) => b.setAttribute('aria-selected', String(b.dataset.tab === state.tab)));
   const views = { play: renderPlay, stories: renderStories, settings: renderSettings };
-  $('#app').replaceChildren(...views[state.tab]());
+  $('#app').replaceChildren(...views[state.tab]().filter(Boolean));
   updateLive();
 }
 
