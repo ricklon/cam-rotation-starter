@@ -23,6 +23,8 @@ PLAN = {
     'N20_Adapter_Clamp_0625': (FLIP, '5/8 clamp, D-bore end down'),
     'N20_Adapter_Clamp_025':  ([rx(180)], '1/4 clamp, socket end down (more bed contact)'),
     'N20_Adapter_075_Sleeved': (FLIP, '3/4 sleeved, D-bore end down'),
+    'N20_Clamp_0625_cap':     (SIDE, '5/8 clamp cap, split face down'),
+    'N20_Clamp_025_cap':      (SIDE, '1/4 clamp cap, split face down'),
 }
 
 def read(p):
