@@ -59,11 +59,11 @@ To check on hardware: the lowest speed at which your N20 still turns under the c
 
 - **Gear ratio: 100:1.** About 300 rpm at 6 V, so about 240 rpm at the 5 V the PD board supplies: faster than the MG90S (about 100 rpm), with less torque. Story speeds will feel about twice as fast at the same percentage; lower the speeds in a story, or the knob, to match.
 - **Layout: direct drive.** The N20 sits on the dowel axis, like the servo spline, and turns the dowel through an adapter with a 3 mm D-shaft bore.
-- **Driver: the 12-pin DRV8833 module** described above.
+- **Driver: the 12-pin DRV8833 module** described above: 18.5 × 16 mm, its two pin rows 0.6" (15.24 mm) apart along the 18.5 mm side.
 
 ## Still to decide
 
-- The DRV8833 module's outline and thickness, and the height of its tallest part, measured with calipers, so the mount gets the right pocket.
+- Board thickness and the height of its tallest part (the tantalum capacitor). The pocket assumes a 1.6 mm board and about 2 mm of parts on top; a fit coupon will check it before the full mount is printed.
 
 ## Folder layout
 
