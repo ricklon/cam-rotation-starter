@@ -19,17 +19,39 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 
 Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them from [`drives/mg90s/cad/stl`](../../../mg90s/cad/stl/README.md): `Control_Pod`, `Panel_Fit_Coupon`, the bushings, the dowel gauges and the shims. The clamp caps are the same on both drives; they are included here so each clamp set is complete.
 
-## Print the fit coupon first
+## Test prints, in order
 
-`N20_Fit_Coupon` is a 20-minute print that checks everything new before the long mount print:
+Each step checks something before you commit to a longer print. Steps 2 and 3 can be skipped if you've already done them for the MG90S drive.
+
+### 1. `N20_Fit_Coupon` (short print, about 5 g)
+
+Checks the motor seat, the shaft fit and the driver pocket. You'll need the motor and the DRV8833 module in hand.
 
 | Section | Check | If it's wrong |
 |---|---|---|
-| Motor plate and sleeve (centre) | Drop the motor in shaft first, so the gearbox face sits flat on the plate and the shaft comes out underneath. Two pairs of 1.9 mm holes go through the plate: a **diagonal** pair (as in the N20 model, 9.4 mm apart) and an **inline** pair across the 12 mm width (9 mm apart). See which pair lines up with the threaded holes in your gearbox face. The motor sits face down here, so the diagonal pair is the mirror image of the one in the mount; both match the same motor. | Tight sleeve: raise `n20_clear` (0.3 mm). If the inline pair matches, set `n20_hole_x` = 4.5 mm and `n20_hole_y` = 0. |
-| D-bore bosses (left) | Push the motor shaft into each boss. One notch = 0.10 mm clearance, two = 0.15 mm, three = 0.25 mm. Pick the one that goes on by hand and doesn't wobble. | Set `n20_bore_clear` to that value (default 0.15 mm, two notches). |
-| DRV8833 pocket (right) | The module drops into the 1 mm pocket, component side up. | Raise `board_clear` (0.3 mm). |
+| Motor plate and sleeve (centre) | Drop the motor in shaft first, so the gearbox face sits flat on the plate and the shaft comes out underneath. Two pairs of 1.9 mm holes go through the plate: a **diagonal** pair (as in the N20 model, 9.4 mm apart) and an **inline** pair across the 12 mm width (9 mm apart). See which pair lines up with the threaded holes in your gearbox face, and try an M1.6 screw through it. The motor sits face down here, so the diagonal pair is the mirror image of the one in the mount; both match the same motor. | Tight sleeve: raise `n20_clear` (0.3 mm). If the inline pair matches, set `n20_hole_x` = 4.5 mm and `n20_hole_y` = 0. |
+| D-bore bosses (left) | Push the motor shaft into each boss, flat to flat. One notch = 0.10 mm clearance, two = 0.15 mm, three = 0.25 mm. Pick the one that goes on by hand and doesn't wobble. | Set `n20_bore_clear` to that value (default 0.15 mm, two notches). |
+| DRV8833 pocket (right) | The module drops into the 1 mm pocket, component side up, without forcing. | Raise `board_clear` (0.3 mm). |
 
-Change the parameter in Fusion, then re-export the mount and the adapters.
+### 2. `Panel_Fit_Coupon` and the dowel gauges (from the MG90S folder)
+
+The control pod and the dowel sockets are the same on both drives. Follow steps 1 and 3 of the [MG90S print order](../../../mg90s/cad/stl/README.md#print-order-for-a-fit-test).
+
+### 3. One adapter for your dowel
+
+Print the adapter for the dowel you'll use (`N20_Adapter_075`, `_0625` or `_025`; the clamp version plus its cap if the dowel is sanded). Check that it slides onto the motor shaft with the flat lined up, and that the dowel pushes into the socket snugly.
+
+### 4. `N20_Mount` (the long print)
+
+Only once steps 1 and 3 fit. Check after printing:
+
+- the face plate (the 2 mm shelf inside the frame that the motor screws to) bridged cleanly and is flat;
+- the motor pushes up into its sleeve from below and its face sits on the plate;
+- the DRV8833 pocket on the underside of the base is clean.
+
+### What to send back
+
+If anything needs changing, tell me which hole pair matched, which notch fitted, and anything that was tight or loose. I'll update the parameter in Fusion and re-export the mount and adapters.
 
 ## Suggested settings (PLA)
 
@@ -39,7 +61,7 @@ Change the parameter in Fusion, then re-export the mount and the adapters.
 | Adapters | 0.12–0.16 mm | 4 | 40% | none |
 | N20_Mount | 0.2 mm | 3 | 25% | **yes**, build plate only, under the base, as for the MG90S mount |
 
-Printed flange down, the mount's new face plate (the 2 mm shelf the motor screws to) is a 29 mm bridge between the side walls. Most printers bridge that cleanly; if yours sags, add supports there, or print a test bridge first.
+Printed flange down, the mount's face plate (the 2 mm shelf the motor screws to) is a 29 mm bridge between the side walls, with nothing under it. Most printers bridge that cleanly; if yours sags, turn on supports everywhere (not just from the build plate) for that print.
 
 ## Fitting the motor and the driver
 

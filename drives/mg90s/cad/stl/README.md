@@ -69,6 +69,8 @@ The finer layers on the adapters give a cleaner spline pocket and set-screw hole
 
 ## Sanded dowels: clamps and shims
 
+**5/8 clamp updated on 2026-10-23:** the screw heads now sit 1 mm deeper so they clear the mount's side walls. If you printed `Adapter_Clamp_0625` or `Clamp_0625_cap` before then, reprint both.
+
 If a dowel has been sanded below its nominal size, use these instead of the plain adapters. Print only what you need.
 
 | Dowel | Print | Hardware | How it holds |
