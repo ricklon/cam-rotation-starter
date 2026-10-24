@@ -45,4 +45,5 @@ Printed flange down, the mount's new face plate (the 2 mm shelf the motor screws
 
 - **Motor:** push the gearbox up into the sleeve from below, shaft first, until its face sits on the face plate. Fix it with two **M1.6 × 4** screws from above, through the plate into the gearbox face. The screw heads sit in the 2.2 mm gap under the adapter.
 - **Adapter:** slides onto the D-shaft; the flat in the bore lines up with the flat on the shaft. Grip screws into the dowel as on the MG90S drive.
+- **Clamps:** as on the MG90S drive, but this mount has a 0.6 mm relief in the inside of both side walls where the 5/8 clamp's screw heads pass (z 15–24 mm), so a head can stick out about 5 mm before it touches. Still tighten both screws until the heads are below the cap's surface before turning the shaft.
 - **DRV8833 module:** solder its wires first, then stick it into the pocket on the underside of the base with a square of double-sided foam tape, component side out. Leave its **J1** jumper open.

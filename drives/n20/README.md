@@ -82,6 +82,8 @@ To check on hardware: the lowest speed at which your N20 still turns under the c
 | `n20_bore_clear` | 0.15 mm | D-bore clearance; set it from the fit coupon |
 | `drv_len`, `drv_wid`, `drv_thk` | 18.5, 16, 1.6 mm | The DRV8833 module |
 | `drv_x`, `drv_pocket_d` | 18.15, 1 mm | Its pocket on the underside of the base |
+| `wall_relief_d`, `wall_relief_z0`, `wall_relief_h` | 0.6, 15, 9 mm | Relief in the inside of both side walls where the 5/8 clamp's screw heads pass. 0.6 mm leaves 1 mm of wall in front of the PD board's zip-tie tunnel. |
+| `clamp_head_y_mid` | 2.8 mm | 5/8 clamp screw-head depth (as on the MG90S drive) |
 
 ## Folder layout
 

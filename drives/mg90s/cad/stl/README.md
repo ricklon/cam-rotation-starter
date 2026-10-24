@@ -73,13 +73,13 @@ If a dowel has been sanded below its nominal size, use these instead of the plai
 
 | Dowel | Print | Hardware | How it holds |
 |---|---|---|---|
-| 5/8" sanded up to 1.5 mm | `Adapter_Clamp_0625` + `Clamp_0625_cap` | 2 × M3 × 10 flat head thread-forming screw for plastic (McMaster 90485A442) | Two-piece clamp. The cap closes a 1.5 mm gap; the screws go through countersunk 3.4 mm holes in the cap and form threads in 2.5 mm pilots in the fixed half. |
+| 5/8" sanded up to 1.5 mm | `Adapter_Clamp_0625` + `Clamp_0625_cap` | 2 × M3 × 10 flat head thread-forming screw for plastic (McMaster 90485A442) | Two-piece clamp. The cap closes a 1.5 mm gap; the screws go through countersunk 3.4 mm holes in the cap and form threads in 2.5 mm pilots in the fixed half. The heads sit 1 mm below the cap's surface. |
 | 1/4" sanded up to 1.5 mm | `Adapter_Clamp_025` + `Clamp_025_cap` | 2 × M3 × 10 flat head thread-forming | Same design, on a 20 mm body. |
 | 3/4" sanded | `Adapter_075_Sleeved` + one `Shim_075_for_…` | the two #4 × 3/8" wood screws | A larger bore takes a slit sleeve; the shim's holes line up with the adapter's screw holes. |
 
 **Shims:** measure the dowel and print the shim closest to it: 19.0, 18.5, 18.0 or 17.5 mm. For any other size, set `shim_dowel` in Fusion and re-export. Put the slit away from the screw holes, line up the holes, slide the dowel in, then drive the two wood screws through.
 
-**Clamps:** fit the cap loosely before sliding onto the shaft. Turn the adapter by hand so each screw faces an open end of the mount, then tighten evenly until the gap closes on the dowel. All clamp parts stay within 13.25 mm of the axis, 1.5 mm clear of the mount's side walls.
+**Clamps:** fit the cap loosely before sliding onto the shaft. Turn the adapter by hand so each screw faces an open end of the mount, then tighten evenly until the gap closes on the dowel. Before turning the shaft, tighten both screws until their heads sit below the cap's surface. The clamp body and cap stay within 13.25 mm of the axis, but the 5/8 clamp's screw heads reach 13.4 mm even when tight, and a head backed out more than about 4 mm hits the mount's side wall.
 
 Print caps split face down. Print the clamp bodies, sleeved adapter and shims standing on end. Use 4 walls on the clamps for thread strength.
 

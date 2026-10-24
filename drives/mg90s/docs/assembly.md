@@ -163,7 +163,7 @@ If a dowel has been sanded below its size, print one of these instead of the pla
 
 ![The sleeved 3/4" adapter with a shim inside it.](images/shim_075.png)
 
-- **Clamps:** fit the cap loosely before sliding onto the shaft. Turn the adapter so each screw faces an open end of the mount, and tighten evenly until the gap stops closing. The M3 thread-forming screws cut their own threads in the 2.5 mm pilots and sit flush in the cap's countersinks; no inserts are needed. Don't crank them.
+- **Clamps:** fit the cap loosely before sliding onto the shaft. Turn the adapter so each screw faces an open end of the mount, and tighten evenly until the gap stops closing. The M3 thread-forming screws cut their own threads in the 2.5 mm pilots and sit in the cap's countersinks; no inserts are needed. Don't crank them, but do tighten until both heads are below the cap's surface before you turn the shaft: on the 5/8 clamp a head that sticks out more than about 4 mm hits the mount's side wall.
 - **Tape:** each wrap of electrical tape adds about 0.36 mm to a dowel's diameter. Only tape a dowel that's already undersize.
 - **Shims:** measure the dowel and print the nearest shim, or set `shim_dowel` in Fusion and export a new one. Line its holes up with the adapter's screw holes.
 

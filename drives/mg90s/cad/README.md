@@ -1,6 +1,6 @@
 # CAD
 
-The design lives in Autodesk Fusion, as the document *Cam Rotation Starter* in MovementStudy › Cam Rotation Tool. Tag `v1.0-mg90s` matches Fusion version 48 of that document. This folder holds copies you can open without Fusion, the print files, and the scripts used to build and document the model.
+The design lives in Autodesk Fusion, as the document *Cam Rotation Starter* in MovementStudy › Cam Rotation Tool. Tag `v1.0-mg90s` matches Fusion version 48 of that document; version 49 sinks the 5/8 clamp's screw heads 1 mm deeper. This folder holds copies you can open without Fusion, the print files, and the scripts used to build and document the model.
 
 | Folder | What's in it |
 |---|---|
@@ -23,6 +23,7 @@ Import `step/cam-rotation-starter.f3d` into Fusion (File → Open → Open from 
 | `grip_screw_dia`, `grip_z1`, `grip_z2` | 3.1, 11, 19 mm | The adapters' #4 wood-screw holes |
 | `pod_pilot_depth` | 5.6 mm | M3 pilot holes for the pod screws |
 | `clamp_gap` | 1.5 mm | Split-clamp take-up for sanded dowels |
+| `clamp_head_y_mid`, `clamp_pilot_depth` | 2.8, 7.5 mm | 5/8 clamp screw-head depth (keeps the heads clear of the side walls) and the clamp pilot depth |
 | `shim_dowel` | 18.5 mm | Measured diameter a 3/4" shim is made for |
 | `hs_len` | 3.8 mm | Servo horn screw length under the head (measured) |
 | `c1_seat_dia`, `c1_seat_depth` | 8.0, 4.9 mm | Capacitor press-fit seat in the electronics-side wall; set the diameter to your capacitor's |
