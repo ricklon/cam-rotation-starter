@@ -1,0 +1,21 @@
+wire,colour,gauge,from,to,routed_mm,cut_mm,notes
+W1,red,22-26 AWG,U1 + terminal,DRV8833 VCC,88,115,down the -Y wall groove then under the base
+W2,black,22-26 AWG,U1 GND terminal,DRV8833 GND,82,105,beside W1
+L1,red,22-26 AWG,C1 +,U1 + terminal,49,70,
+L2,black,22-26 AWG,C1 -,U1 GND terminal,35,50,
+L3,red,22-26 AWG,D1 anode,U1 + terminal,36,55,solder where the lead comes through the mount wall
+W3,red,22-26 AWG,D1 cathode,XIAO 5V,25,40,solder where the lead comes through the mount wall
+W4,black,22-26 AWG,U1 GND terminal,XIAO GND,59,80,
+W5,orange,30 AWG,XIAO D0,DRV8833 IN1,45,65,round the +X end of the XIAO then under the base
+W12,brown,30 AWG,XIAO D5,DRV8833 IN2,66,90,over the top of the XIAO outside the control bundle
+W13,gray,30 AWG,XIAO D8,DRV8833 EEP,44,65,under the base between the motor and the module
+W14,white,22-26 AWG,DRV8833 OUT1,N20 terminal +,26,40,
+W15,blue,22-26 AWG,DRV8833 OUT2,N20 terminal -,37,55,round the far side of the motor
+W6,button lead,pre-wired,S1 lead A,XIAO D1,141,150,use the button's own 150 mm lead
+W7,yellow,30 AWG,XIAO D2,RV1 pin 2,137,170,
+W8,violet,30 AWG,XIAO 3V3,RV1 pin 3,157,195,
+W9,green,30 AWG,XIAO D3,SW1 lug A (forward),111,140,
+W10,blue,30 AWG,XIAO D4,SW1 lug B (reverse),101,130,
+W11,black,30 AWG,XIAO GND,SW1 centre lug,130,160,
+J1,button lead,pre-wired,S1 lead B,SW1 centre lug,21,35,trim the button's second lead
+J2,black,30 AWG,SW1 centre lug,RV1 pin 1,17,30,

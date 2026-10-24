@@ -2,7 +2,7 @@
 
 A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 motor driver, in place of the MG90S servo. The N20 is smaller, quieter and turns more smoothly at low speed than a modified servo, and you choose its speed and torque by picking a gear ratio.
 
-**Status: ready for a fit test.** The parts and wiring plan are settled, the firmware drives the N20, and the mount and adapters are designed. None of it has been built yet: print the fit coupon first (see [cad/stl](cad/stl/README.md)). The wire list and schematic come next.
+**Status: ready for a fit test.** The parts and wiring plan are settled, the firmware drives the N20, and the mount and adapters are designed. None of it has been built yet: print the fit coupon first (see [cad/stl](cad/stl/README.md)). Wiring, schematic and cut list are in [docs/wiring.md](docs/wiring.md); the assembly guide comes next.
 
 - **Fusion design:** *Cam Rotation N20* in MovementStudy › Cam Rotation Tool, copied from *Cam Rotation Starter*. The N20 reference model is *N20 DC MOTOR*, copied into the same folder.
 
@@ -44,7 +44,7 @@ IN3, IN4, OUT3, OUT4 and ULT (the fault output) stay unconnected.
 
 D1–D4 keep their MG90S jobs (button, knob, switch). D0 changes from the servo signal to AIN1.
 
-The schematic and wire list will be drawn once the mount fixes where the driver board sits.
+The full wire list (W1–W15), schematic and cut list are in [docs/wiring.md](docs/wiring.md).
 
 ## Firmware
 
@@ -65,7 +65,7 @@ To check on hardware: the lowest speed at which your N20 still turns under the c
 ## Still to decide
 
 - The gearbox face's screw-hole pattern. The design follows the N20 model (two holes on a diagonal, 9.4 mm apart); many N20s have them inline, 9 mm apart. The fit coupon has both.
-- The new wire list, schematic and `Wiring` component: the Fusion design still shows the MG90S wiring.
+- An assembly guide for the N20 drive (the MG90S one covers most steps; the motor, sleeve and module steps are new).
 
 ## Fusion design
 
@@ -88,6 +88,6 @@ To check on hardware: the lowest speed at which your N20 still turns under the c
 ```
 cad/step/   cam-rotation-n20.step and .f3d: snapshots of the Fusion design
 cad/stl/    print files for the parts that differ from the MG90S drive
-cad/fusion/ orient_stl.py for this drive's STLs
-docs/       wiring and assembly for this drive (to come)
+cad/fusion/ orient_stl.py for this drive's STLs; wires.py rebuilds the Wiring component
+docs/       wiring.md, cut-list.csv, images/ (schematic, wiring render); assembly to come
 ```

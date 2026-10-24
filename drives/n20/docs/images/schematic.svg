@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 860" role="img" aria-label="Schematic. Power: PD board 5 volt output to the DRV8833 VCC pin and through diode D1 to the XIAO 5V pin; 470 microfarad capacitor across the 5 volt supply; all grounds common. Drive: XIAO D0 to DRV8833 IN1, D5 to IN2, D8 to the sleep pin EEP; DRV8833 OUT1 and OUT2 to the N20 motor, with a 0.1 microfarad capacitor C2 across the motor terminals. Controls: 12 millimetre stainless push button S1 from XIAO D1 to ground; 10 kilohm speed knob RV1 between 3.3 volts and ground with its wiper to D2; three-position switch SW1 with common to ground and its two throws to D3 (forward) and D4 (reverse)."><style>.grid{stroke:#e9eeed;stroke-width:1}
+.w-pwr{stroke:#c23b2a;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.w-gnd{stroke:#2f3a3d;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.w-sig{stroke:#d07a1c;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.dot-pwr{fill:#c23b2a}
+.dot-gnd{fill:#2f3a3d}
+.w-ctl{stroke:#1f6670;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.net.c{fill:#1f6670}
+.sect{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.12em;fill:#5d6b6e}
+.divider{stroke:#d5dddc;stroke-width:1.5;stroke-dasharray:6 6}
+.contact{fill:#ffffff;stroke:#1c2729;stroke-width:2}
+.part{fill:#eef4f4;stroke:#1f6670;stroke-width:2}
+.sym{fill:none;stroke:#1c2729;stroke-width:2.2;stroke-linejoin:round}
+.symfill{fill:#1c2729;stroke:#1c2729;stroke-width:1.5}
+.ref{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:15px;font-weight:600;fill:#1f6670}
+.name{font-family:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;font-size:16px;font-weight:600;fill:#1c2729}
+.small{font-family:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;font-size:13px;fill:#5d6b6e}
+.pin{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;fill:#1c2729}
+.net{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;font-weight:600}
+.net.p{fill:#c23b2a}
+.net.g{fill:#2f3a3d}
+.net.s{fill:#d07a1c}
+.tb{fill:#ffffff;stroke:#d5dddc;stroke-width:1.5}
+.tbt{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;fill:#5d6b6e}
+.tbv{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;font-weight:600;fill:#1c2729}
+.pad{stroke:#1c2729;stroke-width:1.5}
+.padoff{fill:#ffffff;stroke:#5d6b6e;stroke-width:1.2}
+.board{fill:#eef4f4;stroke:#1f6670;stroke-width:2}
+.lbl{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;fill:#1c2729}
+.lblm{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;fill:#5d6b6e}
+.ttl{font-family:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;font-size:15px;font-weight:600;fill:#1c2729}
+text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" y="0" width="1180" height="860" fill="#ffffff"/>
+        <defs>
+          <pattern id="g" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" class="grid" fill="none"/></pattern>
+        </defs>
+        <rect x="0" y="0" width="1180" height="860" fill="url(#g)"/>
+        <text class="sect" x="24" y="40">POWER &amp; DRIVE</text>
+
+        <!-- rails -->
+        <path class="w-pwr" d="M270 110 H1140"/>
+        <path class="w-gnd" d="M262 480 H1140"/>
+        <text class="net p" x="600" y="98">+5V</text>
+        <text class="net g" x="600" y="505">GND</text>
+
+        <!-- USB-C input -->
+        <text class="small" x="24" y="160">USB-C PD charger</text>
+        <text class="small" x="24" y="178">(5 V / 3 A capable)</text>
+        <path class="sym" d="M40 240 H90"/><path class="symfill" d="M90 234 L102 240 L90 246 Z"/>
+
+        <!-- U1 PD board -->
+        <rect class="part" x="104" y="200" width="146" height="190" rx="6"/>
+        <text class="ref" x="116" y="228">U1</text>
+        <text class="name" x="116" y="262">USB-C PD</text>
+        <text class="name" x="116" y="282">trigger board</text>
+        <text class="small" x="116" y="304">switches set</text>
+        <text class="small" x="116" y="321">to 5 V</text>
+        <text class="pin" x="242" y="346" text-anchor="end">OUT+</text>
+        <text class="pin" x="242" y="378" text-anchor="end">OUT−</text>
+        <path class="w-pwr" d="M250 342 H270 V110"/>
+        <path class="w-gnd" d="M250 374 H262 V480"/>
+
+        <!-- D1 schottky: anode at rail, cathode (bar) toward XIAO 5V -->
+        <path class="w-pwr" d="M380 110 V176"/>
+        <path class="sym" d="M366 176 H394 L380 202 Z"/>
+        <path class="sym" d="M366 204 H394"/>
+        <path class="sym" d="M366 204 v-5 M394 204 v5"/>
+        <path class="w-pwr" d="M380 204 V270 H440"/>
+        <text class="ref" x="404" y="186">D1</text>
+        <text class="small" x="404" y="204">SS14 / 1N5817</text>
+        <text class="small" x="404" y="221">Schottky</text>
+        <circle class="dot-pwr" cx="380" cy="110" r="5"/>
+
+        <!-- U2 XIAO ESP32-C6 -->
+        <rect class="part" x="440" y="240" width="190" height="200" rx="6"/>
+        <text class="ref" x="535" y="232" text-anchor="middle">U2</text>
+        <text class="name" x="455" y="372">XIAO ESP32-C6</text>
+        <text class="small" x="455" y="391">USB-C: programming</text>
+        <text class="pin" x="450" y="274">5V (VIN)</text>
+        <text class="pin" x="450" y="334">3V3</text>
+        <text class="pin" x="450" y="424">GND</text>
+        <text class="pin" x="620" y="274" text-anchor="end">D0</text>
+        <text class="pin" x="620" y="299" text-anchor="end">D5</text>
+        <text class="pin" x="620" y="324" text-anchor="end">D8</text>
+        <text class="pin" x="620" y="344" text-anchor="end">D1</text>
+        <text class="pin" x="620" y="369" text-anchor="end">D2</text>
+        <text class="pin" x="620" y="394" text-anchor="end">D3</text>
+        <text class="pin" x="620" y="419" text-anchor="end">D4</text>
+        <path class="w-gnd" d="M440 420 H380 V480"/>
+        <circle class="dot-gnd" cx="380" cy="480" r="5"/>
+        <!-- 3V3 out to the speed knob -->
+        <path class="w-ctl" d="M440 330 H414"/>
+        <text class="net c" x="408" y="335" text-anchor="end">+3V3</text>
+        <!-- control nets -->
+        <path class="w-ctl" d="M630 340 H690 M630 365 H690 M630 390 H690 M630 415 H690"/>
+        <text class="net c" x="696" y="345">BTN</text>
+        <text class="net c" x="696" y="370">SPEED</text>
+        <text class="net c" x="696" y="395">DIR_FWD</text>
+        <text class="net c" x="696" y="420">DIR_REV</text>
+
+        <!-- XIAO to the DRV8833 inputs -->
+        <path class="w-sig" d="M630 270 H790 M630 295 H790 M630 320 H790"/>
+        <text class="net s" x="712" y="264">MOT_IN1</text>
+        <text class="net s" x="712" y="289">MOT_IN2</text>
+        <text class="net s" x="712" y="314">DRV_SLEEP</text>
+
+        <!-- U3 DRV8833 module, channel 1 -->
+        <rect class="part" x="790" y="240" width="130" height="200" rx="6"/>
+        <text class="ref" x="796" y="232">U3</text>
+        <text class="pin" x="798" y="274">IN1</text>
+        <text class="pin" x="798" y="299">IN2</text>
+        <text class="pin" x="798" y="324">EEP</text>
+        <text class="pin" x="912" y="324" text-anchor="end">OUT1</text>
+        <text class="pin" x="912" y="414" text-anchor="end">OUT2</text>
+        <text class="pin" x="855" y="258" text-anchor="middle">VCC</text>
+        <text class="pin" x="855" y="432" text-anchor="middle">GND</text>
+        <text class="name" x="800" y="366">DRV8833</text>
+        <text class="small" x="800" y="384">module</text>
+        <text class="small" x="800" y="401">J1 open</text>
+        <path class="w-pwr" d="M855 110 V240"/>
+        <path class="w-gnd" d="M855 440 V480"/>
+        <circle class="dot-pwr" cx="855" cy="110" r="5"/>
+        <circle class="dot-gnd" cx="855" cy="480" r="5"/>
+
+        <!-- M1 N20 gearmotor with C2 across its terminals -->
+        <path class="w-sig" d="M920 320 H1060 V352 M1060 368 V410 H920 M990 320 V336 M990 410 V384"/>
+        <circle class="sym" cx="990" cy="360" r="24"/>
+        <text class="name" x="990" y="366" text-anchor="middle">M</text>
+        <circle class="symfill" cx="990" cy="320" r="4"/>
+        <circle class="symfill" cx="990" cy="410" r="4"/>
+        <text class="ref" x="940" y="448">M1</text>
+        <text class="small" x="940" y="466">N20, 6 V, 100:1</text>
+        <path class="sym" d="M1044 352 H1076 M1044 368 H1076"/>
+        <text class="ref" x="1084" y="356">C2</text>
+        <text class="small" x="1084" y="374">0.1 µF</text>
+
+        <!-- C1 bulk capacitor across the supply -->
+        <path class="w-pwr" d="M1140 110 V200"/>
+        <path class="sym" d="M1120 200 H1160"/>
+        <path class="sym" d="M1120 216 Q1140 206 1160 216"/>
+        <text class="pin" x="1114" y="196" text-anchor="end">+</text>
+        <path class="w-gnd" d="M1140 212 V480"/>
+        <text class="ref" x="1128" y="150" text-anchor="end">C1</text>
+        <text class="small" x="1128" y="168" text-anchor="end">470 µF ≥10 V</text>
+
+        <!-- Ground symbol -->
+        <path class="w-gnd" d="M560 480 V500"/>
+        <path class="sym" d="M544 500 H576 M550 507 H570 M556 514 H564"/>
+
+        <!-- ===== Control panel ===== -->
+        <path class="divider" d="M24 548 H1156"/>
+        <text class="sect" x="24" y="580">CONTROL PANEL</text>
+
+        <!-- S1 push button: BTN to GND -->
+        <text class="net c" x="40" y="665">BTN</text>
+        <path class="w-ctl" d="M84 660 H140"/>
+        <circle class="contact" cx="146" cy="660" r="5"/>
+        <circle class="contact" cx="196" cy="660" r="5"/>
+        <path class="sym" d="M136 640 H206 M171 640 V622"/>
+        <path class="w-gnd" d="M202 660 H240 V690"/>
+        <path class="sym" d="M224 690 H256 M230 697 H250 M236 704 H244"/>
+        <text class="ref" x="146" y="610">S1</text>
+        <text class="small" x="120" y="735">12 mm push button (N.O.)</text>
+        <text class="small" x="120" y="752">stainless, pre-wired leads</text>
+        <text class="small" x="120" y="769">start · pause · next</text>
+
+        <!-- RV1 speed knob: 3V3 / wiper to SPEED / GND -->
+        <text class="net c" x="420" y="604" text-anchor="middle">+3V3</text>
+        <path class="w-ctl" d="M420 612 V632"/>
+        <rect class="sym" x="410" y="632" width="20" height="60"/>
+        <path class="w-gnd" d="M420 692 V712"/>
+        <path class="sym" d="M404 712 H436 M410 719 H430 M416 726 H424"/>
+        <path class="w-ctl" d="M480 662 H440"/>
+        <path class="symfill" d="M440 656 L430 662 L440 668 Z"/>
+        <text class="net c" x="488" y="667">SPEED</text>
+        <text class="ref" x="350" y="640">RV1</text>
+        <text class="small" x="326" y="660">10 kΩ</text>
+        <text class="small" x="326" y="677">linear</text>
+        <text class="small" x="380" y="752">Speed knob</text>
+
+        <!-- SW1 ON-OFF-ON: common to GND, throws to DIR_FWD / DIR_REV -->
+        <path class="w-gnd" d="M720 700 V662 H742"/>
+        <path class="sym" d="M704 700 H736 M710 707 H730 M716 714 H724"/>
+        <circle class="contact" cx="748" cy="662" r="5"/>
+        <circle class="contact" cx="800" cy="626" r="5"/>
+        <circle class="contact" cx="800" cy="698" r="5"/>
+        <path class="sym" d="M752 660 L792 650"/>
+        <path class="w-ctl" d="M806 626 H850 M806 698 H850"/>
+        <text class="net c" x="858" y="631">DIR_FWD</text>
+        <text class="net c" x="858" y="703">DIR_REV</text>
+        <text class="small" x="812" y="667">center = stop</text>
+        <text class="ref" x="740" y="610">SW1</text>
+        <text class="small" x="700" y="752">3-position switch, ON-OFF-ON</text>
+
+        <!-- Title block -->
+        <rect class="tb" x="680" y="790" width="480" height="56"/>
+        <path d="M680 818 H1160 M940 790 V846" stroke="#d5dddc" stroke-width="1.5"/>
+        <text class="tbt" x="692" y="809">TITLE</text>
+        <text class="tbv" x="746" y="809">Cam Rotation N20</text>
+        <text class="tbt" x="952" y="809">REV</text>
+        <text class="tbv" x="990" y="809">A · 2026-10-23</text>
+        <text class="tbt" x="692" y="837">SUPPLY</text>
+        <text class="tbv" x="752" y="837">5 V USB-C PD</text>
+        <text class="tbt" x="952" y="837">MCU</text>
+        <text class="tbv" x="990" y="837">XIAO ESP32-C6</text>
+      </svg>
