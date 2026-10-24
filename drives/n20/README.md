@@ -2,7 +2,7 @@
 
 A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 motor driver, in place of the MG90S servo. The N20 is smaller, quieter and turns more smoothly at low speed than a modified servo, and you choose its speed and torque by picking a gear ratio.
 
-**Status: in progress.** The parts and wiring plan below are settled, and the firmware drives the N20 (untested on hardware). The mount and the dowel adapter are not designed yet.
+**Status: ready for a fit test.** The parts and wiring plan are settled, the firmware drives the N20, and the mount and adapters are designed. None of it has been built yet: print the fit coupon first (see [cad/stl](cad/stl/README.md)). The wire list and schematic come next.
 
 - **Fusion design:** *Cam Rotation N20* in MovementStudy › Cam Rotation Tool, copied from *Cam Rotation Starter*. The N20 reference model is *N20 DC MOTOR*, copied into the same folder.
 
@@ -12,9 +12,9 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 |---|---|---|
 | XIAO ESP32-C6, USB-C PD trigger board (5 V), 470 µF capacitor, 1N5817 diode | Yes | Same power path: PD 5 V feeds the motor side; the XIAO gets 5 V through the diode. |
 | Control pod, 12 mm button, speed knob, direction switch | Yes | Same pins as the MG90S drive (D1, D2, D3, D4). |
-| Bushings, dowel gauges, shims | Yes | Print them from [`drives/mg90s/cad/stl`](../mg90s/cad/stl/README.md) until this drive has its own STL set. |
-| Dowel adapters and clamps | No | Same dowel sockets, but a 3 mm D-shaft bore in place of the servo spline pocket. |
-| Mount | No | New motor pocket: the N20 is 12 × 10 mm in section and 25 mm long, held by two M1.6 screws in the gearbox face. |
+| Bushings, dowel gauges, shims, clamp caps, control pod | Yes | Print them from [`drives/mg90s/cad/stl`](../mg90s/cad/stl/README.md). |
+| Dowel adapters and clamp bodies | No | Same dowel sockets and grip screws, but a 3 mm D-shaft bore through the base in place of the servo spline pocket and horn screw. `N20_Adapter_*` in [cad/stl](cad/stl/README.md). |
+| Mount | Changed | `N20_Mount`: same walls, flange, pod face and electronics pockets. The motor hangs on the dowel axis from a 2 mm face plate at the old spline height, in a sleeve that holds the gearbox, and reaches about 4 mm further below the base than the servo did. The DRV8833 sits in a pocket on the underside of the base. |
 | 330 Ω signal resistor (R1) | Dropped | Not needed for a motor driver input. |
 | Firmware | Shared | Same story player and web app; a DRV8833 motor output in place of the servo pulse (see below). |
 
@@ -22,9 +22,10 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 
 | Ref | Qty | Part | Notes |
 |---|---|---|---|
-| M1 | 1 | N20 gearmotor, **6 V, 100:1**, no encoder | Chosen for speed (see Decisions). Other ratios fit the same mount for the speed you want. Typical 6 V no-load speeds are about 300 rpm at 100:1, 100 rpm at 298:1 and 30 rpm at 1000:1; at 5 V expect about 80% of that. 298:1 is closest to the MG90S's top speed (about 100 rpm) with more torque. |
+| M1 | 1 | N20 gearmotor, **6 V, 100:1**, no encoder | Chosen for speed (see Decisions). Other ratios fit the same mount. Typical 6 V no-load speeds are about 300 rpm at 100:1, 100 rpm at 298:1 and 30 rpm at 1000:1; at 5 V expect about 80% of that. 298:1 is closest to the MG90S's top speed (about 100 rpm) with more torque. |
 | U3 | 1 | DRV8833 dual motor driver module, 12-pin (two rows of six 0.1" pins: IN4 IN3 GND VCC IN2 IN1 / EEP OUT1–OUT4 ULT), sold in 5-packs (e.g. "EC Buying") | Only channel 1 (IN1/IN2 → OUT1/OUT2) is used. Motor supply 2.7–10.8 V, about 1.5 A per channel. Leave the J1 jumper open. |
-| — | 2 | M1.6 × 3 or 4 mm screws | Hold the N20 by its gearbox face. Usually included with the motor. |
+| — | 2 | M1.6 × 4 mm screws | Hold the N20 by its gearbox face, through the 2 mm face plate. Often included with the motor. |
+| — | 1 | Double-sided foam tape, about 15 × 15 mm | Holds the DRV8833 module in its pocket. |
 | — | 1 | 0.1 µF ceramic capacitor | Solder across the N20's terminals to cut electrical noise. |
 
 ## Wiring plan
@@ -63,11 +64,30 @@ To check on hardware: the lowest speed at which your N20 still turns under the c
 
 ## Still to decide
 
-- Board thickness and the height of its tallest part (the tantalum capacitor). The pocket assumes a 1.6 mm board and about 2 mm of parts on top; a fit coupon will check it before the full mount is printed.
+- The gearbox face's screw-hole pattern. The design follows the N20 model (two holes on a diagonal, 9.4 mm apart); many N20s have them inline, 9 mm apart. The fit coupon has both.
+- The new wire list, schematic and `Wiring` component: the Fusion design still shows the MG90S wiring.
+
+## Fusion design
+
+*Cam Rotation N20* holds the N20 changes on top of the MG90S design. The servo and its screws are hidden, not deleted. New user parameters, all prefixed `n20_` or `drv_`:
+
+| Parameter | Default | What it controls |
+|---|---|---|
+| `n20_face_z` | 0 mm | Height of the gearbox face (the adapter bottom stays at 4.2 mm) |
+| `n20_clear` | 0.3 mm | Clearance around the gearbox in its sleeve |
+| `n20_plate_thk`, `n20_tube_wall` | 2 mm | Face plate and sleeve wall |
+| `n20_hole_x`, `n20_hole_y` | 3.8, 2.8 mm | Face screw holes, at (+x, +y) and (−x, −y) |
+| `n20_screw_clear`, `n20_shaft_hole` | 1.9, 4.5 mm | Holes in the face plate |
+| `n20_shaft_dia`, `n20_flat` | 3.0, 2.5 mm | The motor shaft and its D flat |
+| `n20_bore_clear` | 0.15 mm | D-bore clearance; set it from the fit coupon |
+| `drv_len`, `drv_wid`, `drv_thk` | 18.5, 16, 1.6 mm | The DRV8833 module |
+| `drv_x`, `drv_pocket_d` | 18.15, 1 mm | Its pocket on the underside of the base |
 
 ## Folder layout
 
 ```
-cad/     Fusion exports and STLs for this drive (once designed)
-docs/    parts, wiring, assembly for this drive (once designed)
+cad/step/   cam-rotation-n20.step and .f3d: snapshots of the Fusion design
+cad/stl/    print files for the parts that differ from the MG90S drive
+cad/fusion/ orient_stl.py for this drive's STLs
+docs/       wiring and assembly for this drive (to come)
 ```
