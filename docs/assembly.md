@@ -153,8 +153,8 @@ If a dowel has been sanded below its size, print one of these instead of the pla
 
 | Dowel | Print | Hardware | Takes up |
 |---|---|---|---|
-| 5/8" | `Adapter_Clamp_0625` + `Clamp_0625_cap` | 2 × M2.5 × 10 button head | about 1 mm (more with tape) |
-| 1/4" | `Adapter_Clamp_025` + `Clamp_025_cap` | 2 × M2.5 × 10 button head | about 1 mm (more with tape) |
+| 5/8" | `Adapter_Clamp_0625` + `Clamp_0625_cap` | 2 × M3 × 10 flat head thread-forming (McMaster 90485A442) | about 1 mm (more with tape) |
+| 1/4" | `Adapter_Clamp_025` + `Clamp_025_cap` | 2 × M3 × 10 flat head thread-forming (McMaster 90485A442) | about 1 mm (more with tape) |
 | 3/4" | `Adapter_075_Sleeved` + the `Shim_075_for_…` closest to the measured diameter | the two #4 wood screws | 19.0 / 18.5 / 18.0 / 17.5 mm shims |
 
 ![The 5/8" split clamp: a loose cap held to the fixed half by two screws across a 1.5 mm gap.](images/clamp_0625.png)
@@ -163,7 +163,7 @@ If a dowel has been sanded below its size, print one of these instead of the pla
 
 ![The sleeved 3/4" adapter with a shim inside it.](images/shim_075.png)
 
-- **Clamps:** fit the cap loosely before sliding onto the shaft. Turn the adapter so each screw faces an open end of the mount, and tighten evenly until the gap stops closing. The M2.5 screws cut their own threads in the 2.1 mm pilots; no inserts are needed. Don't crank them.
+- **Clamps:** fit the cap loosely before sliding onto the shaft. Turn the adapter so each screw faces an open end of the mount, and tighten evenly until the gap stops closing. The M3 thread-forming screws cut their own threads in the 2.5 mm pilots and sit flush in the cap's countersinks; no inserts are needed. Don't crank them.
 - **Tape:** each wrap of electrical tape adds about 0.36 mm to a dowel's diameter. Only tape a dowel that's already undersize.
 - **Shims:** measure the dowel and print the nearest shim, or set `shim_dowel` in Fusion and export a new one. Line its holes up with the adapter's screw holes.
 

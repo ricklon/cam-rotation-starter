@@ -25,9 +25,10 @@ PLAN = {
     'Bushing_025':     (FLIP, 'flange down'),
     'Fit_Test_Coupon': (FLIP, 'flat side down'),
     'Adapter_Clamp_0625': (FLIP, '5/8 clamp, spline end down'),
-    'Clamp_0625_cap':  (SIDE + FLIP, '5/8 clamp cap, split face down'),
+    # caps: SIDE only, so the split face stays down (the end face has about as much area)
+    'Clamp_0625_cap':  (SIDE, '5/8 clamp cap, split face down'),
     'Adapter_Clamp_025': (FLIP, '1/4 clamp, spline end down'),
-    'Clamp_025_cap':   (SIDE + FLIP, '1/4 clamp cap, split face down'),
+    'Clamp_025_cap':   (SIDE, '1/4 clamp cap, split face down'),
     'Adapter_075_Sleeved': (FLIP, '3/4 sleeved, spline end down'),
     'Panel_Fit_Coupon': (SIDE + FLIP, 'front panel down, like the pod'),
     'Dowel_Gauge_075': (FLIP, '3/4 dowel gauge strip, flat'),

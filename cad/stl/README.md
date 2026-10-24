@@ -15,9 +15,9 @@ Exported from Fusion and oriented for printing (z = 0 is the bed) by [`../fusion
 | Bushing_025 | flange down | 28.5 × 28.5 × 6.0 | 554 |
 | Fit_Test_Coupon | flat side down | 80.0 × 45.0 × 6.0 | 2598 |
 | Adapter_Clamp_0625 | 5/8 clamp, spline end down | 26.5 × 24.3 × 24.0 | 332 |
-| Clamp_0625_cap | 5/8 clamp cap, split face down | 26.5 × 17.5 × 12.5 | 168 |
+| Clamp_0625_cap | 5/8 clamp cap, split face down | 26.5 × 17.5 × 12.5 | 163 |
 | Adapter_Clamp_025 | 1/4 clamp, spline end down | 19.9 × 16.3 × 24.0 | 130 |
-| Clamp_025_cap | 1/4 clamp cap, split face down | 19.9 × 17.5 × 9.2 | 222 |
+| Clamp_025_cap | 1/4 clamp cap, split face down | 19.9 × 17.5 × 9.2 | 218 |
 | Adapter_075_Sleeved | 3/4 sleeved, spline end down | 26.5 × 26.5 × 24.0 | 492 |
 | Panel_Fit_Coupon | front panel down, like the pod | 27.0 × 38.0 × 20.7 | 955 |
 | Dowel_Gauge_075 | 3/4 dowel gauge strip, flat | 151.5 × 28.8 × 4.0 | 2584 |
@@ -73,8 +73,8 @@ If a dowel has been sanded below its nominal size, use these instead of the plai
 
 | Dowel | Print | Hardware | How it holds |
 |---|---|---|---|
-| 5/8" sanded up to 1.5 mm | `Adapter_Clamp_0625` + `Clamp_0625_cap` | 2 × M2.5 × 10 button head (ISO 7380) | Two-piece clamp. The cap closes a 1.5 mm gap; the screws thread into 2.1 mm pilots in the fixed half. |
-| 1/4" sanded up to 1.5 mm | `Adapter_Clamp_025` + `Clamp_025_cap` | 2 × M2.5 × 10 button head | Same design, on a 20 mm body. |
+| 5/8" sanded up to 1.5 mm | `Adapter_Clamp_0625` + `Clamp_0625_cap` | 2 × M3 × 10 flat head thread-forming screw for plastic (McMaster 90485A442) | Two-piece clamp. The cap closes a 1.5 mm gap; the screws go through countersunk 3.4 mm holes in the cap and form threads in 2.5 mm pilots in the fixed half. |
+| 1/4" sanded up to 1.5 mm | `Adapter_Clamp_025` + `Clamp_025_cap` | 2 × M3 × 10 flat head thread-forming | Same design, on a 20 mm body. |
 | 3/4" sanded | `Adapter_075_Sleeved` + one `Shim_075_for_…` | the two #4 × 3/8" wood screws | A larger bore takes a slit sleeve; the shim's holes line up with the adapter's screw holes. |
 
 **Shims:** measure the dowel and print the shim closest to it: 19.0, 18.5, 18.0 or 17.5 mm. For any other size, set `shim_dowel` in Fusion and re-export. Put the slit away from the screw holes, line up the holes, slide the dowel in, then drive the two wood screws through.

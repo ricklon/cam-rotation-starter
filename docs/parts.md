@@ -46,7 +46,7 @@ Print files and settings are in [`cad/stl`](../cad/stl/README.md).
 | Adapter to dowel (3/4", 5/8") | McMaster 90031A108, #4 × 3/8" flat-head wood screw | 2 |
 | Adapter to dowel (1/4") | McMaster 92114A106, brass #4 × 1/4" flat-head wood screw | 2 |
 | Pod to mount | M3 × 8 wafer or pan head (M3 × 6 also fits) | 4 |
-| Sanded-dowel clamps | M2.5 × 10 button head (ISO 7380) | 2 per clamp |
+| Sanded-dowel clamps | M3 × 10 flat head thread-forming screw for plastic (McMaster 90485A442) | 2 per clamp |
 | Servo tabs and horn | the screws that come with the MG90S | 2 + 1 |
 
 ## Wire and small parts

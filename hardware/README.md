@@ -8,7 +8,7 @@ Every fastener in the Fusion model, with its source and fit. McMaster STEP files
 | Under the wall screws | McMaster **98026A029** | USS flat washer, 1/4" screw, 0.312" ID × 0.734" OD × 0.08" | 2 | McMaster | Flush under each ear. |
 | 3/4" and 5/8" adapters to dowel | McMaster **90031A108** | Zinc Phillips flat head wood screw, #4 × 3/8" | 2 per adapter | McMaster | Countersunk 3.1 mm holes on opposite sides at 11 and 19 mm up; about 6.3 mm into the dowel. |
 | 1/4" adapter to dowel | McMaster **92114A106** | Brass Phillips flat head wood screw, #4 × 1/4" | 2 | McMaster | Same holes; reaches the dowel's centre line. |
-| Sanded-dowel clamps (5/8", 1/4") | M2.5 × 10 button head socket screw (ISO 7380), modeled as *Screw_M2.5x10_Button* | Head 4.4 × 1.38 mm | 2 per clamp | Any M2.5 assortment | Counterbored in the cap; about 4.4–5.5 mm into a 2.1 mm pilot in the fixed half. |
+| Sanded-dowel clamps (5/8", 1/4") | McMaster **90485A442** | M3 × 10 flat head thread-forming screw for plastic, 90° head 5.47 mm dia | 2 per clamp | McMaster | Through a 3.4 mm hole in the cap, head flush in a 5.8 mm countersink; forms its thread in a 2.5 mm pilot (5.5–6 mm long) in the fixed half. |
 | Control pod to mount | M3 × 8 wafer head | Machine screw, self-taps into the printed pilot | 4 | Your Positron printer kit (M3 × 6 also fits) | 2.6 mm pilots, 5.6 mm deep, 0.45 mm floor. |
 | Servo tabs | MG90S stock screws | Self-tapping, about M2 × 6–8 | 2 | Comes with servo | Placeholder bodies. |
 | Adapter to servo spline | MG90S stock horn screw | **Self-tapping M2 × 4, pan head about 4 × 1.4 mm** (typical; not published by Tower Pro) | 1 | Comes with servo | Modeled as *Horn_Screw_M2x4*: head in the 4.5 mm counterbore, about 2.3 mm into the spline (5–6 threads). |
