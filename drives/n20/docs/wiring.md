@@ -25,8 +25,8 @@ A USB-C PD trigger board set to 5 V powers a DRV8833 motor driver, which runs th
 
 | Ref | Part | Note |
 |---|---|---|
-| U1 | USB-C PD trigger board | Set to 5 V |
-| U2 | Seeed XIAO ESP32-C6 | In the mount's side pocket |
+| U1 | USB-C PD trigger board | Set to 5 V. Sits on a 3.5 mm pad on the outside of the electronics-side wall, with room under it for its bottom-side parts. |
+| U2 | Seeed XIAO ESP32-C6 | In the mount's side pocket, which has a 2.5 mm relief under both pin rows for wire ends and solder |
 | U3 | DRV8833 module, 12-pin, 18.5 × 16 mm | In the pocket under the base, component side out. Leave the **J1** jumper open. Only channel 1 is used. |
 | M1 | N20 gearmotor, 6 V, 100:1 | On the dowel axis; terminals point away from the base |
 | C2 | Ceramic capacitor, 0.1 µF (104) | Soldered straight across the motor terminals |
@@ -44,7 +44,7 @@ The module has two rows of six pins. Seen from the back, where the labels are pr
 |---|---|
 | IN4 · IN3 · **GND** · **VCC** · **IN2** · **IN1** | **EEP** · **OUT1** · **OUT2** · OUT3 · OUT4 · ULT |
 
-Fit the module with the IN row toward the wall that carries the XIAO. Bold pins are used; IN3, IN4, OUT3, OUT4 and ULT stay empty. Solder the wires from the component side and clip them flush on the back, so the back sits flat on the foam tape.
+Fit the module with the IN row toward the wall that carries the XIAO. Bold pins are used; IN3, IN4, OUT3, OUT4 and ULT stay empty. Solder the wires from the component side. The pocket has a 2.5 mm relief under each pin row, so the wire ends and solder on the back have room; trim them to under 2.5 mm and put the foam tape on the strip between the rows.
 
 ![The underside of the mount: the N20 hangs from its sleeve on the dowel axis, and the DRV8833 module is taped under the base beside it. Red and black power wires come down the electronics-side wall and run under the base to the module; orange, brown and gray signal wires come from the XIAO to the module; white and blue wires run from the module round the motor to its terminals, with the tan C2 capacitor across them.](images/wiring_under_base.png)
 
@@ -96,11 +96,11 @@ Lengths measured along the routes in the 3D model, plus 15% slack and 5 mm per e
 
 | Wire | Colour | Gauge | Routed | **Cut** |
 |---|---|---|---|---|
-| W1 | red | 22–26 AWG | 88 mm | **115** |
-| W2 | black | 22–26 AWG | 82 mm | **105** |
-| L1 | red | 22–26 AWG | 49 mm | **70** |
-| L2 | black | 22–26 AWG | 35 mm | **50** |
-| L3 | red | 22–26 AWG | 36 mm | **55** |
+| W1 | red | 22–26 AWG | 89 mm | **115** |
+| W2 | black | 22–26 AWG | 83 mm | **110** |
+| L1 | red | 22–26 AWG | 50 mm | **70** |
+| L2 | black | 22–26 AWG | 36 mm | **55** |
+| L3 | red | 22–26 AWG | 37 mm | **55** |
 | W3 | red | 22–26 AWG | 25 mm | **40** |
 | W4 | black | 22–26 AWG | 59 mm | **80** |
 | W5 | orange | 30 AWG | 45 mm | **65** |

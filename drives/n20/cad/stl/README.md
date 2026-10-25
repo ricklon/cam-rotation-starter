@@ -5,7 +5,7 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 <!-- parts -->
 | Part | Orientation | Size on bed (mm) | Bed contact (mm²) |
 |---|---|---|---|
-| N20_Mount | flange (wall face) down | 109.0 × 41.3 × 48.6 | 3858 |
+| N20_Mount | flange (wall face) down | 109.0 × 44.8 × 48.6 | 3858 |
 | N20_Fit_Coupon | flat side down, sleeve and bosses up | 71.2 × 24.8 × 8.0 | 1484 |
 | N20_Adapter_075 | D-bore end down, socket up | 25.4 × 25.4 × 24.0 | 462 |
 | N20_Adapter_0625 | D-bore end down, socket up | 22.2 × 22.2 × 24.0 | 347 |
@@ -19,6 +19,8 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 
 Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them from [`drives/mg90s/cad/stl`](../../../mg90s/cad/stl/README.md): `Control_Pod`, `Panel_Fit_Coupon`, the bushings, the dowel gauges and the shims. The clamp caps are the same on both drives; they are included here so each clamp set is complete.
 
+**`N20_Mount` updated on 2026-10-24:** the gearbox screw holes are now the inline pair (9 mm apart across the motor's 12 mm width) instead of the diagonal pair, the XIAO and DRV8833 pockets have a 2.5 mm relief under their pin rows for wire ends and solder, and the USB-C PD board now sits on a 3.5 mm pad on the outside of the electronics-side wall, with 3.5 mm of room under the whole board for its bottom-side parts. If you printed the mount before then, reprint it. Nothing else changed.
+
 ## Test prints, in order
 
 Each step checks something before you commit to a longer print. Steps 2 and 3 can be skipped if you've already done them for the MG90S drive.
@@ -29,7 +31,7 @@ Checks the motor seat, the shaft fit and the driver pocket. You'll need the moto
 
 | Section | Check | If it's wrong |
 |---|---|---|
-| Motor plate and sleeve (centre) | Drop the motor in shaft first, so the gearbox face sits flat on the plate and the shaft comes out underneath. Two pairs of 1.9 mm holes go through the plate: a **diagonal** pair (as in the N20 model, 9.4 mm apart) and an **inline** pair across the 12 mm width (9 mm apart). See which pair lines up with the threaded holes in your gearbox face, and try an M1.6 screw through it. The motor sits face down here, so the diagonal pair is the mirror image of the one in the mount; both match the same motor. | Tight sleeve: raise `n20_clear` (0.3 mm). If the inline pair matches, set `n20_hole_x` = 4.5 mm and `n20_hole_y` = 0. |
+| Motor plate and sleeve (centre) | Drop the motor in shaft first, so the gearbox face sits flat on the plate and the shaft comes out underneath. Two pairs of 1.9 mm holes go through the plate: a **diagonal** pair (as in the N20 model, 9.4 mm apart) and an **inline** pair across the 12 mm width (9 mm apart). See which pair lines up with the threaded holes in your gearbox face, and try an M1.6 screw through it. The mount has the inline pair; our motors matched it. The motor sits face down here, so the diagonal pair is the mirror image of the N20 model's. | Tight sleeve: raise `n20_clear` (0.3 mm). If the diagonal pair matches instead, set `n20_hole_x` = 3.8 mm and `n20_hole_y` = 2.8 mm. |
 | D-bore bosses (left) | Push the motor shaft into each boss, flat to flat. One notch = 0.10 mm clearance, two = 0.15 mm, three = 0.25 mm. Pick the one that goes on by hand and doesn't wobble. | Set `n20_bore_clear` to that value (default 0.15 mm, two notches). |
 | DRV8833 pocket (right) | The module drops into the 1 mm pocket, component side up, without forcing. | Raise `board_clear` (0.3 mm). |
 
@@ -47,7 +49,9 @@ Only once steps 1 and 3 fit. Check after printing:
 
 - the face plate (the 2 mm shelf inside the frame that the motor screws to) bridged cleanly and is flat;
 - the motor pushes up into its sleeve from below and its face sits on the plate;
-- the DRV8833 pocket on the underside of the base is clean.
+- the gearbox screw holes are the inline pair, either side of the shaft hole;
+- the DRV8833 pocket on the underside of the base is clean, and the two 2.5 mm relief slots under its pin rows (and under the XIAO's, in the side pocket) are open;
+- the PD board drops into its seat in the pad and rests on the 1 mm ledge round its edges, with its bottom-side parts clear of the recess floor; the two zip-tie slots just above and below the pad are open.
 
 ### What to send back
 
@@ -61,11 +65,13 @@ If anything needs changing, tell me which hole pair matched, which notch fitted,
 | Adapters | 0.12–0.16 mm | 4 | 40% | none |
 | N20_Mount | 0.2 mm | 3 | 25% | **yes**, build plate only, under the base, as for the MG90S mount |
 
-Printed flange down, the mount's face plate (the 2 mm shelf the motor screws to) is a 29 mm bridge between the side walls, with nothing under it. Most printers bridge that cleanly; if yours sags, turn on supports everywhere (not just from the build plate) for that print.
+Printed flange down, the mount's face plate (the 2 mm shelf the motor screws to) is a 29 mm bridge between the side walls, with nothing under it. Most printers bridge that cleanly; if yours sags, turn on supports everywhere (not just from the build plate) for that print. The PD board's pad on the electronics side also leaves a 3.5 mm overhang facing the bed (its edge toward the flange); build-plate supports reach it.
 
 ## Fitting the motor and the driver
 
 - **Motor:** push the gearbox up into the sleeve from below, shaft first, until its face sits on the face plate. Fix it with two **M1.6 × 4** screws from above, through the plate into the gearbox face. The screw heads sit in the 2.2 mm gap under the adapter.
 - **Adapter:** slides onto the D-shaft; the flat in the bore lines up with the flat on the shaft. Grip screws into the dowel as on the MG90S drive.
 - **Clamps:** as on the MG90S drive, but this mount has a 0.6 mm relief in the inside of both side walls where the 5/8 clamp's screw heads pass (z 15–24 mm), so a head can stick out about 5 mm before it touches. Still tighten both screws until the heads are below the cap's surface before turning the shaft.
-- **DRV8833 module:** solder its wires first, then stick it into the pocket on the underside of the base with a square of double-sided foam tape, component side out. Leave its **J1** jumper open.
+- **DRV8833 module:** solder its wires first, then stick it into the pocket on the underside of the base with a square of double-sided foam tape, component side out. The wire ends and solder on the back sit in the 2.5 mm relief under each pin row; put the tape on the strip between the rows. Leave its **J1** jumper open.
+- **XIAO:** the same relief runs under both of its pin rows in the side pocket, so wires soldered through the pads can stick out up to 2.5 mm behind the board.
+- **USB-C PD board:** it sits in a seat in the 3.5 mm pad above the XIAO, on a 1 mm ledge along both long edges and the end away from the USB socket; parts and solder on its underside can stand up to 3.5 mm. Its zip tie goes through the same slots as before, just above and below the pad, and over the board's face.

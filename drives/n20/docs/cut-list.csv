@@ -1,9 +1,9 @@
 wire,colour,gauge,from,to,routed_mm,cut_mm,notes
-W1,red,22-26 AWG,U1 + terminal,DRV8833 VCC,88,115,down the -Y wall groove then under the base
-W2,black,22-26 AWG,U1 GND terminal,DRV8833 GND,82,105,beside W1
-L1,red,22-26 AWG,C1 +,U1 + terminal,49,70,
-L2,black,22-26 AWG,C1 -,U1 GND terminal,35,50,
-L3,red,22-26 AWG,D1 anode,U1 + terminal,36,55,solder where the lead comes through the mount wall
+W1,red,22-26 AWG,U1 + terminal,DRV8833 VCC,89,115,down the -Y wall groove then under the base
+W2,black,22-26 AWG,U1 GND terminal,DRV8833 GND,83,110,beside W1
+L1,red,22-26 AWG,C1 +,U1 + terminal,50,70,
+L2,black,22-26 AWG,C1 -,U1 GND terminal,36,55,
+L3,red,22-26 AWG,D1 anode,U1 + terminal,37,55,solder where the lead comes through the mount wall
 W3,red,22-26 AWG,D1 cathode,XIAO 5V,25,40,solder where the lead comes through the mount wall
 W4,black,22-26 AWG,U1 GND terminal,XIAO GND,59,80,
 W5,orange,30 AWG,XIAO D0,DRV8833 IN1,45,65,round the +X end of the XIAO then under the base
