@@ -21,7 +21,7 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 
 Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them from [`drives/mg90s/cad/stl`](../../../mg90s/cad/stl/README.md): `Panel_Fit_Coupon`, the bushings, the dowel gauges and the shims. The N20 drive now has its own control pod (`N20_Control_Pod`, with the J3 connector holder) and its own clamp caps (flat counterbores for M3 cap heads).
 
-**Updated 2026-10-26 (Fusion *Cam Rotation N20* version 9).** Reprint everything in this folder except the plain adapters (`N20_Adapter_075`, `_0625`, `_025`, `_075_Sleeved`), which didn't change. What's new: the motor cartridge, the 14 mm capacitor seat, the diode channel under the base, zip-tie anchors, cap-head clamps, the pod's connector holder, and the PETG fit coupon. `N20_Fit_Coupon` is retired: the cartridge itself and the PETG coupon cover what it tested.
+**Updated 2026-10-26 (Fusion *Cam Rotation N20* version 10).** Reprint everything in this folder except the plain adapters (`N20_Adapter_075`, `_0625`, `_025`, `_075_Sleeved`), which didn't change. What's new: the motor cartridge, the 14 mm capacitor seat, the diode channel under the base, zip-tie anchors, cap-head clamps, the pod's connector holder, and the PETG fit coupon. `N20_Fit_Coupon` is retired: the cartridge itself and the PETG coupon cover what it tested.
 
 ## Test prints, in order
 

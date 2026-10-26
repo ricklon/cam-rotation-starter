@@ -111,7 +111,7 @@ Checked in the model with a 2.5 mm hex key, a small screwdriver and room for a h
 
 ## Fusion design
 
-*Cam Rotation N20* (version 9 or later) holds the N20 changes on top of the MG90S design. The servo and its screws are hidden, not deleted. User parameters added for this drive:
+*Cam Rotation N20* (version 10 or later) holds the N20 changes on top of the MG90S design. The servo and its screws are hidden, not deleted. User parameters added for this drive:
 
 | Parameter | Default | What it controls |
 |---|---|---|
