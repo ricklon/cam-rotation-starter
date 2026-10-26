@@ -9,7 +9,9 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 | N20_Cartridge | bottom flange down, motor plate up | 15.0 × 29.0 × 15.8 | 283 |
 | N20_Control_Pod | front panel down, open back up | 39.2 × 38.0 × 24.0 | 955 |
 | N20_PETG_Fit_Coupon | flat side down, labels up | 100.0 × 44.0 × 6.5 | 3085 |
-| N20_Mount_Fit_Coupon | mount piece wall-top down, pod piece front panel down | 48.5 × 38.8 × 40.4 | 363 |
+| N20_Mount_Fit_Coupon_Wall | mount fit coupon: wall top down, as the mount | 32.0 × 11.2 × 36.4 | 192 |
+| N20_Mount_Fit_Coupon_Base | mount fit coupon: base inside face down, underside up as on the mount | 37.5 × 35.2 × 4.0 | 1020 |
+| N20_Mount_Fit_Coupon_Pod | mount fit coupon: pod front panel down, as the pod | 10.0 × 19.0 × 24.0 | 171 |
 | N20_Adapter_075 | D-bore end down, socket up | 25.4 × 25.4 × 24.0 | 462 |
 | N20_Adapter_0625 | D-bore end down, socket up | 22.2 × 22.2 × 24.0 | 347 |
 | N20_Adapter_025 | D-bore end down, socket up | 12.6 × 12.6 × 24.0 | 99 |
@@ -24,7 +26,7 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 
 **Updated 2026-10-26 (Fusion *Cam Rotation N20* version 10).** Reprint everything in this folder except the plain adapters (`N20_Adapter_075`, `_0625`, `_025`, `_075_Sleeved`), which didn't change. What's new: the motor cartridge, the 14 mm capacitor seat, the diode channel under the base, zip-tie anchors, cap-head clamps, the pod's connector holder, and the PETG fit coupon. `N20_Fit_Coupon` is retired: the cartridge itself and the PETG coupon cover what it tested.
 
-**Added 2026-10-26 (version 11): `N20_Mount_Fit_Coupon`,** pieces of the real mount and pod that check the capacitor, diode, board, cartridge, zip-tie and connector fits before the long prints. Nothing else changed.
+**Added 2026-10-26 (version 11): `N20_Mount_Fit_Coupon_Wall`, `_Base` and `_Pod`,** pieces of the real mount and pod that check the capacitor, diode, board, cartridge, zip-tie and connector fits before the long prints. Nothing else changed.
 
 ## Test prints, in order
 
@@ -52,14 +54,22 @@ Every hole has its size engraved under it. Find the one that fits in each row an
 
 The gearbox should slide up into it and sit flat against the top plate, with the M1.6 holes lined up with the threaded holes in the gearbox face (9 mm apart, either side of the shaft). Tight: raise `n20_clear` (0.3 mm).
 
-### 3. `N20_Mount_Fit_Coupon` (about 16 g)
+### 3. `N20_Mount_Fit_Coupon_Wall`, `_Base` and `_Pod` (about 13 g together)
 
-Two pieces cut from the real mount and pod in Fusion (boxes intersected with them, so they follow every change to either), printed the same way up as the full parts: the mount piece wall-top down like the mount, the pod piece front panel down like the pod. It checks every fit on the long prints before you commit to them. Print it with **supports from the build plate**, as for the mount: the base and the face plate overhang the wall on this piece.
+Three pieces cut from the real mount and pod in Fusion (boxes intersected with them, so they follow every change to either). Together they check every fit on the long prints before you commit to them.
+
+**Print each file the way it loads; don't use lay flat or auto-orient.** Each piece is already the same way up as the full part it comes from, which is what makes its holes and pockets come out the same size: the wall piece stands on the top of the wall (like the mount, flange down), the base piece lies on the base's inside face with its underside up (as on the mount), and the pod piece stands on its front panel (like the pod). Turning them over to get more bed contact would test the wrong thing.
+
+| File | Supports | Time on an A1 (PETG, 0.2 mm) |
+|---|---|---|
+| `N20_Mount_Fit_Coupon_Wall` | none | about 32 min |
+| `N20_Mount_Fit_Coupon_Base` | none | about 16 min |
+| `N20_Mount_Fit_Coupon_Pod` | **tree supports, allowed on the model** (not build plate only): the connector holder starts in mid-air over the front panel | about 16 min |
 
 | Piece | Check | If it's wrong |
 |---|---|---|
-| Mount piece, electronics wall | The capacitor snaps into its seat. The XIAO drops into its pocket, with its soldered wire ends in the 2.5 mm relief under each pin row. The PD board drops into its seat on the pad and rests on the 1 mm ledge, its bottom-side parts clear of the recess floor. Your zip ties go through the XIAO's and the PD board's slots. | Capacitor: `c1_seat_dia`. Boards: `board_clear` (0.3 mm), `solder_relief_d` (2.5 mm), `pd_relief_d` (3.5 mm). |
-| Mount piece, cartridge and base | The motor cartridge slides up through the socket and its flange sits flat under the base; two M3 × 8 drive into the pilots. The DRV8833 drops into its pocket with its wire ends in the relief. The diode lies in its channel with its lead in the slot to the DRV8833 pocket. A zip tie goes round the bar in each anchor (A1 under the wall, A2 under the base). | Cartridge: `n20_clear`, `cart_m3_pilot`. DRV8833: `board_clear`, `solder_relief_d`. |
+| Wall piece | The capacitor snaps into its seat. The XIAO drops into its pocket, with its soldered wire ends in the 2.5 mm relief under each pin row. The PD board drops into its seat on the pad and rests on the 1 mm ledge, its bottom-side parts clear of the recess floor. Your zip ties go through the XIAO's and the PD board's slots, and round the bar in anchor A1 at the bottom of the wall. | Capacitor: `c1_seat_dia`. Boards: `board_clear` (0.3 mm), `solder_relief_d` (2.5 mm), `pd_relief_d` (3.5 mm). |
+| Base piece | The motor cartridge slides through the socket (here only the 4 mm base) and its flange sits flat on the base; the M3 pilots line up with the flange holes (their depth is tested on the PETG coupon). The DRV8833 drops into its pocket with its wire ends in the relief. The diode lies in its channel with its lead in the slot to the DRV8833 pocket. A zip tie goes round the bar in anchors A1 and A2. | Cartridge: `n20_clear`, `cart_m3_pilot`. DRV8833: `board_clear`, `solder_relief_d`. |
 | Pod piece | The JST-PH header slides into its holder from the open back and stops against the two small ledges. | Tell me how far off it is. |
 
 ### 4. `Panel_Fit_Coupon` and the dowel gauges (from the MG90S folder)
@@ -93,9 +103,10 @@ Tell me which hole fitted in each row of the PETG coupon, how each part sat in t
 |---|---|---|---|---|---|
 | N20_PETG_Fit_Coupon | PETG | 0.2 mm | 3 | 20% | none |
 | N20_Cartridge | PETG | 0.16 mm | 3 | 40% | none: printed flange down, the top plate bridges the gearbox cavity |
-| N20_Mount_Fit_Coupon | PETG | 0.2 mm | 3 | 25% | **yes**, build plate only (same settings as the mount, so its fits come out the same) |
+| N20_Mount_Fit_Coupon_Wall, _Base | PETG | 0.2 mm | 3 | 25% | none (same layer, walls and infill as the mount, so its fits come out the same) |
+| N20_Mount_Fit_Coupon_Pod | PETG | 0.2 mm | 3 | 20% | **tree supports, allowed on the model**, as for the pod |
 | Adapters, clamps, caps | PETG | 0.12–0.16 mm | 4 | 40% | none |
-| N20_Control_Pod | PETG | 0.2 mm | 3 | 20% | none: printed front panel down |
+| N20_Control_Pod | PETG | 0.2 mm | 3 | 20% | **tree supports, allowed on the model** (not build plate only): printed front panel down, the JST holder starts in mid-air above the front panel's inside face |
 | N20_Mount | PETG | 0.2 mm | 3 | 25% | **yes**, build plate only, under the base |
 
 PETG notes: print a little slower and hotter than PLA, turn off ironing, and use a glue stick or textured sheet on smooth PEI (PETG can bond too well). Holes usually come out slightly smaller than in PLA, which is what the coupon is for.
