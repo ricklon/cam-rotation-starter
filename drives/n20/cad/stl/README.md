@@ -6,7 +6,9 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 | Part | Orientation | Size on bed (mm) | Bed contact (mm²) |
 |---|---|---|---|
 | N20_Mount | flange (wall face) down | 109.0 × 44.8 × 48.6 | 3858 |
-| N20_Fit_Coupon | flat side down, sleeve and bosses up | 71.2 × 24.8 × 8.0 | 1484 |
+| N20_Cartridge | bottom flange down, motor plate up | 15.0 × 29.0 × 15.8 | 283 |
+| N20_Control_Pod | front panel down, open back up | 39.2 × 38.0 × 24.0 | 955 |
+| N20_PETG_Fit_Coupon | flat side down, labels up | 100.0 × 44.0 × 6.5 | 3085 |
 | N20_Adapter_075 | D-bore end down, socket up | 25.4 × 25.4 × 24.0 | 462 |
 | N20_Adapter_0625 | D-bore end down, socket up | 22.2 × 22.2 × 24.0 | 347 |
 | N20_Adapter_025 | D-bore end down, socket up | 12.6 × 12.6 × 24.0 | 99 |
@@ -17,61 +19,83 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 | N20_Clamp_025_cap | 1/4 clamp cap, split face down | 19.9 × 17.5 × 9.2 | 218 |
 <!-- /parts -->
 
-Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them from [`drives/mg90s/cad/stl`](../../../mg90s/cad/stl/README.md): `Control_Pod`, `Panel_Fit_Coupon`, the bushings, the dowel gauges and the shims. The clamp caps are the same on both drives; they are included here so each clamp set is complete.
+Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them from [`drives/mg90s/cad/stl`](../../../mg90s/cad/stl/README.md): `Panel_Fit_Coupon`, the bushings, the dowel gauges and the shims. The N20 drive now has its own control pod (`N20_Control_Pod`, with the J3 connector holder) and its own clamp caps (flat counterbores for M3 cap heads).
 
-**`N20_Mount` updated on 2026-10-24:** the gearbox screw holes are now the inline pair (9 mm apart across the motor's 12 mm width) instead of the diagonal pair, the XIAO and DRV8833 pockets have a 2.5 mm relief under their pin rows for wire ends and solder, and the USB-C PD board now sits on a 3.5 mm pad on the outside of the electronics-side wall, with 3.5 mm of room under the whole board for its bottom-side parts. If you printed the mount before then, reprint it. Nothing else changed.
+**Updated 2026-10-26 (Fusion *Cam Rotation N20* version 9).** Reprint everything in this folder except the plain adapters (`N20_Adapter_075`, `_0625`, `_025`, `_075_Sleeved`), which didn't change. What's new: the motor cartridge, the 14 mm capacitor seat, the diode channel under the base, zip-tie anchors, cap-head clamps, the pod's connector holder, and the PETG fit coupon. `N20_Fit_Coupon` is retired: the cartridge itself and the PETG coupon cover what it tested.
 
 ## Test prints, in order
 
-Each step checks something before you commit to a longer print. Steps 2 and 3 can be skipped if you've already done them for the MG90S drive.
+Each step checks something before you commit to a longer print. Print these in PETG if that's what the full build will be: PETG holes come out a little different from PLA's.
 
-### 1. `N20_Fit_Coupon` (short print, about 5 g)
+### 1. `N20_PETG_Fit_Coupon` (about 15 g)
 
-Checks the motor seat, the shaft fit and the driver pocket. You'll need the motor and the DRV8833 module in hand.
+![The PETG fit coupon from above: five large 5/8" holes along the top, a row of M3 holes below them, and a strip of small M1.6 holes and D-shaped bores along the bottom, each with its size engraved underneath.](../../docs/images/petg_fit_coupon.png)
 
-| Section | Check | If it's wrong |
-|---|---|---|
-| Motor plate and sleeve (centre) | Drop the motor in shaft first, so the gearbox face sits flat on the plate and the shaft comes out underneath. Two pairs of 1.9 mm holes go through the plate: a **diagonal** pair (as in the N20 model, 9.4 mm apart) and an **inline** pair across the 12 mm width (9 mm apart). See which pair lines up with the threaded holes in your gearbox face, and try an M1.6 screw through it. The mount has the inline pair; our motors matched it. The motor sits face down here, so the diagonal pair is the mirror image of the N20 model's. | Tight sleeve: raise `n20_clear` (0.3 mm). If the diagonal pair matches instead, set `n20_hole_x` = 3.8 mm and `n20_hole_y` = 2.8 mm. |
-| D-bore bosses (left) | Push the motor shaft into each boss, flat to flat. One notch = 0.10 mm clearance, two = 0.15 mm, three = 0.25 mm. Pick the one that goes on by hand and doesn't wobble. | Set `n20_bore_clear` to that value (default 0.15 mm, two notches). |
-| DRV8833 pocket (right) | The module drops into the 1 mm pocket, component side up, without forcing. | Raise `board_clear` (0.3 mm). |
+Every hole has its size engraved under it. Find the one that fits in each row and note it.
 
-### 2. `Panel_Fit_Coupon` and the dowel gauges (from the MG90S folder)
+| Row | Labels | Check | Then set |
+|---|---|---|---|
+| 5/8" dowel | +0.2 … +0.6 (mm over 15.875) | The hole the dowel **slides and turns in** freely is the bushing clearance; the one it **pushes into snugly** is the adapter socket clearance. | `hole_clear` (0.5) and `fit_clear` (0.3) |
+| M3 clearance | C3.2, C3.4, C3.6 | The smallest an M3 screw drops through. | `clamp_clear` and `cart_m3_clear` (3.4) |
+| M3 pilot | P2.4, P2.5, P2.6 (6.5 mm deep) | Drive an M3 × 8 in: it should cut its thread firmly without splitting the plastic. | `clamp_pilot` and `cart_m3_pilot` (2.5) |
+| M3 cap head | H5.8, H6.0, H6.2 (3.2 mm deep) | The socket cap head drops in and sits flat, flush or just below. | `clamp_cbore` (6.0) |
+| M1.6 clearance | 1.7, 1.9, 2.1 (in the 3 mm strip) | The smallest an M1.6 screw drops through. | `m16_clear` (1.9) |
+| M1.6 counterbore | c3.6, c3.8, c4.0 (1.5 mm deep) | Pan head on a split lock washer sits flush. | `m16_cbore` (3.8) |
+| D-bore | .10 … .30 (clearance per side) | Push the motor shaft in, flat to flat: the one that goes on by hand without wobble. | `n20_bore_clear` (0.15) |
 
-The control pod and the dowel sockets are the same on both drives. Follow steps 1 and 3 of the [MG90S print order](../../../mg90s/cad/stl/README.md#print-order-for-a-fit-test).
+### 2. `N20_Cartridge` (short print, about 2 g)
 
-### 3. One adapter for your dowel
+![The motor cartridge with the N20 in it, seen from above: the shaft through the middle of the top plate, the two M1.6 screw heads flush in their counterbores, and the bottom flange with an M3 screw hole at each end.](../../docs/images/cartridge.png)
+
+The gearbox should slide up into it and sit flat against the top plate, with the M1.6 holes lined up with the threaded holes in the gearbox face (9 mm apart, either side of the shaft). Tight: raise `n20_clear` (0.3 mm).
+
+### 3. `Panel_Fit_Coupon` and the dowel gauges (from the MG90S folder)
+
+Skip these if you've done them for the MG90S drive. Follow steps 1 and 3 of the [MG90S print order](../../../mg90s/cad/stl/README.md#print-order-for-a-fit-test).
+
+### 4. One adapter for your dowel
 
 Print the adapter for the dowel you'll use (`N20_Adapter_075`, `_0625` or `_025`; the clamp version plus its cap if the dowel is sanded). Check that it slides onto the motor shaft with the flat lined up, and that the dowel pushes into the socket snugly.
 
-### 4. `N20_Mount` (the long print)
+### 5. `N20_Mount` and `N20_Control_Pod` (the long prints)
 
-Only once steps 1 and 3 fit. Check after printing:
+Only once steps 1, 2 and 4 fit. Check the mount after printing:
 
-- the face plate (the 2 mm shelf inside the frame that the motor screws to) bridged cleanly and is flat;
-- the motor pushes up into its sleeve from below and its face sits on the plate;
-- the gearbox screw holes are the inline pair, either side of the shaft hole;
-- the DRV8833 pocket on the underside of the base is clean, and the two 2.5 mm relief slots under its pin rows (and under the XIAO's, in the side pocket) are open;
-- the PD board drops into its seat in the pad and rests on the 1 mm ledge round its edges, with its bottom-side parts clear of the recess floor; the two zip-tie slots just above and below the pad are open.
+- the cartridge slides up through the socket in the base and its flange sits flat under the base, with the two M3 pilots lined up;
+- the capacitor snaps into its seat beside the XIAO pocket;
+- the diode lies in the channel under the base, and its lead slot runs from the wall edge to the DRV8833 pocket;
+- the zip-tie anchors are open: two slots and a tunnel under the electronics-side wall (A1) and under the base on the pod side (A2);
+- the DRV8833 pocket and the 2.5 mm relief slots under its pin rows (and under the XIAO's) are clean;
+- the PD board drops into its seat in the pad and rests on the 1 mm ledge round its edges.
+
+In the pod, check that the JST-PH header slides into its holder from the open back and stops against the two small ledges.
 
 ### What to send back
 
-If anything needs changing, tell me which hole pair matched, which notch fitted, and anything that was tight or loose. I'll update the parameter in Fusion and re-export the mount and adapters.
+Tell me which hole fitted in each row of the coupon, and anything that was tight or loose. I'll set the parameters in Fusion and re-export.
 
-## Suggested settings (PLA)
+## Suggested settings
 
-| Part | Layer | Walls | Infill | Supports |
-|---|---|---|---|---|
-| N20_Fit_Coupon | 0.16 mm | 3 | 20% | none |
-| Adapters | 0.12–0.16 mm | 4 | 40% | none |
-| N20_Mount | 0.2 mm | 3 | 25% | **yes**, build plate only, under the base, as for the MG90S mount |
+| Part | Material | Layer | Walls | Infill | Supports |
+|---|---|---|---|---|---|
+| N20_PETG_Fit_Coupon | PETG | 0.2 mm | 3 | 20% | none |
+| N20_Cartridge | PETG | 0.16 mm | 3 | 40% | none: printed flange down, the top plate bridges the gearbox cavity |
+| Adapters, clamps, caps | PETG | 0.12–0.16 mm | 4 | 40% | none |
+| N20_Control_Pod | PETG | 0.2 mm | 3 | 20% | none: printed front panel down |
+| N20_Mount | PETG | 0.2 mm | 3 | 25% | **yes**, build plate only, under the base |
 
-Printed flange down, the mount's face plate (the 2 mm shelf the motor screws to) is a 29 mm bridge between the side walls, with nothing under it. Most printers bridge that cleanly; if yours sags, turn on supports everywhere (not just from the build plate) for that print. The PD board's pad on the electronics side also leaves a 3.5 mm overhang facing the bed (its edge toward the flange); build-plate supports reach it.
+PETG notes: print a little slower and hotter than PLA, turn off ironing, and use a glue stick or textured sheet on smooth PEI (PETG can bond too well). Holes usually come out slightly smaller than in PLA, which is what the coupon is for.
 
-## Fitting the motor and the driver
+Printed flange down, the mount's face plate is a 29 mm bridge between the side walls, now with the cartridge socket through it. If yours sags, turn on supports everywhere (not just from the build plate) for that print. The PD board's pad also leaves a 3.5 mm overhang facing the bed; build-plate supports reach it.
 
-- **Motor:** push the gearbox up into the sleeve from below, shaft first, until its face sits on the face plate. Fix it with two **M1.6 × 4** screws from above, through the plate into the gearbox face. The screw heads sit in the 2.2 mm gap under the adapter.
-- **Adapter:** slides onto the D-shaft; the flat in the bore lines up with the flat on the shaft. Grip screws into the dowel as on the MG90S drive.
-- **Clamps:** as on the MG90S drive, but this mount has a 0.6 mm relief in the inside of both side walls where the 5/8 clamp's screw heads pass (z 15–24 mm), so a head can stick out about 5 mm before it touches. Still tighten both screws until the heads are below the cap's surface before turning the shaft.
-- **DRV8833 module:** solder its wires first, then stick it into the pocket on the underside of the base with a square of double-sided foam tape, component side out. The wire ends and solder on the back sit in the 2.5 mm relief under each pin row; put the tape on the strip between the rows. Leave its **J1** jumper open.
-- **XIAO:** the same relief runs under both of its pin rows in the side pocket, so wires soldered through the pads can stick out up to 2.5 mm behind the board.
-- **USB-C PD board:** it sits in a seat in the 3.5 mm pad above the XIAO, on a 1 mm ledge along both long edges and the end away from the USB socket; parts and solder on its underside can stand up to 3.5 mm. Its zip tie goes through the same slots as before, just above and below the pad, and over the board's face.
+## Fitting the motor, the driver and the panel
+
+The full order, with the tool for each step, is in the drive's [assembly order](../../README.md#assembly-order-and-tool-access).
+
+- **Motor:** into the cartridge on the bench, with two **M1.6 × 4** pan-head screws on split lock washers through the counterbores in the top plate. Then the cartridge goes up through the socket in the base, onto the adapter's D-bore, and two **M3 × 8** cap screws hold it from below.
+- **Clamps:** two **M3 × 8** socket cap screws per clamp, heads in the flat counterbores on the cap. Turn the cap toward an open end of the mount to reach them with a 2.5 mm hex key. With the screws tight, the 5/8 clamp sweeps 14.3 mm from the axis, inside the 0.6 mm relief in both side walls (15.3 mm). Don't use M3 × 10: on the 5/8 clamp the tip would come out of the side.
+- **DRV8833 module:** solder its wires first, then stick it into the pocket on the underside of the base with a square of double-sided foam tape, component side out. Leave its **J1** jumper open.
+- **Diode:** lay it in its channel under the base with the banded end toward the wall, bend the cathode lead round the edge and up to the XIAO's 5V pad, and run the anode lead along its slot to the DRV8833's VCC pin. A dab of glue holds it.
+- **Capacitor:** press it into its seat, legs down; the seat's 7.8 mm mouth holds the 8 mm can.
+- **Control panel connector (J3):** slide the JST-PH header into its holder in the pod from the open back, pins toward the front panel, and fix it with a drop of glue. The mount harness ends in the PHR-6 housing that plugs into it.
+- **Zip ties:** one through anchor A1 round the two power wires under the wall, one through A2 round the two motor wires under the base.

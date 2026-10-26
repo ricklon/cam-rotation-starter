@@ -16,7 +16,9 @@ FLIP = [np.eye(3), rx(180)]
 SIDE = [rx(90), rx(-90)]
 PLAN = {
     'N20_Mount':              (FLIP, 'flange (wall face) down'),
-    'N20_Fit_Coupon':         (FLIP, 'flat side down, sleeve and bosses up'),
+    'N20_Cartridge':          (FLIP, 'bottom flange down, motor plate up'),
+    'N20_Control_Pod':        (SIDE + FLIP, 'front panel down, open back up'),
+    'N20_PETG_Fit_Coupon':    (FLIP, 'flat side down, labels up'),
     'N20_Adapter_075':        (FLIP, 'D-bore end down, socket up'),
     'N20_Adapter_0625':       (FLIP, 'D-bore end down, socket up'),
     'N20_Adapter_025':        (FLIP, 'D-bore end down, socket up'),
