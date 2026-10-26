@@ -19,6 +19,8 @@ PLAN = {
     'N20_Cartridge':          (FLIP, 'bottom flange down, motor plate up'),
     'N20_Control_Pod':        (SIDE + FLIP, 'front panel down, open back up'),
     'N20_PETG_Fit_Coupon':    (FLIP, 'flat side down, labels up'),
+    # always flipped: its pieces must print the way the mount and pod do, whichever face has more contact
+    'N20_Mount_Fit_Coupon':   ([rx(180)], 'mount piece wall-top down, pod piece front panel down'),
     'N20_Adapter_075':        (FLIP, 'D-bore end down, socket up'),
     'N20_Adapter_0625':       (FLIP, 'D-bore end down, socket up'),
     'N20_Adapter_025':        (FLIP, 'D-bore end down, socket up'),
