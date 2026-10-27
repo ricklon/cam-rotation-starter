@@ -49,7 +49,7 @@ The module has two rows of six pins. Seen from the back, where the labels are pr
 
 Fit the module with the IN row toward the wall that carries the XIAO. Bold pins are used. Channel B is used because its pins line up with the XIAO's bottom row: IN4, IN3, GND and VCC sit directly under D9, D10, GND and 5V, so those wires drop straight down. Solder the wires from the component side; the pocket has a 2.5 mm relief under each pin row for the wire ends.
 
-![The underside of the mount: the N20 hangs in its cartridge on the dowel axis, held by two M3 screws through the cartridge flange. The DRV8833 module is taped under the base beside it, and the diode D1 lies in its channel between the module and the electronics-side wall. Red and black power wires run along under the wall from the groove; orange, brown and gray signal wires drop from the XIAO's bottom row to the module; white and blue wires run from the module to the motor terminals.](images/wiring_under_base.png)
+![The underside of the mount: the N20 hangs in its cartridge on the dowel axis, held by two snap arms with a black zip tie round them; the flange's two M3 holes are empty. The DRV8833 module is taped under the base beside it, and the diode D1 lies in its channel between the module and the electronics-side wall. Red and black power wires run along under the wall from the groove; orange, brown and gray signal wires drop from the XIAO's bottom row to the module; white and blue wires run from the module down the motor's side, inside the zip tie, to the motor terminals.](images/wiring_under_base.png)
 
 ![Straight-on view of the electronics side: the 470 µF capacitor in its seat beside the XIAO, the PD board above, the control wires over the top of the XIAO, and the power and signal wires dropping from the XIAO's bottom row.](images/wiring_electronics.png)
 
@@ -143,7 +143,7 @@ Lengths measured along the routes in the 3D model, plus 15% slack and 5 mm per e
 | W5 | orange | 30 AWG | 21 mm | **35** |
 | W12 | brown | 30 AWG | 21 mm | **35** |
 | W13 | gray | 30 AWG | 39 mm | **55** |
-| W14 | white | 22–26 AWG | 30 mm | **45** |
+| W14 | white | 22–26 AWG | 31 mm | **50** |
 | W15 | blue | 22–26 AWG | 42 mm | **60** |
 | W6 | white | 30 AWG | 126 mm | **160** |
 | W7 | yellow | 30 AWG | 123 mm | **155** |
