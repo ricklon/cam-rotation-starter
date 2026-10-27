@@ -38,7 +38,7 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 
 **Updated 2026-10-27 (version 16): tighter, locked snap fit.** Reprint `N20_Cartridge`, `N20_Socket_Coupon` and `N20_Mount`. The hooks are set for a 24.1 mm motor (measured), 1.2 mm deep and barbed, with ribs for a zip tie that locks the arms; the latch bumps are 1.4 mm with a steep lower face, in deeper pockets. See [Snap-fit motor](../../README.md#snap-fit-motor-2026-10-27).
 
-**Updated 2026-10-27 (version 18): hard catch on the cartridge latch.** Reprint `N20_Cartridge`, `N20_Socket_Coupon` and `N20_Mount`, and print the new `N20_Latch_Key` (4 min). The latch bumps now have a square catch face, the socket is 0.1 mm tighter a side (`cart_clear` 0.2 mm), and the pockets the bumps click into are now slots open to the top of the base, where the key goes in to release the cartridge. The hooks, arms and zip tie didn't change. See [Snap-fit motor](../../README.md#snap-fit-motor-2026-10-27).
+**Updated 2026-10-27 (version 18): hard catch on the cartridge latch.** Reprint `N20_Cartridge`, `N20_Socket_Coupon` and `N20_Mount`, and print the new `N20_Latch_Key` (4 min). The latch bumps now have a square catch face, the socket is 0.1 mm tighter a side (`cart_clear` 0.2 mm), and the pockets the bumps click into are now slots open to the top of the base, where the key goes in to release the cartridge. The hooks, arms and zip tie didn't change. Printed and tested on 2026-10-27: the latch holds. See [Snap-fit motor](../../README.md#snap-fit-motor-2026-10-27).
 
 ## Test prints, in order
 
