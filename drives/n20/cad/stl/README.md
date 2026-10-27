@@ -59,7 +59,7 @@ Every hole has its size engraved under it. Find the one that fits in each row an
 
 ### 2. `N20_Cartridge` and `N20_Socket_Coupon` (about 22 + 15 min, 3 + 5 g)
 
-![The cartridge with the motor in it, from the side: the shaft out of the top plate, a latch tongue cut into the side wall with its bump near the top, the flange, and below it a snap arm along the motor with two ribs across it for the zip tie and its hook over the end cap.](../../docs/images/cartridge.png)
+![The cartridge with the motor in it, from the side: the shaft out of the top plate, a latch tongue cut into the side wall with its bump near the top, the flange, and below it a snap arm along the motor with its hook over the end cap, and a black zip tie round both arms between their ribs.](../../docs/images/cartridge.png)
 
 Print both the way they load, with no supports: the cartridge lies on its side, the socket coupon on its plate face like the mount. **Before printing, measure your motor** from the gearbox face to the back of the end cap. The hooks are set for 24.1 mm (`n20_len`), so tell me if yours differs.
 
@@ -67,7 +67,7 @@ Print both the way they load, with no supports: the cartridge lies on its side, 
 |---|---|
 | The motor pushes up into the cartridge until its gearbox face meets the top plate, and both arms click over the end cap. It shouldn't rattle up and down. | Won't click: the motor is longer than `n20_len`. Rattles: it's shorter. Measure it and tell me. Gearbox tight in the sleeve: raise `n20_clear` (0.3 mm). |
 | Pulling the motor down (without the zip tie) doesn't release it: the barbed hooks hold. Spreading both arms by hand does, without the arms whitening or staying bent. | Releases on a pull: tell me, the barb or hook depth can grow. Arms whiten: they can be made longer or thinner. |
-| A 2.5 mm zip tie sits between the two ribs on the arms and, pulled tight, stops them spreading at all. | Tie slips over a rib: tell me, the ribs can be taller. |
+| A 2.5 mm zip tie sits between the two ribs on the arms (the dark band in the picture above) and, pulled tight, stops them spreading at all. | Tie slips over a rib: tell me, the ribs can be taller. |
 | The **empty** cartridge pushes up into the socket coupon until both latches click and the flange sits flat, with almost no up-and-down play. Empty, it pulls out only with a firm tug on the flange. | Too stiff or won't click: tell me how it felt; the bumps or the tongue slits can change. |
 | With the motor in, the cartridge won't pull out of the socket coupon at all. | It still comes out: tell me; the bumps can grow again or the tongues can be padded closer to the gearbox. |
 

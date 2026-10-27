@@ -56,11 +56,12 @@ WIRES = [
     ('W5 XIAO D10 to DRV IN3', 'orange', 0.6, drop(11.48, -12.4) + [(11.6, -16.0, -12.4), (13.6, -11.6, -12.2), (14.34, -9.0, -11.8), drv_in(14.34)]),
     ('W12 XIAO D9 to DRV IN4', 'brown', 0.6, drop(8.94, -12.4) + [(9.2, -16.0, -12.4), (11.2, -11.6, -12.2), (11.8, -9.0, -11.8), drv_in(11.8)]),
     ('W13 XIAO D8 to DRV EEP', 'gray', 0.6, drop(6.4, -12.4) + [(8.6, -16.4, -12.4), (9.0, -14.0, -11.4), (9.0, 6.4, -11.2), (10.6, 7.6, -11.6), drv_out(11.8)]),
-    # --- DRV8833 outputs (channel B) to the N20 terminals: through anchor A2, then down the motor's +x side between the cartridge's snap arms
+    # --- DRV8833 outputs (channel B) to the N20 terminals: through anchor A2, then down the motor's +x side between the cartridge's snap arms,
+    #     inside the arms' zip tie (x 7.5) and clear of the can (x 6 at most)
     ('W14 DRV OUT3 to motor +', 'white', 0.8, [drv_out(19.42), (19.0, 9.0, -12.6), (15.0, 10.0, -13.8), (10.4, 6.0, -14.6),
-        (7.6, 2.0, -16.0), (7.6, 1.6, -24.0), (6.6, 0.8, -25.8), (5.0, 0.2, -26.5), (3.5, 0.0, -26.4)]),
+        (6.7, 1.2, -16.0), (6.7, 1.2, -24.0), (6.4, 0.8, -25.8), (5.0, 0.2, -26.5), (3.5, 0.0, -26.4)]),
     ('W15 DRV OUT4 to motor -', 'blue', 0.8, [drv_out(21.96), (21.4, 9.6, -12.8), (16.0, 11.4, -14.6), (11.4, 6.6, -15.4),
-        (8.4, 2.8, -16.8), (8.4, 2.8, -24.0), (7.4, 3.2, -26.2), (0.0, 3.4, -26.3), (-3.5, 3.0, -26.3), (-3.5, 0.0, -26.4)]),
+        (6.7, 2.6, -16.8), (6.7, 2.6, -24.0), (6.8, 3.2, -26.2), (0.0, 3.4, -26.3), (-3.5, 3.0, -26.3), (-3.5, 0.0, -26.4)]),
     # --- XIAO end of the control harness (it runs in the bundle to the J3 housing at the pod)
     ('W10 XIAO D4 to J3 pin 1 (rev)', 'blue', 0.6, [(-6.0, -21.9, 13.5), (-3.0, -21.5, 13.4), (7.2, -21.5, 13.4), (8.9, -21.2, 11.6), (8.9, -21.0, 9.9)]),
     ('W9 XIAO D3 to J3 pin 3 (fwd)', 'green', 0.6, [(-6.0, -22.1, 13.9), (-3.0, -22.2, 13.4), (9.7, -22.2, 13.4), (11.4, -21.4, 11.6), (11.4, -21.0, 9.9)]),
