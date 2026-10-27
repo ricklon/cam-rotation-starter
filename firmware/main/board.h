@@ -1,4 +1,4 @@
-// Pin map for the Seeed XIAO ESP32-C6 build. Matches the wiring page (rev B).
+// Pin map for the Seeed XIAO ESP32-C6 build. Matches the wiring pages (MG90S rev B, N20 rev B).
 #pragma once
 #include "driver/gpio.h"
 
@@ -6,8 +6,10 @@
 
 #if CONFIG_CAM_DRIVE_N20
 #define DRIVE_NAME        "n20"
-#define PIN_AIN1          GPIO_NUM_0   // D0  DRV8833 IN1 (AIN1)
-#define PIN_AIN2          GPIO_NUM_23  // D5  DRV8833 IN2 (AIN2)
+// The N20 uses the module's channel B (IN3/IN4 -> OUT3/OUT4): those pins sit right under the
+// XIAO's bottom row, so the three driver wires drop straight down (drives/n20/docs/wiring.md, rev B).
+#define PIN_AIN1          GPIO_NUM_18  // D10 DRV8833 IN3 (forward PWM; BIN1)
+#define PIN_AIN2          GPIO_NUM_20  // D9  DRV8833 IN4 (reverse PWM; BIN2)
 #define PIN_NSLEEP        GPIO_NUM_19  // D8  DRV8833 EEP (nSLEEP); low keeps the driver off. Module jumper J1 open.
 #else
 #define DRIVE_NAME        "mg90s"

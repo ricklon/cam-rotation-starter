@@ -1,21 +1,25 @@
 wire,colour,gauge,from,to,routed_mm,cut_mm,notes
-W1,red,22-26 AWG,U1 + terminal,DRV8833 VCC,88,115,down the -Y wall groove then under the base
-W2,black,22-26 AWG,U1 GND terminal,DRV8833 GND,82,105,beside W1
-L1,red,22-26 AWG,C1 +,U1 + terminal,49,70,
-L2,black,22-26 AWG,C1 -,U1 GND terminal,35,50,
-L3,red,22-26 AWG,D1 anode,U1 + terminal,36,55,solder where the lead comes through the mount wall
-W3,red,22-26 AWG,D1 cathode,XIAO 5V,25,40,solder where the lead comes through the mount wall
-W4,black,22-26 AWG,U1 GND terminal,XIAO GND,59,80,
-W5,orange,30 AWG,XIAO D0,DRV8833 IN1,45,65,round the +X end of the XIAO then under the base
-W12,brown,30 AWG,XIAO D5,DRV8833 IN2,66,90,over the top of the XIAO outside the control bundle
-W13,gray,30 AWG,XIAO D8,DRV8833 EEP,44,65,under the base between the motor and the module
-W14,white,22-26 AWG,DRV8833 OUT1,N20 terminal +,26,40,
-W15,blue,22-26 AWG,DRV8833 OUT2,N20 terminal -,37,55,round the far side of the motor
-W6,button lead,pre-wired,S1 lead A,XIAO D1,141,150,use the button's own 150 mm lead
-W7,yellow,30 AWG,XIAO D2,RV1 pin 2,137,170,
-W8,violet,30 AWG,XIAO 3V3,RV1 pin 3,157,195,
-W9,green,30 AWG,XIAO D3,SW1 lug A (forward),111,140,
-W10,blue,30 AWG,XIAO D4,SW1 lug B (reverse),101,130,
-W11,black,30 AWG,XIAO GND,SW1 centre lug,130,160,
-J1,button lead,pre-wired,S1 lead B,SW1 centre lug,21,35,trim the button's second lead
-J2,black,30 AWG,SW1 centre lug,RV1 pin 1,17,30,
+W1,red,22-26 AWG,U1 + terminal,DRV8833 VCC,87,110,down the -Y wall groove then the outer lane under that wall
+W2,black,22-26 AWG,U1 GND terminal,DRV8833 GND,81,105,inner lane beside W1; tie at anchor A1
+L1,red,22-26 AWG,C1 +,U1 + terminal,50,70,
+L2,black,22-26 AWG,C1 -,U1 GND terminal,36,55,
+W4,black,22-26 AWG,XIAO GND,DRV8833 GND,20,35,straight down and under
+W5,orange,30 AWG,XIAO D10,DRV8833 IN3,21,35,straight down and under
+W12,brown,30 AWG,XIAO D9,DRV8833 IN4,21,35,beside W5
+W13,gray,30 AWG,XIAO D8,DRV8833 EEP,39,55,under the base beside the cartridge flange
+W14,white,22-26 AWG,DRV8833 OUT3,N20 terminal +,30,45,tie at anchor A2
+W15,blue,22-26 AWG,DRV8833 OUT4,N20 terminal -,42,60,behind the motor's end cap inside the snap hooks
+W6,white,30 AWG,XIAO D1,J3 pin 6,126,160,mount-side harness to the PHR-6 housing
+W7,yellow,30 AWG,XIAO D2,J3 pin 4,123,155,
+W8,violet,30 AWG,XIAO 3V3,J3 pin 5,141,175,
+W9,green,30 AWG,XIAO D3,J3 pin 3,120,150,
+W10,blue,30 AWG,XIAO D4,J3 pin 1,118,150,
+W11,black,30 AWG,XIAO GND,J3 pin 2,145,180,
+W6p,button lead,pre-wired,J3 pin 6,S1 lead A,30,45,trim the button's own lead
+W7p,yellow,30 AWG,J3 pin 4,RV1 pin 2,26,40,
+W8p,violet,30 AWG,J3 pin 5,RV1 pin 3,31,50,
+W9p,green,30 AWG,J3 pin 3,SW1 lug A (forward),29,45,
+W10p,blue,30 AWG,J3 pin 1,SW1 lug B (reverse),30,45,
+W11p,black,30 AWG,J3 pin 2,SW1 centre lug,29,45,
+J1,button lead,pre-wired,S1 lead B,SW1 centre lug,22,40,trim the button's second lead
+J2,black,30 AWG,SW1 centre lug,RV1 pin 1,18,35,

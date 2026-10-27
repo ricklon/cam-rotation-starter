@@ -11,8 +11,8 @@ Firmware for the Cam Rotation Starter: a Seeed XIAO ESP32-C6 runs a motor that t
 | Function | XIAO pin | GPIO | Notes |
 |---|---|---|---|
 | Servo signal (MG90S) | D0 | 0 | 50 Hz LEDC PWM. The servo takes 5 V from the PD board, not from the XIAO. |
-| DRV8833 AIN1 (N20) | D0 | 0 | 20 kHz LEDC PWM. |
-| DRV8833 AIN2 (N20) | D5 | 23 | 20 kHz LEDC PWM. |
+| DRV8833 IN3, forward (N20) | D10 | 18 | 20 kHz LEDC PWM. Channel B of the module. |
+| DRV8833 IN4, reverse (N20) | D9 | 20 | 20 kHz LEDC PWM. |
 | DRV8833 nSLEEP (N20) | D8 | 19 | Held low until the firmware runs, and after the motor has been stopped for `idle_release_ms`. |
 | Button (to GND) | D1 | 1 | Internal pull-up. |
 | Speed knob wiper | D2 | 2 | 10 k pot between 3V3 and GND. ADC, 12 dB attenuation. |
