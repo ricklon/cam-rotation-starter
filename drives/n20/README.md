@@ -15,7 +15,7 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 | 12 mm button, speed knob, direction switch | Yes | Same pins as the MG90S drive (D1, D2, D3, D4), now through a 6-pin JST-PH connector (J3). |
 | Control pod | Changed | `N20_Control_Pod` has a holder for the J3 header inside; print it from this drive's folder. |
 | Bushings, dowel gauges, shims | Yes | Print them from [`drives/mg90s/cad/stl`](../mg90s/cad/stl/README.md). |
-| Dowel adapters, clamp bodies and caps | No | Same dowel sockets and grip screws, but a 3 mm D-shaft bore through the base in place of the servo spline pocket and horn screw. The clamps take M3 socket cap screws in flat-bottomed counterbores. `N20_Adapter_*` and `N20_Clamp_*` in [cad/stl](cad/stl/README.md). |
+| Dowel adapters, clamp bodies and caps | No | Same dowel sockets and grip screws, but a 3 mm D-shaft bore through the base in place of the servo spline pocket and horn screw, with an M3 set screw onto the shaft's flat. The clamps take M3 socket cap screws in flat-bottomed counterbores. `N20_Adapter_*` and `N20_Clamp_*` in [cad/stl](cad/stl/README.md). |
 | Mount | Changed | `N20_Mount`: same walls, flange, pod face and XIAO pocket; the PD board sits on a 3.5 mm pad on the outside of the wall. The motor snaps into a printed cartridge (`N20_Cartridge`), which snaps up into a socket in the base, on the dowel axis. The base and the N20 plate are joined solid (no open slot between them for supports to get trapped in). The DRV8833 sits in a pocket on the underside of the base, with the diode in a channel beside it. Both boards' pockets have a 2.5 mm relief under their pin rows for wire ends and solder. |
 | 330 Ω signal resistor (R1) | Dropped | Not needed for a motor driver input. |
 | Firmware | Shared | Same story player and web app; a DRV8833 motor output in place of the servo pulse (see below). |
@@ -29,6 +29,7 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 | J3 | 1 | JST-PH 2.0 mm 6-pin: B6B-PH-K-S header, PHR-6 housing, 6 crimp contacts (or a pre-crimped PH pigtail) | Makes the control panel detachable. |
 | — | 2 | **M1.6 × 4** pan-head screws + **M1.6 split lock washers** (optional) | Not needed since the snap fit; the holes are still there as a fallback. Motor into the cartridge. The grip under the head is 2 mm (1.5 mm plate + 0.5 mm washer), so 4 mm leaves 2 mm in the gearbox face; don't go longer, the holes are shallow. |
 | — | 2 | **M3 × 8** socket cap screws (ISO 4762), thread-forming or plain (optional) | Not needed since the snap fit; a fallback if the cartridge latch is loose. Cartridge to the mount, from below. |
+| — | 1 per adapter | **M3 × 5** set screw (grub screw, ISO 4029 cup point), 1.5 mm hex key | Presses on the motor shaft's flat, in every adapter and clamp. |
 | — | 2 per clamp | **M3 × 8** socket cap screws | Clamp caps. M3 × 10 is too long for the 5/8 clamp: its tip would come out of the side. |
 | — | 1 | Double-sided foam tape, about 15 × 15 mm | Holds the DRV8833 module in its pocket. |
 | — | 1 | 0.1 µF ceramic capacitor | Solder across the N20's terminals to cut electrical noise. |
@@ -107,17 +108,18 @@ From the change request after the first build attempt:
 
 ## Assembly order and tool access
 
-Checked in the model with a 2.5 mm hex key, a small screwdriver and room for a hand at each step.
+Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and room for a hand at each step.
 
 1. **Bench: check the motor fits.** Push the N20 into `N20_Cartridge` from below until its gearbox face meets the top plate and the arms click over the end cap; spread the arms and take it out again.
 2. **Bench: wiring.** Wire the boards, D1 and C1 as in [docs/wiring.md](docs/wiring.md), solder W14, W15 and C2 to the motor, and crimp the J3 housing onto the harness.
 3. **Bushing in** through the mount's open end, flange up into the flange recess (as on the MG90S drive).
 4. **Mount on the box wall** with the #14 screws through the flange ears.
 5. **Dowel through** the bushing.
-6. **Adapter or clamp on the dowel, then tighten.** Turn the clamp so its cap faces an open end of the mount; both cap screws then point out of that end, and a 2.5 mm hex key goes straight in.
+6. **Adapter or clamp on the dowel, then tighten.** Start the M3 × 5 set screw in its hole near the bottom, just short of the bore. Turn the clamp so its cap faces an open end of the mount; both cap screws then point out of that end, and a 2.5 mm hex key goes straight in.
 7. **Cartridge in, empty.** From below, push `N20_Cartridge` up into the socket in the base until both latches click and the flange sits flat under the base.
-8. **Motor in.** Push the wired motor up into the cartridge so the D-shaft enters the adapter's bore (turn the dowel to line up the flat), until the arms click over the end cap. W14 and W15 run down the motor's open side, between the arms. To take it apart, spread the arms, pull the motor down, then pull the cartridge out by its flange.
-9. **Control panel.** Plug J3 into the header in the pod, then screw the pod on (four M3 screws, as before). Reverse this to take it off.
+8. **Motor in.** Push the wired motor up into the cartridge so the D-shaft enters the adapter's bore (turn the dowel to line up the flat), until the arms click over the end cap. W14 and W15 run down the motor's open side, between the arms.
+9. **Set screw.** Turn the dowel until the set screw faces an open end of the mount, just above the face plate, and tighten it onto the shaft's flat with a 1.5 mm hex key: firm, not forced, or it strips the plastic. To take the drive apart, loosen it, spread the cartridge arms, pull the motor down, then pull the cartridge out by its flange.
+10. **Control panel.** Plug J3 into the header in the pod, then screw the pod on (four M3 screws, as before). Reverse this to take it off.
 
 ## Fusion design
 
@@ -136,6 +138,7 @@ Checked in the model with a 2.5 mm hex key, a small screwdriver and room for a h
 | `m16_clear`, `m16_cbore`, `m16_cbore_d` | 1.9, 3.8, 1.5 mm | M1.6 holes in the cartridge plate, and counterbores for the heads on lock washers |
 | `n20_hole_x`, `n20_hole_y` | 4.5, 0 mm | Face screw holes, at (+x, +y) and (−x, −y): 4.5, 0 is the inline pair; 3.8, 2.8 the diagonal pair |
 | `n20_shaft_hole` | 4.5 mm | Shaft hole in the cartridge plate |
+| `shaft_screw_z`, `shaft_screw_pilot_r` | 2.8, 5.6 mm | The M3 set screw onto the shaft's flat in every adapter: its height above the adapter's bottom face (the shaft goes 5.1 mm in), and how far out the `clamp_pilot` hole runs before the `clamp_clear` access hole |
 | `n20_len` | 25.1 mm | The motor from the gearbox face to the back of the end cap: where the cartridge's snap hooks sit (0.1 mm behind it) |
 | `n20_shaft_dia`, `n20_flat` | 3.0, 2.5 mm | The motor shaft and its D flat |
 | `n20_bore_clear` | 0.15 mm | D-bore clearance; set it from the fit coupon |
