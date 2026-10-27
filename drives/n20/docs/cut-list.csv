@@ -8,7 +8,7 @@ W5,orange,30 AWG,XIAO D10,DRV8833 IN3,21,35,straight down and under
 W12,brown,30 AWG,XIAO D9,DRV8833 IN4,21,35,beside W5
 W13,gray,30 AWG,XIAO D8,DRV8833 EEP,39,55,under the base beside the cartridge flange
 W14,white,22-26 AWG,DRV8833 OUT3,N20 terminal +,30,45,tie at anchor A2
-W15,blue,22-26 AWG,DRV8833 OUT4,N20 terminal -,43,60,round the far side of the motor
+W15,blue,22-26 AWG,DRV8833 OUT4,N20 terminal -,42,60,behind the motor's end cap inside the snap hooks
 W6,white,30 AWG,XIAO D1,J3 pin 6,126,160,mount-side harness to the PHR-6 housing
 W7,yellow,30 AWG,XIAO D2,J3 pin 4,123,155,
 W8,violet,30 AWG,XIAO 3V3,J3 pin 5,141,175,

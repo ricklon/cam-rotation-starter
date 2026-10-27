@@ -87,7 +87,7 @@ Follow this table one wire at a time and tick each off. The colours match the 3D
 | W13 | gray | XIAO D8 | U3 EEP | Down, then along under the base beside the cartridge flange to the far pin row. |
 | **Motor, 22–26 AWG** | | | | |
 | W14 | white | U3 OUT3 | M1 terminal (either) | If the motor runs backwards, swap W14 and W15 at the motor. Zip-tie both at anchor A2. |
-| W15 | blue | U3 OUT4 | M1 other terminal | Round the far side of the motor, clear of the cartridge screw. |
+| W15 | blue | U3 OUT4 | M1 other terminal | Down the motor's open side with W14, then behind the end cap, inside the cartridge's snap hooks, to the far terminal. |
 | C2 | — | M1 terminal | M1 other terminal | Solder its legs to the terminals with the wires. |
 | **Control harness, mount side, 30 AWG: XIAO → groove → base channel → tunnel → J3 housing** | | | | |
 | W6 | white | XIAO D1 | J3 pin 6 | |
@@ -144,7 +144,7 @@ Lengths measured along the routes in the 3D model, plus 15% slack and 5 mm per e
 | W12 | brown | 30 AWG | 21 mm | **35** |
 | W13 | gray | 30 AWG | 39 mm | **55** |
 | W14 | white | 22–26 AWG | 30 mm | **45** |
-| W15 | blue | 22–26 AWG | 43 mm | **60** |
+| W15 | blue | 22–26 AWG | 42 mm | **60** |
 | W6 | white | 30 AWG | 126 mm | **160** |
 | W7 | yellow | 30 AWG | 123 mm | **155** |
 | W8 | violet | 30 AWG | 141 mm | **175** |

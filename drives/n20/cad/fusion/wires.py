@@ -7,7 +7,8 @@ DRV8833 module under the base, component side down (z -11.0), pins on a 2.54 mm 
   OUT row (y +7.62): EEP 11.8, OUT1 14.34, OUT2 16.88, OUT3 19.42, OUT4 21.96, ULT 24.5
   Channel B is used (IN3/IN4 -> OUT3/OUT4): IN3, IN4, GND and VCC sit under the XIAO's D10, D9, GND and 5V pads.
 D1 lies in a channel under the base at x 19.42 (axis z -10.6, cathode toward the wall); its own leads run to the XIAO 5V pad and DRV VCC.
-N20 terminals at x +/-3.1, y 0, tabs down to z -26.9. The N20 sits in a cartridge whose M3 screws are at (0, +/-11.5) under the base.
+N20 terminals at x +/-3.1, y 0, tabs down to z -26.9. The N20 sits in a cartridge under the base; its snap arms run down the
+motor's flats (y +/-5.3..6.8) to z -26.6, so the motor wires stay at |y| < 4.5 below the flange.
 Control panel: JST-PH 6-pin header in the pod (pins at x -6.75, z 17.9..27.9, tails end at y 38.1); the mount harness ends in the plug at y 22.9.
 """
 import adsk.core, adsk.fusion, math, traceback
@@ -55,11 +56,11 @@ WIRES = [
     ('W5 XIAO D10 to DRV IN3', 'orange', 0.6, drop(11.48, -12.4) + [(11.6, -16.0, -12.4), (13.6, -11.6, -12.2), (14.34, -9.0, -11.8), drv_in(14.34)]),
     ('W12 XIAO D9 to DRV IN4', 'brown', 0.6, drop(8.94, -12.4) + [(9.2, -16.0, -12.4), (11.2, -11.6, -12.2), (11.8, -9.0, -11.8), drv_in(11.8)]),
     ('W13 XIAO D8 to DRV EEP', 'gray', 0.6, drop(6.4, -12.4) + [(8.6, -16.4, -12.4), (9.0, -14.0, -11.4), (9.0, 6.4, -11.2), (10.6, 7.6, -11.6), drv_out(11.8)]),
-    # --- DRV8833 outputs (channel B) to the N20 terminals, clear of the cartridge screw at (0, 11.5)
-    ('W14 DRV OUT3 to motor +', 'white', 0.8, [drv_out(19.42), (19.0, 9.0, -12.6), (15.0, 10.0, -13.8), (9.6, 9.0, -14.6),
-        (7.4, 6.6, -17.0), (7.0, 2.6, -22.0), (6.6, 0.8, -25.6), (5.0, 0.2, -26.5), (3.5, 0.0, -26.4)]),
-    ('W15 DRV OUT4 to motor -', 'blue', 0.8, [drv_out(21.96), (21.4, 9.6, -12.8), (16.0, 11.4, -14.6), (10.0, 10.4, -15.6),
-        (6.0, 7.2, -18.6), (0.0, 6.2, -19.6), (-4.6, 6.2, -21.0), (-6.8, 4.0, -23.8), (-6.8, 1.0, -25.6), (-5.0, 0.2, -26.5), (-3.5, 0.0, -26.4)]),
+    # --- DRV8833 outputs (channel B) to the N20 terminals: through anchor A2, then down the motor's +x side between the cartridge's snap arms
+    ('W14 DRV OUT3 to motor +', 'white', 0.8, [drv_out(19.42), (19.0, 9.0, -12.6), (15.0, 10.0, -13.8), (10.4, 6.0, -14.6),
+        (7.6, 2.0, -16.0), (7.6, 1.6, -24.0), (6.6, 0.8, -25.8), (5.0, 0.2, -26.5), (3.5, 0.0, -26.4)]),
+    ('W15 DRV OUT4 to motor -', 'blue', 0.8, [drv_out(21.96), (21.4, 9.6, -12.8), (16.0, 11.4, -14.6), (11.4, 6.6, -15.4),
+        (8.4, 2.8, -16.8), (8.4, 2.8, -24.0), (7.4, 3.2, -26.2), (0.0, 3.4, -26.3), (-3.5, 3.0, -26.3), (-3.5, 0.0, -26.4)]),
     # --- XIAO end of the control harness (it runs in the bundle to the J3 housing at the pod)
     ('W10 XIAO D4 to J3 pin 1 (rev)', 'blue', 0.6, [(-6.0, -21.9, 13.5), (-3.0, -21.5, 13.4), (7.2, -21.5, 13.4), (8.9, -21.2, 11.6), (8.9, -21.0, 9.9)]),
     ('W9 XIAO D3 to J3 pin 3 (fwd)', 'green', 0.6, [(-6.0, -22.1, 13.9), (-3.0, -22.2, 13.4), (9.7, -22.2, 13.4), (11.4, -21.4, 11.6), (11.4, -21.0, 9.9)]),

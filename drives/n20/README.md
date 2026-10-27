@@ -2,7 +2,7 @@
 
 A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 motor driver, in place of the MG90S servo. The N20 is smaller, quieter and turns more smoothly at low speed than a modified servo, and you choose its speed and torque by picking a gear ratio.
 
-**Status: ready for a PETG fit test (2026-10-26).** The first printed mount showed the motor's screw holes are the inline pair and that the boards need room for solder underneath (fixed 2026-10-24). A change request then reworked the capacitor and diode, the wiring, the clamps, the motor mount and the control panel connector; see [What changed on 2026-10-26](#what-changed-on-2026-10-26). Print the PETG fit coupon, the cartridge and the mount fit coupon (pieces of the real mount and pod that check the capacitor, diode, board, cartridge, zip-tie and connector fits) before the mount (see [cad/stl](cad/stl/README.md)). Wiring, schematic and cut list are in [docs/wiring.md](docs/wiring.md); the build order is in [Assembly order and tool access](#assembly-order-and-tool-access).
+**Status: ready for a PETG fit test (2026-10-26).** The first printed mount showed the motor's screw holes are the inline pair and that the boards need room for solder underneath (fixed 2026-10-24). A change request then reworked the capacitor and diode, the wiring, the clamps, the motor mount and the control panel connector; see [What changed on 2026-10-26](#what-changed-on-2026-10-26). Since 2026-10-27 the motor and its cartridge snap in, with no screws (see [Snap-fit motor](#snap-fit-motor-2026-10-27)). Print the PETG fit coupon, the cartridge with the socket coupon, and the mount fit coupon (pieces of the real mount and pod that check the capacitor, diode, board, cartridge, zip-tie and connector fits) before the mount (see [cad/stl](cad/stl/README.md)). Wiring, schematic and cut list are in [docs/wiring.md](docs/wiring.md); the build order is in [Assembly order and tool access](#assembly-order-and-tool-access).
 
 - **Fusion design:** *Cam Rotation N20* in MovementStudy › Cam Rotation Tool, copied from *Cam Rotation Starter*. The N20 reference model is *N20 DC MOTOR*, copied into the same folder.
 
@@ -16,7 +16,7 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 | Control pod | Changed | `N20_Control_Pod` has a holder for the J3 header inside; print it from this drive's folder. |
 | Bushings, dowel gauges, shims | Yes | Print them from [`drives/mg90s/cad/stl`](../mg90s/cad/stl/README.md). |
 | Dowel adapters, clamp bodies and caps | No | Same dowel sockets and grip screws, but a 3 mm D-shaft bore through the base in place of the servo spline pocket and horn screw. The clamps take M3 socket cap screws in flat-bottomed counterbores. `N20_Adapter_*` and `N20_Clamp_*` in [cad/stl](cad/stl/README.md). |
-| Mount | Changed | `N20_Mount`: same walls, flange, pod face and XIAO pocket; the PD board sits on a 3.5 mm pad on the outside of the wall. The motor sits in a printed cartridge (`N20_Cartridge`) that slides up through a socket in the base and screws on from below, on the dowel axis. The base and the N20 plate are joined solid (no open slot between them for supports to get trapped in). The DRV8833 sits in a pocket on the underside of the base, with the diode in a channel beside it. Both boards' pockets have a 2.5 mm relief under their pin rows for wire ends and solder. |
+| Mount | Changed | `N20_Mount`: same walls, flange, pod face and XIAO pocket; the PD board sits on a 3.5 mm pad on the outside of the wall. The motor snaps into a printed cartridge (`N20_Cartridge`), which snaps up into a socket in the base, on the dowel axis. The base and the N20 plate are joined solid (no open slot between them for supports to get trapped in). The DRV8833 sits in a pocket on the underside of the base, with the diode in a channel beside it. Both boards' pockets have a 2.5 mm relief under their pin rows for wire ends and solder. |
 | 330 Ω signal resistor (R1) | Dropped | Not needed for a motor driver input. |
 | Firmware | Shared | Same story player and web app; a DRV8833 motor output in place of the servo pulse (see below). |
 
@@ -27,8 +27,8 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 | M1 | 1 | N20 gearmotor, **6 V, 100:1**, no encoder | Chosen for speed (see Decisions). Other ratios fit the same cartridge. Typical 6 V no-load speeds are about 300 rpm at 100:1, 100 rpm at 298:1 and 30 rpm at 1000:1; at 5 V expect about 80% of that. 298:1 is closest to the MG90S's top speed (about 100 rpm) with more torque. |
 | U3 | 1 | DRV8833 dual motor driver module, 12-pin (two rows of six 0.1" pins: IN4 IN3 GND VCC IN2 IN1 / EEP OUT1–OUT4 ULT), sold in 5-packs (e.g. "EC Buying") | Channel B (IN3/IN4 → OUT3/OUT4) is used. Motor supply 2.7–10.8 V, about 1.5 A per channel. Leave the J1 jumper open. |
 | J3 | 1 | JST-PH 2.0 mm 6-pin: B6B-PH-K-S header, PHR-6 housing, 6 crimp contacts (or a pre-crimped PH pigtail) | Makes the control panel detachable. |
-| — | 2 | **M1.6 × 4** pan-head screws + **M1.6 split lock washers** | Motor into the cartridge. The grip under the head is 2 mm (1.5 mm plate + 0.5 mm washer), so 4 mm leaves 2 mm in the gearbox face; don't go longer, the holes are shallow. |
-| — | 2 | **M3 × 8** socket cap screws (ISO 4762), thread-forming or plain | Cartridge to the mount, from below. |
+| — | 2 | **M1.6 × 4** pan-head screws + **M1.6 split lock washers** (optional) | Not needed since the snap fit; the holes are still there as a fallback. Motor into the cartridge. The grip under the head is 2 mm (1.5 mm plate + 0.5 mm washer), so 4 mm leaves 2 mm in the gearbox face; don't go longer, the holes are shallow. |
+| — | 2 | **M3 × 8** socket cap screws (ISO 4762), thread-forming or plain (optional) | Not needed since the snap fit; a fallback if the cartridge latch is loose. Cartridge to the mount, from below. |
 | — | 2 per clamp | **M3 × 8** socket cap screws | Clamp caps. M3 × 10 is too long for the 5/8 clamp: its tip would come out of the side. |
 | — | 1 | Double-sided foam tape, about 15 × 15 mm | Holds the DRV8833 module in its pocket. |
 | — | 1 | 0.1 µF ceramic capacitor | Solder across the N20's terminals to cut electrical noise. |
@@ -72,6 +72,16 @@ To check on hardware: the lowest speed at which your N20 still turns under the c
 - **Room to solder under the boards.** Wires soldered through the XIAO's and the DRV8833's pin rows leave ends and solder on the back of the board, so each pocket has a 2.5 mm relief under both pin rows (`solder_relief_d`). The boards rest on the strip between the rows.
 - **Room under the PD board: a 3.5 mm pad.** The USB-C PD board has parts all over its underside, and the wall behind its pocket was already used up by the zip-tie tunnel and the clamp-head relief on the inside. So the board moved 3.5 mm out (`pd_relief_d`) onto a pad on the outside of the wall: it rests on a 1 mm ledge round its edges, with 3.5 mm clear under the rest. The zip-tie tunnel and slots didn't move; the tie runs out of its slots just above and below the pad and over the board. The mount is 3.5 mm wider on that side (44.8 mm), and the PD board's wires (W1, W2, W4, L1–L3) end 3.5 mm further out; W2 and L2 are cut 5 mm longer.
 
+## Snap-fit motor (2026-10-27)
+
+No screws hold the motor or the cartridge any more.
+
+- **Motor into the cartridge:** two 1.5 mm arms run down the motor's flat sides from the cartridge flange and hook 0.8 mm over the back of the end cap. Push the motor up into the cartridge until the arms click; spread them to take it out. The hooks sit `n20_len` (25.1 mm, from the N20 reference model) below the gearbox face, 0.1 mm behind the end cap. **Measure your motor** from the gearbox face to the back of the end cap: if it isn't 25.1 mm, set `n20_len` before printing.
+- **Cartridge into the mount:** each side wall of the cartridge has a 1.2 mm tongue with a 1 mm bump that clicks into a pocket in the socket. The cartridge goes in **empty**; once the motor is in, the gearbox stops the tongues flexing, so the cartridge can't come out until the motor does.
+- **Printing:** the cartridge prints on its side, so the arms and tongues bend along their layers, PETG's strong direction. Bending stays at about 1.3% (arms) and 2% (tongues), against PETG's yield of about 4–5%.
+- **Wiring:** W14 and W15 now run down the motor's round side between the arms, and W15 crosses behind the end cap inside the hooks. Their cut lengths didn't change.
+- **Fallback:** the M1.6 and M3 screw holes are still there.
+
 ## What changed on 2026-10-26
 
 From the change request after the first build attempt:
@@ -89,9 +99,9 @@ From the change request after the first build attempt:
 | 9 | Strain relief, USB-C | Two zip-tie anchors: A1 under the electronics-side wall for the power wires, A2 under the base for the motor wires. The XIAO's USB-C port has a clear path for a plug with everything assembled. |
 | 10 | PETG | `N20_PETG_Fit_Coupon`: 5/8" holes at +0.2 to +0.6 mm, M3 clearance, pilot and cap-head counterbore sizes, M1.6 clearance and counterbore sizes in a 3 mm plate, and five D-bores. |
 
-![The N20 in its cartridge, pulled down out of the mount's socket: the motor's gearbox sits in the printed sleeve, its face screwed to the top plate, with the flange and its two M3 screws below.](docs/images/cartridge_exploded.png)
+![The N20 in its cartridge, pulled down out of the mount's socket (shown see-through): the gearbox sits in the printed sleeve with a latch tongue and its bump on the side wall above the flange, and the motor hangs below between the snap arms.](docs/images/cartridge_exploded.png)
 
-![The cartridge on its own, from above: the shaft through the middle of the 3 mm top plate, the two M1.6 screw heads flush in their counterbores, and the flange with an M3 screw at each end.](docs/images/cartridge.png)
+![The cartridge with the motor in it, from the side: the shaft out of the top plate, a latch tongue cut into the side wall with its bump near the top, the flange with an unused M3 hole, and below it a snap arm along the motor with its hook over the end cap, the motor terminals showing underneath.](docs/images/cartridge.png)
 
 ![The 5/8 split clamp with its two M3 socket cap screws seated flat in their counterbores on the cap.](docs/images/clamp_0625_caphead.png)
 
@@ -99,14 +109,14 @@ From the change request after the first build attempt:
 
 Checked in the model with a 2.5 mm hex key, a small screwdriver and room for a hand at each step.
 
-1. **Bench: motor into the cartridge.** Push the N20's gearbox up into `N20_Cartridge` until its face meets the top plate, shaft through the middle hole. Put a split lock washer on each M1.6 × 4 screw and drive them into the gearbox face through the counterbores. The heads end up flush with the plate.
+1. **Bench: check the motor fits.** Push the N20 into `N20_Cartridge` from below until its gearbox face meets the top plate and the arms click over the end cap; spread the arms and take it out again.
 2. **Bench: wiring.** Wire the boards, D1 and C1 as in [docs/wiring.md](docs/wiring.md), solder W14, W15 and C2 to the motor, and crimp the J3 housing onto the harness.
 3. **Bushing in** through the mount's open end, flange up into the flange recess (as on the MG90S drive).
 4. **Mount on the box wall** with the #14 screws through the flange ears.
 5. **Dowel through** the bushing.
 6. **Adapter or clamp on the dowel, then tighten.** Turn the clamp so its cap faces an open end of the mount; both cap screws then point out of that end, and a 2.5 mm hex key goes straight in.
-7. **Press the cartridge onto the shaft.** From below, push the cartridge up through the socket in the base so the D-shaft enters the adapter's bore; turn the dowel to line up the flat.
-8. **Tighten the cartridge** with two M3 × 8 cap screws up through the flange into the base. The motor hangs between them, with room for the key and your hand.
+7. **Cartridge in, empty.** From below, push `N20_Cartridge` up into the socket in the base until both latches click and the flange sits flat under the base.
+8. **Motor in.** Push the wired motor up into the cartridge so the D-shaft enters the adapter's bore (turn the dowel to line up the flat), until the arms click over the end cap. W14 and W15 run down the motor's open side, between the arms. To take it apart, spread the arms, pull the motor down, then pull the cartridge out by its flange.
 9. **Control panel.** Plug J3 into the header in the pod, then screw the pod on (four M3 screws, as before). Reverse this to take it off.
 
 ## Fusion design
@@ -126,6 +136,7 @@ Checked in the model with a 2.5 mm hex key, a small screwdriver and room for a h
 | `m16_clear`, `m16_cbore`, `m16_cbore_d` | 1.9, 3.8, 1.5 mm | M1.6 holes in the cartridge plate, and counterbores for the heads on lock washers |
 | `n20_hole_x`, `n20_hole_y` | 4.5, 0 mm | Face screw holes, at (+x, +y) and (−x, −y): 4.5, 0 is the inline pair; 3.8, 2.8 the diagonal pair |
 | `n20_shaft_hole` | 4.5 mm | Shaft hole in the cartridge plate |
+| `n20_len` | 25.1 mm | The motor from the gearbox face to the back of the end cap: where the cartridge's snap hooks sit (0.1 mm behind it) |
 | `n20_shaft_dia`, `n20_flat` | 3.0, 2.5 mm | The motor shaft and its D flat |
 | `n20_bore_clear` | 0.15 mm | D-bore clearance; set it from the fit coupon |
 | `drv_len`, `drv_wid`, `drv_thk` | 18.5, 16, 1.6 mm | The DRV8833 module |
@@ -139,7 +150,7 @@ Checked in the model with a 2.5 mm hex key, a small screwdriver and room for a h
 | `c1_seat_dia`, `c1_seat_depth`, `c1_seat_h`, `c1_seat_z0` | 8.0, 4.9, 14, −1.3 mm | Capacitor seat |
 | `d1_x`, `d1_axis_z`, `d1_y0`, `d1_len`, `d1_seat_dia`, `d1_lead_slot` | 19.42, −10.6, −19, 6.4, 2.9, 1.1 mm | Diode channel and lead slot under the base |
 
-`d1_x`, `d1_axis_z` and `cart_ear_y` record where the diode channel and the cartridge screws are; their sketches use those numbers but aren't linked to the parameters, so move those sketches as well if you change them. The cartridge's M1.6 holes do follow `n20_hole_x`/`n20_hole_y`.
+`d1_x`, `d1_axis_z` and `cart_ear_y` record where the diode channel and the cartridge screws are; their sketches use those numbers but aren't linked to the parameters, so move those sketches as well if you change them. The cartridge's M1.6 holes do follow `n20_hole_x`/`n20_hole_y`. The snap arms and hooks follow `n20_len`; the rest of the snap fit is sketch numbers (arms 1.5 mm, hooks 0.8 mm, tongues 1.2 mm in 0.6 mm slits, bumps 1.0 mm), so change those sketches to tune it.
 
 ## Folder layout
 

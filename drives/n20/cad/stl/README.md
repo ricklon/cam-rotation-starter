@@ -6,7 +6,8 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 | Part | Orientation | Size on bed (mm) | Bed contact (mm²) |
 |---|---|---|---|
 | N20_Mount | flange (wall face) down | 109.0 × 44.8 × 48.6 | 3858 |
-| N20_Cartridge | bottom flange down, motor plate up | 15.0 × 29.0 × 15.8 | 283 |
+| N20_Cartridge | on its side (-x face down), arms flat along the bed | 29.6 × 29.0 × 15.0 | 268 |
+| N20_Socket_Coupon | socket coupon: plate top down, as the mount | 20.5 × 27.0 × 12.4 | 341 |
 | N20_Control_Pod | front panel down, open back up | 39.2 × 38.0 × 24.0 | 955 |
 | N20_PETG_Fit_Coupon | flat side down, labels up | 100.0 × 44.0 × 6.5 | 3085 |
 | N20_Mount_Fit_Coupon_Wall | mount fit coupon: wall top down, as the mount | 32.0 × 11.2 × 36.4 | 192 |
@@ -30,6 +31,8 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 
 **Updated 2026-10-27 (version 13): `N20_Mount` only.** The slot between the base and the N20 plate, open at both ends, is now solid, so supports can't get trapped in it (sliced on an A1 with build-plate supports: none there now, and the print drops from about 3 h to 2 h 50 min; 6.6 g more PETG). The cartridge socket and its M3 pilots still cut through it. The wall and base coupon files changed by the same fill, but their fits didn't, so coupons you've already printed still count.
 
+**Updated 2026-10-27 (version 14): snap-fit motor and cartridge.** Reprint `N20_Cartridge` (it now prints on its side) and `N20_Mount` (latch pockets in the socket). New: `N20_Socket_Coupon`, the mount round the socket, to test the latch before the mount. No screws are needed; see [Snap-fit motor](../../README.md#snap-fit-motor-2026-10-27).
+
 ## Test prints, in order
 
 Each step checks something before you commit to a longer print. Print these in PETG if that's what the full build will be: PETG holes come out a little different from PLA's.
@@ -50,11 +53,18 @@ Every hole has its size engraved under it. Find the one that fits in each row an
 | M1.6 counterbore | c3.6, c3.8, c4.0 (1.5 mm deep) | Pan head on a split lock washer sits flush. | `m16_cbore` (3.8) |
 | D-bore | .10 … .30 (clearance per side) | Push the motor shaft in, flat to flat: the one that goes on by hand without wobble. | `n20_bore_clear` (0.15) |
 
-### 2. `N20_Cartridge` (short print, about 2 g)
+### 2. `N20_Cartridge` and `N20_Socket_Coupon` (about 21 + 15 min, 3 + 5 g)
 
-![The motor cartridge with the N20 in it, seen from above: the shaft through the middle of the top plate, the two M1.6 screw heads flush in their counterbores, and the bottom flange with an M3 screw hole at each end.](../../docs/images/cartridge.png)
+![The cartridge with the motor in it, from the side: the shaft out of the top plate, a latch tongue cut into the side wall with its bump near the top, the flange, and below it a snap arm along the motor with its hook over the end cap.](../../docs/images/cartridge.png)
 
-The gearbox should slide up into it and sit flat against the top plate, with the M1.6 holes lined up with the threaded holes in the gearbox face (9 mm apart, either side of the shaft). Tight: raise `n20_clear` (0.3 mm).
+Print both the way they load, with no supports: the cartridge lies on its side, the socket coupon on its plate face like the mount. **Before printing, measure your motor** from the gearbox face to the back of the end cap. The hooks are set for 25.1 mm (`n20_len`), so tell me if yours differs.
+
+| Check | If it's wrong |
+|---|---|
+| The motor pushes up into the cartridge until its gearbox face meets the top plate, and both arms click over the end cap. It shouldn't rattle up and down. | Won't click: the motor is longer than `n20_len`. Rattles: it's shorter. Measure it and tell me. Gearbox tight in the sleeve: raise `n20_clear` (0.3 mm). |
+| Spreading the two arms by hand lets the motor out, without the arms whitening or staying bent. | Tell me: the hooks or arms can be made thinner. |
+| The **empty** cartridge pushes up into the socket coupon until both latches click and the flange sits flat. It pulls back out by the flange. | Too stiff or won't click: tell me how it felt; the bumps or the tongue slits can change. |
+| With the motor in, the cartridge won't pull out of the socket coupon. | The latch is too shallow for your print; tell me. |
 
 ### 3. `N20_Mount_Fit_Coupon_Wall`, `_Base` and `_Pod` (about 13 g together)
 
@@ -86,7 +96,7 @@ Print the adapter for the dowel you'll use (`N20_Adapter_075`, `_0625` or `_025`
 
 Only once steps 1, 2, 3 and 5 fit. The fit coupon has already checked the fits below; on the full mount, look for the things a coupon can't show: the face plate bridged cleanly, the flange is flat, and the PD pad's overhang printed cleanly. Then check the mount after printing:
 
-- the cartridge slides up through the socket in the base and its flange sits flat under the base, with the two M3 pilots lined up;
+- the empty cartridge clicks up into the socket in the base and its flange sits flat under the base;
 - the capacitor snaps into its seat beside the XIAO pocket;
 - the diode lies in the channel under the base, and its lead slot runs from the wall edge to the DRV8833 pocket;
 - the zip-tie anchors are open: two slots and a tunnel under the electronics-side wall (A1) and under the base on the pod side (A2);
@@ -97,14 +107,15 @@ In the pod, check that the JST-PH header slides into its holder from the open ba
 
 ### What to send back
 
-Tell me which hole fitted in each row of the PETG coupon, how each part sat in the mount fit coupon, and anything that was tight or loose. I'll set the parameters in Fusion and re-export.
+Tell me which hole fitted in each row of the PETG coupon, how the cartridge snaps felt, how each part sat in the mount fit coupon, and anything that was tight or loose. I'll set the parameters in Fusion and re-export.
 
 ## Suggested settings
 
 | Part | Material | Layer | Walls | Infill | Supports |
 |---|---|---|---|---|---|
 | N20_PETG_Fit_Coupon | PETG | 0.2 mm | 3 | 20% | none |
-| N20_Cartridge | PETG | 0.16 mm | 3 | 40% | none: printed flange down, the top plate bridges the gearbox cavity |
+| N20_Cartridge | PETG | 0.16 mm | 3 | 40% | none: printed on its side (as the file loads), so the snap arms and latch tongues bend along their layers |
+| N20_Socket_Coupon | PETG | 0.2 mm | 3 | 25% | none (same settings as the mount) |
 | N20_Mount_Fit_Coupon_Wall, _Base | PETG | 0.2 mm | 3 | 25% | none (same layer, walls and infill as the mount, so its fits come out the same) |
 | N20_Mount_Fit_Coupon_Pod | PETG | 0.2 mm | 3 | 20% | **tree supports, allowed on the model**, as for the pod |
 | Adapters, clamps, caps | PETG | 0.12–0.16 mm | 4 | 40% | none |
@@ -119,7 +130,7 @@ Printed flange down, the mount's face plate is a 29 mm bridge between the side w
 
 The full order, with the tool for each step, is in the drive's [assembly order](../../README.md#assembly-order-and-tool-access).
 
-- **Motor:** into the cartridge on the bench, with two **M1.6 × 4** pan-head screws on split lock washers through the counterbores in the top plate. Then the cartridge goes up through the socket in the base, onto the adapter's D-bore, and two **M3 × 8** cap screws hold it from below.
+- **Motor:** no screws. The empty cartridge clicks up into the socket in the base, then the motor pushes up into the cartridge, its shaft into the adapter's D-bore, until the arms click over its end cap. The M1.6 counterbores and M3 flange holes are still there if a snap ever needs backing up with screws.
 - **Clamps:** two **M3 × 8** socket cap screws per clamp, heads in the flat counterbores on the cap. Turn the cap toward an open end of the mount to reach them with a 2.5 mm hex key. With the screws tight, the 5/8 clamp sweeps 14.3 mm from the axis, inside the 0.6 mm relief in both side walls (15.3 mm). Don't use M3 × 10: on the 5/8 clamp the tip would come out of the side.
 - **DRV8833 module:** solder its wires first, then stick it into the pocket on the underside of the base with a square of double-sided foam tape, component side out. Leave its **J1** jumper open.
 - **Diode:** lay it in its channel under the base with the banded end toward the wall, bend the cathode lead round the edge and up to the XIAO's 5V pad, and run the anode lead along its slot to the DRV8833's VCC pin. A dab of glue holds it.

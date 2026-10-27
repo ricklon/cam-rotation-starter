@@ -9,6 +9,10 @@ def rx(deg):
     t = np.radians(deg); c, s = np.cos(t), np.sin(t)
     return np.array([[1, 0, 0], [0, c, -s], [0, s, c]])
 
+def ry(deg):
+    t = np.radians(deg); c, s = np.cos(t), np.sin(t)
+    return np.array([[c, 0, s], [0, 1, 0], [-s, 0, c]])
+
 # part -> (rotation, note). Model frame: z up toward the box wall, +Y toward the control pod.
 # part -> (candidate rotations, note). The candidate with the largest flat contact on the bed wins,
 # so this works whatever frame the STL was exported in.
@@ -16,7 +20,9 @@ FLIP = [np.eye(3), rx(180)]
 SIDE = [rx(90), rx(-90)]
 PLAN = {
     'N20_Mount':              (FLIP, 'flange (wall face) down'),
-    'N20_Cartridge':          (FLIP, 'bottom flange down, motor plate up'),
+    # on its -x face, so the latch tongues stand on the bed and the snap arms and tongues bend along their layers
+    'N20_Cartridge':          ([ry(-90)], 'on its side (-x face down), arms flat along the bed'),
+    'N20_Socket_Coupon':      ([rx(180)], 'socket coupon: plate top down, as the mount'),
     'N20_Control_Pod':        (SIDE + FLIP, 'front panel down, open back up'),
     'N20_PETG_Fit_Coupon':    (FLIP, 'flat side down, labels up'),
     # mount fit coupon pieces: always flipped, so each prints the way the mount and pod do, whichever face has more contact
