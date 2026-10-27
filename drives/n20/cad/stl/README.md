@@ -33,6 +33,8 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 
 **Updated 2026-10-27 (version 14): snap-fit motor and cartridge.** Reprint `N20_Cartridge` (it now prints on its side) and `N20_Mount` (latch pockets in the socket). New: `N20_Socket_Coupon`, the mount round the socket, to test the latch before the mount. No screws are needed; see [Snap-fit motor](../../README.md#snap-fit-motor-2026-10-27).
 
+**Updated 2026-10-27 (version 15): all six adapters and clamps** (`N20_Adapter_075`, `_0625`, `_025`, `_075_Sleeved`, `_Clamp_0625`, `_Clamp_025`; the caps didn't change). Each has an M3 × 5 set screw that presses on the motor shaft's flat: a 2.5 mm pilot from the bore, with a 3.4 mm access hole to the outside, 2.8 mm above the D-bore end.
+
 ## Test prints, in order
 
 Each step checks something before you commit to a longer print. Print these in PETG if that's what the full build will be: PETG holes come out a little different from PLA's.
@@ -47,7 +49,7 @@ Every hole has its size engraved under it. Find the one that fits in each row an
 |---|---|---|---|
 | 5/8" dowel | +0.2 … +0.6 (mm over 15.875) | The hole the dowel **slides and turns in** freely is the bushing clearance; the one it **pushes into snugly** is the adapter socket clearance. | `hole_clear` (0.5) and `fit_clear` (0.3) |
 | M3 clearance | C3.2, C3.4, C3.6 | The smallest an M3 screw drops through. | `clamp_clear` and `cart_m3_clear` (3.4) |
-| M3 pilot | P2.4, P2.5, P2.6 (6.5 mm deep) | Drive an M3 × 8 in: it should cut its thread firmly without splitting the plastic. | `clamp_pilot` and `cart_m3_pilot` (2.5) |
+| M3 pilot | P2.4, P2.5, P2.6 (6.5 mm deep) | Drive an M3 × 8 in: it should cut its thread firmly without splitting the plastic. | `clamp_pilot` (also the adapters' shaft set screw) and `cart_m3_pilot` (2.5) |
 | M3 cap head | H5.8, H6.0, H6.2 (3.2 mm deep) | The socket cap head drops in and sits flat, flush or just below. | `clamp_cbore` (6.0) |
 | M1.6 clearance | 1.7, 1.9, 2.1 (in the 3 mm strip) | The smallest an M1.6 screw drops through. | `m16_clear` (1.9) |
 | M1.6 counterbore | c3.6, c3.8, c4.0 (1.5 mm deep) | Pan head on a split lock washer sits flush. | `m16_cbore` (3.8) |
@@ -90,7 +92,7 @@ Skip these if you've done them for the MG90S drive. Follow steps 1 and 3 of the 
 
 ### 5. One adapter for your dowel
 
-Print the adapter for the dowel you'll use (`N20_Adapter_075`, `_0625` or `_025`; the clamp version plus its cap if the dowel is sanded). Check that it slides onto the motor shaft with the flat lined up, and that the dowel pushes into the socket snugly.
+Print the adapter for the dowel you'll use (`N20_Adapter_075`, `_0625` or `_025`; the clamp version plus its cap if the dowel is sanded). Check that it slides onto the motor shaft with the flat lined up, and that the dowel pushes into the socket snugly. Then drive the M3 × 5 set screw in with a 1.5 mm hex key: it should cut its thread and pinch the shaft's flat so the adapter can't turn on it, without stripping.
 
 ### 6. `N20_Mount` and `N20_Control_Pod` (the long prints)
 
@@ -131,6 +133,7 @@ Printed flange down, the mount's face plate is a 29 mm bridge between the side w
 The full order, with the tool for each step, is in the drive's [assembly order](../../README.md#assembly-order-and-tool-access).
 
 - **Motor:** no screws. The empty cartridge clicks up into the socket in the base, then the motor pushes up into the cartridge, its shaft into the adapter's D-bore, until the arms click over its end cap. The M1.6 counterbores and M3 flange holes are still there if a snap ever needs backing up with screws.
+- **Shaft set screw:** one **M3 × 5** set screw in every adapter and clamp, near the D-bore end, tightened onto the shaft's flat with a 1.5 mm hex key through an open end of the mount once the motor is in.
 - **Clamps:** two **M3 × 8** socket cap screws per clamp, heads in the flat counterbores on the cap. Turn the cap toward an open end of the mount to reach them with a 2.5 mm hex key. With the screws tight, the 5/8 clamp sweeps 14.3 mm from the axis, inside the 0.6 mm relief in both side walls (15.3 mm). Don't use M3 × 10: on the 5/8 clamp the tip would come out of the side.
 - **DRV8833 module:** solder its wires first, then stick it into the pocket on the underside of the base with a square of double-sided foam tape, component side out. Leave its **J1** jumper open.
 - **Diode:** lay it in its channel under the base with the banded end toward the wall, bend the cathode lead round the edge and up to the XIAO's 5V pad, and run the anode lead along its slot to the DRV8833's VCC pin. A dab of glue holds it.
