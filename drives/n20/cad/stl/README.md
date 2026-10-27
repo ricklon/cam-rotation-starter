@@ -28,6 +28,8 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 
 **Added 2026-10-26 (version 11): `N20_Mount_Fit_Coupon_Wall`, `_Base` and `_Pod`,** pieces of the real mount and pod that check the capacitor, diode, board, cartridge, zip-tie and connector fits before the long prints. Nothing else changed.
 
+**Updated 2026-10-27 (version 13): `N20_Mount` only.** The slot between the base and the N20 plate, open at both ends, is now solid, so supports can't get trapped in it (sliced on an A1 with build-plate supports: none there now, and the print drops from about 3 h to 2 h 50 min; 6.6 g more PETG). The cartridge socket and its M3 pilots still cut through it. The wall and base coupon files changed by the same fill, but their fits didn't, so coupons you've already printed still count.
+
 ## Test prints, in order
 
 Each step checks something before you commit to a longer print. Print these in PETG if that's what the full build will be: PETG holes come out a little different from PLA's.
@@ -107,11 +109,11 @@ Tell me which hole fitted in each row of the PETG coupon, how each part sat in t
 | N20_Mount_Fit_Coupon_Pod | PETG | 0.2 mm | 3 | 20% | **tree supports, allowed on the model**, as for the pod |
 | Adapters, clamps, caps | PETG | 0.12–0.16 mm | 4 | 40% | none |
 | N20_Control_Pod | PETG | 0.2 mm | 3 | 20% | **tree supports, allowed on the model** (not build plate only): printed front panel down, the JST holder starts in mid-air above the front panel's inside face |
-| N20_Mount | PETG | 0.2 mm | 3 | 25% | **yes**, build plate only, under the base |
+| N20_Mount | PETG | 0.2 mm | 3 | 25% | **yes**, build plate only: under the face plate (through the bushing hole) and the PD pad |
 
 PETG notes: print a little slower and hotter than PLA, turn off ironing, and use a glue stick or textured sheet on smooth PEI (PETG can bond too well). Holes usually come out slightly smaller than in PLA, which is what the coupon is for.
 
-Printed flange down, the mount's face plate is a 29 mm bridge between the side walls, now with the cartridge socket through it. If yours sags, turn on supports everywhere (not just from the build plate) for that print. The PD board's pad also leaves a 3.5 mm overhang facing the bed; build-plate supports reach it.
+Printed flange down, the mount's face plate is a 29 mm bridge between the side walls, now with the cartridge socket through it. The supports under it stand in the open space the adapter turns in and come out through the open ends; the narrower slot above the plate, under the base, is filled solid so nothing gets trapped there. If yours sags, turn on supports everywhere (not just from the build plate) for that print. The PD board's pad also leaves a 3.5 mm overhang facing the bed; build-plate supports reach it.
 
 ## Fitting the motor, the driver and the panel
 
