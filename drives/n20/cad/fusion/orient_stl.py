@@ -23,6 +23,7 @@ PLAN = {
     # on its -x face, so the latch tongues stand on the bed and the snap arms and tongues bend along their layers
     'N20_Cartridge':          ([ry(-90)], 'on its side (-x face down), arms flat along the bed'),
     'N20_Socket_Coupon':      ([rx(180)], 'socket coupon: plate top down, as the mount'),
+    'N20_Latch_Key':          ([ry(-90)], 'flat on its side, the U on the bed'),
     'N20_Control_Pod':        (SIDE + FLIP, 'front panel down, open back up'),
     'N20_PETG_Fit_Coupon':    (FLIP, 'flat side down, labels up'),
     # mount fit coupon pieces: always flipped, so each prints the way the mount and pod do, whichever face has more contact

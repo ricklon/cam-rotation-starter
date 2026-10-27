@@ -6,8 +6,9 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 | Part | Orientation | Size on bed (mm) | Bed contact (mm²) |
 |---|---|---|---|
 | N20_Mount | flange (wall face) down | 109.0 × 44.8 × 48.6 | 3858 |
-| N20_Cartridge | on its side (-x face down), arms flat along the bed | 28.8 × 29.0 × 15.0 | 270 |
-| N20_Socket_Coupon | socket coupon: plate top down, as the mount | 20.5 × 27.0 × 12.4 | 341 |
+| N20_Cartridge | on its side (-x face down), arms flat along the bed | 28.8 × 29.0 × 15.0 | 271 |
+| N20_Socket_Coupon | socket coupon: plate top down, as the mount | 20.5 × 27.0 × 12.4 | 318 |
+| N20_Latch_Key | flat on its side, the U on the bed | 12.2 × 16.7 × 7.0 | 109 |
 | N20_Control_Pod | front panel down, open back up | 39.2 × 38.0 × 24.0 | 955 |
 | N20_PETG_Fit_Coupon | flat side down, labels up | 100.0 × 44.0 × 6.5 | 3085 |
 | N20_Mount_Fit_Coupon_Wall | mount fit coupon: wall top down, as the mount | 32.0 × 11.2 × 36.4 | 192 |
@@ -37,6 +38,8 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 
 **Updated 2026-10-27 (version 16): tighter, locked snap fit.** Reprint `N20_Cartridge`, `N20_Socket_Coupon` and `N20_Mount`. The hooks are set for a 24.1 mm motor (measured), 1.2 mm deep and barbed, with ribs for a zip tie that locks the arms; the latch bumps are 1.4 mm with a steep lower face, in deeper pockets. See [Snap-fit motor](../../README.md#snap-fit-motor-2026-10-27).
 
+**Updated 2026-10-27 (version 18): hard catch on the cartridge latch.** Reprint `N20_Cartridge`, `N20_Socket_Coupon` and `N20_Mount`, and print the new `N20_Latch_Key` (4 min). The latch bumps now have a square catch face, the socket is 0.1 mm tighter a side (`cart_clear` 0.2 mm), and the pockets the bumps click into are now slots open to the top of the base, where the key goes in to release the cartridge. The hooks, arms and zip tie didn't change. See [Snap-fit motor](../../README.md#snap-fit-motor-2026-10-27).
+
 ## Test prints, in order
 
 Each step checks something before you commit to a longer print. Print these in PETG if that's what the full build will be: PETG holes come out a little different from PLA's.
@@ -57,19 +60,21 @@ Every hole has its size engraved under it. Find the one that fits in each row an
 | M1.6 counterbore | c3.6, c3.8, c4.0 (1.5 mm deep) | Pan head on a split lock washer sits flush. | `m16_cbore` (3.8) |
 | D-bore | .10 … .30 (clearance per side) | Push the motor shaft in, flat to flat: the one that goes on by hand without wobble. | `n20_bore_clear` (0.15) |
 
-### 2. `N20_Cartridge` and `N20_Socket_Coupon` (about 22 + 15 min, 3 + 5 g)
+### 2. `N20_Cartridge`, `N20_Socket_Coupon` and `N20_Latch_Key` (about 22 + 15 + 4 min, 3 + 5 + 1 g)
 
 ![The cartridge with the motor in it, from the side: the shaft out of the top plate, a latch tongue cut into the side wall with its bump near the top, the flange, and below it a snap arm along the motor with its hook over the end cap, and a black zip tie round both arms between their ribs.](../../docs/images/cartridge.png)
 
-Print both the way they load, with no supports: the cartridge lies on its side, the socket coupon on its plate face like the mount. **Before printing, measure your motor** from the gearbox face to the back of the end cap. The hooks are set for 24.1 mm (`n20_len`), so tell me if yours differs.
+Print them the way they load, with no supports: the cartridge lies on its side, the socket coupon on its plate face like the mount, the key flat. The coupon is the mount's own socket, cut out of it, so a latch that holds here holds in the mount. The catch face in each slot prints as a short bridge. **Before printing, measure your motor** from the gearbox face to the back of the end cap. The hooks are set for 24.1 mm (`n20_len`), so tell me if yours differs.
 
 | Check | If it's wrong |
 |---|---|
 | The motor pushes up into the cartridge until its gearbox face meets the top plate, and both arms click over the end cap. It shouldn't rattle up and down. | Won't click: the motor is longer than `n20_len`. Rattles: it's shorter. Measure it and tell me. Gearbox tight in the sleeve: raise `n20_clear` (0.3 mm). |
 | Pulling the motor down (without the zip tie) doesn't release it: the barbed hooks hold. Spreading both arms by hand does, without the arms whitening or staying bent. | Releases on a pull: tell me, the barb or hook depth can grow. Arms whiten: they can be made longer or thinner. |
 | A 2.5 mm zip tie sits between the two ribs on the arms (the dark band in the picture above) and, pulled tight, stops them spreading at all. | Tie slips over a rib: tell me, the ribs can be taller. |
-| The **empty** cartridge pushes up into the socket coupon until both latches click and the flange sits flat, with almost no up-and-down play. Empty, it pulls out only with a firm tug on the flange. | Too stiff or won't click: tell me how it felt; the bumps or the tongue slits can change. |
-| With the motor in, the cartridge won't pull out of the socket coupon at all. | It still comes out: tell me; the bumps can grow again or the tongues can be padded closer to the gearbox. |
+| The **empty** cartridge pushes up into the socket coupon until both latches click and the flange sits flat, with almost no up-and-down or side-to-side play. Looking down into the two slots in the top, you can see both bumps. | Too stiff or won't click: tell me how it felt; the bumps or the tongue slits can change. Won't go in at all: the socket is too tight for your printer; `cart_clear` can go back up. |
+| **Pull test, empty:** hold the coupon and pull the cartridge down hard by its flange. It shouldn't come out. | It comes out: tell me whether the bumps or the ledges in the slots look rounded or crushed. |
+| **Pull test, motor in:** fit the motor and zip tie, then hang about 1 kg (a full 1 L water bottle) from the motor, or pull on it as hard as you would in class. Nothing moves. | It comes out: tell me which gave way: the bumps, the ledges, or the motor out of the cartridge. |
+| **Release:** motor out, push the key down into both slots until it stops; the cartridge then slides out of the socket from below with a light pull. | Key won't go in: the slots or prongs are tight; tell me. Cartridge still holds: the key isn't pressing the tongues in far enough; tell me. |
 
 ### 3. `N20_Mount_Fit_Coupon_Wall`, `_Base` and `_Pod` (about 13 g together)
 
@@ -121,6 +126,7 @@ Tell me which hole fitted in each row of the PETG coupon, how the cartridge snap
 | N20_PETG_Fit_Coupon | PETG | 0.2 mm | 3 | 20% | none |
 | N20_Cartridge | PETG | 0.16 mm | 3 | 40% | none: printed on its side (as the file loads), so the snap arms and latch tongues bend along their layers |
 | N20_Socket_Coupon | PETG | 0.2 mm | 3 | 25% | none (same settings as the mount) |
+| N20_Latch_Key | PETG | 0.16 mm | 3 | 40% | none: printed flat, as the file loads |
 | N20_Mount_Fit_Coupon_Wall, _Base | PETG | 0.2 mm | 3 | 25% | none (same layer, walls and infill as the mount, so its fits come out the same) |
 | N20_Mount_Fit_Coupon_Pod | PETG | 0.2 mm | 3 | 20% | **tree supports, allowed on the model**, as for the pod |
 | Adapters, clamps, caps | PETG | 0.12–0.16 mm | 4 | 40% | none |

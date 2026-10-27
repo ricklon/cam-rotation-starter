@@ -16,6 +16,8 @@ SHOTS = {
         move={'N20_Cartridge': (0, 0, -32), 'N20 DC MOTOR': (0, 0, -32), 'HW_Arm_Zip_Tie': (0, 0, -32)},
         eye=(170, -220, -40), target=(0, 0, -12), ortho=True, extent=130),
     'cartridge': dict(show=CART, eye=(60, -150, -30), target=(0, 0, -11), ortho=True, extent=50),
+    'latch_key': dict(show=('N20_Socket_Coupon', 'N20_Cartridge', 'N20_Latch_Key'), move={'N20_Latch_Key': (0, 0, 14)},
+        eye=(-260, -70, 150), target=(-3, 0, 1), ortho=True, extent=44),
     'clamp_0625_caphead': dict(show=('Adapter_Clamp_0625', 'HW_Clamp0625_Screws'), eye=(80, 220, 90), target=(0, 3, 17), ortho=True, extent=42),
     'pod_jst': dict(show=POD + ('Wiring',), wires=('p J3 pin', 'p button', 'J1 ', 'J2 '), opacity={'Control_Pod': 0.45}, eye=(-90, -160, 70), target=(1, 32, 13), ortho=True, extent=46),
     'petg_fit_coupon': dict(show=('PETG_Fit_Coupon',), eye=(200, 0, 300), target=(200, 0, -7), up=(0, 1, 0), ortho=True, extent=108),
