@@ -33,7 +33,7 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 | — | 2 per clamp | **M3 × 8** socket cap screws | Clamp caps. M3 × 10 is too long for the 5/8 clamp: its tip would come out of the side. |
 | — | 1 | Double-sided foam tape, about 15 × 15 mm | Holds the DRV8833 module in its pocket. |
 | — | 1 | 0.1 µF ceramic capacitor | Solder across the N20's terminals to cut electrical noise. |
-| — | 3–4 | Small zip ties, 2.5 mm wide | Through the tie anchors under the wall (power wires) and under the base (motor wires). |
+| — | 4–5 | Small zip ties, 2.5 mm wide | Through the tie anchors under the wall (power wires) and under the base (motor wires), and one round the cartridge's motor arms to lock them. |
 | — | — | Hot glue or CA | A dab to hold D1 in its channel and the J3 header in its holder. |
 
 ## Wiring plan
@@ -77,9 +77,10 @@ To check on hardware: the lowest speed at which your N20 still turns under the c
 
 No screws hold the motor or the cartridge any more.
 
-- **Motor into the cartridge:** two 1.5 mm arms run down the motor's flat sides from the cartridge flange and hook 0.8 mm over the back of the end cap. Push the motor up into the cartridge until the arms click; spread them to take it out. The hooks sit `n20_len` (25.1 mm, from the N20 reference model) below the gearbox face, 0.1 mm behind the end cap. **Measure your motor** from the gearbox face to the back of the end cap: if it isn't 25.1 mm, set `n20_len` before printing.
-- **Cartridge into the mount:** each side wall of the cartridge has a 1.2 mm tongue with a 1 mm bump that clicks into a pocket in the socket. The cartridge goes in **empty**; once the motor is in, the gearbox stops the tongues flexing, so the cartridge can't come out until the motor does.
-- **Printing:** the cartridge prints on its side, so the arms and tongues bend along their layers, PETG's strong direction. Bending stays at about 1.3% (arms) and 2% (tongues), against PETG's yield of about 4–5%.
+- **Motor into the cartridge:** two 1.5 mm arms run down the motor's flat sides from the cartridge flange and hook 1.2 mm over the back of the end cap. The hooks' top faces are barbed (0.2 mm higher at the tip), so a pull on the motor draws the arms in rather than spreading them. Push the motor up into the cartridge until the arms click, then put a **2.5 mm zip tie** round both arms between the two ribs on their outside: with it tight the arms can't spread, so the motor can't come out until the tie is cut. The hooks sit `n20_len` below the gearbox face, 0.1 mm behind the end cap: 24.1 mm, measured on our motor (the N20 reference model in Fusion is 25.1 mm, so it overlaps the hooks by 1 mm in the model). Measure yours and set `n20_len` if it differs.
+- **Cartridge into the mount:** each side wall of the cartridge has a 1.2 mm tongue with a 1.4 mm bump that clicks into a pocket near the top of the socket. The bump's lower face is steep (about 70°), so it holds against a pull; its top is a 45° lead-in. The cartridge goes in **empty**; once the motor is in, the gearbox lets each tongue flex only 0.3 mm, leaving the bump 0.8 mm into its pocket, so the cartridge can't come out until the motor does. It drops at most about 0.2 mm before the bump catches.
+- **First version (2026-10-27 morning):** 0.8 mm hooks set for a 25.1 mm motor and 1 mm, 45° bumps let go under almost any pressure: the motor was 1 mm shorter than the hooks, and with the motor in the bumps only overlapped about 0.4 mm on a 45° face.
+- **Printing:** the cartridge prints on its side, so the arms and tongues bend along their layers, PETG's strong direction. Snapping in bends them about 2% (arms) and 2.5% (tongues), against PETG's yield of about 4–5%.
 - **Wiring:** W14 and W15 now run down the motor's round side between the arms, and W15 crosses behind the end cap inside the hooks. Their cut lengths didn't change.
 - **Fallback:** the M1.6 and M3 screw holes are still there.
 
@@ -102,7 +103,7 @@ From the change request after the first build attempt:
 
 ![The N20 in its cartridge, pulled down out of the mount's socket (shown see-through): the gearbox sits in the printed sleeve with a latch tongue and its bump on the side wall above the flange, and the motor hangs below between the snap arms.](docs/images/cartridge_exploded.png)
 
-![The cartridge with the motor in it, from the side: the shaft out of the top plate, a latch tongue cut into the side wall with its bump near the top, the flange with an unused M3 hole, and below it a snap arm along the motor with its hook over the end cap, the motor terminals showing underneath.](docs/images/cartridge.png)
+![The cartridge with the motor in it, from the side: the shaft out of the top plate, a latch tongue cut into the side wall with its bump near the top, the flange with an unused M3 hole, and below it a snap arm along the motor with two ribs across it for the zip tie and its hook over the end cap, the motor terminals showing underneath.](docs/images/cartridge.png)
 
 ![The 5/8 split clamp with its two M3 socket cap screws seated flat in their counterbores on the cap.](docs/images/clamp_0625_caphead.png)
 
@@ -117,8 +118,8 @@ Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and ro
 5. **Dowel through** the bushing.
 6. **Adapter or clamp on the dowel, then tighten.** Start the M3 × 5 set screw in its hole near the bottom, just short of the bore. Turn the clamp so its cap faces an open end of the mount; both cap screws then point out of that end, and a 2.5 mm hex key goes straight in.
 7. **Cartridge in, empty.** From below, push `N20_Cartridge` up into the socket in the base until both latches click and the flange sits flat under the base.
-8. **Motor in.** Push the wired motor up into the cartridge so the D-shaft enters the adapter's bore (turn the dowel to line up the flat), until the arms click over the end cap. W14 and W15 run down the motor's open side, between the arms.
-9. **Set screw.** Turn the dowel until the set screw faces an open end of the mount, just above the face plate, and tighten it onto the shaft's flat with a 1.5 mm hex key: firm, not forced, or it strips the plastic. To take the drive apart, loosen it, spread the cartridge arms, pull the motor down, then pull the cartridge out by its flange.
+8. **Motor in.** Push the wired motor up into the cartridge so the D-shaft enters the adapter's bore (turn the dowel to line up the flat), until the arms click over the end cap. W14 and W15 run down the motor's open side, between the arms. Put a zip tie round both arms between their ribs and pull it tight; it also holds W14 and W15 against the motor.
+9. **Set screw.** Turn the dowel until the set screw faces an open end of the mount, just above the face plate, and tighten it onto the shaft's flat with a 1.5 mm hex key: firm, not forced, or it strips the plastic. To take the drive apart, loosen it, cut the arms' zip tie, spread the arms, pull the motor down, then pull the cartridge out by its flange.
 10. **Control panel.** Plug J3 into the header in the pod, then screw the pod on (four M3 screws, as before). Reverse this to take it off.
 
 ## Fusion design
@@ -139,7 +140,7 @@ Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and ro
 | `n20_hole_x`, `n20_hole_y` | 4.5, 0 mm | Face screw holes, at (+x, +y) and (−x, −y): 4.5, 0 is the inline pair; 3.8, 2.8 the diagonal pair |
 | `n20_shaft_hole` | 4.5 mm | Shaft hole in the cartridge plate |
 | `shaft_screw_z`, `shaft_screw_pilot_r` | 2.8, 5.6 mm | The M3 set screw onto the shaft's flat in every adapter: its height above the adapter's bottom face (the shaft goes 5.1 mm in), and how far out the `clamp_pilot` hole runs before the `clamp_clear` access hole |
-| `n20_len` | 25.1 mm | The motor from the gearbox face to the back of the end cap: where the cartridge's snap hooks sit (0.1 mm behind it) |
+| `n20_len` | 24.1 mm | The motor from the gearbox face to the back of the end cap, measured: where the cartridge's snap hooks, their barbs and the zip-tie ribs sit (hooks 0.1 mm behind the end cap) |
 | `n20_shaft_dia`, `n20_flat` | 3.0, 2.5 mm | The motor shaft and its D flat |
 | `n20_bore_clear` | 0.15 mm | D-bore clearance; set it from the fit coupon |
 | `drv_len`, `drv_wid`, `drv_thk` | 18.5, 16, 1.6 mm | The DRV8833 module |
@@ -153,7 +154,7 @@ Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and ro
 | `c1_seat_dia`, `c1_seat_depth`, `c1_seat_h`, `c1_seat_z0` | 8.0, 4.9, 14, −1.3 mm | Capacitor seat |
 | `d1_x`, `d1_axis_z`, `d1_y0`, `d1_len`, `d1_seat_dia`, `d1_lead_slot` | 19.42, −10.6, −19, 6.4, 2.9, 1.1 mm | Diode channel and lead slot under the base |
 
-`d1_x`, `d1_axis_z` and `cart_ear_y` record where the diode channel and the cartridge screws are; their sketches use those numbers but aren't linked to the parameters, so move those sketches as well if you change them. The cartridge's M1.6 holes do follow `n20_hole_x`/`n20_hole_y`. The snap arms and hooks follow `n20_len`; the rest of the snap fit is sketch numbers (arms 1.5 mm, hooks 0.8 mm, tongues 1.2 mm in 0.6 mm slits, bumps 1.0 mm), so change those sketches to tune it.
+`d1_x`, `d1_axis_z` and `cart_ear_y` record where the diode channel and the cartridge screws are; their sketches use those numbers but aren't linked to the parameters, so move those sketches as well if you change them. The cartridge's M1.6 holes do follow `n20_hole_x`/`n20_hole_y`. The snap arms, hooks, barbs and tie ribs follow `n20_len`; the rest of the snap fit is sketch numbers (arms 1.5 mm, hooks 1.2 mm with a 0.2 mm barb, tongues 1.2 mm in 0.6 mm slits, bumps 1.4 mm, socket pockets 1.5 mm deep from z −3.7 to −1.3), so change those sketches to tune it.
 
 ## Folder layout
 
