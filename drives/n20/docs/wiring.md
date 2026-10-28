@@ -49,7 +49,9 @@ The module has two rows of six pins. Seen from the back, where the labels are pr
 
 Fit the module with the IN row toward the wall that carries the XIAO. Bold pins are used. Channel B is used because its pins line up with the XIAO's bottom row: IN4, IN3, GND and VCC sit directly under D9, D10, GND and 5V, so those wires drop straight down. Solder the wires from the component side; the pocket has a 2.5 mm relief under each pin row for the wire ends.
 
-![The underside of the mount: the N20 hangs in its cartridge on the dowel axis, held by two snap arms with a black zip tie round them; the flange's two M3 holes are empty. The DRV8833 module is taped under the base beside it, and the diode D1 lies in its channel between the module and the electronics-side wall. Red and black power wires run along under the wall from the groove; orange, brown and gray signal wires drop from the XIAO's bottom row to the module; white and blue wires run from the module down the motor's side, inside the zip tie, to the motor terminals.](images/wiring_under_base.png)
+![The underside of the mount: the N20 hangs in its cartridge on the dowel axis, held by two snap arms with a black zip tie round them; the flange's two M3 holes are empty. The DRV8833 module is taped under the base beside it, and the diode D1 lies in its channel between the module and the electronics-side wall. Red and black power wires run along under the wall from the groove; orange, brown and gray signal wires drop from the XIAO's bottom row to the module; white and blue wires run from the module through a black zip tie at anchor A2, then down the motor's side, inside the arms' zip tie, to the motor terminals. A second black zip tie at anchor A1, lower right, holds the red and black power wires.](images/wiring_under_base.png)
+
+**Zip-tie anchors.** The underside has two, each a pair of small rectangular slots 3 mm long with a bar between them: the tie goes up one slot, over the bar through a tunnel inside the base, down the other slot and round the wires. **A1** is under the electronics-side wall, for W1 and W2. **A2** is beside the DRV8833 pocket on the pod side, for W14 and W15. Both ties are modelled in place in Fusion (`HW_Anchor_Zip_Ties`). The two round holes either side of the cartridge socket aren't tie holes: they're the M3 pilots for the optional cartridge screws.
 
 ![Straight-on view of the electronics side: the 470 µF capacitor in its seat beside the XIAO, the PD board above, the control wires over the top of the XIAO, and the power and signal wires dropping from the XIAO's bottom row.](images/wiring_electronics.png)
 
@@ -86,7 +88,7 @@ Follow this table one wire at a time and tick each off. The colours match the 3D
 | W12 | brown | XIAO D9 | U3 IN4 | Beside W5. |
 | W13 | gray | XIAO D8 | U3 EEP | Down, then along under the base beside the cartridge flange to the far pin row. |
 | **Motor, 22–26 AWG** | | | | |
-| W14 | white | U3 OUT3 | M1 terminal (either) | If the motor runs backwards, swap W14 and W15 at the motor. Zip-tie both at anchor A2. |
+| W14 | white | U3 OUT3 | M1 terminal (either) | Along under the base, through anchor A2 beside W15, then down the motor's open side. If the motor runs backwards, swap W14 and W15 at the motor. Zip-tie both at anchor A2. |
 | W15 | blue | U3 OUT4 | M1 other terminal | Down the motor's open side with W14, then behind the end cap, inside the cartridge's snap hooks, to the far terminal. |
 | C2 | — | M1 terminal | M1 other terminal | Solder its legs to the terminals with the wires. |
 | **Control harness, mount side, 30 AWG: XIAO → groove → base channel → tunnel → J3 housing** | | | | |
@@ -143,8 +145,8 @@ Lengths measured along the routes in the 3D model, plus 15% slack and 5 mm per e
 | W5 | orange | 30 AWG | 21 mm | **35** |
 | W12 | brown | 30 AWG | 21 mm | **35** |
 | W13 | gray | 30 AWG | 39 mm | **55** |
-| W14 | white | 22–26 AWG | 31 mm | **50** |
-| W15 | blue | 22–26 AWG | 42 mm | **60** |
+| W14 | white | 22–26 AWG | 35 mm | **55** |
+| W15 | blue | 22–26 AWG | 47 mm | **65** |
 | W6 | white | 30 AWG | 126 mm | **160** |
 | W7 | yellow | 30 AWG | 123 mm | **155** |
 | W8 | violet | 30 AWG | 141 mm | **175** |
