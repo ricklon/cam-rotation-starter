@@ -7,6 +7,7 @@ The design lives in Autodesk Fusion, as the document *Cam Rotation N20* in Movem
 | [`step/`](step) | `cam-rotation-n20.step`, the full assembly (opens in FreeCAD, Onshape, SolidWorks and most CAD tools), and `cam-rotation-n20.f3d`, a Fusion archive with the full parametric history |
 | [`stl/`](stl/README.md) | Print-ready parts for this drive, already oriented, with print settings and the test-print order. Bushings, dowel gauges and shims come from [the MG90S drive](../../mg90s/cad/stl/README.md). |
 | [`fusion/`](fusion) | Python scripts run inside Fusion (wiring, renders) and on the command line (STL orientation) |
+| [`solidcraft/`](solidcraft) | A trial rebuild in SolidCraft 0.26.1 from Fusion version 22: `N20 SolidCraft v22.solidcraft`, the [pipeline](solidcraft/pipeline/README.md) that builds it, and [bug repros](solidcraft/repros/README.md) for SolidCraft's developers. The printed parts are built natively except the mount, which is Fusion's STEP until SolidCraft can build it; the bought parts are STEP imports. Fusion is still the design of record. |
 
 ## Opening the parametric model
 

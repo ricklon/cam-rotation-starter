@@ -1,0 +1,943 @@
+{
+ "ops": [
+  {
+   "i": 275,
+   "name": "Extrude1",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_Clamp_025",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     4.200000000000001
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "Sketch1",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         0.0,
+         0.0
+        ],
+        "r": 6.325000000000001
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "new",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 24.000000000000004
+   },
+   "participants": [],
+   "bodies": [
+    "Adapter_Clamp_025"
+   ],
+   "vols": {
+    "Adapter_Clamp_025": 3016.3530624543087
+   }
+  },
+  {
+   "i": 278,
+   "name": "Extrude2",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_Clamp_025",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     10.200000000000003
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "Sketch2",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         0.0,
+         0.0
+        ],
+        "r": 3.325
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 18.0
+   },
+   "participants": [
+    "Adapter_Clamp_025"
+   ],
+   "bodies": [
+    "Adapter_Clamp_025"
+   ],
+   "vols": {
+    "Adapter_Clamp_025": 2391.1721973991494
+   }
+  },
+  {
+   "i": 280,
+   "name": "Extrude3",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_Clamp_025",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     4.200000000000001
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "Sketch3",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         0.0,
+         0.0
+        ],
+        "r": 1.5750000000000002
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 6.000000000000001
+   },
+   "participants": [
+    "Adapter_Clamp_025"
+   ],
+   "bodies": [
+    "Adapter_Clamp_025"
+   ],
+   "vols": {
+    "Adapter_Clamp_025": 2344.4135177412845
+   }
+  },
+  {
+   "i": 290,
+   "name": "Chamfer1",
+   "type": "ChamferFeature",
+   "comp": "Adapter_Clamp_025",
+   "sets": [
+    {
+     "type": "EqualDistanceChamferEdgeSet",
+     "edges": [
+      {
+       "p": [
+        4.329760444998957,
+        -4.610726568440428,
+        4.200000000000001
+       ],
+       "body": "Adapter_Clamp_025"
+      },
+      {
+       "p": [
+        1.078161691837685,
+        -1.1481255881887233,
+        4.200000000000001
+       ],
+       "body": "Adapter_Clamp_025"
+      }
+     ],
+     "d": 0.4000000000000001
+    }
+   ],
+   "vols": {
+    "Adapter_Clamp_025": 2340.4425446271466
+   }
+  },
+  {
+   "i": 291,
+   "name": "Chamfer2",
+   "type": "ChamferFeature",
+   "comp": "Adapter_Clamp_025",
+   "sets": [
+    {
+     "type": "EqualDistanceChamferEdgeSet",
+     "edges": [
+      {
+       "p": [
+        2.2761191272128904,
+        2.4238206861761933,
+        28.200000000000003
+       ],
+       "body": "Adapter_Clamp_025"
+      }
+     ],
+     "d": 0.6
+    }
+   ],
+   "vols": {
+    "Adapter_Clamp_025": 2336.455863549741
+   }
+  },
+  {
+   "i": 298,
+   "name": "Clamp ring (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_Clamp_025",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     10.200000000000003
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "Clamp ring",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         0.0,
+         0.0
+        ],
+        "r": 10.0
+       }
+      ]
+     },
+     {
+      "outer": false,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         0.0,
+         0.0
+        ],
+        "r": 3.325
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "join",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 18.0
+   },
+   "participants": [
+    "Adapter_Clamp_025"
+   ],
+   "bodies": [
+    "Adapter_Clamp_025"
+   ],
+   "vols": {
+    "Adapter_Clamp_025": 5733.044524247802
+   }
+  },
+  {
+   "i": 300,
+   "name": "Clamp gap (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_Clamp_025",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     10.200000000000003
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "Clamp gap",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "line",
+        "p": [
+         [
+          16.0,
+          -0.75
+         ],
+         [
+          16.0,
+          0.75
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          16.0,
+          0.75
+         ],
+         [
+          -16.0,
+          0.75
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -16.0,
+          0.75
+         ],
+         [
+          -16.0,
+          -0.75
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -16.0,
+          -0.75
+         ],
+         [
+          16.0,
+          -0.75
+         ]
+        ]
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 19.0
+   },
+   "participants": [
+    "Adapter_Clamp_025"
+   ],
+   "bodies": [
+    "Adapter_Clamp_025"
+   ],
+   "vols": {
+    "Adapter_Clamp_025": 5371.566809399703
+   }
+  },
+  {
+   "i": 302,
+   "name": "Cap relief (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_Clamp_025",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     10.200000000000003
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "Cap relief",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "line",
+        "p": [
+         [
+          -16.0,
+          16.0
+         ],
+         [
+          -16.0,
+          0.7499999999999996
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -16.0,
+          0.7499999999999996
+         ],
+         [
+          16.0,
+          0.75
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          16.0,
+          0.75
+         ],
+         [
+          16.0,
+          16.0
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          16.0,
+          16.0
+         ],
+         [
+          -16.0,
+          16.0
+         ]
+        ]
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 0.5
+   },
+   "participants": [
+    "Adapter_Clamp_025"
+   ],
+   "bodies": [
+    "Adapter_Clamp_025",
+    "Clamp_025 cap"
+   ],
+   "vols": {
+    "Adapter_Clamp_025": 3037.46271112063,
+    "Clamp_025 cap": 2269.267873326846
+   }
+  },
+  {
+   "i": 310,
+   "name": "Clamp clearance (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_Clamp_025",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     4.200000000000001
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   },
+   "sketch": "Clamp clearance",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         5.9,
+         -15.250000000000002
+        ],
+        "r": 1.7000000000000004
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         -5.9,
+         -15.250000000000002
+        ],
+        "r": 1.7000000000000004
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 20.0
+   },
+   "participants": [
+    "Clamp_025 cap"
+   ],
+   "bodies": [
+    "Clamp_025 cap"
+   ],
+   "vols": {
+    "Adapter_Clamp_025": 3037.46271112063,
+    "Clamp_025 cap": 2137.179989670867
+   }
+  },
+  {
+   "i": 314,
+   "name": "Clamp pilots (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_Clamp_025",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     4.200000000000001
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   },
+   "sketch": "Clamp pilots",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         5.9,
+         -15.250000000000002
+        ],
+        "r": 1.25
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         -5.9,
+         -15.250000000000002
+        ],
+        "r": 1.25
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": -6.5
+   },
+   "participants": [
+    "Adapter_Clamp_025"
+   ],
+   "bodies": [
+    "Adapter_Clamp_025"
+   ],
+   "vols": {
+    "Adapter_Clamp_025": 2981.0122181264364,
+    "Clamp_025 cap": 2137.179989670867
+   }
+  },
+  {
+   "i": 439,
+   "name": "Clamp counterbores (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_Clamp_025",
+   "plane": {
+    "origin": [
+     0.0,
+     2.0,
+     4.200000000000001
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   },
+   "sketch": "Clamp counterbores",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         5.9,
+         -15.250000000000002
+        ],
+        "r": 3.0000000000000004
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         -5.9,
+         -15.250000000000002
+        ],
+        "r": 3.0000000000000004
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 20.0
+   },
+   "participants": [
+    "Clamp_025 cap"
+   ],
+   "bodies": [
+    "Clamp_025 cap"
+   ],
+   "vols": {
+    "Adapter_Clamp_025": 2981.0122181264364,
+    "Clamp_025 cap": 1915.7308515899856
+   }
+  },
+  {
+   "i": 463,
+   "name": "N20 D flat (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_Clamp_025",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     4.200000000000001
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "N20 D flat",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "arc",
+        "s": [
+         1.0749999999999997,
+         -1.1510864433221344
+        ],
+        "m": [
+         1.5750000000000002,
+         0.0
+        ],
+        "e": [
+         1.075,
+         1.1510864433221342
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          1.0749999999999997,
+          -1.1510864433221344
+         ],
+         [
+          1.0749999999999997,
+          1.1510864433221344
+         ]
+        ]
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "join",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 6.000000000000001
+   },
+   "participants": [
+    "Adapter_Clamp_025"
+   ],
+   "bodies": [
+    "Adapter_Clamp_025"
+   ],
+   "vols": {
+    "Adapter_Clamp_025": 2985.7859011289393,
+    "Clamp_025 cap": 1915.7308515899856
+   }
+  },
+  {
+   "i": 602,
+   "name": "D-shaft set screw pilot (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_Clamp_025",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     4.200000000000001
+    ],
+    "x_dir": [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "D-shaft set screw pilot",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         -2.8,
+         0.0
+        ],
+        "r": 1.25
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 5.6
+   },
+   "start_offset": 0.0,
+   "participants": [
+    "Adapter_Clamp_025"
+   ],
+   "bodies": [
+    "Adapter_Clamp_025"
+   ],
+   "vols": {
+    "Adapter_Clamp_025": 2963.5674721594646,
+    "Clamp_025 cap": 1915.7308515899856
+   }
+  },
+  {
+   "i": 604,
+   "name": "D-shaft set screw access (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_Clamp_025",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     4.200000000000001
+    ],
+    "x_dir": [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "D-shaft set screw access",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         -2.8,
+         0.0
+        ],
+        "r": 1.7000000000000002
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 20.0
+   },
+   "start_offset": 5.6,
+   "participants": [
+    "Adapter_Clamp_025"
+   ],
+   "bodies": [
+    "Adapter_Clamp_025"
+   ],
+   "vols": {
+    "Adapter_Clamp_025": 2957.593940072769,
+    "Clamp_025 cap": 1915.7308515899856
+   }
+  }
+ ],
+ "warns": [],
+ "finals": {
+  "Adapter_Clamp_025": {
+   "vol": 2957.593940072769,
+   "faces": 23,
+   "bbox": [
+    [
+     -9.971835337589566,
+     -10.0,
+     4.200000000000001
+    ],
+    [
+     9.971835337589566,
+     6.325000000000001,
+     28.200000000000003
+    ]
+   ]
+  },
+  "Clamp_025 cap": {
+   "vol": 1915.7308515899856,
+   "faces": 12,
+   "bbox": [
+    [
+     -9.971835337589566,
+     0.75,
+     10.700000000000003
+    ],
+    [
+     9.971835337589566,
+     10.0,
+     28.200000000000003
+    ]
+   ]
+  }
+ }
+}

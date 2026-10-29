@@ -1,0 +1,4689 @@
+{
+ "commands": [
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      -10.4
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/Extrude1"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -17.2,
+      20.675
+     ],
+     [
+      -17.2,
+      -20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -17.2,
+      -20.675
+     ],
+     [
+      27.8,
+      -20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      27.8,
+      -20.675
+     ],
+     [
+      27.8,
+      20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      27.8,
+      20.675
+     ],
+     [
+      -17.2,
+      20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      17.2,
+      6.6
+     ],
+     [
+      -6.6,
+      6.6
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      17.2,
+      -6.6
+     ],
+     [
+      17.2,
+      6.6
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -6.6,
+      -6.6
+     ],
+     [
+      17.2,
+      -6.6
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -6.6,
+      6.6
+     ],
+     [
+      -6.6,
+      -6.6
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     -8.7,
+     0
+    ],
+    "radius": 0.9
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     19.3,
+     0
+    ],
+    "radius": 0.9
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Extrude1",
+    "profiles": [
+     {
+      "point": [
+       5.3,
+       -7.083255
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Extrude1",
+    "distance": 4,
+    "operation": "new",
+    "body_name": "Servo_Mount"
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      -10.4
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/Extrude2#1"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -17.2,
+      20.675
+     ],
+     [
+      -17.2,
+      14.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -17.2,
+      14.675
+     ],
+     [
+      22,
+      14.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      22,
+      14.675
+     ],
+     [
+      22,
+      20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      22,
+      20.675
+     ],
+     [
+      -17.2,
+      20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Extrude2#1",
+    "profiles": [
+     {
+      "point": [
+       2.4,
+       17.6972
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Extrude2#1",
+    "distance": 48.6,
+    "operation": "join",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      -10.4
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/Extrude2#2"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      22,
+      -20.675
+     ],
+     [
+      -17.2,
+      -20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      22,
+      -14.675
+     ],
+     [
+      22,
+      -20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -17.2,
+      -14.675
+     ],
+     [
+      22,
+      -14.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -17.2,
+      -20.675
+     ],
+     [
+      -17.2,
+      -14.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Extrude2#2",
+    "profiles": [
+     {
+      "point": [
+       2.4,
+       -17.6528
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Extrude2#2",
+    "distance": 48.6,
+    "operation": "join",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/Extrude14"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      23,
+      -11.3
+     ],
+     [
+      0.7,
+      -11.3
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      23,
+      6.8
+     ],
+     [
+      23,
+      -11.3
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      0.7,
+      6.8
+     ],
+     [
+      23,
+      6.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      0.7,
+      -11.3
+     ],
+     [
+      0.7,
+      6.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Extrude14",
+    "profiles": [
+     {
+      "point": [
+       11.85,
+       -2.18303
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Extrude14",
+    "distance": 1.3,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/Extrude15#1"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      9.5,
+      9.8
+     ],
+     [
+      9.5,
+      7.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      9.5,
+      7.8
+     ],
+     [
+      13.5,
+      7.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      13.5,
+      7.8
+     ],
+     [
+      13.5,
+      9.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      13.5,
+      9.8
+     ],
+     [
+      9.5,
+      9.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Extrude15#1",
+    "profiles": [
+     {
+      "point": [
+       11.5,
+       8.8074
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Extrude15#1",
+    "distance": 4.1,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/Extrude15#2"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      13.5,
+      -14.3
+     ],
+     [
+      9.5,
+      -14.3
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      13.5,
+      -12.3
+     ],
+     [
+      13.5,
+      -14.3
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      9.5,
+      -12.3
+     ],
+     [
+      13.5,
+      -12.3
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      9.5,
+      -14.3
+     ],
+     [
+      9.5,
+      -12.3
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Extrude15#2",
+    "profiles": [
+     {
+      "point": [
+       11.5,
+       -13.2926
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Extrude15#2",
+    "distance": 4.1,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/Extrude16"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      13.5,
+      -14.3
+     ],
+     [
+      9.5,
+      -14.3
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      13.5,
+      9.8
+     ],
+     [
+      13.5,
+      -14.3
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      9.5,
+      9.8
+     ],
+     [
+      13.5,
+      9.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      9.5,
+      -14.3
+     ],
+     [
+      9.5,
+      9.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Extrude16",
+    "profiles": [
+     {
+      "point": [
+       11.5,
+       -11.80083
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Extrude16",
+    "distance": 2,
+    "start_offset": 2.1,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/Extrude17"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      23,
+      -26.1
+     ],
+     [
+      -6.3,
+      -26.1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      23,
+      -14.8
+     ],
+     [
+      23,
+      -26.1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -6.3,
+      -14.8
+     ],
+     [
+      23,
+      -14.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -6.3,
+      -26.1
+     ],
+     [
+      -6.3,
+      -14.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Extrude17",
+    "profiles": [
+     {
+      "point": [
+       8.35,
+       -20.40819
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Extrude17",
+    "distance": 1.6,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/Extrude18#1"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      2,
+      -11.8
+     ],
+     [
+      2,
+      -13.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      2,
+      -13.8
+     ],
+     [
+      6,
+      -13.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      6,
+      -13.8
+     ],
+     [
+      6,
+      -11.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      6,
+      -11.8
+     ],
+     [
+      2,
+      -11.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Extrude18#1",
+    "profiles": [
+     {
+      "point": [
+       4,
+       -12.7926
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Extrude18#1",
+    "distance": 4.4,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/Extrude18#2"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      6,
+      -29.1
+     ],
+     [
+      2,
+      -29.1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      6,
+      -27.1
+     ],
+     [
+      6,
+      -29.1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      2,
+      -27.1
+     ],
+     [
+      6,
+      -27.1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      2,
+      -29.1
+     ],
+     [
+      2,
+      -27.1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Extrude18#2",
+    "profiles": [
+     {
+      "point": [
+       4,
+       -28.0926
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Extrude18#2",
+    "distance": 4.4,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/Extrude19"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      6,
+      -29.1
+     ],
+     [
+      2,
+      -29.1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      6,
+      -11.8
+     ],
+     [
+      6,
+      -29.1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      2,
+      -11.8
+     ],
+     [
+      6,
+      -11.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      2,
+      -29.1
+     ],
+     [
+      2,
+      -11.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Extrude19",
+    "profiles": [
+     {
+      "point": [
+       4,
+       -26.87349
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Extrude19",
+    "distance": 2,
+    "start_offset": 2.4,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/Extrude20"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -9.75,
+      -25.95
+     ],
+     [
+      -14.25,
+      -25.95
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -9.75,
+      11.4
+     ],
+     [
+      -9.75,
+      -25.95
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -14.25,
+      11.4
+     ],
+     [
+      -9.75,
+      11.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -14.25,
+      -25.95
+     ],
+     [
+      -14.25,
+      11.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Extrude20",
+    "profiles": [
+     {
+      "point": [
+       -12,
+       -23.010555
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Extrude20",
+    "distance": 2,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "solid.fillet",
+   "params": {
+    "edges": [
+     [
+      -2.696,
+      -14.675,
+      -6.4
+     ],
+     [
+      7.496,
+      14.675,
+      -6.4
+     ]
+    ],
+    "radius": 2,
+    "body": "Servo_Mount"
+   }
+  },
+  {
+   "command": "solid.chamfer",
+   "params": {
+    "edges": [
+     [
+      -14.25,
+      -19.415,
+      -10.4
+     ],
+     [
+      -16.1085,
+      -20.675,
+      -10.4
+     ],
+     [
+      -17.2,
+      5.3755,
+      -10.4
+     ],
+     [
+      11.15,
+      20.675,
+      -10.4
+     ],
+     [
+      27.8,
+      -5.3755,
+      -10.4
+     ],
+     [
+      4.1435,
+      -20.675,
+      -10.4
+     ],
+     [
+      -9.75,
+      -19.935,
+      -10.4
+     ],
+     [
+      -11.415,
+      -18.675,
+      -10.4
+     ]
+    ],
+    "distance": 0.4,
+    "body": "Servo_Mount"
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      38.2
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/Wall mount flange (1)"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -54.5,
+      20.675
+     ],
+     [
+      -54.5,
+      -20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -54.5,
+      -20.675
+     ],
+     [
+      54.5,
+      -20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      54.5,
+      -20.675
+     ],
+     [
+      54.5,
+      20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      54.5,
+      20.675
+     ],
+     [
+      -54.5,
+      20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     42,
+     0
+    ],
+    "radius": 3.5
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     -42,
+     0
+    ],
+    "radius": 3.5
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     0,
+     0
+    ],
+    "radius": 11.875
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Wall mount flange (1)",
+    "profiles": [
+     {
+      "point": [
+       -32.836143,
+       -3.982005
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Wall mount flange (1)",
+    "distance": 6,
+    "direction": "negative",
+    "operation": "join",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "solid.fillet",
+   "params": {
+    "edges": [
+     [
+      54.5,
+      -20.675,
+      35.98
+     ],
+     [
+      54.5,
+      20.675,
+      35.98
+     ],
+     [
+      -54.5,
+      20.675,
+      35.98
+     ],
+     [
+      -54.5,
+      -20.675,
+      35.98
+     ]
+    ],
+    "radius": 4,
+    "body": "Servo_Mount"
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      32.2
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/Bushing flange recess (1)"
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     0,
+     0
+    ],
+    "radius": 14.475
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Bushing flange recess (1)",
+    "profiles": [
+     {
+      "point": [
+       0,
+       0.107115
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Bushing flange recess (1)",
+    "distance": 1.5,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      37.8
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Flange bed chamfer outline"
+   }
+  },
+  {
+   "command": "sketch.rectangle.rounded",
+   "params": {
+    "p0": [
+     -54.5,
+     -20.674999999999997
+    ],
+    "p1": [
+     54.5,
+     20.674999999999997
+    ],
+    "radius": 4
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Flange bed chamfer outline",
+    "distance": 0.4,
+    "taper": "-45 deg",
+    "operation": "new",
+    "body_name": "bevel keep"
+   }
+  },
+  {
+   "command": "solid.box",
+   "params": {
+    "length": 119,
+    "width": 51.35,
+    "height": 0.4,
+    "corner": [
+     -59.5,
+     -25.675,
+     37.8
+    ],
+    "body_name": "bevel ring"
+   }
+  },
+  {
+   "command": "solid.combine",
+   "params": {
+    "target": "bevel ring",
+    "tools": [
+     "bevel keep"
+    ],
+    "operation": "cut"
+   }
+  },
+  {
+   "command": "solid.combine",
+   "params": {
+    "target": "Servo_Mount",
+    "tools": [
+     "bevel ring"
+    ],
+    "operation": "cut"
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/Control pod pilots (1)#1"
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     -14.1,
+     -8
+    ],
+    "radius": 1.3
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Control pod pilots (1)#1",
+    "profiles": [
+     {
+      "point": [
+       -14.1,
+       -7.99038
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Control pod pilots (1)#1",
+    "distance": 5.6,
+    "direction": "negative",
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/Control pod pilots (1)#2"
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     19.1,
+     2
+    ],
+    "radius": 1.3
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Control pod pilots (1)#2",
+    "profiles": [
+     {
+      "point": [
+       19.1,
+       2.00962
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Control pod pilots (1)#2",
+    "distance": 5.6,
+    "direction": "negative",
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/Control pod pilots (1)#3"
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     -14.1,
+     -28
+    ],
+    "radius": 1.3
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Control pod pilots (1)#3",
+    "profiles": [
+     {
+      "point": [
+       -14.1,
+       -27.99038
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Control pod pilots (1)#3",
+    "distance": 5.6,
+    "direction": "negative",
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/Control pod pilots (1)#4"
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     19.1,
+     -28
+    ],
+    "radius": 1.3
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Control pod pilots (1)#4",
+    "profiles": [
+     {
+      "point": [
+       19.1,
+       -27.99038
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Control pod pilots (1)#4",
+    "distance": 5.6,
+    "direction": "negative",
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/Widened cable groove (1)"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -9.5,
+      -25.95
+     ],
+     [
+      -16.5,
+      -25.95
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -9.5,
+      10.4
+     ],
+     [
+      -9.5,
+      -25.95
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -16.5,
+      10.4
+     ],
+     [
+      -9.5,
+      10.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -16.5,
+      -25.95
+     ],
+     [
+      -16.5,
+      10.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Widened cable groove (1)",
+    "profiles": [
+     {
+      "point": [
+       -13,
+       -22.180505
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Widened cable groove (1)",
+    "distance": 3,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      -10.4
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/Base wire channel (1)"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -14,
+      20.675
+     ],
+     [
+      -14,
+      -20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -14,
+      -20.675
+     ],
+     [
+      -10,
+      -20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -10,
+      -20.675
+     ],
+     [
+      -10,
+      20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -10,
+      20.675
+     ],
+     [
+      -14,
+      20.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Base wire channel (1)",
+    "profiles": [
+     {
+      "point": [
+       -12,
+       -18.454505
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Base wire channel (1)",
+    "distance": 2.5,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/Control wire tunnel (1)"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -10,
+      1
+     ],
+     [
+      -14,
+      1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -10,
+      10.4
+     ],
+     [
+      -10,
+      1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -14,
+      10.4
+     ],
+     [
+      -10,
+      10.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -14,
+      1
+     ],
+     [
+      -14,
+      10.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Control wire tunnel (1)",
+    "profiles": [
+     {
+      "point": [
+       -12,
+       3.14978
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Control wire tunnel (1)",
+    "distance": 2.5,
+    "direction": "negative",
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      -1.3
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/C1 seat (1)"
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     -4.5,
+     -19.78
+    ],
+    "radius": 4
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/C1 seat (1)",
+    "profiles": [
+     {
+      "point": [
+       -4.5,
+       -19.7504
+      ]
+     }
+    ],
+    "name": "Servo_Mount/C1 seat (1)",
+    "distance": 14,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      -5.4
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/C1 lead relief (1)"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -2,
+      -21.2
+     ],
+     [
+      -7,
+      -21.2
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -2,
+      -19
+     ],
+     [
+      -2,
+      -21.2
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -7,
+      -19
+     ],
+     [
+      -2,
+      -19
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -7,
+      -21.2
+     ],
+     [
+      -7,
+      -19
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/C1 lead relief (1)",
+    "profiles": [
+     {
+      "point": [
+       -4.5,
+       -20.09186
+      ]
+     }
+    ],
+    "name": "Servo_Mount/C1 lead relief (1)",
+    "distance": 4.3,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/N20 face plate (1)"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -17.2,
+      14.675
+     ],
+     [
+      -17.2,
+      -14.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -17.2,
+      -14.675
+     ],
+     [
+      22,
+      -14.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      22,
+      -14.675
+     ],
+     [
+      22,
+      14.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      22,
+      14.675
+     ],
+     [
+      -17.2,
+      14.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     0,
+     0
+    ],
+    "radius": 2.25
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     4.5,
+     0
+    ],
+    "radius": 0.95
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     -4.5,
+     0
+    ],
+    "radius": 0.95
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/N20 face plate (1)",
+    "profiles": [
+     {
+      "point": [
+       2.4,
+       2.309845
+      ]
+     }
+    ],
+    "name": "Servo_Mount/N20 face plate (1)",
+    "distance": 2,
+    "operation": "join",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/N20 gearbox sleeve (1)"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      6.15,
+      5.15
+     ],
+     [
+      -6.15,
+      5.15
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      6.15,
+      -5.15
+     ],
+     [
+      6.15,
+      5.15
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -6.15,
+      -5.15
+     ],
+     [
+      6.15,
+      -5.15
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -6.15,
+      5.15
+     ],
+     [
+      -6.15,
+      -5.15
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -8.15,
+      7.15
+     ],
+     [
+      -8.15,
+      -7.15
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -8.15,
+      -7.15
+     ],
+     [
+      8.15,
+      -7.15
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      8.15,
+      -7.15
+     ],
+     [
+      8.15,
+      7.15
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      8.15,
+      7.15
+     ],
+     [
+      -8.15,
+      7.15
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/N20 gearbox sleeve (1)",
+    "profiles": [
+     {
+      "point": [
+       0,
+       -5.30959
+      ]
+     }
+    ],
+    "name": "Servo_Mount/N20 gearbox sleeve (1)",
+    "distance": 10.4,
+    "direction": "negative",
+    "operation": "join",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      -10.4
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/N20 base fill (1)"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      8,
+      6.6
+     ],
+     [
+      8,
+      -6.6
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      8,
+      -6.6
+     ],
+     [
+      20.5,
+      -6.6
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      20.5,
+      -6.6
+     ],
+     [
+      20.5,
+      6.6
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      20.5,
+      6.6
+     ],
+     [
+      8,
+      6.6
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/N20 base fill (1)",
+    "profiles": [
+     {
+      "point": [
+       14.25,
+       -0.28116
+      ]
+     }
+    ],
+    "name": "Servo_Mount/N20 base fill (1)",
+    "distance": 4,
+    "operation": "join",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      -10.4
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/DRV8833 pocket (1)"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      26.3,
+      -9.4
+     ],
+     [
+      26.3,
+      9.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      26.3,
+      9.4
+     ],
+     [
+      10,
+      9.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      10,
+      9.4
+     ],
+     [
+      10,
+      -9.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      10,
+      -9.4
+     ],
+     [
+      26.3,
+      -9.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/DRV8833 pocket (1)",
+    "profiles": [
+     {
+      "point": [
+       18.15,
+       -0.87044
+      ]
+     }
+    ],
+    "name": "Servo_Mount/DRV8833 pocket (1)",
+    "distance": 1,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      15
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/Wall relief for clamp heads#1"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -17.2,
+      15.275
+     ],
+     [
+      -17.2,
+      14.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -17.2,
+      14.675
+     ],
+     [
+      22,
+      14.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      22,
+      14.675
+     ],
+     [
+      22,
+      15.275
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      22,
+      15.275
+     ],
+     [
+      -17.2,
+      15.275
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Wall relief for clamp heads#1",
+    "profiles": [
+     {
+      "point": [
+       2.4,
+       14.97722
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Wall relief for clamp heads#1",
+    "distance": 9,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      15
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/Wall relief for clamp heads#2"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -17.2,
+      -14.675
+     ],
+     [
+      -17.2,
+      -15.275
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -17.2,
+      -15.275
+     ],
+     [
+      22,
+      -15.275
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      22,
+      -15.275
+     ],
+     [
+      22,
+      -14.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      22,
+      -14.675
+     ],
+     [
+      -17.2,
+      -14.675
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Wall relief for clamp heads#2",
+    "profiles": [
+     {
+      "point": [
+       2.4,
+       -14.97278
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Wall relief for clamp heads#2",
+    "distance": 9,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/XIAO solder relief (1)#1"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      20.56,
+      3.86
+     ],
+     [
+      2.32,
+      3.86
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      20.56,
+      6.8
+     ],
+     [
+      20.56,
+      3.86
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      2.32,
+      6.8
+     ],
+     [
+      20.56,
+      6.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      2.32,
+      3.86
+     ],
+     [
+      2.32,
+      6.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/XIAO solder relief (1)#1",
+    "profiles": [
+     {
+      "point": [
+       11.44,
+       5.340878
+      ]
+     }
+    ],
+    "name": "Servo_Mount/XIAO solder relief (1)#1",
+    "distance": 2.5,
+    "start_offset": 1.3,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/XIAO solder relief (1)#2"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      20.56,
+      -11.3
+     ],
+     [
+      2.32,
+      -11.3
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      20.56,
+      -8.38
+     ],
+     [
+      20.56,
+      -11.3
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      2.32,
+      -8.38
+     ],
+     [
+      20.56,
+      -8.38
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      2.32,
+      -11.3
+     ],
+     [
+      2.32,
+      -8.38
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/XIAO solder relief (1)#2",
+    "profiles": [
+     {
+      "point": [
+       11.44,
+       -9.829196
+      ]
+     }
+    ],
+    "name": "Servo_Mount/XIAO solder relief (1)#2",
+    "distance": 2.5,
+    "start_offset": 1.3,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      -10.4
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/DRV8833 solder relief (1)#1"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      10.3,
+      -6.12
+     ],
+     [
+      10.3,
+      -9.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      10.3,
+      -9.4
+     ],
+     [
+      26,
+      -9.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      26,
+      -9.4
+     ],
+     [
+      26,
+      -6.12
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      26,
+      -6.12
+     ],
+     [
+      10.3,
+      -6.12
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/DRV8833 solder relief (1)#1",
+    "profiles": [
+     {
+      "point": [
+       18.15,
+       -7.747864
+      ]
+     }
+    ],
+    "name": "Servo_Mount/DRV8833 solder relief (1)#1",
+    "distance": 2.5,
+    "start_offset": 1,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      -10.4
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/DRV8833 solder relief (1)#2"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      10.3,
+      9.4
+     ],
+     [
+      10.3,
+      6.12
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      10.3,
+      6.12
+     ],
+     [
+      26,
+      6.12
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      26,
+      6.12
+     ],
+     [
+      26,
+      9.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      26,
+      9.4
+     ],
+     [
+      10.3,
+      9.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/DRV8833 solder relief (1)#2",
+    "profiles": [
+     {
+      "point": [
+       18.15,
+       7.772136
+      ]
+     }
+    ],
+    "name": "Servo_Mount/DRV8833 solder relief (1)#2",
+    "distance": 2.5,
+    "start_offset": 1,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/PD pad"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      22,
+      -26.5
+     ],
+     [
+      -6.7,
+      -26.5
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      22,
+      -14.4
+     ],
+     [
+      22,
+      -26.5
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -6.7,
+      -14.4
+     ],
+     [
+      22,
+      -14.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -6.7,
+      -26.5
+     ],
+     [
+      -6.7,
+      -14.4
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/PD pad",
+    "profiles": [
+     {
+      "point": [
+       7.65,
+       -20.40523
+      ]
+     }
+    ],
+    "name": "Servo_Mount/PD pad",
+    "distance": 3.5,
+    "direction": "negative",
+    "operation": "join",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/PD relief"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      24,
+      -25.1
+     ],
+     [
+      -5.3,
+      -25.1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      24,
+      -15.8
+     ],
+     [
+      24,
+      -25.1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -5.3,
+      -15.8
+     ],
+     [
+      24,
+      -15.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -5.3,
+      -25.1
+     ],
+     [
+      -5.3,
+      -15.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/PD relief",
+    "profiles": [
+     {
+      "point": [
+       9.35,
+       -20.41559
+      ]
+     }
+    ],
+    "name": "Servo_Mount/PD relief",
+    "distance": 1.9,
+    "direction": "negative",
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/PD ledge"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      23,
+      -25.1
+     ],
+     [
+      -5.3,
+      -25.1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -5.3,
+      -25.1
+     ],
+     [
+      -5.3,
+      -15.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -5.3,
+      -15.8
+     ],
+     [
+      23,
+      -15.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      23,
+      -14.8
+     ],
+     [
+      23,
+      -15.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -6.3,
+      -14.8
+     ],
+     [
+      23,
+      -14.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -6.3,
+      -26.1
+     ],
+     [
+      -6.3,
+      -14.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      23,
+      -26.1
+     ],
+     [
+      -6.3,
+      -26.1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      23,
+      -25.1
+     ],
+     [
+      23,
+      -26.1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/PD ledge",
+    "profiles": [
+     {
+      "point": [
+       8.35,
+       -25.21069
+      ]
+     }
+    ],
+    "name": "Servo_Mount/PD ledge",
+    "distance": 1.6,
+    "operation": "join",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      -20.675,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/PD seat"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      23,
+      -26.1
+     ],
+     [
+      -6.3,
+      -26.1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      23,
+      -14.8
+     ],
+     [
+      23,
+      -26.1
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -6.3,
+      -14.8
+     ],
+     [
+      23,
+      -14.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -6.3,
+      -26.1
+     ],
+     [
+      -6.3,
+      -14.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/PD seat",
+    "profiles": [
+     {
+      "point": [
+       8.35,
+       -20.40819
+      ]
+     }
+    ],
+    "name": "Servo_Mount/PD seat",
+    "distance": 1.6,
+    "direction": "negative",
+    "start_offset": -1.9,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/D1 channel (under base) (1)"
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     19.42,
+     10.6
+    ],
+    "radius": 1.45
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/D1 channel (under base) (1)",
+    "profiles": [
+     {
+      "point": [
+       19.42,
+       10.61073
+      ]
+     }
+    ],
+    "name": "Servo_Mount/D1 channel (under base) (1)",
+    "distance": 6.4,
+    "start_offset": -19,
+    "operation": "new",
+    "body_name": "D1 tool"
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      0,
+      -1
+     ]
+    },
+    "name": "Servo_Mount/D1 lead slot (under base) (1)"
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     19.42,
+     10.6
+    ],
+    "radius": 0.55
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/D1 lead slot (under base) (1)",
+    "profiles": [
+     {
+      "point": [
+       19.42,
+       10.60407
+      ]
+     }
+    ],
+    "name": "Servo_Mount/D1 lead slot (under base) (1)",
+    "distance": 11.8,
+    "start_offset": -21,
+    "operation": "join",
+    "targets": [
+     "D1 tool"
+    ]
+   }
+  },
+  {
+   "command": "solid.combine",
+   "params": {
+    "target": "Servo_Mount",
+    "tools": [
+     "D1 tool"
+    ],
+    "operation": "cut"
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      -10.4
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/Cartridge floor (1)"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      9.8,
+      -14.6
+     ],
+     [
+      9.8,
+      14.6
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      9.8,
+      14.6
+     ],
+     [
+      -9.8,
+      14.6
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -9.8,
+      14.6
+     ],
+     [
+      -9.8,
+      -14.6
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -9.8,
+      -14.6
+     ],
+     [
+      9.8,
+      -14.6
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Cartridge floor (1)",
+    "profiles": [
+     {
+      "point": [
+       0,
+       -4.27196
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Cartridge floor (1)",
+    "distance": 6.9,
+    "operation": "join",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      -3.5
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/Cartridge sleeve (1)"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      9.8,
+      -8.8
+     ],
+     [
+      9.8,
+      8.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      9.8,
+      8.8
+     ],
+     [
+      -9.8,
+      8.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -9.8,
+      8.8
+     ],
+     [
+      -9.8,
+      -8.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -9.8,
+      -8.8
+     ],
+     [
+      9.8,
+      -8.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Cartridge sleeve (1)",
+    "profiles": [
+     {
+      "point": [
+       0,
+       0.06512
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Cartridge sleeve (1)",
+    "distance": 3.5,
+    "operation": "join",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/Base-plate slot fill (no trapped supports)"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -17.2,
+      14.68
+     ],
+     [
+      -17.2,
+      -14.68
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -17.2,
+      -14.68
+     ],
+     [
+      22,
+      -14.68
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      22,
+      -14.68
+     ],
+     [
+      22,
+      14.68
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      22,
+      14.68
+     ],
+     [
+      -17.2,
+      14.68
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Base-plate slot fill (no trapped supports)",
+    "profiles": [
+     {
+      "point": [
+       2.4,
+       0.108632
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Base-plate slot fill (no trapped supports)",
+    "distance": 6.4,
+    "start_offset": -6.4,
+    "operation": "join",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": {
+     "origin": [
+      0,
+      0,
+      -10.9
+     ],
+     "x_dir": [
+      1,
+      0,
+      0
+     ],
+     "y_dir": [
+      0,
+      1,
+      0
+     ]
+    },
+    "name": "Servo_Mount/Cartridge socket (1)"
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      7.6,
+      -6.6
+     ],
+     [
+      7.6,
+      6.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      7.6,
+      6.8
+     ],
+     [
+      -7.8,
+      6.8
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -7.8,
+      6.8
+     ],
+     [
+      -7.8,
+      -6.6
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.line",
+   "params": {
+    "points": [
+     [
+      -7.8,
+      -6.6
+     ],
+     [
+      7.6,
+      -6.6
+     ]
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "inspect.measure",
+   "params": {
+    "bodies": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "sketch": "Servo_Mount/Cartridge socket (1)",
+    "profiles": [
+     {
+      "point": [
+       -0.1,
+       0.14958
+      ]
+     }
+    ],
+    "name": "Servo_Mount/Cartridge socket (1)",
+    "distance": 13.4,
+    "operation": "cut",
+    "targets": [
+     "Servo_Mount"
+    ]
+   }
+  },
+  {
+   "command": "inspect.measure",
+   "params": {
+    "bodies": [
+     "Servo_Mount"
+    ]
+   }
+  }
+ ]
+}
