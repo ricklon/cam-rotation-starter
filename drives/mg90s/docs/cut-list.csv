@@ -3,7 +3,7 @@ W1,red,servo cable,servo red,U1 + terminal,65,85,trim from where the cable leave
 W2,brown,servo cable,servo brown,U1 GND terminal,59,80,trim from the servo case
 W5,orange,servo cable,servo orange,R1 then XIAO D0,74,95,R1 lead covers the last 15 mm to D0
 L1,red,22-26 AWG,C1 +,U1 + terminal,49,70,
-L2,black,22-26 AWG,C1 -,U1 GND terminal,35,50,
+L2,black,22-26 AWG,C1 -,U1 GND terminal,35,55,
 L3,red,22-26 AWG,D1 anode,U1 + terminal,36,55,solder where the lead comes through the mount wall
 W3,red,22-26 AWG,D1 cathode,XIAO 5V,25,40,solder where the lead comes through the mount wall
 W4,black,22-26 AWG,U1 GND terminal,XIAO GND,59,80,

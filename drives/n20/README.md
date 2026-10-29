@@ -163,6 +163,7 @@ Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and ro
 ## Folder layout
 
 ```
+cad/        README.md: the Fusion document and version, and how to run the scripts
 cad/step/   cam-rotation-n20.step and .f3d: snapshots of the Fusion design
 cad/stl/    print files for the parts that differ from the MG90S drive
 cad/fusion/ orient_stl.py for this drive's STLs; wires.py rebuilds the Wiring component; shots.py renders docs/images
