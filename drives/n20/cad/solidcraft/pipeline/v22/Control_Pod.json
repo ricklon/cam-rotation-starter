@@ -1,0 +1,869 @@
+{
+ "ops": [
+  {
+   "i": 139,
+   "name": "Back frame (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Control_Pod",
+   "plane": {
+    "origin": [
+     0.0,
+     20.674999999999997,
+     0.0
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   },
+   "sketch": "Back frame",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "line",
+        "p": [
+         [
+          22.0,
+          -32.0
+         ],
+         [
+          -17.199999999999996,
+          -32.0
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          22.0,
+          6.0
+         ],
+         [
+          22.0,
+          -32.0
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -17.2,
+          6.000000000000001
+         ],
+         [
+          22.0,
+          6.0
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -17.2,
+          -32.0
+         ],
+         [
+          -17.2,
+          6.000000000000001
+         ]
+        ]
+       }
+      ]
+     },
+     {
+      "outer": false,
+      "curves": [
+       {
+        "t": "line",
+        "p": [
+         [
+          -9.0,
+          -30.0
+         ],
+         [
+          -9.0,
+          3.999999999999999
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -9.0,
+          3.999999999999999
+         ],
+         [
+          14.0,
+          4.0
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          14.0,
+          4.0
+         ],
+         [
+          14.0,
+          -30.0
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          14.0,
+          -30.0
+         ],
+         [
+          -9.0,
+          -30.0
+         ]
+        ]
+       }
+      ]
+     },
+     {
+      "outer": false,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         -14.1,
+         -8.0
+        ],
+        "r": 1.6999999999999993
+       }
+      ]
+     },
+     {
+      "outer": false,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         -14.1,
+         -28.0
+        ],
+        "r": 1.6999999999999993
+       }
+      ]
+     },
+     {
+      "outer": false,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         19.1,
+         2.0
+        ],
+        "r": 1.6999999999999993
+       }
+      ]
+     },
+     {
+      "outer": false,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         19.1,
+         -28.0
+        ],
+        "r": 1.6999999999999993
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "new",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 2.5
+   },
+   "participants": [],
+   "bodies": [
+    "Control_Pod"
+   ],
+   "vols": {
+    "Control_Pod": 1678.207972311251
+   }
+  },
+  {
+   "i": 141,
+   "name": "Shell walls (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Control_Pod",
+   "plane": {
+    "origin": [
+     0.0,
+     20.674999999999997,
+     0.0
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   },
+   "sketch": "Shell walls",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "line",
+        "p": [
+         [
+          16.0,
+          -32.0
+         ],
+         [
+          -11.0,
+          -32.0
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          16.0,
+          6.0
+         ],
+         [
+          16.0,
+          -32.0
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -11.0,
+          6.000000000000001
+         ],
+         [
+          16.0,
+          6.0
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -11.0,
+          -32.0
+         ],
+         [
+          -11.0,
+          6.000000000000001
+         ]
+        ]
+       }
+      ]
+     },
+     {
+      "outer": false,
+      "curves": [
+       {
+        "t": "line",
+        "p": [
+         [
+          -9.0,
+          -30.0
+         ],
+         [
+          -9.0,
+          3.999999999999999
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -9.0,
+          3.999999999999999
+         ],
+         [
+          14.0,
+          4.0
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          14.0,
+          4.0
+         ],
+         [
+          14.0,
+          -30.0
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          14.0,
+          -30.0
+         ],
+         [
+          -9.0,
+          -30.0
+         ]
+        ]
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "join",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 24.000000000000004
+   },
+   "participants": [
+    "Control_Pod"
+   ],
+   "bodies": [
+    "Control_Pod"
+   ],
+   "vols": {
+    "Control_Pod": 6924.207972311258
+   }
+  },
+  {
+   "i": 144,
+   "name": "Front panel (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Control_Pod",
+   "plane": {
+    "origin": [
+     0.0,
+     42.675,
+     0.0
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   },
+   "sketch": "Front panel",
+   "profiles": [
+    [
+     {
+      "outer": false,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         9.0,
+         -5.0
+        ],
+        "r": 3.5999999999999996
+       }
+      ]
+     },
+     {
+      "outer": false,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         -4.0,
+         -5.0
+        ],
+        "r": 3.1
+       }
+      ]
+     },
+     {
+      "outer": false,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         2.5,
+         -21.0
+        ],
+        "r": 3.5999999999999996
+       }
+      ]
+     },
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "line",
+        "p": [
+         [
+          16.0,
+          -32.0
+         ],
+         [
+          -11.0,
+          -32.0
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          16.0,
+          6.0
+         ],
+         [
+          16.0,
+          -32.0
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -11.0,
+          6.000000000000001
+         ],
+         [
+          16.0,
+          6.0
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -11.0,
+          -32.0
+         ],
+         [
+          -11.0,
+          6.000000000000001
+         ]
+        ]
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "join",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 2.0
+   },
+   "participants": [
+    "Control_Pod"
+   ],
+   "bodies": [
+    "Control_Pod"
+   ],
+   "vols": {
+    "Control_Pod": 8264.96639834739
+   }
+  },
+  {
+   "i": 146,
+   "name": "Wire notch (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Control_Pod",
+   "plane": {
+    "origin": [
+     0.0,
+     20.674999999999997,
+     0.0
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   },
+   "sketch": "Wire notch",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "line",
+        "p": [
+         [
+          -8.0,
+          -2.0
+         ],
+         [
+          -12.0,
+          -2.000000000000001
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -8.0,
+          4.0
+         ],
+         [
+          -8.0,
+          -2.000000000000001
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -12.0,
+          4.0
+         ],
+         [
+          -8.0,
+          4.0
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -12.0,
+          -2.000000000000001
+         ],
+         [
+          -12.0,
+          4.0
+         ]
+        ]
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 8.0
+   },
+   "participants": [
+    "Control_Pod"
+   ],
+   "bodies": [
+    "Control_Pod"
+   ],
+   "vols": {
+    "Control_Pod": 8153.966398347389
+   }
+  },
+  {
+   "i": 168,
+   "name": "Wire notch (wide) (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Control_Pod",
+   "plane": {
+    "origin": [
+     0.0,
+     20.674999999999997,
+     0.0
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   },
+   "sketch": "Wire notch (wide)",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "line",
+        "p": [
+         [
+          -8.5,
+          -0.6
+         ],
+         [
+          -14.0,
+          -0.6000000000000005
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -8.5,
+          4.6
+         ],
+         [
+          -8.5,
+          -0.6000000000000005
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -14.0,
+          4.6
+         ],
+         [
+          -8.5,
+          4.6
+         ]
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          -14.0,
+          -0.6000000000000005
+         ],
+         [
+          -14.0,
+          4.6
+         ]
+        ]
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 8.0
+   },
+   "participants": [
+    "Control_Pod"
+   ],
+   "bodies": [
+    "Control_Pod"
+   ],
+   "vols": {
+    "Control_Pod": 8114.466398347389
+   }
+  },
+  {
+   "i": 359,
+   "name": "Plug old button hole (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Control_Pod",
+   "plane": {
+    "origin": [
+     0.0,
+     42.7,
+     0.0
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   },
+   "sketch": "Plug old button hole",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         9.0,
+         -5.0
+        ],
+        "r": 3.7
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "join",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 2.0
+   },
+   "participants": [
+    "Control_Pod"
+   ],
+   "bodies": [
+    "Control_Pod"
+   ],
+   "vols": {
+    "Control_Pod": 8195.953813994372
+   }
+  },
+  {
+   "i": 362,
+   "name": "12 mm button hole (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Control_Pod",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     -7.000000000000001
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "12 mm button hole",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         7.0,
+         32.7
+        ],
+        "r": 6.100000000000001
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 4.0
+   },
+   "participants": [
+    "Control_Pod"
+   ],
+   "bodies": [
+    "Control_Pod"
+   ],
+   "vols": {
+    "Control_Pod": 7962.15648871423
+   }
+  },
+  {
+   "i": 545,
+   "name": "JST-PH header holder",
+   "type": "BaseFeature",
+   "comp": "Control_Pod",
+   "base_bodies": [
+    {
+     "body": "JST holder",
+     "file": "C:\\Users\\rickr\\AppData\\Local\\Temp\\claude\\D--OneDrive-Documents-GitHub-cam-rotation-starter\\1521e62a-56d0-44ea-9b68-dde3664e7231\\scratchpad\\sc\\v22\\Control_Pod_base_545_JST_holder.smt"
+    }
+   ],
+   "vols": {
+    "Control_Pod": 7962.15648871423,
+    "JST holder": 61.23800000000005
+   }
+  },
+  {
+   "i": 546,
+   "name": "Join JST holder",
+   "type": "CombineFeature",
+   "comp": "Control_Pod",
+   "target": "Control_Pod",
+   "tools": [
+    "JST holder"
+   ],
+   "operation": "join",
+   "keep": false,
+   "vols": {
+    "Control_Pod": 8022.24048871423
+   }
+  }
+ ],
+ "warns": [],
+ "finals": {
+  "Control_Pod": {
+   "vol": 8022.24048871423,
+   "faces": 52,
+   "bbox": [
+    [
+     -17.2,
+     20.674999999999997,
+     -6.0
+    ],
+    [
+     22.0,
+     44.699999999999996,
+     32.0
+    ]
+   ]
+  }
+ }
+}

@@ -1,0 +1,244 @@
+{
+ "Adapter_075": {
+  "path": "C:\\Users\\rickr\\AppData\\Local\\Temp\\claude\\D--OneDrive-Documents-GitHub-cam-rotation-starter\\1521e62a-56d0-44ea-9b68-dde3664e7231\\scratchpad\\sc\\v22\\fusion_ref\\Adapter_075.step",
+  "matrix": [
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.4200000000000001,
+   0.0,
+   0.0,
+   0.0,
+   1.0
+  ],
+  "bodies": [
+   "Adapter_075"
+  ]
+ },
+ "Adapter_025": {
+  "path": "C:\\Users\\rickr\\AppData\\Local\\Temp\\claude\\D--OneDrive-Documents-GitHub-cam-rotation-starter\\1521e62a-56d0-44ea-9b68-dde3664e7231\\scratchpad\\sc\\v22\\fusion_ref\\Adapter_025.step",
+  "matrix": [
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.4200000000000001,
+   0.0,
+   0.0,
+   0.0,
+   1.0
+  ],
+  "bodies": [
+   "Adapter_025"
+  ]
+ },
+ "Servo_Mount": {
+  "path": "C:\\Users\\rickr\\AppData\\Local\\Temp\\claude\\D--OneDrive-Documents-GitHub-cam-rotation-starter\\1521e62a-56d0-44ea-9b68-dde3664e7231\\scratchpad\\sc\\v22\\fusion_ref\\Servo_Mount.step",
+  "matrix": [
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0
+  ],
+  "bodies": [
+   "Servo_Mount"
+  ]
+ },
+ "Control_Pod": {
+  "path": "C:\\Users\\rickr\\AppData\\Local\\Temp\\claude\\D--OneDrive-Documents-GitHub-cam-rotation-starter\\1521e62a-56d0-44ea-9b68-dde3664e7231\\scratchpad\\sc\\v22\\fusion_ref\\Control_Pod.step",
+  "matrix": [
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0
+  ],
+  "bodies": [
+   "Control_Pod"
+  ]
+ },
+ "Adapter_0625": {
+  "path": "C:\\Users\\rickr\\AppData\\Local\\Temp\\claude\\D--OneDrive-Documents-GitHub-cam-rotation-starter\\1521e62a-56d0-44ea-9b68-dde3664e7231\\scratchpad\\sc\\v22\\fusion_ref\\Adapter_0625.step",
+  "matrix": [
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.4200000000000001,
+   0.0,
+   0.0,
+   0.0,
+   1.0
+  ],
+  "bodies": [
+   "Adapter_0625"
+  ]
+ },
+ "Adapter_Clamp_0625": {
+  "path": "C:\\Users\\rickr\\AppData\\Local\\Temp\\claude\\D--OneDrive-Documents-GitHub-cam-rotation-starter\\1521e62a-56d0-44ea-9b68-dde3664e7231\\scratchpad\\sc\\v22\\fusion_ref\\Adapter_Clamp_0625.step",
+  "matrix": [
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.4200000000000001,
+   0.0,
+   0.0,
+   0.0,
+   1.0
+  ],
+  "bodies": [
+   "Adapter_Clamp_0625",
+   "Clamp_0625 cap"
+  ]
+ },
+ "Adapter_Clamp_025": {
+  "path": "C:\\Users\\rickr\\AppData\\Local\\Temp\\claude\\D--OneDrive-Documents-GitHub-cam-rotation-starter\\1521e62a-56d0-44ea-9b68-dde3664e7231\\scratchpad\\sc\\v22\\fusion_ref\\Adapter_Clamp_025.step",
+  "matrix": [
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.4200000000000001,
+   0.0,
+   0.0,
+   0.0,
+   1.0
+  ],
+  "bodies": [
+   "Adapter_Clamp_025",
+   "Clamp_025 cap"
+  ]
+ },
+ "Adapter_075_Sleeved": {
+  "path": "C:\\Users\\rickr\\AppData\\Local\\Temp\\claude\\D--OneDrive-Documents-GitHub-cam-rotation-starter\\1521e62a-56d0-44ea-9b68-dde3664e7231\\scratchpad\\sc\\v22\\fusion_ref\\Adapter_075_Sleeved.step",
+  "matrix": [
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.4200000000000001,
+   0.0,
+   0.0,
+   0.0,
+   1.0
+  ],
+  "bodies": [
+   "Adapter_075_Sleeved"
+  ]
+ },
+ "N20_Cartridge": {
+  "path": "C:\\Users\\rickr\\AppData\\Local\\Temp\\claude\\D--OneDrive-Documents-GitHub-cam-rotation-starter\\1521e62a-56d0-44ea-9b68-dde3664e7231\\scratchpad\\sc\\v22\\fusion_ref\\N20_Cartridge.step",
+  "matrix": [
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0
+  ],
+  "bodies": [
+   "N20_Cartridge"
+  ]
+ },
+ "N20_Latch_Key": {
+  "path": "C:\\Users\\rickr\\AppData\\Local\\Temp\\claude\\D--OneDrive-Documents-GitHub-cam-rotation-starter\\1521e62a-56d0-44ea-9b68-dde3664e7231\\scratchpad\\sc\\v22\\fusion_ref\\N20_Latch_Key.step",
+  "matrix": [
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   1.0
+  ],
+  "bodies": [
+   "Latch key"
+  ]
+ }
+}

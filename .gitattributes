@@ -2,3 +2,5 @@
 *.step binary
 *.f3d  binary
 *.png  binary
+*.solidcraft binary
+*.smt  binary

@@ -1,0 +1,582 @@
+{
+ "ops": [
+  {
+   "i": 327,
+   "name": "Extrude1",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_075_Sleeved",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     4.200000000000001
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "Sketch1",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         0.0,
+         0.0
+        ],
+        "r": 13.250000000000002
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "new",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 24.000000000000004
+   },
+   "participants": [],
+   "bodies": [
+    "Adapter_075_Sleeved"
+   ],
+   "vols": {
+    "Adapter_075_Sleeved": 13237.100645901166
+   }
+  },
+  {
+   "i": 330,
+   "name": "Extrude2",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_075_Sleeved",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     10.200000000000003
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "Sketch2",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         0.0,
+         0.0
+        ],
+        "r": 10.875
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 18.0
+   },
+   "participants": [
+    "Adapter_075_Sleeved"
+   ],
+   "bodies": [
+    "Adapter_075_Sleeved"
+   ],
+   "vols": {
+    "Adapter_075_Sleeved": 6549.337109801182
+   }
+  },
+  {
+   "i": 332,
+   "name": "Extrude3",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_075_Sleeved",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     4.200000000000001
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "Sketch3",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         0.0,
+         0.0
+        ],
+        "r": 1.5750000000000002
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 6.000000000000001
+   },
+   "participants": [
+    "Adapter_075_Sleeved"
+   ],
+   "bodies": [
+    "Adapter_075_Sleeved"
+   ],
+   "vols": {
+    "Adapter_075_Sleeved": 6502.578430143312
+   }
+  },
+  {
+   "i": 341,
+   "name": "Chamfer1",
+   "type": "ChamferFeature",
+   "comp": "Adapter_075_Sleeved",
+   "sets": [
+    {
+     "type": "EqualDistanceChamferEdgeSet",
+     "edges": [
+      {
+       "p": [
+        9.070249153555128,
+        -9.658834313333703,
+        4.200000000000001
+       ],
+       "body": "Adapter_075_Sleeved"
+      },
+      {
+       "p": [
+        1.078161691837685,
+        -1.1481255881887233,
+        4.200000000000001
+       ],
+       "body": "Adapter_075_Sleeved"
+      }
+     ],
+     "d": 0.4000000000000001
+    }
+   ],
+   "vols": {
+    "Adapter_075_Sleeved": 6495.126572368998
+   }
+  },
+  {
+   "i": 342,
+   "name": "Chamfer2",
+   "type": "ChamferFeature",
+   "comp": "Adapter_075_Sleeved",
+   "sets": [
+    {
+     "type": "EqualDistanceChamferEdgeSet",
+     "edges": [
+      {
+       "p": [
+        7.44444977697449,
+        7.927533823207849,
+        28.200000000000003
+       ],
+       "body": "Adapter_075_Sleeved"
+      }
+     ],
+     "d": 0.6
+    }
+   ],
+   "vols": {
+    "Adapter_075_Sleeved": 6482.601042459092
+   }
+  },
+  {
+   "i": 344,
+   "name": "Grip screw +Y (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_075_Sleeved",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     4.200000000000001
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   },
+   "sketch": "Grip screw +Y",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         0.0,
+         -11.0
+        ],
+        "r": 1.5500000000000003
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 14.250000000000004
+   },
+   "participants": [
+    "Adapter_075_Sleeved"
+   ],
+   "bodies": [
+    "Adapter_075_Sleeved"
+   ],
+   "vols": {
+    "Adapter_075_Sleeved": 6464.521739427347
+   }
+  },
+  {
+   "i": 346,
+   "name": "Grip screw -Y (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_075_Sleeved",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     4.200000000000001
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   },
+   "sketch": "Grip screw -Y",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         0.0,
+         -19.0
+        ],
+        "r": 1.5500000000000003
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": -14.250000000000004
+   },
+   "participants": [
+    "Adapter_075_Sleeved"
+   ],
+   "bodies": [
+    "Adapter_075_Sleeved"
+   ],
+   "vols": {
+    "Adapter_075_Sleeved": 6446.4424363956
+   }
+  },
+  {
+   "i": 347,
+   "name": "Grip countersinks",
+   "type": "ChamferFeature",
+   "comp": "Adapter_075_Sleeved",
+   "sets": [
+    {
+     "type": "EqualDistanceChamferEdgeSet",
+     "edges": [
+      {
+       "p": [
+        1.0623453771882472,
+        13.207343498961734,
+        14.071318335593796
+       ],
+       "body": "Adapter_075_Sleeved"
+      },
+      {
+       "p": [
+        -1.0623453771882467,
+        -13.207343498961734,
+        22.071318335593798
+       ],
+       "body": "Adapter_075_Sleeved"
+      }
+     ],
+     "d": 1.3
+    }
+   ],
+   "vols": {
+    "Adapter_075_Sleeved": 6425.473093795135
+   }
+  },
+  {
+   "i": 465,
+   "name": "N20 D flat (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_075_Sleeved",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     4.200000000000001
+    ],
+    "x_dir": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "N20 D flat",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "arc",
+        "s": [
+         1.0749999999999997,
+         -1.1510864433221344
+        ],
+        "m": [
+         1.5750000000000002,
+         0.0
+        ],
+        "e": [
+         1.075,
+         1.1510864433221342
+        ]
+       },
+       {
+        "t": "line",
+        "p": [
+         [
+          1.0749999999999997,
+          -1.1510864433221344
+         ],
+         [
+          1.0749999999999997,
+          1.1510864433221344
+         ]
+        ]
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "join",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 6.000000000000001
+   },
+   "participants": [
+    "Adapter_075_Sleeved"
+   ],
+   "bodies": [
+    "Adapter_075_Sleeved"
+   ],
+   "vols": {
+    "Adapter_075_Sleeved": 6430.246776797641
+   }
+  },
+  {
+   "i": 594,
+   "name": "D-shaft set screw pilot (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_075_Sleeved",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     4.200000000000001
+    ],
+    "x_dir": [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "D-shaft set screw pilot",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         -2.8,
+         0.0
+        ],
+        "r": 1.25
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 5.6
+   },
+   "start_offset": 0.0,
+   "participants": [
+    "Adapter_075_Sleeved"
+   ],
+   "bodies": [
+    "Adapter_075_Sleeved"
+   ],
+   "vols": {
+    "Adapter_075_Sleeved": 6408.0289136902275
+   }
+  },
+  {
+   "i": 596,
+   "name": "D-shaft set screw access (1)",
+   "type": "ExtrudeFeature",
+   "comp": "Adapter_075_Sleeved",
+   "plane": {
+    "origin": [
+     0.0,
+     0.0,
+     4.200000000000001
+    ],
+    "x_dir": [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    "y_dir": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   "sketch": "D-shaft set screw access",
+   "profiles": [
+    [
+     {
+      "outer": true,
+      "curves": [
+       {
+        "t": "circle",
+        "c": [
+         -2.8,
+         0.0
+        ],
+        "r": 1.7000000000000002
+       }
+      ]
+     }
+    ]
+   ],
+   "operation": "cut",
+   "extentType": 0,
+   "e1": {
+    "k": "dist",
+    "d": 20.0
+   },
+   "start_offset": 5.6,
+   "participants": [
+    "Adapter_075_Sleeved"
+   ],
+   "bodies": [
+    "Adapter_075_Sleeved"
+   ],
+   "vols": {
+    "Adapter_075_Sleeved": 6338.593998025893
+   }
+  }
+ ],
+ "warns": [],
+ "finals": {
+  "Adapter_075_Sleeved": {
+   "vol": 6338.593998025893,
+   "faces": 20,
+   "bbox": [
+    [
+     -13.250000000000002,
+     -13.250000000000002,
+     4.200000000000001
+    ],
+    [
+     13.250000000000002,
+     13.250000000000002,
+     28.200000000000003
+    ]
+   ]
+  }
+ }
+}
