@@ -93,7 +93,7 @@ Lengths measured along the routes in the 3D model, plus 15% slack for routing an
 | W2 | brown | servo cable | 59 mm | **trim to 80** |
 | W5 | orange | servo cable | 74 mm to R1 | **trim to 95** |
 | L1 | red | 22–26 AWG | 49 mm | **70** |
-| L2 | black | 22–26 AWG | 35 mm | **50** |
+| L2 | black | 22–26 AWG | 35 mm | **55** |
 | L3 | red | 22–26 AWG | 36 mm | **55** |
 | W3 | red | 22–26 AWG | 25 mm | **40** |
 | W4 | black | 22–26 AWG | 59 mm | **80** |

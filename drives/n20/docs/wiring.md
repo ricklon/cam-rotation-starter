@@ -137,7 +137,7 @@ Lengths measured along the routes in the 3D model, plus 15% slack and 5 mm per e
 
 | Wire | Colour | Gauge | Routed | **Cut** |
 |---|---|---|---|---|
-| W1 | red | 22–26 AWG | 87 mm | **110** |
+| W1 | red | 22–26 AWG | 87 mm | **115** |
 | W2 | black | 22–26 AWG | 81 mm | **105** |
 | L1 | red | 22–26 AWG | 50 mm | **70** |
 | L2 | black | 22–26 AWG | 36 mm | **55** |
@@ -147,7 +147,7 @@ Lengths measured along the routes in the 3D model, plus 15% slack and 5 mm per e
 | W13 | gray | 30 AWG | 39 mm | **55** |
 | W14 | white | 22–26 AWG | 35 mm | **55** |
 | W15 | blue | 22–26 AWG | 47 mm | **65** |
-| W6 | white | 30 AWG | 126 mm | **160** |
+| W6 | white | 30 AWG | 126 mm | **155** |
 | W7 | yellow | 30 AWG | 123 mm | **155** |
 | W8 | violet | 30 AWG | 141 mm | **175** |
 | W9 | green | 30 AWG | 120 mm | **150** |

@@ -1,5 +1,5 @@
 wire,colour,gauge,from,to,routed_mm,cut_mm,notes
-W1,red,22-26 AWG,U1 + terminal,DRV8833 VCC,87,110,down the -Y wall groove then the outer lane under that wall
+W1,red,22-26 AWG,U1 + terminal,DRV8833 VCC,87,115,down the -Y wall groove then the outer lane under that wall
 W2,black,22-26 AWG,U1 GND terminal,DRV8833 GND,81,105,inner lane beside W1; tie at anchor A1
 L1,red,22-26 AWG,C1 +,U1 + terminal,50,70,
 L2,black,22-26 AWG,C1 -,U1 GND terminal,36,55,
@@ -9,7 +9,7 @@ W12,brown,30 AWG,XIAO D9,DRV8833 IN4,21,35,beside W5
 W13,gray,30 AWG,XIAO D8,DRV8833 EEP,39,55,under the base beside the cartridge flange
 W14,white,22-26 AWG,DRV8833 OUT3,N20 terminal +,35,55,tie at anchor A2
 W15,blue,22-26 AWG,DRV8833 OUT4,N20 terminal -,47,65,tie at anchor A2; behind the motor's end cap inside the snap hooks
-W6,white,30 AWG,XIAO D1,J3 pin 6,126,160,mount-side harness to the PHR-6 housing
+W6,white,30 AWG,XIAO D1,J3 pin 6,126,155,mount-side harness to the PHR-6 housing
 W7,yellow,30 AWG,XIAO D2,J3 pin 4,123,155,
 W8,violet,30 AWG,XIAO 3V3,J3 pin 5,141,175,
 W9,green,30 AWG,XIAO D3,J3 pin 3,120,150,

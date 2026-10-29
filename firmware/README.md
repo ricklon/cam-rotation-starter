@@ -2,7 +2,7 @@
 
 Firmware for the Cam Rotation Starter: a Seeed XIAO ESP32-C6 runs a motor that turns a cam shaft: an MG90S continuous-rotation servo, or an N20 gearmotor through a DRV8833 driver (chosen at build time, see [Drive type](#drive-type)). It can be driven from a phone, from the panel controls, or by playing back stored **stories**: timelines of speed beats. The board makes its own Wi-Fi network and serves the web app itself, so no internet connection is needed.
 
-- **Play tab:** shows what is playing and lets you drive the servo by hand, with a big Stop button and the story speed.
+- **Play tab:** shows what is playing and lets you drive the motor by hand, with a big Stop button and the story speed.
 - **Stories tab:** a list of stories and a beat editor with a timeline preview. **Record by performing** turns slider moves into beats, and stories can be imported or exported as `.json` files.
 - **Settings tab:** stop trim with live preview, motion tuning, gallery mode (autoplay, rest between loops) and Wi-Fi.
 
