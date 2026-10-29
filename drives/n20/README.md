@@ -83,7 +83,7 @@ No screws hold the motor or the cartridge any more.
 - **First version (2026-10-27 morning):** 0.8 mm hooks set for a 25.1 mm motor and 1 mm, 45° bumps let go under almost any pressure: the motor was 1 mm shorter than the hooks, and with the motor in the bumps only overlapped about 0.4 mm on a 45° face.
 - **Second version (version 16):** 1.4 mm bumps with a sloped lower face (about 20° off square) and 0.3 mm socket clearance still pulled out with the motor in. A sloped catch acts as a ramp: a hard pull pushes the tongue in and squeezes the bump past, however little room the gearbox leaves. Version 18 makes the catch square and adds the release key; printed and tested on 2026-10-27, it holds.
 - **Printing:** the cartridge prints on its side, so the arms and tongues bend along their layers, PETG's strong direction. Snapping in bends them about 2% (arms) and 2.5% (tongues), against PETG's yield of about 4–5%.
-- **Wiring:** W14 and W15 run down the motor's round side between the arms, inside the zip tie (between it and the can), and W15 crosses behind the end cap inside the hooks. W14 is cut 50 mm (was 45).
+- **Wiring:** W14 and W15 run down the motor's round side between the arms, inside the zip tie (between it and the can), and W15 crosses behind the end cap inside the hooks. W14 and W15 are cut 55 and 65 mm, since they now also pass through anchor A2 (version 20).
 - **Fallback:** the M1.6 and M3 screw holes are still there.
 
 ## What changed on 2026-10-26
@@ -100,7 +100,7 @@ From the change request after the first build attempt:
 | 6 | Shaft coupling | D-bore unchanged in the adapters (`n20_bore_clear` 0.15 mm); the PETG coupon tests 0.10–0.30 mm. |
 | 7 | Assembly access | Every fastener can be reached in the build order below. The cartridge removed the only blocked one (the motor screws used to sit under the adapter), so no extra access holes were needed. |
 | 8 | Control panel | The pod's button, knob and switch holes were already in place. A holder for a 6-pin JST-PH header (J3) is now inside the pod, so the panel unplugs. |
-| 9 | Strain relief, USB-C | Two zip-tie anchors: A1 under the electronics-side wall for the power wires, A2 under the base for the motor wires. The XIAO's USB-C port has a clear path for a plug with everything assembled. |
+| 9 | Strain relief, USB-C | Two zip-tie anchors: A1 under the electronics-side wall for the power wires, A2 under the base for the motor wires. Both ties are modelled in place (`HW_Anchor_Zip_Ties`); see [docs/wiring.md](docs/wiring.md). The XIAO's USB-C port has a clear path for a plug with everything assembled. |
 | 10 | PETG | `N20_PETG_Fit_Coupon`: 5/8" holes at +0.2 to +0.6 mm, M3 clearance, pilot and cap-head counterbore sizes, M1.6 clearance and counterbore sizes in a 3 mm plate, and five D-bores. |
 
 ![The N20 in its cartridge, pulled down out of the mount's socket (shown see-through): the gearbox sits in the printed sleeve with a latch tongue and its bump on the side wall above the flange, and the motor hangs below between the snap arms, with the black zip tie round them.](docs/images/cartridge_exploded.png)

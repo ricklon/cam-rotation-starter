@@ -12,7 +12,7 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 | N20_Control_Pod | front panel down, open back up | 39.2 × 38.0 × 24.0 | 955 |
 | N20_PETG_Fit_Coupon | flat side down, labels up | 100.0 × 44.0 × 6.5 | 3085 |
 | N20_Mount_Fit_Coupon_Wall | mount fit coupon: wall top down, as the mount | 32.0 × 11.2 × 36.4 | 192 |
-| N20_Mount_Fit_Coupon_Base | mount fit coupon: base inside face down, underside up as on the mount | 37.5 × 35.2 × 4.0 | 1020 |
+| N20_Mount_Fit_Coupon_Base | mount fit coupon: base inside face down, underside up as on the mount | 37.5 × 35.2 × 4.0 | 1026 |
 | N20_Mount_Fit_Coupon_Pod | mount fit coupon: pod front panel down, as the pod | 10.0 × 19.0 × 24.0 | 171 |
 | N20_Adapter_075 | D-bore end down, socket up | 25.4 × 25.4 × 24.0 | 462 |
 | N20_Adapter_0625 | D-bore end down, socket up | 22.2 × 22.2 × 24.0 | 347 |
@@ -30,7 +30,7 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 
 **Added 2026-10-26 (version 11): `N20_Mount_Fit_Coupon_Wall`, `_Base` and `_Pod`,** pieces of the real mount and pod that check the capacitor, diode, board, cartridge, zip-tie and connector fits before the long prints. Nothing else changed.
 
-**Updated 2026-10-27 (version 13): `N20_Mount` only.** The slot between the base and the N20 plate, open at both ends, is now solid, so supports can't get trapped in it (sliced on an A1 with build-plate supports: none there now, and the print drops from about 3 h to 2 h 50 min; 6.6 g more PETG). The cartridge socket and its M3 pilots still cut through it. The wall and base coupon files changed by the same fill, but their fits didn't, so coupons you've already printed still count.
+**Updated 2026-10-27 (version 13): `N20_Mount` only.** The slot between the base and the N20 plate, open at both ends, is now solid, so supports can't get trapped in it (sliced on an A1 with build-plate supports: none there now, and the print drops from about 3 h to 2 h 50 min; 6.6 g more PETG). The cartridge socket and its M3 pilots still cut through it. The wall and base coupon files changed by the same fill. **This fill was wrong until version 19:** see below.
 
 **Updated 2026-10-27 (version 14): snap-fit motor and cartridge.** Reprint `N20_Cartridge` (it now prints on its side) and `N20_Mount` (latch pockets in the socket). New: `N20_Socket_Coupon`, the mount round the socket, to test the latch before the mount. No screws are needed; see [Snap-fit motor](../../README.md#snap-fit-motor-2026-10-27).
 
@@ -39,6 +39,10 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 **Updated 2026-10-27 (version 16): tighter, locked snap fit.** Reprint `N20_Cartridge`, `N20_Socket_Coupon` and `N20_Mount`. The hooks are set for a 24.1 mm motor (measured), 1.2 mm deep and barbed, with ribs for a zip tie that locks the arms; the latch bumps are 1.4 mm with a steep lower face, in deeper pockets. See [Snap-fit motor](../../README.md#snap-fit-motor-2026-10-27).
 
 **Updated 2026-10-27 (version 18): hard catch on the cartridge latch.** Reprint `N20_Cartridge`, `N20_Socket_Coupon` and `N20_Mount`, and print the new `N20_Latch_Key` (4 min). The latch bumps now have a square catch face, the socket is 0.1 mm tighter a side (`cart_clear` 0.2 mm), and the pockets the bumps click into are now slots open to the top of the base, where the key goes in to release the cartridge. The hooks, arms and zip tie didn't change. Printed and tested on 2026-10-27: the latch holds. See [Snap-fit motor](../../README.md#snap-fit-motor-2026-10-27).
+
+**Fixed 2026-10-27 (version 19): the base-plate slot fill.** From version 13 to 18 the fill started at the bottom of the base instead of its top, so it filled in everything already cut into the base: the DRV8833 pocket and the relief under its pins, the diode channel and its lead slot, and the wire channel under the base on the pod side. It also reached 1.3 mm into the side walls and closed the end of one control pod screw pilot. Now it fills only the slot, from the top of the base to the N20 plate, between the walls. Reprint `N20_Mount`, and `N20_Mount_Fit_Coupon_Base` if you test the board fits with it. A mount printed from version 13–18 files has no DRV8833 pocket or diode channel. `N20_Socket_Coupon` and `N20_Mount_Fit_Coupon_Wall` changed slightly at their edges; ones you've printed still test the same fits. Sliced on an A1 with build-plate supports: none in the slot, the DRV8833 pocket or the diode channel.
+
+**Updated 2026-10-27 (version 20): wiring only, print files unchanged.** The zip ties at anchors A1 and A2 are now modelled in place, and W14 and W15 are routed through A2, so they're cut 55 and 65 mm (were 50 and 60).
 
 ## Test prints, in order
 
@@ -109,7 +113,7 @@ Only once steps 1, 2, 3 and 5 fit. The fit coupon has already checked the fits b
 - the empty cartridge clicks up into the socket in the base and its flange sits flat under the base;
 - the capacitor snaps into its seat beside the XIAO pocket;
 - the diode lies in the channel under the base, and its lead slot runs from the wall edge to the DRV8833 pocket;
-- the zip-tie anchors are open: two slots and a tunnel under the electronics-side wall (A1) and under the base on the pod side (A2);
+- the zip-tie anchors are open: two small slots with a bar between them, joined by a tunnel inside the base, under the electronics-side wall (A1) and beside the DRV8833 pocket on the pod side (A2). They're the only tie holes under the base; the two round holes beside the socket are the M3 pilots for the optional cartridge screws;
 - the DRV8833 pocket and the 2.5 mm relief slots under its pin rows (and under the XIAO's) are clean;
 - the PD board drops into its seat in the pad and rests on the 1 mm ledge round its edges.
 
