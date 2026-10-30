@@ -172,6 +172,8 @@ static esp_err_t h_next(httpd_req_t *req)  { player_next();         return send_
 
 // ---------- WebSocket: live control + status stream ----------
 // client -> device: {"t":"speed","v":-100..100} | {"t":"stop"} | {"t":"master","v":0..100} | {"t":"trim","v":us} | {"t":"trim_end"}
+//   virtual panel:   {"t":"btn","v":"short"|"double"|"long"} | {"t":"dir","v":-1|0|1} | {"t":"knob","v":0..100}
+//   "dir" is ignored while a physical switch is wired; "knob" ignores the knob_enabled setting.
 // device -> client: status object every 200 ms
 
 static esp_err_t h_ws(httpd_req_t *req)
@@ -192,6 +194,18 @@ static esp_err_t h_ws(httpd_req_t *req)
         else if (!strcmp(t->valuestring, "master") && cJSON_IsNumber(v)) player_set_master(v->valueint);
         else if (!strcmp(t->valuestring, "trim") && cJSON_IsNumber(v)) { player_stop(); servo_preview_trim(v->valueint); }
         else if (!strcmp(t->valuestring, "trim_end")) servo_preview_trim(0);
+        else if (!strcmp(t->valuestring, "btn") && cJSON_IsString(v)) {
+            if (!strcmp(v->valuestring, "short")) player_on_control(CTL_BTN_SHORT, 0);
+            else if (!strcmp(v->valuestring, "double")) player_on_control(CTL_BTN_DOUBLE, 0);
+            else if (!strcmp(v->valuestring, "long")) player_on_control(CTL_BTN_LONG, 0);
+        }
+        else if (!strcmp(t->valuestring, "dir") && cJSON_IsNumber(v)) {
+            if (controls_set_virtual_dir(v->valueint)) player_on_control(CTL_DIR, controls_dir());
+        }
+        else if (!strcmp(t->valuestring, "knob") && cJSON_IsNumber(v)) {
+            int k = v->valueint;
+            player_on_control(CTL_KNOB, k < 0 ? 0 : (k > 100 ? 100 : k));
+        }
     }
     cJSON_Delete(j);
     return ESP_OK;

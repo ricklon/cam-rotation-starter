@@ -13,6 +13,7 @@ typedef enum {
 typedef void (*ctl_cb_t)(ctl_event_t ev, int value);
 
 void controls_init(ctl_cb_t cb);
-int  controls_dir(void);          // -1 / 0 / +1 (respects settings.switch_installed)
+int  controls_dir(void);          // -1 / 0 / +1 (the virtual switch when settings.switch_installed is off)
+bool controls_set_virtual_dir(int d);   // web virtual switch; false (ignored) while a physical switch is wired
 int  controls_knob(void);         // 0..100
 bool controls_button_down(void);  // raw, for the boot-time Wi-Fi reset check

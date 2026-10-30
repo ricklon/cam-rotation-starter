@@ -246,6 +246,7 @@ cJSON *player_status(void)
     cJSON_AddNumberToObject(j, "master", s_master);
     xSemaphoreGive(s_lock);
     cJSON_AddNumberToObject(j, "dir", controls_dir());
+    cJSON_AddBoolToObject(j, "switch_installed", g_settings.switch_installed);
     cJSON_AddNumberToObject(j, "knob", controls_knob());
     cJSON_AddNumberToObject(j, "speed", roundf(servo_get_speed() * 10) / 10);
     cJSON_AddNumberToObject(j, "target", roundf(servo_get_target() * 10) / 10);

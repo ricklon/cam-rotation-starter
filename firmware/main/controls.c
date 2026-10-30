@@ -19,13 +19,21 @@ static ctl_cb_t s_cb;
 static adc_oneshot_unit_handle_t s_adc;
 static adc_channel_t s_knob_ch;
 static volatile int s_knob = 0, s_dir_raw = 0;
+static volatile int s_virt_dir = 1;   // web "virtual switch", used only while no physical switch is wired; not saved
 
 bool controls_button_down(void) { return gpio_get_level(PIN_BTN) == 0; }
 
 int controls_dir(void)
 {
-    if (!g_settings.switch_installed) return 1;
+    if (!g_settings.switch_installed) return s_virt_dir;
     return s_dir_raw;
+}
+
+bool controls_set_virtual_dir(int d)
+{
+    if (g_settings.switch_installed) return false;   // a wired switch is the safety override
+    s_virt_dir = d < 0 ? -1 : (d > 0 ? 1 : 0);
+    return true;
 }
 
 int controls_knob(void) { return s_knob; }

@@ -91,6 +91,7 @@ function throttle(fn, ms) {
 const sendSpeed = throttle((v) => send({ t: 'speed', v }), 80);
 const sendMaster = throttle((v) => send({ t: 'master', v }), 120);
 const sendTrim = throttle((v) => send({ t: 'trim', v }), 80);
+const sendKnob = throttle((v) => send({ t: 'knob', v }), 80);
 
 function setConn(text, cls) {
   const c = $('#conn');
@@ -155,7 +156,20 @@ function renderPlay() {
       h('input', { type: 'range', id: 'manual', min: -100, max: 100, step: 1, value: 0, 'aria-label': 'Manual speed',
         oninput: (e) => sendSpeed(Number(e.target.value)) }),
       h('div', { class: 'row muted' }, h('span', {}, '◀ Reverse'), h('span', { class: 'grow', style: 'text-align:center' }, 'Stop'), h('span', {}, 'Forward ▶')),
-      h('p', { class: 'muted', style: 'margin:0;font-size:14px' }, 'The direction switch on the box still applies: center stops, reverse flips whatever you send.')),
+      h('p', { class: 'muted', style: 'margin:0;font-size:14px' }, 'The direction switch still applies, the box\'s or the virtual one below: center stops, reverse flips whatever you send.')),
+
+    h('section', { class: 'card' },
+      h('h2', {}, 'Virtual panel'),
+      h('p', { class: 'muted', style: 'margin:0;font-size:14px' }, 'Stands in for the button, knob and direction switch on the box.'),
+      h('div', { class: 'seg', id: 'vSwitch', role: 'group', 'aria-label': 'Virtual direction switch' },
+        [['-1', 'Reverse'], ['0', 'Stop'], ['1', 'Forward']].map(([v, label]) =>
+          h('button', { class: 'btn', 'data-dir': v, 'aria-pressed': 'false', onclick: () => send({ t: 'dir', v: Number(v) }) }, label))),
+      h('div', { class: 'muted', id: 'vSwitchNote', hidden: true }, 'A wired switch is turned on in Settings, so this one is off. Untick "Direction switch is wired" to use it.'),
+      h('label', { class: 'field' }, 'Knob: ', h('span', { class: 'mono', id: 'vKnobVal' }, '0%'),
+        h('input', { type: 'range', id: 'vKnob', min: 0, max: 100, step: 1, value: 0, 'aria-label': 'Virtual speed knob',
+          oninput: (e) => { sendKnob(Number(e.target.value)); $('#vKnobVal').textContent = `${e.target.value}%`; } })),
+      h('button', { class: 'btn primary big', id: 'vBtn', style: 'touch-action:manipulation;user-select:none' }, 'Button'),
+      h('div', { class: 'muted', style: 'font-size:14px' }, 'Tap: play or pause · double-tap: next story · hold 2 s: stop.')),
 
     h('section', { class: 'card', id: 'masterCard' },
       h('h2', {}, 'Story speed'),
@@ -182,12 +196,41 @@ function updateLive() {
       h('span', { class: 'pill mono' }, outputLabel(s)),
       story && !s.paused ? h('span', { class: 'pill on' }, 'Playing') : null);
   }
+  const wired = !!s.switch_installed;
+  document.querySelectorAll('#vSwitch button').forEach((/** @type {HTMLButtonElement} */ b) => {
+    b.disabled = wired;
+    b.setAttribute('aria-pressed', String(!wired && b.dataset.dir === String(s.dir)));
+  });
+  const note = document.getElementById('vSwitchNote');
+  if (note) note.hidden = !wired;
   const mc = document.getElementById('masterCard');
   if (mc) mc.hidden = !story;
   const mv = /** @type {HTMLInputElement} */ (document.getElementById('master'));
   if (mv && document.activeElement !== mv) { mv.value = s.master; set('masterVal', `${s.master}%`); }
   const tl = document.getElementById('trimLive');
   if (tl) tl.textContent = outputLabel(s);
+}
+
+// The virtual button mirrors the physical one: tap = short, two taps = double, hold 2 s = long.
+function wireVirtualButton() {
+  const btn = document.getElementById('vBtn');
+  if (!btn) return;
+  let holdTimer = 0, tapTimer = 0, taps = 0, held = false;
+  btn.addEventListener('pointerdown', () => {
+    held = false;
+    holdTimer = setTimeout(() => { held = true; taps = 0; clearTimeout(tapTimer); send({ t: 'btn', v: 'long' }); }, 2000);
+  });
+  const release = () => clearTimeout(holdTimer);
+  btn.addEventListener('pointerleave', release);
+  btn.addEventListener('pointercancel', release);
+  btn.addEventListener('pointerup', () => {
+    release();
+    if (held) return;
+    taps++;
+    clearTimeout(tapTimer);
+    if (taps >= 2) { taps = 0; send({ t: 'btn', v: 'double' }); return; }
+    tapTimer = setTimeout(() => { taps = 0; send({ t: 'btn', v: 'short' }); }, 350);
+  });
 }
 
 // What the motor output is doing: servo pulse width, or N20 PWM duty.
@@ -498,6 +541,7 @@ function render() {
   document.querySelectorAll('.tabs button').forEach((/** @type {HTMLButtonElement} */ b) => b.setAttribute('aria-selected', String(b.dataset.tab === state.tab)));
   const views = { play: renderPlay, stories: renderStories, settings: renderSettings };
   $('#app').replaceChildren(...views[state.tab]().filter(Boolean));
+  if (state.tab === 'play') wireVirtualButton();
   updateLive();
 }
 

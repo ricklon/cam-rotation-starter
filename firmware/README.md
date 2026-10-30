@@ -34,6 +34,18 @@ The full point-to-point wire list for the MG90S drive (W1–W11, L1–L3, J1–J
 | Knob | Story speed (master %) while a story plays; manual speed otherwise. It can be disabled in Settings. |
 | Switch FWD / centre / REV | Sets direction for everything, including web commands. Centre stops the motor and pauses a story. If the switch isn't fitted, untick "Direction switch is wired" so the box always runs forward. |
 
+### Virtual panel
+
+The Play tab has a **Virtual panel** with the same three controls, for a box whose button, knob or switch aren't fitted yet (or for testing from a phone):
+
+| Virtual control | Does the same as |
+|---|---|
+| Button: tap, double-tap, hold 2 s | Button short, double, long press |
+| Knob slider, 0–100 % | The knob. It works even when "Use the speed knob" is off. |
+| Reverse / Stop / Forward | The direction switch. **Only active while "Direction switch is wired" is unticked**; a wired switch always wins. It starts at Forward after every boot and isn't saved. |
+
+The WebSocket messages behind them are `{"t":"btn","v":"short"|"double"|"long"}`, `{"t":"dir","v":-1|0|1}` and `{"t":"knob","v":0..100}`.
+
 LED: steady while a story plays, a short blink every 2 s when ready.
 
 ## Connecting
