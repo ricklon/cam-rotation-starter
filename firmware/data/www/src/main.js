@@ -483,13 +483,17 @@ function renderSettings() {
     h('section', { class: 'card' },
       h('h2', {}, 'Wi-Fi'),
       h('p', { class: 'muted', style: 'margin:0;font-size:14px' },
-        `The box runs its own network${net.ap_ssid ? ` "${net.ap_ssid}"` : ''}. Optionally it can also join yours${net.sta_ip ? ` (joined, ${net.sta_ip})` : ''}. Changes apply after a restart. Hold the panel button while powering up to reset these.`),
+        `The box runs its own network${net.ap_ssid ? ` "${net.ap_ssid}"` : ''}. It can also join up to ${MAX_NETS} of yours, tried in the order listed${net.sta_ip ? ` (joined ${net.sta_ssid}, ${net.sta_ip})` : ''}. Changes apply after a restart. Hold the panel button while powering up to reset these.`),
       h('div', { class: 'grid2' },
         text('ap_ssid', 'Box network name (blank = CamBox-XXXX)'),
         text('ap_pass', 'Box password (8+ characters, blank = open)', 'password', s.ap_pass_set ? 'unchanged' : ''),
-        text('sta_ssid', 'Join this network (optional)'),
-        text('sta_pass', 'Its password', 'password', s.sta_pass_set ? 'unchanged' : ''),
         text('hostname', 'Name on the network (.local)')),
+      h('h3', { style: 'margin:8px 0 0;font-size:15px' }, 'Networks to join'),
+      h('div', { class: 'list', id: 'netList' }, (s.networks || []).map(netRow)),
+      h('button', { class: 'btn', id: 'btnAddNet', style: 'justify-self:start', onclick: () => {
+        $('#netList').append(netRow({ ssid: '', pass_set: false }));
+        updateAddNet();
+      } }, 'Add a network'),
       h('div', { class: 'row' },
         h('button', { class: 'btn primary', onclick: saveNetwork }, 'Save Wi-Fi'),
         h('button', { class: 'btn', id: 'btnRestart', onclick: () => api('POST', '/api/restart').then(() => toast('Restarting… reconnect in a few seconds')).catch(() => toast('Restarting…')) }, 'Restart box'))),
@@ -514,12 +518,31 @@ function collect(keys) {
   return out;
 }
 
+const MAX_NETS = 4;
+
+// One saved network: name, password (blank keeps the saved one) and a remove button.
+function netRow(n) {
+  const row = h('div', { class: 'item net', style: 'flex-wrap:wrap' },
+    h('input', { type: 'text', class: 'net-ssid', value: n.ssid, placeholder: 'Network name', 'aria-label': 'Network name', autocomplete: 'off', style: 'flex:1 1 140px' }),
+    h('input', { type: 'password', class: 'net-pass', value: '', placeholder: n.pass_set ? 'password unchanged' : 'password (blank = open)', 'aria-label': 'Network password', autocomplete: 'off', style: 'flex:1 1 140px' }),
+    h('button', { class: 'btn small', 'aria-label': 'Remove network', onclick: () => { row.remove(); updateAddNet(); } }, 'Remove'));
+  return row;
+}
+
+function updateAddNet() {
+  const b = /** @type {HTMLButtonElement | null} */ (document.getElementById('btnAddNet'));
+  if (b) b.disabled = document.querySelectorAll('#netList .net').length >= MAX_NETS;
+}
+
 async function saveNetwork() {
-  const body = collect(['ap_ssid', 'sta_ssid', 'hostname']);
-  for (const k of ['ap_pass', 'sta_pass']) {
-    const v = /** @type {HTMLInputElement} */ (document.getElementById(`set_${k}`)).value;
-    if (v) body[k] = v;
-  }
+  const body = collect(['ap_ssid', 'hostname']);
+  const ap = /** @type {HTMLInputElement} */ (document.getElementById('set_ap_pass')).value;
+  if (ap) body.ap_pass = ap;
+  body.networks = [...document.querySelectorAll('#netList .net')].map((row) => {
+    const ssid = /** @type {HTMLInputElement} */ (row.querySelector('.net-ssid')).value.trim();
+    const pass = /** @type {HTMLInputElement} */ (row.querySelector('.net-pass')).value;
+    return pass ? { ssid, pass } : { ssid };   // no "pass" key: the box keeps the saved password for that name
+  }).filter((n) => n.ssid);
   if (body.ap_pass && body.ap_pass.length < 8) { toast('Box password needs 8 or more characters'); return; }
   const res = await saveSettings(body);
   if (res && res.restart_needed) toast('Saved. Restart the box to use the new Wi-Fi settings.');

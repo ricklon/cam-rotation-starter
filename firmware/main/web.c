@@ -78,7 +78,7 @@ static esp_err_t h_settings_post(httpd_req_t *req)
     free(b);
     if (!j) return send_err(req, "400 Bad Request", "invalid JSON");
     bool net_changed = cJSON_HasObjectItem(j, "ap_ssid") || cJSON_HasObjectItem(j, "ap_pass") ||
-                       cJSON_HasObjectItem(j, "sta_ssid") || cJSON_HasObjectItem(j, "sta_pass") ||
+                       cJSON_HasObjectItem(j, "networks") || cJSON_HasObjectItem(j, "sta_ssid") || cJSON_HasObjectItem(j, "sta_pass") ||
                        cJSON_HasObjectItem(j, "hostname");
     settings_apply_json(j);
     cJSON_Delete(j);

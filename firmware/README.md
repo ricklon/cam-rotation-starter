@@ -52,7 +52,7 @@ LED: steady while a story plays, a short blink every 2 s when ready.
 
 1. Power the box. Join the Wi-Fi network **CamBox-XXXX** (open by default; the last four characters come from the board's MAC address).
 2. Your phone should open the app automatically (captive portal). If it doesn't, go to `http://192.168.4.1` or `http://cambox.local`.
-3. Optional: in Settings → Wi-Fi, enter your own network so the box joins it too. Then use `http://cambox.local` from that network.
+3. Optional: in Settings → Wi-Fi, add your own network (or several: school, home, a phone hotspot) so the box joins the first one it can reach. Then use `http://cambox.local` from that network.
 
 ## Build and flash
 
@@ -154,7 +154,7 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 | `autoplay`, `autoplay_story` | false, "" | Gallery mode: play this story when powered on. |
 | `rest_every`, `rest_ms` | 0, 5000 | Pause for `rest_ms` after every N loops. |
 | `ap_ssid`, `ap_pass` | "" | The box's own network. Blank name = CamBox-XXXX; a password under 8 characters = open network. |
-| `sta_ssid`, `sta_pass` | "" | Optional network to join as well. |
+| `networks` | [] | Up to 4 networks to join as well, `[{"ssid","pass"}]`, tried in order (3 attempts each). The API never returns passwords, only `pass_set`; an entry sent without `pass` keeps its saved password. A single `sta_ssid` / `sta_pass` from an older save becomes the first entry. |
 | `hostname` | cambox | mDNS name (`cambox.local`). |
 
 ## Layout

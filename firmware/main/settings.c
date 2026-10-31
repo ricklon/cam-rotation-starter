@@ -46,6 +46,29 @@ static void get_bool(bool *dst, const cJSON *j, const char *key)
     if (cJSON_IsBool(it)) *dst = cJSON_IsTrue(it);
 }
 
+// Replace the saved network list. An entry without "pass" keeps the password already saved for that SSID.
+static void apply_networks(const cJSON *arr)
+{
+    wifi_net_t old[WIFI_MAX_NETS];
+    int old_n = g_settings.net_count;
+    memcpy(old, g_settings.nets, sizeof old);
+    memset(g_settings.nets, 0, sizeof g_settings.nets);
+    int n = 0;
+    const cJSON *it;
+    cJSON_ArrayForEach(it, arr) {
+        if (n >= WIFI_MAX_NETS) break;
+        const cJSON *ss = cJSON_GetObjectItemCaseSensitive(it, "ssid");
+        const cJSON *pp = cJSON_GetObjectItemCaseSensitive(it, "pass");
+        if (!cJSON_IsString(ss) || !ss->valuestring[0]) continue;
+        wifi_net_t *d = &g_settings.nets[n];
+        strncpy(d->ssid, ss->valuestring, sizeof d->ssid - 1);
+        if (cJSON_IsString(pp)) strncpy(d->pass, pp->valuestring, sizeof d->pass - 1);
+        else for (int i = 0; i < old_n; i++) if (!strcmp(old[i].ssid, d->ssid)) { strcpy(d->pass, old[i].pass); break; }
+        n++;
+    }
+    g_settings.net_count = n;
+}
+
 void settings_apply_json(const cJSON *j)
 {
     if (!cJSON_IsObject(j)) return;
@@ -61,8 +84,18 @@ void settings_apply_json(const cJSON *j)
     get_int(&g_settings.rest_ms, j, "rest_ms", 0, 600000);
     copy_str(g_settings.ap_ssid, sizeof g_settings.ap_ssid, j, "ap_ssid");
     copy_str(g_settings.ap_pass, sizeof g_settings.ap_pass, j, "ap_pass");
-    copy_str(g_settings.sta_ssid, sizeof g_settings.sta_ssid, j, "sta_ssid");
-    copy_str(g_settings.sta_pass, sizeof g_settings.sta_pass, j, "sta_pass");
+    const cJSON *nets = cJSON_GetObjectItemCaseSensitive(j, "networks");
+    if (cJSON_IsArray(nets)) {
+        apply_networks(nets);
+    } else {
+        // Older saves and clients had one network: sta_ssid / sta_pass become the first entry.
+        const cJSON *ss = cJSON_GetObjectItemCaseSensitive(j, "sta_ssid");
+        if (cJSON_IsString(ss) && ss->valuestring[0]) {
+            if (g_settings.net_count == 0) g_settings.net_count = 1;
+            copy_str(g_settings.nets[0].ssid, sizeof g_settings.nets[0].ssid, j, "sta_ssid");
+            copy_str(g_settings.nets[0].pass, sizeof g_settings.nets[0].pass, j, "sta_pass");
+        }
+    }
     copy_str(g_settings.hostname, sizeof g_settings.hostname, j, "hostname");
     // WPA2 needs 8+ characters; anything shorter falls back to an open network.
     if (strlen(g_settings.ap_pass) > 0 && strlen(g_settings.ap_pass) < 8) g_settings.ap_pass[0] = 0;
@@ -82,15 +115,17 @@ cJSON *settings_to_json(bool include_secrets)
     cJSON_AddNumberToObject(j, "rest_every", g_settings.rest_every);
     cJSON_AddNumberToObject(j, "rest_ms", g_settings.rest_ms);
     cJSON_AddStringToObject(j, "ap_ssid", g_settings.ap_ssid);
-    cJSON_AddStringToObject(j, "sta_ssid", g_settings.sta_ssid);
     cJSON_AddStringToObject(j, "hostname", g_settings.hostname);
-    if (include_secrets) {
-        cJSON_AddStringToObject(j, "ap_pass", g_settings.ap_pass);
-        cJSON_AddStringToObject(j, "sta_pass", g_settings.sta_pass);
-    } else {
-        cJSON_AddBoolToObject(j, "ap_pass_set", g_settings.ap_pass[0] != 0);
-        cJSON_AddBoolToObject(j, "sta_pass_set", g_settings.sta_pass[0] != 0);
+    cJSON *arr = cJSON_AddArrayToObject(j, "networks");
+    for (int i = 0; i < g_settings.net_count; i++) {
+        cJSON *o = cJSON_CreateObject();
+        cJSON_AddStringToObject(o, "ssid", g_settings.nets[i].ssid);
+        if (include_secrets) cJSON_AddStringToObject(o, "pass", g_settings.nets[i].pass);
+        else cJSON_AddBoolToObject(o, "pass_set", g_settings.nets[i].pass[0] != 0);
+        cJSON_AddItemToArray(arr, o);
     }
+    if (include_secrets) cJSON_AddStringToObject(j, "ap_pass", g_settings.ap_pass);
+    else cJSON_AddBoolToObject(j, "ap_pass_set", g_settings.ap_pass[0] != 0);
     return j;
 }
 
@@ -137,8 +172,8 @@ void settings_reset_network(void)
 {
     g_settings.ap_ssid[0] = 0;
     g_settings.ap_pass[0] = 0;
-    g_settings.sta_ssid[0] = 0;
-    g_settings.sta_pass[0] = 0;
+    memset(g_settings.nets, 0, sizeof g_settings.nets);
+    g_settings.net_count = 0;
     strcpy(g_settings.hostname, "cambox");
     settings_save();
 }

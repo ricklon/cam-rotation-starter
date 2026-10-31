@@ -4,6 +4,13 @@
 #include "esp_err.h"
 #include "cJSON.h"
 
+#define WIFI_MAX_NETS 4
+
+typedef struct {
+    char ssid[33];
+    char pass[65];         // empty = open network
+} wifi_net_t;
+
 typedef struct {
     // Servo calibration
     int  trim_us;          // pulse that stops the continuous servo (default 1500)
@@ -21,8 +28,8 @@ typedef struct {
     // Network
     char ap_ssid[33];      // empty = CamBox-XXXX from the MAC
     char ap_pass[65];      // empty = open network
-    char sta_ssid[33];     // empty = access point only
-    char sta_pass[65];
+    wifi_net_t nets[WIFI_MAX_NETS];   // networks to join, tried in order; none = access point only
+    int  net_count;
     char hostname[32];     // mDNS name, e.g. cambox -> cambox.local
 } settings_t;
 
