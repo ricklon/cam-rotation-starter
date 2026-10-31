@@ -99,9 +99,9 @@ static esp_err_t h_restart(httpd_req_t *req)
 
 static esp_err_t h_stories_list(httpd_req_t *req) { return send_json(req, storage_list_stories()); }
 
-static const char *story_name_from_uri(httpd_req_t *req)
+static const char *name_from_uri(httpd_req_t *req, const char *prefix)
 {
-    const char *p = req->uri + strlen("/api/stories/");
+    const char *p = req->uri + strlen(prefix);
     static char name[40];
     size_t n = strcspn(p, "?");
     if (n >= sizeof name) return NULL;
@@ -109,6 +109,9 @@ static const char *story_name_from_uri(httpd_req_t *req)
     name[n] = 0;
     return storage_valid_name(name) ? name : NULL;
 }
+
+static const char *story_name_from_uri(httpd_req_t *req) { return name_from_uri(req, "/api/stories/"); }
+static const char *playlist_name_from_uri(httpd_req_t *req) { return name_from_uri(req, "/api/playlists/"); }
 
 static esp_err_t h_story_get(httpd_req_t *req)
 {
@@ -154,15 +157,72 @@ static esp_err_t h_story_delete(httpd_req_t *req)
     return send_json(req, cJSON_CreateObject());
 }
 
+static esp_err_t h_playlists_list(httpd_req_t *req) { return send_json(req, storage_list_playlists()); }
+
+static esp_err_t h_playlist_get(httpd_req_t *req)
+{
+    const char *name = playlist_name_from_uri(req);
+    if (!name) return send_err(req, "400 Bad Request", "playlist names use letters, digits, - and _");
+    char *txt = storage_read_playlist(name);
+    if (!txt) return send_err(req, "404 Not Found", "no such playlist");
+    httpd_resp_set_type(req, "application/json");
+    esp_err_t r = httpd_resp_sendstr(req, txt);
+    free(txt);
+    return r;
+}
+
+static esp_err_t h_playlist_put(httpd_req_t *req)
+{
+    const char *name = playlist_name_from_uri(req);
+    if (!name) return send_err(req, "400 Bad Request", "playlist names use letters, digits, - and _");
+    char nm[40];
+    strcpy(nm, name);
+    char *b = read_body(req, 2048);
+    if (!b) return send_err(req, "400 Bad Request", "body missing or too large");
+    cJSON *j = cJSON_Parse(b);
+    free(b);
+    const cJSON *arr = cJSON_GetObjectItemCaseSensitive(j, "stories");
+    int n = cJSON_IsArray(arr) ? cJSON_GetArraySize(arr) : 0;
+    if (n < 1 || n > PLAYLIST_MAX) { cJSON_Delete(j); return send_err(req, "400 Bad Request", "a playlist needs 1 to 16 stories"); }
+    cJSON *out = cJSON_CreateObject(), *list = cJSON_AddArrayToObject(out, "stories");
+    cJSON_AddStringToObject(out, "name", nm);
+    const cJSON *it;
+    cJSON_ArrayForEach(it, arr) {
+        if (!cJSON_IsString(it) || !storage_valid_name(it->valuestring)) {
+            cJSON_Delete(j); cJSON_Delete(out);
+            return send_err(req, "400 Bad Request", "story names use letters, digits, - and _");
+        }
+        cJSON_AddItemToArray(list, cJSON_CreateString(it->valuestring));
+    }
+    cJSON_Delete(j);
+    char *s = cJSON_Print(out);
+    cJSON_Delete(out);
+    esp_err_t e = s ? storage_write_playlist(nm, s, strlen(s)) : ESP_ERR_NO_MEM;
+    free(s);
+    if (e != ESP_OK) return send_err(req, "500 Internal Server Error", "could not save playlist");
+    cJSON *ok = cJSON_CreateObject();
+    cJSON_AddStringToObject(ok, "saved", nm);
+    return send_json(req, ok);
+}
+
+static esp_err_t h_playlist_delete(httpd_req_t *req)
+{
+    const char *name = playlist_name_from_uri(req);
+    if (!name || storage_delete_playlist(name) != ESP_OK) return send_err(req, "404 Not Found", "no such playlist");
+    return send_json(req, cJSON_CreateObject());
+}
+
 static esp_err_t h_play(httpd_req_t *req)
 {
     char *b = read_body(req, 256);
     cJSON *j = b ? cJSON_Parse(b) : NULL;
     free(b);
     const cJSON *n = cJSON_GetObjectItemCaseSensitive(j, "name");
-    esp_err_t e = player_play(cJSON_IsString(n) ? n->valuestring : "");
+    const cJSON *pl = cJSON_GetObjectItemCaseSensitive(j, "playlist");
+    esp_err_t e = cJSON_IsString(pl) ? player_play_playlist(pl->valuestring)
+                                      : player_play(cJSON_IsString(n) ? n->valuestring : "");
     cJSON_Delete(j);
-    if (e != ESP_OK) return send_err(req, "404 Not Found", "story not found or invalid");
+    if (e != ESP_OK) return send_err(req, "404 Not Found", "story or playlist not found or invalid");
     return send_json(req, full_status());
 }
 
@@ -317,6 +377,10 @@ void web_start(void)
     reg("/api/stories/*", HTTP_GET, h_story_get);
     reg("/api/stories/*", HTTP_PUT, h_story_put);
     reg("/api/stories/*", HTTP_DELETE, h_story_delete);
+    reg("/api/playlists", HTTP_GET, h_playlists_list);
+    reg("/api/playlists/*", HTTP_GET, h_playlist_get);
+    reg("/api/playlists/*", HTTP_PUT, h_playlist_put);
+    reg("/api/playlists/*", HTTP_DELETE, h_playlist_delete);
     reg("/api/play", HTTP_POST, h_play);
     reg("/api/pause", HTTP_POST, h_pause);
     reg("/api/stop", HTTP_POST, h_stop);

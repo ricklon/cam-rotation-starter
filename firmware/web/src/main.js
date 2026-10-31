@@ -52,6 +52,10 @@ const state = {
   settings: null,
   editing: null,      // story being edited: {name, loop, steps:[{label,speed,ms,ramp}]}
   isNew: false,
+  playlists: [],
+  plEditing: null,    // playlist being edited: {name, orig, stories:[]}
+  plIsNew: false,
+  recGuide: '',       // story to play along with while recording ('' = none)
   recording: null,    // {t0, points:[{t,v}], lastV, settleTimer}
 };
 
@@ -124,6 +128,7 @@ function storySelect(id, selected, includeNone) {
 
 async function loadStories() {
   try { state.stories = (await api('GET', '/api/stories')).sort(); } catch (e) { toast(`Couldn't load stories: ${e.message}`); }
+  try { state.playlists = (await api('GET', '/api/playlists')).sort(); } catch { state.playlists = []; }
 }
 
 // ---------------------------------------------------------------- Play tab
@@ -184,7 +189,8 @@ function updateLive() {
   if (!s) return;
   const story = s.mode === 'story';
   const set = (id, txt) => { const el = document.getElementById(id); if (el && el.textContent !== txt) el.textContent = txt; };
-  set('nowMode', story ? (s.resting ? 'Resting between loops' : s.paused ? 'Story · paused' : 'Story · playing') : 'Manual');
+  const kind = s.playlist ? `Playlist ${s.playlist} (${s.pl_pos} of ${s.pl_n})` : 'Story';
+  set('nowMode', story ? (s.resting ? 'Resting between loops' : s.paused ? `${kind} · paused` : `${kind} · playing`) : 'Manual');
   set('nowTitle', story ? s.story : (Math.abs(s.target) > 0.5 ? `Turning at ${Math.round(s.target)}%` : 'Stopped'));
   set('nowBeat', story && s.steps ? `Beat ${s.step + 1} of ${s.steps}${s.step_label ? ` · ${s.step_label}` : ''} · loop ${s.loops + 1}` : '');
   setGauge(document.getElementById('liveGauge'), s.speed);
@@ -241,9 +247,10 @@ function outputLabel(s) {
 
 // ---------------------------------------------------------------- Stories tab
 
-const blankStory = () => ({ name: '', loop: true, steps: [{ label: 'Begin', speed: 30, ms: 3000, ramp: 800 }] });
+const blankStory = () => ({ name: '', orig: '', loop: true, steps: [{ label: 'Begin', speed: 30, ms: 3000, ramp: 800 }] });
 
 function renderStories() {
+  if (state.plEditing) return renderPlaylistEditor();
   if (state.editing) return renderEditor();
   return [
     h('section', { class: 'card' },
@@ -260,13 +267,26 @@ function renderStories() {
             h('button', { class: 'btn small', onclick: () => deleteStory(n) }, 'Delete')))),
       h('label', { class: 'btn', style: 'justify-self:start' }, 'Import story (.json)',
         h('input', { type: 'file', accept: '.json,application/json', hidden: true, onchange: importStory }))),
+
+    h('section', { class: 'card' },
+      h('div', { class: 'row' },
+        h('h2', { class: 'grow' }, 'Playlists'),
+        h('button', { class: 'btn primary', disabled: state.stories.length === 0, onclick: () => { state.plEditing = { name: '', orig: '', stories: [state.stories[0]] }; state.plIsNew = true; render(); } }, 'New playlist')),
+      h('p', { class: 'muted', style: 'margin:0;font-size:14px' }, 'A playlist plays its stories in order, once each, then starts again.'),
+      state.playlists.length === 0
+        ? h('p', { class: 'muted', style: 'margin:0' }, 'No playlists yet.')
+        : h('div', { class: 'list' }, state.playlists.map((n) => h('div', { class: 'item', 'data-pl': n },
+            h('span', { class: 'name' }, n),
+            h('button', { class: 'btn small primary', onclick: () => api('POST', '/api/play', { playlist: n }).then(() => toast(`Playing ${n}`)).catch((e) => toast(e.message)) }, 'Play'),
+            h('button', { class: 'btn small', onclick: () => editPlaylist(n) }, 'Edit'),
+            h('button', { class: 'btn small', onclick: (e) => deletePlaylist(n, e.currentTarget) }, 'Delete'))))),
   ];
 }
 
 async function editStory(name) {
   try {
     const s = await api('GET', `/api/stories/${encodeURIComponent(name)}`);
-    state.editing = { name, loop: s.loop !== false, steps: (s.steps || []).map((x) => ({ label: x.label || '', speed: x.speed, ms: x.ms, ramp: x.ramp ?? 300 })) };
+    state.editing = { name, orig: name, loop: s.loop !== false, steps: (s.steps || []).map((x) => ({ label: x.label || '', speed: x.speed, ms: x.ms, ramp: x.ramp ?? 300 })) };
     state.isNew = false;
     render();
   } catch (e) { toast(e.message); }
@@ -352,7 +372,8 @@ function renderEditor() {
         h('h2', { class: 'grow' }, state.isNew ? 'New story' : `Editing ${st.name}`)),
       h('div', { class: 'grid2' },
         h('label', { class: 'field' }, 'Name (letters, digits, - and _)',
-          h('input', { type: 'text', value: st.name, maxlength: 31, disabled: !state.isNew, oninput: (e) => (st.name = e.target.value) })),
+          h('input', { type: 'text', value: st.name, maxlength: 31, placeholder: 'Name this story', oninput: (e) => (st.name = e.target.value.trim()) }),
+          state.isNew ? null : h('span', { class: 'muted', style: 'font-size:13px' }, `Change the name to save a copy; "${st.orig}" stays as it is.`)),
         h('label', { class: 'check', style: 'align-self:end' }, h('input', { type: 'checkbox', checked: st.loop, onchange: (e) => (st.loop = e.target.checked) }), 'Loop forever')),
       tl),
 
@@ -361,6 +382,11 @@ function renderEditor() {
         h('h2', { class: 'grow' }, 'Record by performing'),
         rec ? h('span', { class: 'rec' }, '● Recording') : null),
       h('p', { class: 'muted', style: 'margin:0;font-size:14px' }, 'Press Record, then move the slider the way you would turn the crank. Each time you settle on a speed it becomes a beat. Recording replaces the beats below.'),
+      h('label', { class: 'field' }, 'Play along with (optional)',
+        h('select', { id: 'recGuide', disabled: !!rec, onchange: (e) => (state.recGuide = e.target.value) },
+          h('option', { value: '' }, 'Nothing: the slider drives the motor'),
+          state.stories.map((n) => h('option', { value: n, selected: n === state.recGuide }, n)))),
+      rec && rec.guide ? h('p', { class: 'muted', style: 'margin:0;font-size:14px' }, `${rec.guide} is playing on the motor. The slider only records, so the new take is built on top of it.`) : null,
       h('input', { type: 'range', id: 'recSlider', min: -100, max: 100, value: 0, disabled: !rec, 'aria-label': 'Performance speed',
         oninput: (e) => recordInput(Number(e.target.value)) }),
       h('div', { class: 'row' },
@@ -384,10 +410,12 @@ async function saveStory(andPlay) {
   const st = state.editing;
   const name = (st.name || '').trim();
   if (!/^[A-Za-z0-9_-]{1,31}$/.test(name)) { toast('Name: 1–31 letters, digits, - or _'); return; }
+  if (name !== st.orig && state.stories.includes(name)) { toast(`A story called ${name} already exists. Pick another name.`); return; }
   const body = { name, loop: st.loop, steps: st.steps.map((s) => ({ label: s.label, speed: Math.round(s.speed), ms: Math.max(0, Math.round(s.ms)), ramp: Math.max(0, Math.round(s.ramp)) })) };
   try {
     await api('PUT', `/api/stories/${encodeURIComponent(name)}`, body);
     state.isNew = false;
+    st.orig = name;
     await loadStories();
     if (andPlay) await api('POST', '/api/play', { name });
     toast(andPlay ? `Saved and playing ${name}` : `Saved ${name}`);
@@ -395,8 +423,13 @@ async function saveStory(andPlay) {
   } catch (e) { toast(`Save failed: ${e.message}`); }
 }
 
-function startRecording() {
-  state.recording = { t0: performance.now(), points: [{ t: 0, v: 0 }], lastV: 0, settle: null };
+async function startRecording() {
+  const guide = state.recGuide && state.stories.includes(state.recGuide) ? state.recGuide : '';
+  if (guide) {
+    // The guide story drives the motor; the slider only records.
+    try { await api('POST', '/api/play', { name: guide }); } catch (e) { toast(e.message); return; }
+  }
+  state.recording = { t0: performance.now(), points: [{ t: 0, v: 0 }], lastV: 0, settle: null, guide };
   render();
   $('#recSlider')?.focus();
 }
@@ -404,7 +437,7 @@ function startRecording() {
 function recordInput(v) {
   const r = state.recording;
   if (!r) return;
-  sendSpeed(v);
+  if (!r.guide) sendSpeed(v);
   clearTimeout(r.settle);
   // A beat is recorded once the slider rests for a moment at a new speed.
   r.settle = setTimeout(() => {
@@ -418,7 +451,7 @@ function stopRecording(keep) {
   clearTimeout(r.settle);
   state.recording = null;
   sendSpeed.cancel();
-  send({ t: 'speed', v: 0 });
+  send({ t: 'stop' });
   if (keep && r.points.length > 1) {
     const end = performance.now() - r.t0;
     const pts = r.points.slice(1);
@@ -432,6 +465,69 @@ function stopRecording(keep) {
     toast('Nothing recorded: move the slider and pause on each speed.');
   }
   render();
+}
+
+// ---------------------------------------------------------------- Playlists
+
+async function editPlaylist(name) {
+  try {
+    const p = await api('GET', `/api/playlists/${encodeURIComponent(name)}`);
+    state.plEditing = { name, orig: name, stories: Array.isArray(p.stories) ? p.stories.slice() : [] };
+    state.plIsNew = false;
+    render();
+  } catch (e) { toast(e.message); }
+}
+
+async function deletePlaylist(name, btn) {
+  // Two-tap delete, like stories.
+  if (btn.dataset.armed !== '1') { btn.dataset.armed = '1'; btn.textContent = 'Tap again'; setTimeout(() => { btn.dataset.armed = ''; btn.textContent = 'Delete'; }, 3000); return; }
+  try { await api('DELETE', `/api/playlists/${encodeURIComponent(name)}`); await loadStories(); render(); toast(`Deleted ${name}`); }
+  catch (e) { toast(e.message); }
+}
+
+function renderPlaylistEditor() {
+  const pl = state.plEditing;
+  const rows = pl.stories.map((n, i) => h('div', { class: 'item' },
+    h('span', { class: 'num mono muted' }, String(i + 1).padStart(2, '0')),
+    h('select', { class: 'grow', 'aria-label': `Story ${i + 1}`, onchange: (e) => (pl.stories[i] = e.target.value) },
+      [...new Set([...state.stories, n])].map((s) => h('option', { value: s, selected: s === n }, state.stories.includes(s) ? s : `${s} (missing)`))),
+    h('button', { class: 'btn small', 'aria-label': 'Move up', disabled: i === 0, onclick: () => { [pl.stories[i - 1], pl.stories[i]] = [pl.stories[i], pl.stories[i - 1]]; render(); } }, '↑'),
+    h('button', { class: 'btn small', 'aria-label': 'Move down', disabled: i === pl.stories.length - 1, onclick: () => { [pl.stories[i + 1], pl.stories[i]] = [pl.stories[i], pl.stories[i + 1]]; render(); } }, '↓'),
+    h('button', { class: 'btn small', 'aria-label': 'Remove story', disabled: pl.stories.length === 1, onclick: () => { pl.stories.splice(i, 1); render(); } }, '✕')));
+  return [
+    h('section', { class: 'card' },
+      h('div', { class: 'row' },
+        h('button', { class: 'btn', onclick: () => { state.plEditing = null; render(); } }, '← Stories'),
+        h('h2', { class: 'grow' }, state.plIsNew ? 'New playlist' : `Editing ${pl.orig}`)),
+      h('label', { class: 'field' }, 'Name (letters, digits, - and _)',
+        h('input', { type: 'text', value: pl.name, maxlength: 31, placeholder: 'Name this playlist', oninput: (e) => (pl.name = e.target.value.trim()) }),
+        state.plIsNew ? null : h('span', { class: 'muted', style: 'font-size:13px' }, `Change the name to save a copy; "${pl.orig}" stays as it is.`))),
+    h('section', { class: 'card' },
+      h('h2', {}, `Stories in order (${pl.stories.length})`),
+      h('div', { class: 'list' }, rows),
+      h('button', { class: 'btn', style: 'justify-self:start', disabled: pl.stories.length >= 16 || state.stories.length === 0,
+        onclick: () => { pl.stories.push(state.stories[0]); render(); } }, 'Add a story')),
+    h('section', { class: 'card' },
+      h('div', { class: 'row' },
+        h('button', { class: 'btn primary big', onclick: () => savePlaylist(false) }, 'Save'),
+        h('button', { class: 'btn big', onclick: () => savePlaylist(true) }, 'Save and play'))),
+  ];
+}
+
+async function savePlaylist(andPlay) {
+  const pl = state.plEditing;
+  const name = (pl.name || '').trim();
+  if (!/^[A-Za-z0-9_-]{1,31}$/.test(name)) { toast('Name: 1–31 letters, digits, - or _'); return; }
+  if (name !== pl.orig && state.playlists.includes(name)) { toast(`A playlist called ${name} already exists. Pick another name.`); return; }
+  try {
+    await api('PUT', `/api/playlists/${encodeURIComponent(name)}`, { stories: pl.stories });
+    state.plIsNew = false;
+    pl.orig = name;
+    await loadStories();
+    if (andPlay) await api('POST', '/api/play', { playlist: name });
+    toast(andPlay ? `Saved and playing ${name}` : `Saved ${name}`);
+    render();
+  } catch (e) { toast(`Save failed: ${e.message}`); }
 }
 
 // ---------------------------------------------------------------- Settings tab
@@ -573,7 +669,7 @@ document.querySelectorAll('.tabs button').forEach((/** @type {HTMLButtonElement}
   if (state.tab === 'settings') send({ t: 'trim_end' });
   state.tab = b.dataset.tab;
   if (state.tab === 'settings') state.settings = await api('GET', '/api/settings').catch(() => state.settings);
-  if (state.tab !== 'stories') state.editing = null;
+  if (state.tab !== 'stories') { state.editing = null; state.plEditing = null; }
   render();
   try { localStorage.setItem('cambox.tab', state.tab); } catch { /* private mode */ }
 }));

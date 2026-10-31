@@ -101,6 +101,8 @@ Vite serves the app on your computer and proxies `/api` and `/ws` to the box. `n
 
 ## Stories
 
+A **playlist** (`/data/playlists/<name>.json`) is an ordered list of up to 16 story names. Play one with `POST /api/play {"playlist":"<name>"}` or from the Stories tab. It plays each story once, in order, then starts again; stories missing from the box are skipped. The loop flag and rest settings don't apply inside a playlist. Double-press or `POST /api/next` skips to the next story, and Stop ends the playlist. In the editor, changing a story's or playlist's name before Save saves a copy and leaves the original alone.
+
 Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–31 characters from `A–Z a–z 0–9 _ -`. Each story holds up to 64 steps.
 
 ```json
@@ -129,6 +131,8 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 | POST | `/api/restart` | Restarts the box. |
 | GET | `/api/stories` | `["demo", …]` |
 | GET / PUT / DELETE | `/api/stories/<name>` | Story JSON |
+| GET | `/api/playlists` | `["both", …]` |
+| GET / PUT / DELETE | `/api/playlists/<name>` | Playlist JSON: `{"name":"both","stories":["demo","fwd-pause-rev"]}` (1–16 story names) |
 | POST | `/api/play` | `{"name":"demo"}` |
 | POST | `/api/pause`, `/api/stop`, `/api/next` | |
 
