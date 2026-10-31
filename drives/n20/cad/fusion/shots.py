@@ -8,7 +8,8 @@ exec(open(os.path.join(REPO, 'drives', 'mg90s', 'cad', 'fusion', 'photo.py')).re
 ALWAYS_OFF = ('Box_Wall', 'Dowel_075', 'Dowel_025', 'Dowel_0625', 'Fit_Test_Coupon', 'N20_Fit_Coupon', 'PETG_Fit_Coupon',
               'Panel_Fit_Coupon', 'Dowel_Fit_Gauge')
 CART = ('N20_Cartridge', 'N20 DC MOTOR', 'HW_Arm_Zip_Tie')
-POD = ('Control_Pod', 'SW1_Dir_Switch', 'RV1_Speed_Pot', 'S1_12mm_Button', 'J3_JST_PH6')
+POD = ('Control_Pod', 'SW1_Dir_Switch', 'S1_12mm_Button', 'J3_JST_PH6')   # rev C: RV1 is on the perfboard
+ELEC = ('Servo_Mount', 'Perfboard', 'N20_Electronics_Cover', 'usbc_pd_w_switches', 'C1_470uF_10V', 'Wiring')
 SHOTS = {
     'wiring_electronics': dict(hide=ALWAYS_OFF, opacity={'Servo_Mount': 0.7}, eye=(5, -400, 2), target=(5, -20, 2), ortho=True, extent=64),
     'wiring_under_base': dict(hide=ALWAYS_OFF + ('Control_Pod',), eye=(70, -90, -320), target=(4, -2, -12), up=(0, 1, 0), ortho=True, extent=66),
@@ -20,6 +21,10 @@ SHOTS = {
         eye=(-260, -70, 150), target=(-3, 0, 1), ortho=True, extent=44),
     'clamp_0625_caphead': dict(show=('Adapter_Clamp_0625', 'HW_Clamp0625_Screws'), eye=(80, 220, 90), target=(0, 3, 17), ortho=True, extent=42),
     'pod_jst': dict(show=POD + ('Wiring',), wires=('p J3 pin', 'p button', 'J1 ', 'J2 '), opacity={'Control_Pod': 0.45}, eye=(-90, -160, 70), target=(1, 32, 13), ortho=True, extent=46),
+    'perfboard': dict(show=ELEC, hide=('N20_Electronics_Cover',), wires=('W1 ', 'W2 ', 'W6 ', 'W9 ', 'W10 ', 'W11 ', 'W14 ', 'W15 ', 'D1 '),
+        eye=(150, -170, -260), target=(46, 0, 18), ortho=True, extent=84),
+    'perfboard_cover': dict(show=ELEC + CART + POD, eye=(190, -200, -170), target=(30, 4, 8), ortho=True, extent=130),
+    'motor_clamp': dict(show=CART + ('Wiring',), wires=('W14 ', 'W15 ', 'C2'), eye=(90, 200, -120), target=(2, 3, -25), ortho=True, extent=30),
     'petg_fit_coupon': dict(show=('PETG_Fit_Coupon',), eye=(200, 0, 300), target=(200, 0, -7), up=(0, 1, 0), ortho=True, extent=108),
 }
 

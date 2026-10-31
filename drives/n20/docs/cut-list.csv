@@ -1,25 +1,26 @@
 wire,colour,gauge,from,to,routed_mm,cut_mm,notes
-W1,red,22-26 AWG,U1 + terminal,DRV8833 VCC,87,115,down the -Y wall groove then the outer lane under that wall
-W2,black,22-26 AWG,U1 GND terminal,DRV8833 GND,81,105,inner lane beside W1; tie at anchor A1
-L1,red,22-26 AWG,C1 +,U1 + terminal,50,70,
-L2,black,22-26 AWG,C1 -,U1 GND terminal,36,55,
-W4,black,22-26 AWG,XIAO GND,DRV8833 GND,20,35,straight down and under
-W5,orange,30 AWG,XIAO D10,DRV8833 IN3,21,35,straight down and under
-W12,brown,30 AWG,XIAO D9,DRV8833 IN4,21,35,beside W5
-W13,gray,30 AWG,XIAO D8,DRV8833 EEP,39,55,under the base beside the cartridge flange
-W14,white,22-26 AWG,DRV8833 OUT3,N20 terminal +,35,55,tie at anchor A2
-W15,blue,22-26 AWG,DRV8833 OUT4,N20 terminal -,47,65,tie at anchor A2; behind the motor's end cap inside the snap hooks
-W6,white,30 AWG,XIAO D1,J3 pin 6,126,155,mount-side harness to the PHR-6 housing
-W7,yellow,30 AWG,XIAO D2,J3 pin 4,123,155,
-W8,violet,30 AWG,XIAO 3V3,J3 pin 5,141,175,
-W9,green,30 AWG,XIAO D3,J3 pin 3,120,150,
-W10,blue,30 AWG,XIAO D4,J3 pin 1,118,150,
-W11,black,30 AWG,XIAO GND,J3 pin 2,145,180,
+W1,red,22-26 AWG,U1 + terminal,perfboard A8 (5V bus),88,115,round the -Y end of the PD board then along x 23.5 into the cover's open side
+W2,black,22-26 AWG,U1 GND terminal,perfboard A9 (GND bus),88,115,beside W1 at x 24.5
+L1,red,22-26 AWG,C1 +,U1 + terminal,49,70,
+L2,black,22-26 AWG,C1 -,U1 GND terminal,35,50,
+W14,white,22-26 AWG,J4 pin 1 (DRV8833 OUT3),N20 terminal +,138,170,PHR-2 housing at J4; out of the cover's +Y notch; tie at anchor A2 and at the cartridge's wire clamp
+W15,blue,22-26 AWG,J4 pin 2 (DRV8833 OUT4),N20 terminal -,145,180,beside W14; along the clamp's tie bar and behind the end cap to the far terminal
+W6,white,30 AWG,perfboard I14 (GPIO1),J3 pin 6,173,210,includes the 101 mm trunk to the PHR-6 housing
+W9,green,30 AWG,perfboard I12 (GPIO3),J3 pin 3,175,215,includes the trunk
+W10,blue,30 AWG,perfboard I15 (GPIO0),J3 pin 1,172,210,includes the trunk
+W11,black,30 AWG,perfboard A16 (GND),J3 pin 2,145,180,includes the trunk
+W4,black,30 AWG solid,perfboard C9 (GND bus),C16 (Super Mini GND),20,35,underside link
+W5,orange,30 AWG solid,perfboard C12 (GPIO18),C5 (DRV IN3),18,35,underside link
+W12,brown,30 AWG solid,perfboard C14 (GPIO20),C6 (DRV IN4),21,35,underside link
+W13,gray,30 AWG solid,perfboard C13 (GPIO19),J6 (DRV EEP),39,55,underside link
+W16,red,30 AWG solid,perfboard B8 (5V bus),C3 (DRV VCC),14,30,underside link
+W17,red,30 AWG solid,perfboard C8 (5V bus),C11 (D1 anode),8,20,underside link
+W18,black,30 AWG solid,perfboard B9 (GND bus),C4 (DRV GND),14,30,underside link
+W19,yellow,30 AWG solid,perfboard I9 (RV1 wiper),I13 (GPIO2),11,25,underside link
+W20,black,30 AWG solid,perfboard A4 (GND),I8 (RV1 pin 1),36,55,underside link; crosses under both modules
+W21,violet,30 AWG solid,perfboard A15 (3V3),I10 (RV1 pin 3),37,55,underside link; crosses under both modules; 3.3 V only
 W6p,button lead,pre-wired,J3 pin 6,S1 lead A,30,45,trim the button's own lead
-W7p,yellow,30 AWG,J3 pin 4,RV1 pin 2,26,40,
-W8p,violet,30 AWG,J3 pin 5,RV1 pin 3,31,50,
-W9p,green,30 AWG,J3 pin 3,SW1 lug A (forward),29,45,
-W10p,blue,30 AWG,J3 pin 1,SW1 lug B (reverse),30,45,
-W11p,black,30 AWG,J3 pin 2,SW1 centre lug,29,45,
-J1,button lead,pre-wired,S1 lead B,SW1 centre lug,22,40,trim the button's second lead
-J2,black,30 AWG,SW1 centre lug,RV1 pin 1,18,35,
+W9p,green,30 AWG,J3 pin 3,SW1 lug A (forward),27,45,
+W10p,blue,30 AWG,J3 pin 1,SW1 lug B (reverse),29,45,
+W11p,black,30 AWG,J3 pin 2,SW1 centre lug,28,45,
+J1,button lead,pre-wired,S1 lead B,SW1 centre lug,21,35,trim the button's second lead

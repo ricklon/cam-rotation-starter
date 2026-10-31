@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 860" role="img" aria-label="Schematic. Power: PD board 5 volt output to the DRV8833 VCC pin and through diode D1 to the XIAO 5V pin; 470 microfarad capacitor across the 5 volt supply; all grounds common. Drive: XIAO D10 to DRV8833 IN3, D9 to IN4, D8 to the sleep pin EEP (channel B of the module); DRV8833 OUT3 and OUT4 to the N20 motor, with a 0.1 microfarad capacitor C2 across the motor terminals. Controls: 12 millimetre stainless push button S1 from XIAO D1 to ground; 10 kilohm speed knob RV1 between 3.3 volts and ground with its wiper to D2; three-position switch SW1 with common to ground and its two throws to D3 (forward) and D4 (reverse). The six control-panel wires pass through J3, a 6-pin JST-PH connector, so the panel can be unplugged."><style>.grid{stroke:#e9eeed;stroke-width:1}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 860" role="img" aria-label="Schematic. Power: PD board 5 volt output to the DRV8833 VCC pin and through diode D1 to the ESP32-C6 Super Mini 5V pin; 470 microfarad capacitor across the 5 volt supply; all grounds common. Drive: Super Mini GPIO18 to DRV8833 IN3, GPIO20 to IN4, GPIO19 to the sleep pin EEP (channel B of the module); DRV8833 OUT3 and OUT4 through the 2-pin plug J4 to the N20 motor, with a 0.1 microfarad capacitor C2 across the motor terminals. Controls: 12 millimetre stainless push button S1 from GPIO1 to ground; 10 kilohm speed knob RV1 (an RK097N on the perfboard) between 3.3 volts and ground with its wiper to GPIO2; three-position switch SW1 with common to ground and its two throws to GPIO3 (forward) and GPIO0 (reverse). The Super Mini, the DRV8833 and D1 are on a perfboard. On a XIAO ESP32-C6 the same nets use D10, D9, D8 and D1 to D4. The button and switch wires pass through J3, a 6-pin JST-PH connector, so the pod can be unplugged."><style>.grid{stroke:#e9eeed;stroke-width:1}
 .w-pwr{stroke:#c23b2a;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .w-gnd{stroke:#2f3a3d;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .w-sig{stroke:#d07a1c;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -74,18 +74,19 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <!-- U2 XIAO ESP32-C6 -->
         <rect class="part" x="440" y="240" width="190" height="200" rx="6"/>
         <text class="ref" x="535" y="232" text-anchor="middle">U2</text>
-        <text class="name" x="455" y="372">XIAO ESP32-C6</text>
-        <text class="small" x="455" y="391">USB-C: programming</text>
-        <text class="pin" x="450" y="274">5V (VIN)</text>
+        <text class="name" x="455" y="366">ESP32-C6</text>
+        <text class="name" x="455" y="385">Super Mini</text>
+        <text class="small" x="455" y="403">USB-C: programming</text>
+        <text class="pin" x="450" y="274">5V</text>
         <text class="pin" x="450" y="334">3V3</text>
         <text class="pin" x="450" y="424">GND</text>
-        <text class="pin" x="620" y="274" text-anchor="end">D10</text>
-        <text class="pin" x="620" y="299" text-anchor="end">D9</text>
-        <text class="pin" x="620" y="324" text-anchor="end">D8</text>
-        <text class="pin" x="620" y="344" text-anchor="end">D1</text>
-        <text class="pin" x="620" y="369" text-anchor="end">D2</text>
-        <text class="pin" x="620" y="394" text-anchor="end">D3</text>
-        <text class="pin" x="620" y="419" text-anchor="end">D4</text>
+        <text class="pin" x="620" y="274" text-anchor="end">GPIO18</text>
+        <text class="pin" x="620" y="299" text-anchor="end">GPIO20</text>
+        <text class="pin" x="620" y="324" text-anchor="end">GPIO19</text>
+        <text class="pin" x="620" y="344" text-anchor="end">GPIO1</text>
+        <text class="pin" x="620" y="369" text-anchor="end">GPIO2</text>
+        <text class="pin" x="620" y="394" text-anchor="end">GPIO3</text>
+        <text class="pin" x="620" y="419" text-anchor="end">GPIO0</text>
         <path class="w-gnd" d="M440 420 H380 V480"/>
         <circle class="dot-gnd" cx="380" cy="480" r="5"/>
         <!-- 3V3 out to the speed knob -->
@@ -122,6 +123,12 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <circle class="dot-pwr" cx="855" cy="110" r="5"/>
         <circle class="dot-gnd" cx="855" cy="480" r="5"/>
 
+        <!-- J4: JST-PH 2-pin between the DRV8833 outputs and the motor -->
+        <path class="sym" d="M940 312 v16 M946 312 v16 M940 402 v16 M946 402 v16"/>
+        <text class="ref" x="952" y="300">J4</text>
+        <text class="pin" x="954" y="314">1</text>
+        <text class="pin" x="954" y="426">2</text>
+
         <!-- M1 N20 gearmotor with C2 across its terminals -->
         <path class="w-sig" d="M920 320 H1060 V352 M1060 368 V410 H920 M990 320 V336 M990 410 V384"/>
         <circle class="sym" cx="990" cy="360" r="24"/>
@@ -143,13 +150,20 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <text class="ref" x="1128" y="150" text-anchor="end">C1</text>
         <text class="small" x="1128" y="168" text-anchor="end">470 µF ≥10 V</text>
 
+        <!-- Perfboard outline (rev C): U2, U3 and D1 are on the ElectroCookie board -->
+        <rect x="340" y="150" width="590" height="305" rx="10" fill="none" stroke="#1f6670" stroke-width="1.5" stroke-dasharray="8 6"/>
+        <text class="lblm" x="636" y="448">PERFBOARD (docs/perfboard.md)</text>
+        <text class="small" x="24" y="412">On a XIAO ESP32-C6:</text>
+        <text class="small" x="24" y="429">D10, D9, D8 = GPIO18, 20, 19;</text>
+        <text class="small" x="24" y="446">D1–D4 = BTN, SPEED, FWD, REV.</text>
+
         <!-- Ground symbol -->
         <path class="w-gnd" d="M560 480 V500"/>
         <path class="sym" d="M544 500 H576 M550 507 H570 M556 514 H564"/>
 
         <!-- ===== Control panel ===== -->
         <path class="divider" d="M24 548 H1156"/>
-        <text class="sect" x="24" y="580">CONTROL PANEL · via J3 (JST-PH 6-pin, detachable): 1 REV · 2 GND · 3 FWD · 4 SPEED · 5 3V3 · 6 BTN</text>
+        <text class="sect" x="24" y="580">CONTROLS · S1, SW1 in the pod via J3 (JST-PH 6-pin): 1 REV · 2 GND · 3 FWD · 6 BTN (4, 5 unused) · RV1 on the perfboard</text>
 
         <!-- S1 push button: BTN to GND -->
         <text class="net c" x="40" y="665">BTN</text>
@@ -176,7 +190,8 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <text class="ref" x="350" y="640">RV1</text>
         <text class="small" x="326" y="660">10 kΩ</text>
         <text class="small" x="326" y="677">linear</text>
-        <text class="small" x="380" y="752">Speed knob</text>
+        <text class="small" x="350" y="752">Speed knob, RK097N</text>
+        <text class="small" x="350" y="769">on the perfboard</text>
 
         <!-- SW1 ON-OFF-ON: common to GND, throws to DIR_FWD / DIR_REV -->
         <path class="w-gnd" d="M720 700 V662 H742"/>
@@ -198,9 +213,9 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <text class="tbt" x="692" y="809">TITLE</text>
         <text class="tbv" x="746" y="809">Cam Rotation N20</text>
         <text class="tbt" x="952" y="809">REV</text>
-        <text class="tbv" x="990" y="809">B · 2026-10-26</text>
+        <text class="tbv" x="990" y="809">C · 2026-10-31</text>
         <text class="tbt" x="692" y="837">SUPPLY</text>
         <text class="tbv" x="752" y="837">5 V USB-C PD</text>
         <text class="tbt" x="952" y="837">MCU</text>
-        <text class="tbv" x="990" y="837">XIAO ESP32-C6</text>
+        <text class="tbv" x="990" y="837">ESP32-C6 Super Mini</text>
       </svg>

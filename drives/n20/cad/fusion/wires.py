@@ -1,15 +1,19 @@
-"""Cam Rotation N20 - point-to-point wiring (matches drives/n20/docs/wiring.md: W1, W2, W4-W15, W6p-W11p, L1, L2, J1, J2, C2, D1 leads).
+"""Cam Rotation N20 - point-to-point wiring, rev C (matches drives/n20/docs/wiring.md and docs/perfboard.md:
+W1, W2, W4-W6, W9-W21, W6p, W9p-W11p, L1, L2, J1, C2, D1 leads).
 Rebuilds everything inside the Wiring component. Coordinates in mm, world frame.
 U1 terminal: + entry at z 22.9, GND at z 17.9 (-X face of the terminal block, x -6), about y -27 (the board sits on a 3.5 mm pad).
-XIAO (USB to +X, viewed from -Y): top row z 9.9 = D0..D6 from x 19.1 leftward; bottom row z -5.4 = 5V, GND, 3V3, D10, D9, D8, D7 from x 19.1.
-DRV8833 module under the base, component side down (z -11.0), pins on a 2.54 mm pitch from x 11.8:
-  IN row  (y -7.62, toward the XIAO side): IN4 11.8, IN3 14.34, GND 16.88, VCC 19.42, IN2 21.96, IN1 24.5
-  OUT row (y +7.62): EEP 11.8, OUT1 14.34, OUT2 16.88, OUT3 19.42, OUT4 21.96, ULT 24.5
-  Channel B is used (IN3/IN4 -> OUT3/OUT4): IN3, IN4, GND and VCC sit under the XIAO's D10, D9, GND and 5V pads.
-D1 lies in a channel under the base at x 19.42 (axis z -10.6, cathode toward the wall); its own leads run to the XIAO 5V pad and DRV VCC.
-N20 terminals at x +/-3.1, y 0, tabs down to z -26.9. The N20 sits in a cartridge under the base; its snap arms run down the
-motor's flats (y +/-5.3..6.8) to z -26.6, so the motor wires stay at |y| < 4.5 below the flange.
-Control panel: JST-PH 6-pin header in the pod (pins at x -6.75, z 17.9..27.9, tails end at y 38.1); the mount harness ends in the plug at y 22.9.
+Perfboard (component Perfboard): on 9 mm bosses on the enlarged +X flange ear, centre x 46, component side down at z 21.6, underside z 23.2
+  (2.5 mm clear of the wall bolt's head, z 25.77).
+  Column c, row r -> x = 46 + (index(c) - 5.5) * 2.54 (A..E = 0..4, F..J = 7..11), y = -(r - 9) * 2.54. Row 1 is at +y.
+  Off-board wires are soldered from the component side and leave toward -z; links run on the underside at z 23.55 (W20, W21, which cross the others, at 24.15).
+  The cover (N20_Electronics_Cover) has its inside face at z 12.6 and is open on the -x side (x 25.3); off-board wires
+  enter there, below the modules (z 13.4-14.2), clear of the cover posts at (30.1 / 61.9, +/-22.25).
+J4 (side-entry JST-PH 2) at J3/J2 opens toward +x; the motor pair leaves it, runs +y out of the notch in the cover's +y wall
+(x 65.5-71.5), along y 29-30 to x 23.4-24.4, down past the base's +x/+y corner, in under the base through anchor A2, down the motor's
++x side inside the arms' zip tie, then into the cartridge's wire clamp (the tie plate on the +y arm, inner face y 5.3,
+tie bar at z -28.3) and back along it to the tabs at x +/-3.1.
+Control panel: JST-PH 6-pin header in the pod (pins at x -6.75, z 17.9..27.9, tails end at y 38.1); the mount harness ends in the plug
+at y 22.9 and runs through the base tunnel to the -Y face, then along it (z 13.4) and into the cover.
 """
 import adsk.core, adsk.fusion, math, traceback
 
@@ -20,64 +24,87 @@ COLORS = {
 }
 
 # name, color, diameter mm, waypoints (mm)
-BUNDLE_TRUNK = ('Control harness to J3 (6 x 30 AWG)', 'gray', 2.0, 'raw', [
+BUNDLE_TRUNK = ('Control harness to J3 (4 x 30 AWG)', 'gray', 1.6, 'raw', [
     (-6.75, 22.9, 23.0), (-6.75, 22.0, 21.6), (-6.9, 21.8, 18.0), (-7.0, 21.8, 4.0), (-7.6, 21.8, 0.0), (-10.0, 21.8, -2.2),
     (-11.3, 20.7, -2.6), (-11.5, 19.4, -4.2), (-11.6, 19.4, -6.4),
     (-11.8, 19.3, -8.4), (-12.0, 18.0, -9.35), (-12.0, 5.0, -9.35), (-12.0, -15.0, -9.35), (-12.0, -18.2, -9.3),
     (-11.9, -19.2, -8.2), (-11.6, -19.2, -6.0), (-11.2, -19.2, 2.0), (-11.0, -19.2, 9.0), (-11.0, -20.4, 11.2),
     (-10.4, -21.9, 12.6), (-8.0, -22.3, 13.1), (-6.0, -22.3, 13.2)])
 
-# XIAO pad / DRV pin helpers
-def xb(x): return (x, -21.0, -5.4)          # XIAO bottom-row pad
-def drv_in(x): return (x, -7.62, -11.3)     # DRV IN-row joint, component side
-def drv_out(x): return (x, 7.62, -11.3)     # DRV OUT-row joint
+# perfboard helpers
+PB_X, PB_TOP, PB_BOT = 46.0, 21.6, 23.2
+COLS = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 7, 'G': 8, 'H': 9, 'I': 10, 'J': 11}
+def hx(c, d=0.0): return PB_X + (COLS[c] - 5.5) * 2.54 + d
+def hy(r): return -(r - 9) * 2.54
+def hole(c, r): return (hx(c), hy(r), PB_TOP)            # component-side joint
+ZL = PB_BOT + 0.35                                       # underside links
+def link(pts, layer=0):
+    """underside link: [(col, row) | (x, y)] -> waypoints at z ZL (+0.6 per layer for links that cross others)"""
+    out = []
+    for p in pts:
+        x, y = (hx(p[0]), hy(p[1])) if isinstance(p[0], str) else p
+        out.append((x, y, ZL + 0.6 * layer))
+    return out
+def lane(c, d): return hx(c, d)
 
-def drop(x, zlane, ylane=-21.3):
-    """from a XIAO bottom-row pad straight down the wall face and round its bottom edge"""
-    return [xb(x), (x, ylane, -6.6), (x, ylane, -10.0), (x, -21.0, zlane), (x, -19.5, zlane)]
+def into_cover(lane_y, z):
+    """from the -Y face run (z 13.4) up and into the open side of the cover, below the modules"""
+    return [(22.0, lane_y, 13.4), (24.0, lane_y, z), (26.0, -18.9 + (lane_y + 22.2) * 0.4, z)]
+def rise(c, r, z):
+    """from the cover lane up to a component-side joint"""
+    x, y = hx(c), hy(r)
+    return [(x - 5.5, y, z), (x, y, z + 1.6), (x, y, PB_TOP)]
 
 WIRES = [
-    # --- power: U1 down the groove, along under the -Y wall, up to the DRV8833's GND and VCC
-    ('W1 U1 + to DRV VCC', 'red', 0.8, [(-6.0, -27.1, 22.9), (-11.0, -23.4, 22.9), (-13.4, -22.6, 22.9), (-13.8, -19.2, 19.5),
-        (-13.8, -19.2, -8.0), (-13.8, -19.2, -11.2), (-12.6, -18.2, -11.3), (17.2, -18.2, -11.3), (17.4, -16.0, -11.4),
-        (17.4, -10.4, -11.8), (18.6, -8.6, -11.6), drv_in(19.42)]),
-    ('W2 U1 GND to DRV GND', 'black', 0.8, [(-6.0, -27.1, 17.9), (-11.0, -23.4, 17.9), (-15.2, -22.2, 17.9), (-15.2, -20.4, 16.0), (-14.9, -19.2, 14.0),
-        (-14.9, -19.2, -8.0), (-14.9, -18.4, -11.3), (-13.6, -16.8, -11.3), (15.0, -16.8, -11.3), (15.4, -14.6, -11.4),
-        (15.6, -10.4, -11.8), (16.4, -8.6, -11.6), drv_in(16.88)]),
-    ('W4 XIAO GND to DRV GND', 'black', 0.8, [xb(16.56), (16.56, -21.4, -6.8), (16.56, -21.4, -9.6), (16.56, -21.1, -11.6), (16.56, -19.4, -12.6), (16.56, -16.0, -12.6), (16.7, -10.2, -12.4), (16.88, -8.6, -11.8), drv_in(16.88)]),
+    # --- power: U1 round the -Y end of the PD board, along x 24-25 (outside the cover) and in to the 5V / GND buses
+    ('W1 U1 + to 5V bus (A8)', 'red', 0.8, [(-6.0, -27.1, 22.9), (-8.0, -27.6, 22.9), (-8.0, -37.0, 22.9), (22.5, -37.0, 22.4),
+        (23.5, -30.0, 20.0), (23.5, -24.0, 18.6), (23.5, 1.0, 18.6), (29.0, 2.54, 19.6), hole('A', 8)]),
+    ('W2 U1 GND to GND bus (A9)', 'black', 0.8, [(-6.0, -27.1, 17.9), (-8.6, -27.6, 17.9), (-8.6, -37.9, 17.9), (22.5, -37.9, 18.5),
+        (24.5, -30.0, 18.4), (24.5, -24.0, 17.4), (24.5, -1.4, 17.4), (29.0, 0.0, 18.8), hole('A', 9)]),
     ('L1 C1 + to U1 +', 'red', 0.8, [(-2.75, -19.78, -3.1), (-2.75, -21.6, -3.15), (-2.75, -23.4, -3.6), (-2.75, -25.4, -5.0), (-4.0, -26.2, -5.6), (-11.0, -26.2, -5.6),
         (-12.0, -25.2, -4.4), (-12.0, -25.2, 21.5), (-10.6, -24.8, 22.9), (-6.0, -27.9, 23.1)]),
     ('L2 C1 - to U1 GND', 'black', 0.8, [(-6.25, -19.78, -3.1), (-6.3, -21.6, -3.15), (-6.3, -23.4, -3.8), (-6.4, -25.2, -4.8), (-9.6, -25.2, -4.8),
         (-9.6, -25.2, 16.4), (-8.8, -25.0, 17.9), (-6.0, -28.1, 17.7)]),
-    # --- D1's own leads: cathode up the wall face to the XIAO 5V pad, anode along the channel to DRV VCC
-    ('D1 cathode lead to XIAO 5V', 'tin', 0.8, [(19.42, -21.2, -10.6), (19.4, -21.3, -9.6), (19.1, -21.25, -6.6), (19.1, -21.0, -5.4)]),
-    ('D1 anode lead to DRV VCC', 'tin', 0.8, [(19.42, -11.6, -10.6), (19.42, -10.4, -11.3), (19.42, -9.0, -11.5), drv_in(19.42)]),
-    # --- XIAO bottom row to the DRV8833: straight down and under
-    ('W5 XIAO D10 to DRV IN3', 'orange', 0.6, drop(11.48, -12.4) + [(11.6, -16.0, -12.4), (13.6, -11.6, -12.2), (14.34, -9.0, -11.8), drv_in(14.34)]),
-    ('W12 XIAO D9 to DRV IN4', 'brown', 0.6, drop(8.94, -12.4) + [(9.2, -16.0, -12.4), (11.2, -11.6, -12.2), (11.8, -9.0, -11.8), drv_in(11.8)]),
-    ('W13 XIAO D8 to DRV EEP', 'gray', 0.6, drop(6.4, -12.4) + [(8.6, -16.4, -12.4), (9.0, -14.0, -11.4), (9.0, 6.4, -11.2), (10.6, 7.6, -11.6), drv_out(11.8)]),
-    # --- DRV8833 outputs (channel B) to the N20 terminals: along under the base through anchor A2 (x 11.5-14.5, inside its zip tie
-    #     at y 10.6-12.9), then down the motor's +x side between the cartridge's snap arms, inside the arms' zip tie (x 7.5)
-    #     and clear of the can (x 6 at most)
-    ('W14 DRV OUT3 to motor +', 'white', 0.8, [drv_out(19.42), (19.2, 9.0, -11.9), (17.6, 11.2, -11.3), (15.0, 11.3, -11.2),
-        (11.2, 11.3, -11.2), (10.2, 9.6, -12.8), (9.6, 6.0, -14.6),
-        (6.7, 1.2, -16.0), (6.7, 1.2, -24.0), (6.4, 0.8, -25.8), (5.0, 0.2, -26.5), (3.5, 0.0, -26.4)]),
-    ('W15 DRV OUT4 to motor -', 'blue', 0.8, [drv_out(21.96), (21.6, 9.4, -11.9), (19.6, 12.1, -11.3), (15.0, 12.1, -11.2),
-        (11.0, 12.1, -11.2), (9.8, 10.4, -13.4), (10.4, 6.6, -15.4),
-        (6.7, 2.6, -16.8), (6.7, 2.6, -24.0), (6.8, 3.2, -26.2), (0.0, 3.4, -26.3), (-3.5, 3.0, -26.3), (-3.5, 0.0, -26.4)]),
-    # --- XIAO end of the control harness (it runs in the bundle to the J3 housing at the pod)
-    ('W10 XIAO D4 to J3 pin 1 (rev)', 'blue', 0.6, [(-6.0, -21.9, 13.5), (-3.0, -21.5, 13.4), (7.2, -21.5, 13.4), (8.9, -21.2, 11.6), (8.9, -21.0, 9.9)]),
-    ('W9 XIAO D3 to J3 pin 3 (fwd)', 'green', 0.6, [(-6.0, -22.1, 13.9), (-3.0, -22.2, 13.4), (9.7, -22.2, 13.4), (11.4, -21.4, 11.6), (11.4, -21.0, 9.9)]),
-    ('W7 XIAO D2 to J3 pin 4 (speed)', 'yellow', 0.6, [(-6.0, -22.5, 13.9), (-3.0, -22.9, 13.4), (12.3, -22.9, 13.4), (14.0, -21.6, 11.6), (14.0, -21.0, 9.9)]),
-    ('W6 XIAO D1 to J3 pin 6 (button)', 'white', 0.6, [(-6.0, -22.7, 13.6), (-3.0, -23.6, 13.4), (14.8, -23.6, 13.4), (16.5, -21.8, 11.6), (16.5, -21.0, 9.9)]),
-    ('W8 XIAO 3V3 to J3 pin 5', 'violet', 0.6, [(-6.0, -22.6, 12.9), (-3.0, -23.2, 12.5), (-0.2, -23.2, 12.4), (0.25, -23.2, 10.5),
-        (0.25, -23.2, -5.5), (1.4, -23.2, -7.2), (12.3, -23.2, -7.2), (14.0, -21.6, -6.0), (14.0, -21.0, -5.4)]),
-    ('W11 XIAO GND to J3 pin 2', 'black', 0.6, [(-6.0, -23.0, 13.2), (-3.0, -23.9, 12.5), (-0.2, -23.9, 12.4), (0.25, -23.9, 10.5),
-        (0.25, -23.9, -5.5), (1.4, -23.9, -7.9), (14.8, -23.9, -7.9), (16.3, -22.0, -6.2), (16.5, -21.0, -5.4)]),
+    # --- D1 on the perfboard, flat along column B: anode lead to B11, cathode (banded) lead to B17
+    ('D1 anode lead to B11', 'tin', 0.8, [(hx('B'), hy(14) + 2.6, PB_TOP - 1.35), (hx('B'), hy(11) - 0.9, PB_TOP - 1.35), (hx('B'), hy(11), PB_TOP - 0.4), (hx('B'), hy(11), PB_TOP + 0.8)]),
+    ('D1 cathode lead to B17', 'tin', 0.8, [(hx('B'), hy(14) - 2.6, PB_TOP - 1.35), (hx('B'), hy(17) + 0.9, PB_TOP - 1.35), (hx('B'), hy(17), PB_TOP - 0.4), (hx('B'), hy(17), PB_TOP + 0.8)]),
+    # --- motor pair: J4 (side entry, mouth toward +x) -> cover notch -> down past the base -> anchor A2 -> motor's +x side -> wire clamp -> tabs
+    ('W14 J4 pin 1 (OUT3) to motor +', 'white', 0.8, [(68.5, hy(3), PB_TOP - 2.4), (70.6, hy(3) + 2.0, PB_TOP - 2.4), (70.6, 24.0, 19.0), (68.9, 29.0, 18.6),
+        (30.0, 29.0, 18.0), (23.4, 29.0, 16.0), (23.4, 27.0, 8.0), (23.4, 25.0, -8.0), (23.0, 22.6, -11.6), (19.0, 13.0, -11.6), (17.6, 11.2, -11.3), (15.0, 11.3, -11.2),
+        (11.2, 11.3, -11.2), (10.2, 9.6, -12.8), (9.6, 6.0, -14.6), (6.7, 1.2, -16.0), (6.7, 1.2, -24.0), (6.7, 2.6, -26.6), (6.4, 4.4, -27.9),
+        (3.6, 4.4, -27.9), (3.1, 1.8, -27.4), (3.1, 0.4, -26.8)]),
+    ('W15 J4 pin 2 (OUT4) to motor -', 'blue', 0.8, [(68.5, hy(2), PB_TOP - 2.4), (71.1, hy(2) + 1.6, PB_TOP - 2.4), (71.1, 24.0, 19.8), (69.9, 30.0, 19.4),
+        (30.0, 30.0, 18.8), (24.4, 30.0, 16.8), (24.4, 27.6, 8.0), (24.4, 25.6, -8.0), (24.0, 23.4, -11.6), (20.4, 14.6, -11.6), (18.4, 12.1, -11.3), (15.0, 12.1, -11.2),
+        (11.0, 12.1, -11.2), (9.8, 10.4, -13.4), (10.4, 6.6, -15.4), (6.7, 2.6, -16.8), (6.7, 2.6, -24.0), (6.9, 3.4, -27.0), (6.2, 4.4, -28.9),
+        (-2.6, 4.4, -28.9), (-3.1, 2.2, -28.4), (-3.1, 0.4, -26.8)]),
+    # --- control harness, mount side: trunk end on the -Y face, along it at z 13.4, into the cover and up to the joints
+    ('W10 GPIO0 (I15) to J3 pin 1 (rev)', 'blue', 0.6, [(-6.0, -21.9, 13.5), (-3.0, -21.5, 13.4)] + into_cover(-21.5, 13.4) + [(44.0, hy(15), 13.4)] + rise('I', 15, 13.4)),
+    ('W9 GPIO3 (I12) to J3 pin 3 (fwd)', 'green', 0.6, [(-6.0, -22.1, 13.9), (-3.0, -22.2, 13.4)] + into_cover(-22.2, 13.8) + [(44.0, hy(12), 13.8)] + rise('I', 12, 13.8)),
+    ('W6 GPIO1 (I14) to J3 pin 6 (button)', 'white', 0.6, [(-6.0, -22.7, 13.6), (-3.0, -22.9, 13.4)] + into_cover(-22.9, 14.2) + [(44.0, hy(14), 14.2)] + rise('I', 14, 14.2)),
+    ('W11 GND (A16) to J3 pin 2', 'black', 0.6, [(-6.0, -23.0, 13.2), (-3.0, -23.6, 12.8), (22.0, -23.6, 13.0), (23.8, -23.0, 15.6), (26.0, -18.6, 17.6),
+        (30.5, hy(16), 19.4), hole('A', 16)]),
+]
+
+# underside links on the perfboard (docs/perfboard.md); lanes match the hole map
+def L4(a, x, b):
+    """hole a -> lane x (vertical run) -> hole b, as in the SVG hole map"""
+    up = -1 if b[1] < a[1] else 1
+    return link([a, (x, hy(a[1] + 0.35 * up)), (x, hy(b[1] - 0.35 * up)), b])
+LINKS = [
+    ('W16 5V bus (B8) to DRV VCC (C3)', 'red', 0.6, L4(('B', 8), lane('B', 0.6), ('C', 3))),
+    ('W18 GND bus (B9) to DRV GND (C4)', 'black', 0.6, L4(('B', 9), lane('B', 1.27), ('C', 4))),
+    ('W17 5V bus (C8) to D1 anode (C11)', 'red', 0.6, L4(('C', 8), lane('B', 1.9), ('C', 11))),
+    ('W4 GND bus (C9) to Super Mini GND (C16)', 'black', 0.6, L4(('C', 9), lane('B', 0.6), ('C', 16))),
+    ('W5 GPIO18 (C12) to DRV IN3 (C5)', 'orange', 0.6, L4(('C', 12), lane('C', 0.6), ('C', 5))),
+    ('W12 GPIO20 (C14) to DRV IN4 (C6)', 'brown', 0.6, L4(('C', 14), lane('C', 1.27), ('C', 6))),
+    ('W13 GPIO19 (C13) to DRV EEP (J6)', 'gray', 0.6, link([('C', 13), (lane('C', 1.9), hy(12.6)), (lane('C', 1.9), hy(6.5)), (hx('J'), hy(6.5)), ('J', 6)])),
+    ('W19 RV1 wiper (I9) to GPIO2 (I13)', 'yellow', 0.6, L4(('I', 9), lane('I', 1.0), ('I', 13))),
+    ('W20 GND (A4) to RV1 pin 1 (I8)', 'black', 0.6, link([('A', 4), (lane('A', -0.9), hy(4.4)), (lane('A', -0.9), hy(7.25)), (lane('I', 0.5), hy(7.25)), ('I', 8)], 1)),
+    ('W21 3V3 (A15) to RV1 pin 3 (I10)', 'violet', 0.6, link([('A', 15), (lane('A', 0.7), hy(14.5)), (lane('A', 0.7), hy(10.6)), (lane('I', -0.6), hy(10.6)), ('I', 10)], 1)),
 ]
 
 # pod side: from the JST-PH header tails (x -6.75, y 38.1; pin 1 at z 17.9 .. pin 6 at z 27.9) to the controls.
-# Pin order: 1 REV (W10), 2 GND (W11), 3 FWD (W9), 4 SPEED (W7), 5 3V3 (W8), 6 BTN (W6).
+# Pin order: 1 REV (W10), 2 GND (W11), 3 FWD (W9), 4 and 5 unused (rev C: RV1 is on the perfboard), 6 BTN (W6).
 def tail(n): return (-6.75, 38.1, 17.9 + 2.0 * (n - 1))
 def sw1_run(n, ylane, xlane, zrun, zlug):
     """pin tail -> drop behind the header at y ylane -> sidestep to lane x xlane -> forward over SW1 at height zrun -> down in front of the lugs"""
@@ -93,14 +120,10 @@ POD = [
     ('W10p J3 pin 1 to SW1 B (rev)', 'blue', 0.6, sw1_run(1, 38.6, -7.9, 12.4, 1.0)),
     ('W11p J3 pin 2 to SW1 center', 'black', 0.6, sw1_run(2, 39.8, -5.9, 13.1, 5.0)),
     ('W9p J3 pin 3 to SW1 A (fwd)', 'green', 0.6, sw1_run(3, 40.9, -5.1, 13.8, 9.0)),
-    ('W7p J3 pin 4 to RV1 wiper', 'yellow', 0.6, [tail(4), (-6.75, 41.6, 23.9), (-6.75, 41.6, 14.6), (-4.5, 41.6, 14.2), (2.5, 40.8, 12.4), (2.5, 38.6, 11.8), (2.5, 37.2, 11.8)]),
-    ('W8p J3 pin 5 to RV1 pin 3', 'violet', 0.6, [tail(5), (-6.75, 42.25, 25.9), (-6.75, 42.25, 15.4), (-4.5, 42.2, 15.0), (5.0, 41.6, 13.2), (5.0, 38.6, 13.0), (5.0, 37.2, 13.0)]),
-    # 12 mm stainless button S1: its own pre-wired lead A goes to JST pin 6 over the top of the pot
+    # 12 mm stainless button S1: its own pre-wired lead A goes to JST pin 6 over the pod's empty knob hole
     ('W6p button lead A to J3 pin 6', 'white', 0.6, [tail(6), (-6.75, 39.4, 27.9), (-5.0, 39.2, 28.8), (-1.0, 36.0, 28.8), (8.0, 33.6, 28.0), (11.0, 32.75, 22.0), (11.0, 32.75, 16.3)]),
     ('J1 button lead B to SW1 center', 'black', 0.6, [(3.0, 32.75, 15.6), (3.0, 32.5, 17.6), (0.6, 27.8, 17.4), (-1.4, 25.6, 13.0),
         (-2.2, 25.8, 8.0), (-3.4, 27.2, 5.4), (-4.0, 28.2, 5.0)]),
-    ('J2 SW1 center to RV1 pin 1', 'black', 0.6, [(-3.8, 27.6, 5.6), (-3.8, 26.9, 8.0), (-3.4, 26.6, 11.0), (-2.2, 28.4, 12.9),
-        (-1.6, 33.0, 13.0), (-1.0, 35.8, 13.3), (0.0, 37.2, 13.6)]),
 ]
 
 app = adsk.core.Application.get()
@@ -179,7 +202,7 @@ def run(context):
             b.deleteMe()
         n = 0
         for group, label in ((
-            [BUNDLE_TRUNK], 'Trunks'), (WIRES, 'XIAO side'), (POD, 'Pod side')):
+            [BUNDLE_TRUNK], 'Trunks'), (WIRES, 'Mount side'), (LINKS, 'Perfboard links'), (POD, 'Pod side')):
             sk = comp.sketches.add(comp.xYConstructionPlane)
             sk.name = 'Wire paths - ' + label
             for w in group:

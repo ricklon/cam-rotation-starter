@@ -1,6 +1,6 @@
 # CAD
 
-The design lives in Autodesk Fusion, as the document *Cam Rotation N20* in MovementStudy › Cam Rotation Tool, copied from the MG90S drive's *Cam Rotation Starter*. No release is tagged yet; the snapshots in `step/` match Fusion version 20 of that document. When this drive is tagged `vMAJOR.MINOR-n20`, record here which Fusion version the tag matches. This folder holds copies you can open without Fusion, the print files, and the scripts used to build and document the model.
+The design lives in Autodesk Fusion, as the document *Cam Rotation N20* in MovementStudy › Cam Rotation Tool, copied from the MG90S drive's *Cam Rotation Starter*. No release is tagged yet; the snapshots in `step/` match Fusion version 24 of that document (rev C: perfboard, Super Mini, electronics cover, motor wire clamp). Version 23 included the owner's own earlier unsaved edits as well as rev C. When this drive is tagged `vMAJOR.MINOR-n20`, record here which Fusion version the tag matches. This folder holds copies you can open without Fusion, the print files, and the scripts used to build and document the model.
 
 | Folder | What's in it |
 |---|---|
@@ -15,8 +15,8 @@ Import `step/cam-rotation-n20.f3d` into Fusion (File → Open → Open from my c
 
 ## Scripts
 
-**`fusion/wires.py`** rebuilds every wire in the model's `Wiring` component from a list of waypoints, with colours and sizes from the [wire list](../docs/wiring.md). Run it in Fusion's script runner, or through the Fusion MCP server with `exec(open('drives/n20/cad/fusion/wires.py').read())`.
+**`fusion/wires.py`** rebuilds every wire in the model's `Wiring` component from a list of waypoints, with colours and sizes from the [wire list](../docs/wiring.md). From rev C it includes the perfboard's underside links, placed by column and row with its `hx`/`hy` helpers. Run it in Fusion's script runner, or through the Fusion MCP server with `exec(open('drives/n20/cad/fusion/wires.py').read())`.
 
 **`fusion/shots.py`** renders this drive's `docs/images`. It reuses the MG90S drive's `photo.py`, so set `CAM_REPO` to your checkout (it sets `CAM_DRIVE` itself), exec it with *Cam Rotation N20* active, and call `run_shots()`.
 
-**`fusion/orient_stl.py`** turns STLs exported from Fusion into `cad/stl/raw/` into print-ready files and rewrites the parts table in `stl/README.md`, as in the MG90S drive.
+**`fusion/orient_stl.py`** turns STLs exported from Fusion into `cad/stl/raw/` into print-ready files and rewrites the parts table in `stl/README.md`, as in the MG90S drive. Parts with no file in `raw/` keep their existing row, so you can re-export only the parts that changed.

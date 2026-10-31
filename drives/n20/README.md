@@ -2,7 +2,9 @@
 
 A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 motor driver, in place of the MG90S servo. The N20 is smaller, quieter and turns more smoothly at low speed than a modified servo, and you choose its speed and torque by picking a gear ratio.
 
-**Status: ready for a PETG fit test (2026-10-26).** The first printed mount showed the motor's screw holes are the inline pair and that the boards need room for solder underneath (fixed 2026-10-24). A change request then reworked the capacitor and diode, the wiring, the clamps, the motor mount and the control panel connector; see [What changed on 2026-10-26](#what-changed-on-2026-10-26). Since 2026-10-27 the motor and its cartridge snap in, with no screws (see [Snap-fit motor](#snap-fit-motor-2026-10-27)). Print the PETG fit coupon, the cartridge with the socket coupon, and the mount fit coupon (pieces of the real mount and pod that check the capacitor, diode, board, cartridge, zip-tie and connector fits) before the mount (see [cad/stl](cad/stl/README.md)). Wiring, schematic and cut list are in [docs/wiring.md](docs/wiring.md); the build order is in [Assembly order and tool access](#assembly-order-and-tool-access).
+**Status: rev C designed (2026-10-31), not yet built; rev B was ready for a PETG fit test (2026-10-26).** The first printed mount showed the motor's screw holes are the inline pair and that the boards need room for solder underneath (fixed 2026-10-24). A change request then reworked the capacitor and diode, the wiring, the clamps, the motor mount and the control panel connector; see [What changed on 2026-10-26](#what-changed-on-2026-10-26). Since 2026-10-27 the motor and its cartridge snap in, with no screws (see [Snap-fit motor](#snap-fit-motor-2026-10-27)). Print the PETG fit coupon, the cartridge with the socket coupon, and the mount fit coupon (pieces of the real mount and pod that check the capacitor, diode, board, cartridge, zip-tie and connector fits) before the mount (see [cad/stl](cad/stl/README.md)). Wiring, schematic and cut list are in [docs/wiring.md](docs/wiring.md); the build order is in [Assembly order and tool access](#assembly-order-and-tool-access).
+
+**Rev C (2026-10-31): perfboard electronics, ESP32-C6 Super Mini, motor strain relief.** The electronics are soldered onto an ElectroCookie perfboard on the mount's enlarged +X flange ear, under a printed cover. That covers the ESP32-C6 Super Mini, the DRV8833, the diode, a board-mounted speed knob and a plug for the motor. The motor's wires are tied to the cartridge right beside its terminals. See [What changed on 2026-10-31](#what-changed-on-2026-10-31-rev-c), the hole map in [docs/perfboard.md](docs/perfboard.md), and the wiring in [docs/wiring.md](docs/wiring.md). Not yet printed or built.
 
 - **Fusion design:** *Cam Rotation N20* in MovementStudy › Cam Rotation Tool, copied from *Cam Rotation Starter*. The N20 reference model is *N20 DC MOTOR*, copied into the same folder.
 
@@ -10,13 +12,16 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 
 | Part | Reused as is? | Notes |
 |---|---|---|
-| XIAO ESP32-C6, USB-C PD trigger board (5 V), 1N5817 diode | Yes | Same power path: PD 5 V feeds the motor side; the XIAO gets 5 V through the diode, which now lies under the base. |
+| USB-C PD trigger board (5 V), 1N5817 diode | Yes | Same power path: PD 5 V feeds the motor side; the board gets 5 V through the diode, which now lies on the perfboard. |
+| XIAO ESP32-C6 | Replaced in rev C | By an ESP32-C6 Super Mini on the perfboard. The mount keeps the XIAO pocket, so a rev B build with a XIAO still fits; the firmware builds for either board. |
 | 470 µF capacitor | Yes, 8 × 13 mm | The seat is 14 mm tall for the 13 mm can. |
-| 12 mm button, speed knob, direction switch | Yes | Same pins as the MG90S drive (D1, D2, D3, D4), now through a 6-pin JST-PH connector (J3). |
-| Control pod | Changed | `N20_Control_Pod` has a holder for the J3 header inside; print it from this drive's folder. |
+| 12 mm button, direction switch | Yes | In the pod, through a 6-pin JST-PH connector (J3). On the Super Mini they use GPIO1, GPIO3 and GPIO0. |
+| Speed knob | Changed in rev C | An RK097N 10 kΩ pot on the perfboard, its shaft through the electronics cover, wiper on GPIO2. The pod's knob hole is unused. |
+| Control pod | Changed | `N20_Control_Pod` has a holder for the J3 header inside; print it from this drive's folder. Unchanged in rev C. |
 | Bushings, dowel gauges, shims | Yes | Print them from [`drives/mg90s/cad/stl`](../mg90s/cad/stl/README.md). |
 | Dowel adapters, clamp bodies and caps | No | Same dowel sockets and grip screws, but a 3 mm D-shaft bore through the base in place of the servo spline pocket and horn screw, with an M3 set screw onto the shaft's flat. The clamps take M3 socket cap screws in flat-bottomed counterbores. `N20_Adapter_*` and `N20_Clamp_*` in [cad/stl](cad/stl/README.md). |
-| Mount | Changed | `N20_Mount`: same walls, flange, pod face and XIAO pocket; the PD board sits on a 3.5 mm pad on the outside of the wall. The motor snaps into a printed cartridge (`N20_Cartridge`), which latches up into a socket in the base, on the dowel axis; a printed key (`N20_Latch_Key`) releases it. The base and the N20 plate are joined solid (no open slot between them for supports to get trapped in). The DRV8833 sits in a pocket on the underside of the base, with the diode in a channel beside it. Both boards' pockets have a 2.5 mm relief under their pin rows for wire ends and solder. |
+| Mount | Changed | `N20_Mount`: same walls, flange, pod face and XIAO pocket; the PD board sits on a 3.5 mm pad on the outside of the wall. The motor snaps into a printed cartridge (`N20_Cartridge`), which latches up into a socket in the base, on the dowel axis; a printed key (`N20_Latch_Key`) releases it. The base and the N20 plate are joined solid (no open slot between them for supports to get trapped in). The DRV8833 sits in a pocket on the underside of the base, with the diode in a channel beside it. Both boards' pockets have a 2.5 mm relief under their pin rows for wire ends and solder. Rev C enlarges the +X flange ear (to x 76, ±27.6 mm) with four 9 mm bosses for the perfboard; the rev B pockets stay. |
+| Electronics cover | New in rev C | `N20_Electronics_Cover`: covers the perfboard and carries the speed knob. Four M2 × 20 screws hold the cover and the board to the ear bosses. |
 | 330 Ω signal resistor (R1) | Dropped | Not needed for a motor driver input. |
 | Firmware | Shared | Same story player and web app; a DRV8833 motor output in place of the servo pulse (see below). |
 
@@ -33,30 +38,38 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 | — | 2 per clamp | **M3 × 8** socket cap screws | Clamp caps. M3 × 10 is too long for the 5/8 clamp: its tip would come out of the side. |
 | — | 1 | Double-sided foam tape, about 15 × 15 mm | Holds the DRV8833 module in its pocket. |
 | — | 1 | 0.1 µF ceramic capacitor | Solder across the N20's terminals to cut electrical noise. |
-| — | 4–5 | Small zip ties, 2.5 mm wide | Through the tie anchors under the wall (power wires) and under the base (motor wires), and one round the cartridge's motor arms to lock them. |
+| — | 4–5 | Small zip ties, 2.5 mm wide | Through anchor A2 under the base (motor wires), one round the cartridge's motor arms to lock them, and one through the cartridge's wire clamp (rev C). Anchor A1 under the wall is no longer on the power wires' route. |
+| U2 | 1 | ESP32-C6 Super Mini (26 × 18 mm, castellated, USB-C), with its header strips | Rev C. On the perfboard. |
+| — | 1 | ElectroCookie mini solderable breadboard, 1/4 size (38.1 × 50.8 mm) | Rev C. Rows 1–17, A–E / F–J, no power rails. |
+| RV1 | 1 | RK097N 10 kΩ linear pot, 6 mm knurled shaft, with nut, washer and knob cap | Rev C. Replaces the pod's knob. |
+| J4 | 1 | JST-PH 2.0 mm 2-pin, side entry: S2B-PH-K-S header, PHR-2 housing, 2 crimp contacts | Rev C. The motor plug. |
+| — | 4 | **M2 × 20** pan-head screws | Rev C. Cover and perfboard to the ear bosses. |
+| — | — | 30 AWG solid insulated wire | Rev C. The ten links on the perfboard's underside. |
 | — | — | Hot glue or CA | A dab to hold D1 in its channel and the J3 header in its holder. |
 
 ## Wiring plan
 
+Rev C, on the perfboard with the ESP32-C6 Super Mini (rev B, with a XIAO, is in git history):
+
 | From | To | Why |
 |---|---|---|
-| PD board + (5 V) | C1 +, DRV8833 VCC | Motor supply (VCC on this module is the DRV8833's VM); the capacitor buffers start-up current |
-| PD board GND | C1 −, DRV8833 GND | Common ground |
-| DRV8833 VCC | D1 anode → D1 cathode → XIAO 5V | The diode's own leads; same job as on the MG90S drive |
-| DRV8833 GND | XIAO GND | Common ground |
-| XIAO D10 (GPIO18) | DRV8833 IN3 | PWM forward |
-| XIAO D9 (GPIO20) | DRV8833 IN4 | PWM reverse |
-| XIAO D8 (GPIO19) | DRV8833 EEP (nSLEEP) | Keeps the driver asleep until the firmware is running, so the motor can't twitch at power-up. Leave the module's J1 jumper open: bridging it ties EEP high. |
-| DRV8833 OUT3, OUT4 | N20 terminals | Swap them if forward runs backwards |
-| XIAO D1–D4, 3V3, GND | J3 → button, knob, switch | Six wires through the 6-pin JST-PH, so the panel unplugs |
+| PD board + (5 V) | Perfboard 5V bus → DRV8833 VCC; C1 + at the PD board | Motor supply (VCC on this module is the DRV8833's VM); the capacitor buffers start-up current |
+| PD board GND | Perfboard GND bus → DRV8833 GND, Super Mini GND; C1 − | Common ground |
+| 5V bus | D1 → Super Mini 5V | Same job as on the MG90S drive |
+| GPIO18 | DRV8833 IN3 | PWM forward |
+| GPIO20 | DRV8833 IN4 | PWM reverse |
+| GPIO19 | DRV8833 EEP (nSLEEP) | Keeps the driver asleep until the firmware is running, so the motor can't twitch at power-up. Leave the module's J1 jumper open: bridging it ties EEP high. |
+| DRV8833 OUT3, OUT4 | J4 → N20 terminals | Swap the two pins in J4's housing if forward runs backwards |
+| 3V3, GPIO2, GND | RV1 (on the perfboard) | Speed knob |
+| GPIO1, GPIO3, GPIO0, GND | J3 → button, switch | Four wires through the 6-pin JST-PH, so the pod unplugs |
 
-IN1, IN2, OUT1, OUT2 and ULT (the fault output) stay unconnected. D0 and D5 are free.
+IN1, IN2, OUT1, OUT2 and ULT (the fault output) stay unconnected.
 
-The full wire list, J3 pinout, schematic and cut list are in [docs/wiring.md](docs/wiring.md).
+The hole map is in [docs/perfboard.md](docs/perfboard.md); the full wire list, J3 pinout, schematic and cut list are in [docs/wiring.md](docs/wiring.md).
 
 ## Firmware
 
-Both drives build from the one `firmware/` folder; the motor output is chosen at build time. Build the N20 version with the `sdkconfig.n20` fragment (see [Drive type](../../firmware/README.md#drive-type)):
+Both drives build from the one `firmware/` folder; the motor output and the board are chosen at build time. Build the N20 version with the `sdkconfig.n20` fragment (see [Drive type](../../firmware/README.md#drive-type)), and for rev C add `sdkconfig.supermini` (see [Board](../../firmware/README.md#board)):
 
 - `motor_drv8833.c` has the same speed interface as the servo's `servo.c`: two LEDC PWM channels at 20 kHz (above hearing) in slow-decay mode, so the motor brakes between pulses and stops dead at zero
 - nSLEEP stays low until the firmware runs, and goes low again after the motor has been stopped for `idle_release_ms`
@@ -72,6 +85,20 @@ To check on hardware: the lowest speed at which your N20 still turns under the c
 - **Gearbox screw holes: the inline pair,** 9 mm apart across the 12 mm width, at (±4.5, 0). The first mount followed the N20 reference model's diagonal pair (9.4 mm apart), which didn't match our motors. The reference model in Fusion still shows the diagonal holes.
 - **Room to solder under the boards.** Wires soldered through the XIAO's and the DRV8833's pin rows leave ends and solder on the back of the board, so each pocket has a 2.5 mm relief under both pin rows (`solder_relief_d`). The boards rest on the strip between the rows.
 - **Room under the PD board: a 3.5 mm pad.** The USB-C PD board has parts all over its underside, and the wall behind its pocket was already used up by the zip-tie tunnel and the clamp-head relief on the inside. So the board moved 3.5 mm out (`pd_relief_d`) onto a pad on the outside of the wall: it rests on a 1 mm ledge round its edges, with 3.5 mm clear under the rest. The zip-tie tunnel and slots didn't move; the tie runs out of its slots just above and below the pad and over the board. The mount is 3.5 mm wider on that side (44.8 mm), and the PD board's wires (W1, W2, W4, L1–L3) end 3.5 mm further out; W2 and L2 are cut 5 mm longer.
+
+## What changed on 2026-10-31 (rev C)
+
+After the first units were built:
+
+| # | Change | What it is now |
+|---|---|---|
+| 1 | Motor strain relief | The motor's solder joints were getting stressed in transit. The cartridge now has a **wire clamp**: a 1.5 mm plate below its +Y snap arm with two slots for a 2.5 mm zip tie, which holds W14 and W15 about 5 mm from the terminals. The motor also unplugs at **J4**, a side-entry JST-PH 2-pin header on the perfboard, so it can travel separately. See [J4 and the motor wire clamp](docs/wiring.md#j4-and-the-motor-wire-clamp). |
+| 2 | Board | An **ESP32-C6 Super Mini** replaces the XIAO. The firmware has a board choice (`sdkconfig.supermini`). The driver stays on GPIO18/20/19, and the panel moves to GPIO1/2/3/0, clear of the strapping, USB and UART pins. |
+| 3 | Perfboard | The electronics are on an **ElectroCookie 1/4-size perfboard**, with links on its underside in place of loose wires. It sits on four 9 mm bosses on the enlarged +X flange ear under `N20_Electronics_Cover`, held by four M2 × 20 screws. The bosses clear the wall bolt's head by 2.5 mm. The PD board and C1 stay where they were. [docs/perfboard.md](docs/perfboard.md) has the hole map. |
+| 4 | Speed knob | An **RK097N** pot on the perfboard, its shaft through a 7 mm hole in the cover, which its nut clamps. The cover's inside face is 9.0 mm off the board, the height of the pot's base. Same pin (GPIO2) and scaling, so the web app's virtual knob behaves as before. |
+| 5 | Wiring | W4, W5, W12 and W13 are underside links, joined by W16–W21. W7, W8, W7p, W8p and J2 are gone, and J3 pins 4 and 5 are unused. W1 and W2 run round the end of the PD board to the perfboard. Cut list rebuilt from the model. |
+
+![The perfboard on the enlarged flange ear with the cover off: the DRV8833, the Super Mini, D1 and the speed pot on the board, the power wires coming round the end of the PD board, and the motor pair leaving J4.](docs/images/perfboard.png)
 
 ## Snap-fit motor (2026-10-27)
 
@@ -105,7 +132,7 @@ From the change request after the first build attempt:
 
 ![The N20 in its cartridge, pulled down out of the mount's socket (shown see-through): the gearbox sits in the printed sleeve with a latch tongue and its bump on the side wall above the flange, and the motor hangs below between the snap arms, with the black zip tie round them.](docs/images/cartridge_exploded.png)
 
-![The cartridge with the motor in it, from the side: the shaft out of the top plate, a latch tongue cut into the side wall with its bump near the top, the flange with an unused M3 hole, and below it a snap arm along the motor with its hook over the end cap, and a black zip tie round both arms between their ribs, its head at the left; the motor terminals show underneath.](docs/images/cartridge.png)
+![The cartridge with the motor in it, from the side: the shaft out of the top plate, a latch tongue cut into the side wall with its bump near the top, the flange with an unused M3 hole, and below it a snap arm along the motor with its hook over the end cap, and a black zip tie round both arms between their ribs, its head at the left; the motor terminals show underneath, and below the far arm hangs the wire clamp plate with its two zip-tie slots.](docs/images/cartridge.png)
 
 ![The release key above the socket coupon with an empty cartridge in it: a U-shaped printed fork whose two prongs line up with the two slots in the top of the coupon, one each side of the cartridge's top plate.](docs/images/latch_key.png)
 
@@ -116,19 +143,20 @@ From the change request after the first build attempt:
 Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and room for a hand at each step.
 
 1. **Bench: check the motor fits.** Push the N20 into `N20_Cartridge` from below until its gearbox face meets the top plate and the arms click over the end cap; spread the arms and take it out again.
-2. **Bench: wiring.** Wire the boards, D1 and C1 as in [docs/wiring.md](docs/wiring.md), solder W14, W15 and C2 to the motor, and crimp the J3 housing onto the harness.
+2. **Bench: wiring.** Build the perfboard as in [docs/perfboard.md](docs/perfboard.md#build-order), and wire C1 and the PD board as in [docs/wiring.md](docs/wiring.md). Solder W14, W15 and C2 to the motor, and crimp the J3 and J4 housings onto their harnesses.
 3. **Bushing in** through the mount's open end, flange up into the flange recess (as on the MG90S drive).
 4. **Mount on the box wall** with the #14 screws through the flange ears.
 5. **Dowel through** the bushing.
 6. **Adapter or clamp on the dowel, then tighten.** Start the M3 × 5 set screw in its hole near the bottom, just short of the bore. Turn the clamp so its cap faces an open end of the mount; both cap screws then point out of that end, and a 2.5 mm hex key goes straight in.
 7. **Cartridge in, empty.** From below, push `N20_Cartridge` up into the socket in the base until both latches click and the flange sits flat under the base.
-8. **Motor in.** Push the wired motor up into the cartridge so the D-shaft enters the adapter's bore (turn the dowel to line up the flat), until the arms click over the end cap. W14 and W15 run down the motor's open side, between the arms. Put a zip tie round both arms between their ribs, head on the side away from the wires, and pull it tight; W14 and W15 stay inside it, held against the motor.
+8. **Motor in.** Push the wired motor up into the cartridge so the D-shaft enters the adapter's bore (turn the dowel to line up the flat), until the arms click over the end cap. W14 and W15 run down the motor's open side, between the arms. Put a zip tie round both arms between their ribs, head on the side away from the wires, and pull it tight; W14 and W15 stay inside it, held against the motor. Then tie W14 and W15 to the wire clamp below the +Y arm (rev C; see [the clamp](docs/wiring.md#j4-and-the-motor-wire-clamp)).
 9. **Set screw.** Turn the dowel until the set screw faces an open end of the mount, just above the face plate, and tighten it onto the shaft's flat with a 1.5 mm hex key: firm, not forced, or it strips the plastic. To take the drive apart, loosen it, cut the arms' zip tie, spread the arms and pull the motor down. The cartridge can stay in the mount. If it has to come out, slide the dowel out and take the adapter off, push `N20_Latch_Key` down into the two slots beside the cartridge's top plate, and pull the cartridge out by its flange.
 10. **Control panel.** Plug J3 into the header in the pod, then screw the pod on (four M3 screws, as before). Reverse this to take it off.
+11. **Perfboard and cover (rev C).** The ear's wall bolt must already be in (step 4). Lay the perfboard on the four ear bosses, components out, row 17 (the USB-C end) toward the electronics side. Put the cover over it, with RV1's bushing through the 7 mm hole. Drive the four M2 × 20 screws through the cover posts and the board into the bosses, then fit RV1's washer, nut and knob cap. Route W1, W2 and the panel harness in through the cover's open side, plug the motor into J4 through the +Y notch, and tie the motor pair at anchor A2.
 
 ## Fusion design
 
-*Cam Rotation N20* (version 10 or later) holds the N20 changes on top of the MG90S design. The servo and its screws are hidden, not deleted. User parameters added for this drive:
+*Cam Rotation N20* (version 10 or later) holds the N20 changes on top of the MG90S design; rev C is version 24. The servo and its screws are hidden, not deleted. User parameters added for this drive:
 
 | Parameter | Default | What it controls |
 |---|---|---|
@@ -158,6 +186,16 @@ Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and ro
 | `c1_seat_dia`, `c1_seat_depth`, `c1_seat_h`, `c1_seat_z0` | 8.0, 4.9, 14, −1.3 mm | Capacitor seat |
 | `d1_x`, `d1_axis_z`, `d1_y0`, `d1_len`, `d1_seat_dia`, `d1_lead_slot` | 19.42, −10.6, −19, 6.4, 2.9, 1.1 mm | Diode channel and lead slot under the base |
 
+Rev C added no user parameters; its features use sketch numbers. They are:
+
+- **Ear (`Servo_Mount`):** "Perfboard ear" is x 22–76, y ±27.6, on the flange (z 32.2–38.2); the wall bolt hole at x 42 is re-cut through it.
+- **Bosses (`Servo_Mount`):** "Perfboard bosses" are Ø5 × 9 mm at (46 ± 15.9, ±22.25), with Ø1.6 × 10 mm M2 pilots from their faces at z 23.2.
+- **Perfboard component:** board centre x 46, component side at z 21.6.
+- **Cover (`N20_Electronics_Cover`):** x 25.3–73.6, y ±27.6, a 2 mm top with its inside face at z 12.6, 1.6 mm walls, 9.0 mm posts, Ø2.4 / Ø7 holes, and openings at x 40.8–53.8 (−Y wall) and 65.5–71.5 (+Y wall).
+- **Wire clamp (`N20_Cartridge`):** a plate at x −7.5–7.5 (so it starts on the bed, as the cartridge prints on its −x face), y 5.3–6.8, z −25.8 to −31.3, with slots 2.8 × 1.3 at z −26.3/−27.6 and −29.0/−30.3.
+
+The two components were moved 2 mm down when the bosses grew from 7 to 9 mm, with a position snapshot after. `wires.py` has the board-hole helper that maps a column and row to model coordinates.
+
 `d1_x`, `d1_axis_z` and `cart_ear_y` record where the diode channel and the cartridge screws are; their sketches use those numbers but aren't linked to the parameters, so move those sketches as well if you change them. The cartridge's M1.6 holes do follow `n20_hole_x`/`n20_hole_y`. The snap arms, hooks, barbs and tie ribs follow `n20_len`; the rest of the snap fit is sketch numbers (arms 1.5 mm, hooks 1.2 mm with a 0.2 mm barb, tongues 1.2 mm in 0.6 mm slits, bumps 1.4 mm with a square catch at z −3.7, release slots y 6.5–8.6 from z −3.8 up through the top of the base; key prongs 1.8 mm thick, their inner faces 6.55 mm from the axis), so change those sketches to tune it. Keep the key's prongs inside the socket wall (`n20_d`/2 + `n20_clear` + `cart_wall` + `cart_clear`, 6.7 mm), or the key won't release the latch.
 
 ## Folder layout
@@ -167,5 +205,5 @@ cad/        README.md: the Fusion document and version, and how to run the scrip
 cad/step/   cam-rotation-n20.step and .f3d: snapshots of the Fusion design
 cad/stl/    print files for the parts that differ from the MG90S drive
 cad/fusion/ orient_stl.py for this drive's STLs; wires.py rebuilds the Wiring component; shots.py renders docs/images
-docs/       wiring.md, cut-list.csv, images/ (schematic, renders)
+docs/       wiring.md, perfboard.md (rev C hole map), cut-list.csv, images/ (schematic, perfboard hole map, renders)
 ```

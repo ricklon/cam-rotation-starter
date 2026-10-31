@@ -5,8 +5,9 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 <!-- parts -->
 | Part | Orientation | Size on bed (mm) | Bed contact (mm²) |
 |---|---|---|---|
-| N20_Mount | flange (wall face) down | 109.0 × 44.8 × 48.6 | 3858 |
-| N20_Cartridge | on its side (-x face down), arms flat along the bed | 28.8 × 29.0 × 15.0 | 271 |
+| N20_Mount | flange (wall face) down | 130.5 × 55.2 × 48.6 | 5543 |
+| N20_Cartridge | on its side (-x face down), arms flat along the bed | 34.3 × 29.0 × 15.0 | 279 |
+| N20_Electronics_Cover | top plate down, walls and posts up | 48.3 × 55.2 × 21.1 | 2610 |
 | N20_Socket_Coupon | socket coupon: plate top down, as the mount | 20.5 × 27.0 × 12.4 | 318 |
 | N20_Latch_Key | flat on its side, the U on the bed | 12.2 × 16.7 × 7.0 | 109 |
 | N20_Control_Pod | front panel down, open back up | 39.2 × 38.0 × 24.0 | 955 |
@@ -43,6 +44,8 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 **Fixed 2026-10-27 (version 19): the base-plate slot fill.** From version 13 to 18 the fill started at the bottom of the base instead of its top, so it filled in everything already cut into the base: the DRV8833 pocket and the relief under its pins, the diode channel and its lead slot, and the wire channel under the base on the pod side. It also reached 1.3 mm into the side walls and closed the end of one control pod screw pilot. Now it fills only the slot, from the top of the base to the N20 plate, between the walls. Reprint `N20_Mount`, and `N20_Mount_Fit_Coupon_Base` if you test the board fits with it. A mount printed from version 13–18 files has no DRV8833 pocket or diode channel. `N20_Socket_Coupon` and `N20_Mount_Fit_Coupon_Wall` changed slightly at their edges; ones you've printed still test the same fits. Sliced on an A1 with build-plate supports: none in the slot, the DRV8833 pocket or the diode channel.
 
 **Updated 2026-10-27 (version 20): wiring only, print files unchanged.** The zip ties at anchors A1 and A2 are now modelled in place, and W14 and W15 are routed through A2, so they're cut 55 and 65 mm (were 50 and 60).
+
+**Updated 2026-10-31 (version 24): rev C.** Reprint `N20_Mount` (the +X flange ear is larger, with four 9 mm bosses and M2 pilots for the perfboard) and `N20_Cartridge` (a wire clamp plate below the +Y snap arm, with two slots for a 2.5 mm zip tie). New: `N20_Electronics_Cover`, which goes over the perfboard and carries the speed knob. The mount is now 130.5 mm long on the bed. The socket and mount fit coupons didn't change. See [What changed on 2026-10-31](../../README.md#what-changed-on-2026-10-31-rev-c).
 
 ## Test prints, in order
 
@@ -135,7 +138,8 @@ Tell me which hole fitted in each row of the PETG coupon, how the cartridge snap
 | N20_Mount_Fit_Coupon_Pod | PETG | 0.2 mm | 3 | 20% | **tree supports, allowed on the model**, as for the pod |
 | Adapters, clamps, caps | PETG | 0.12–0.16 mm | 4 | 40% | none |
 | N20_Control_Pod | PETG | 0.2 mm | 3 | 20% | **tree supports, allowed on the model** (not build plate only): printed front panel down, the JST holder starts in mid-air above the front panel's inside face |
-| N20_Mount | PETG | 0.2 mm | 3 | 25% | **yes**, build plate only: under the face plate (through the bushing hole) and the PD pad |
+| N20_Mount | PETG | 0.2 mm | 3 | 25% | **yes**, build plate only: under the face plate (through the bushing hole) and the PD pad. The ear bosses print upright from the flange and need none. |
+| N20_Electronics_Cover | PETG | 0.2 mm | 3 | 20% | none: printed top plate down, as the file loads |
 
 PETG notes: print a little slower and hotter than PLA, turn off ironing, and use a glue stick or textured sheet on smooth PEI (PETG can bond too well). Holes usually come out slightly smaller than in PLA, which is what the coupon is for.
 

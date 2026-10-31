@@ -22,6 +22,7 @@ PLAN = {
     'N20_Mount':              (FLIP, 'flange (wall face) down'),
     # on its -x face, so the latch tongues stand on the bed and the snap arms and tongues bend along their layers
     'N20_Cartridge':          ([ry(-90)], 'on its side (-x face down), arms flat along the bed'),
+    'N20_Electronics_Cover':  (FLIP, 'top plate down, walls and posts up'),
     'N20_Socket_Coupon':      ([rx(180)], 'socket coupon: plate top down, as the mount'),
     'N20_Latch_Key':          ([ry(-90)], 'flat on its side, the U on the bed'),
     'N20_Control_Pod':        (SIDE + FLIP, 'front panel down, open back up'),
@@ -65,9 +66,22 @@ def place(tri, R):
     mn, mx = t.reshape(-1, 3).min(0), t.reshape(-1, 3).max(0)
     return t - np.array([(mn[0] + mx[0]) / 2, (mn[1] + mx[1]) / 2, mn[2]])
 
+# rows already in the README, kept for parts that weren't re-exported this time
+_readme = os.path.join(OUT, 'README.md')
+old_rows = {}
+if os.path.exists(_readme):
+    _t = open(_readme, encoding='utf-8').read()
+    _t = _t[_t.find('<!-- parts -->'):_t.find('<!-- /parts -->')] if '<!-- parts -->' in _t else ''
+    for l in _t.splitlines():
+        if l.startswith('| N20_'):
+            old_rows[l.split('|')[1].strip()] = l
+
 for name, (cands, note) in PLAN.items():
     src = os.path.join(RAW, name + '.stl')
-    if not os.path.exists(src): print('missing', name); continue
+    if not os.path.exists(src):
+        print('missing', name, '(kept its old row)' if name in old_rows else '')
+        if name in old_rows: lines.append(old_rows[name])
+        continue
     tri = read(src)
     # Fusion exports STL in mm (volumes checked against the model)
     tri = max((place(tri, R) for R in cands), key=bed_area)
