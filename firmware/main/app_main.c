@@ -17,14 +17,19 @@ static const char *TAG = "cambox";
 
 static void board_init(void)
 {
-    // XIAO ESP32-C6: enable the RF switch and select the on-board antenna.
     gpio_config_t out = {
-        .pin_bit_mask = (1ULL << PIN_RF_SWITCH_EN) | (1ULL << PIN_ANT_SELECT) | (1ULL << PIN_LED),
+        .pin_bit_mask = 1ULL << PIN_LED,
         .mode = GPIO_MODE_OUTPUT,
     };
+#if HAS_RF_SWITCH
+    // XIAO ESP32-C6: enable the RF switch and select the on-board antenna.
+    out.pin_bit_mask |= (1ULL << PIN_RF_SWITCH_EN) | (1ULL << PIN_ANT_SELECT);
+#endif
     gpio_config(&out);
+#if HAS_RF_SWITCH
     gpio_set_level(PIN_RF_SWITCH_EN, 0);
     gpio_set_level(PIN_ANT_SELECT, 0);
+#endif
     gpio_set_level(PIN_LED, !LED_ON_LEVEL);
 }
 
@@ -78,5 +83,5 @@ void app_main(void)
     net_start();
     web_start();
     xTaskCreate(led_task, "led", 2560, NULL, 2, NULL);
-    ESP_LOGI(TAG, "ready");
+    ESP_LOGI(TAG, "ready (%s drive, %s board)", DRIVE_NAME, BOARD_NAME);
 }

@@ -1,6 +1,6 @@
 # CamBox firmware
 
-Firmware for the Cam Rotation Starter: a Seeed XIAO ESP32-C6 runs a motor that turns a cam shaft: an MG90S continuous-rotation servo, or an N20 gearmotor through a DRV8833 driver (chosen at build time, see [Drive type](#drive-type)). It can be driven from a phone, from the panel controls, or by playing back stored **stories**: timelines of speed beats. The board makes its own Wi-Fi network and serves the web app itself, so no internet connection is needed.
+Firmware for the Cam Rotation Starter: an ESP32-C6 (a Seeed XIAO ESP32-C6 or an ESP32-C6 Super Mini, see [Board](#board)) runs a motor that turns a cam shaft: an MG90S continuous-rotation servo, or an N20 gearmotor through a DRV8833 driver (chosen at build time, see [Drive type](#drive-type)). It can be driven from a phone, from the panel controls, or by playing back stored **stories**: timelines of speed beats. The board makes its own Wi-Fi network and serves the web app itself, so no internet connection is needed.
 
 - **Play tab:** shows what is playing and lets you drive the motor by hand, with a big Stop button and the story speed.
 - **Stories tab:** a list of stories and a beat editor with a timeline preview. **Record by performing** turns slider moves into beats, and stories can be imported or exported as `.json` files.
@@ -8,20 +8,22 @@ Firmware for the Cam Rotation Starter: a Seeed XIAO ESP32-C6 runs a motor that t
 
 ## Hardware
 
-| Function | XIAO pin | GPIO | Notes |
-|---|---|---|---|
-| Servo signal (MG90S) | D0 | 0 | 50 Hz LEDC PWM. The servo takes 5 V from the PD board, not from the XIAO. |
-| DRV8833 IN3, forward (N20) | D10 | 18 | 20 kHz LEDC PWM. Channel B of the module. |
-| DRV8833 IN4, reverse (N20) | D9 | 20 | 20 kHz LEDC PWM. |
-| DRV8833 nSLEEP (N20) | D8 | 19 | Held low until the firmware runs, and after the motor has been stopped for `idle_release_ms`. |
-| Button (to GND) | D1 | 1 | Internal pull-up. |
-| Speed knob wiper | D2 | 2 | 10 k pot between 3V3 and GND. ADC, 12 dB attenuation. |
-| Direction switch FWD (to GND) | D3 | 21 | ON-OFF-ON switch, common to GND. |
-| Direction switch REV (to GND) | D4 | 22 | Centre position = both open = stop. |
-| User LED | on board | 15 | Active low. |
-| RF switch enable / antenna select | on board | 3 / 14 | Driven low: on-board antenna. |
+| Function | XIAO pin | XIAO GPIO | Super Mini GPIO | Notes |
+|---|---|---|---|---|
+| Servo signal (MG90S) | D0 | 0 | 18 | 50 Hz LEDC PWM. The servo takes 5 V from the PD board, not from the board. |
+| DRV8833 IN3, forward (N20) | D10 | 18 | 18 | 20 kHz LEDC PWM. Channel B of the module. |
+| DRV8833 IN4, reverse (N20) | D9 | 20 | 20 | 20 kHz LEDC PWM. |
+| DRV8833 nSLEEP (N20) | D8 | 19 | 19 | Held low until the firmware runs, and after the motor has been stopped for `idle_release_ms`. |
+| Button (to GND) | D1 | 1 | 1 | Internal pull-up. |
+| Speed knob wiper | D2 | 2 | 2 | 10 k pot between 3V3 and GND. ADC1, 12 dB attenuation. |
+| Direction switch FWD (to GND) | D3 | 21 | 3 | ON-OFF-ON switch, common to GND. |
+| Direction switch REV (to GND) | D4 | 22 | 0 | Centre position = both open = stop. |
+| User LED | on board | 15 (active low) | 15 (active high, unconfirmed) | |
+| RF switch enable / antenna select | on board | 3 / 14 | none | XIAO only: driven low for the on-board antenna. The Super Mini has a fixed antenna. |
 
-The full point-to-point wire list for the MG90S drive (W1–W11, L1–L3, J1–J2) is in [`docs/wiring.md`](../drives/mg90s/docs/wiring.md); the N20 wiring plan is in [`drives/n20/README.md`](../drives/n20/README.md#wiring-plan). Pins are defined in `main/board.h`.
+The Super Mini pins avoid the ESP32-C6's strapping pins (GPIO4, 5, 8, 9, 15 as inputs), USB (GPIO12, 13), UART0 (GPIO16, 17) and the in-package flash. The driver pins are the same GPIOs on both boards; on the Super Mini they are on the edge with the 5V, GND and 3V3 pins, and the panel pins on the other edge.
+
+The full point-to-point wire list for the MG90S drive (W1–W11, L1–L3, J1–J2) is in [`docs/wiring.md`](../drives/mg90s/docs/wiring.md); the N20's (on a perfboard with the Super Mini) is in [`drives/n20/docs/wiring.md`](../drives/n20/docs/wiring.md). Pins are defined in `main/board.h`.
 
 ## Panel controls
 
@@ -75,6 +77,17 @@ idf.py -B build/n20 -p PORT flash
 The N20 build uses slow-decay PWM (the off phase brakes), so speed follows duty closely and the motor stops dead at zero. It has no stop trim: the Settings tab hides the trim and the µs range, and `trim_us`/`range_us` are ignored. After `idle_release_ms` at zero the driver sleeps and the motor turns freely.
 
 `data/www` already holds an unbundled copy of the web app, so the box works even if you skip step 1. `npm run build` replaces it with the minified, gzipped build.
+
+### Board
+
+The default build is for the Seeed XIAO ESP32-C6. For the ESP32-C6 Super Mini, add the `sdkconfig.supermini` fragment, or set **CamBox → Board** in `idf.py menuconfig`. It combines with either drive type:
+
+```sh
+idf.py -B build/n20-supermini -D SDKCONFIG=build/n20-supermini/sdkconfig -D SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.n20;sdkconfig.supermini" build
+idf.py -B build/n20-supermini -p PORT flash
+```
+
+Only the pin map (`main/board.h`) and the antenna set-up differ. The boot log names both: `ready (n20 drive, supermini-c6 board)`. A build for the wrong board runs, but the motor and the panel controls won't respond.
 
 ### Developing the web app
 
@@ -150,7 +163,7 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 ```
 main/          firmware (C, ESP-IDF)
   app_main.c   start-up order, LED, Wi-Fi reset
-  board.h      pin map
+  board.h      pin maps (XIAO ESP32-C6, ESP32-C6 Super Mini)
   servo.c      MG90S: LEDC PWM, slew, idle release, trim preview
   motor_drv8833.c  N20: two-channel LEDC PWM to the DRV8833, slew, sleep on idle
   controls.c   button / knob / switch → events

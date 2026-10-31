@@ -3,7 +3,7 @@
 Read README.md first. It covers the pins, panel behaviour, the API and the story format, and it is the user-facing contract. Keep it in sync with any change.
 
 ## Project shape
-- ESP-IDF ≥ 5.3, target **esp32c6** (Seeed XIAO ESP32-C6, 4 MB flash). Plain C, no Arduino.
+- ESP-IDF ≥ 5.3, target **esp32c6**, 4 MB flash: a Seeed XIAO ESP32-C6 (default) or an ESP32-C6 Super Mini (`CONFIG_CAM_BOARD_SUPERMINI_C6`, `sdkconfig.supermini`). Plain C, no Arduino.
 - Managed components: `joltwallet/littlefs` and `espressif/mdns` (declared in `main/idf_component.yml`).
 - Web app in `web/`: Vite with vanilla ES modules, one `src/main.js` and one `src/style.css`. No framework, and keep it that way; the gzipped bundle must stay small (it ships in a 2 MB LittleFS partition and is served by a tiny HTTP server).
 - `data/` becomes the LittleFS image (`littlefs_create_partition_image` in `main/CMakeLists.txt`). `npm run build` (in `web/`) regenerates `data/www` as `.gz` files via `tools/pack_web.mjs`.
@@ -12,6 +12,7 @@ Read README.md first. It covers the pins, panel behaviour, the API and the story
 - **Init order in `app_main.c` matters:** `player_init()` must run before `controls_init()`, because control callbacks call into the player.
 - **The servo is continuous-rotation.** "Position" means nothing; speed is −100..100, and pulse = `trim_us + speed/100 * range_us`. Every command goes through `servo_set_target()`, which applies slew. Never write LEDC directly from elsewhere.
 - **Two drive types, one interface.** `CONFIG_CAM_DRIVE_N20` (menuconfig → CamBox, or `sdkconfig.n20`) builds `motor_drv8833.c` instead of `servo.c`; both implement `servo.h`. Keep them in step: a change to slew or idle release in one belongs in the other. Build both before committing.
+- **Two boards, one pin map file.** `main/board.h` holds both boards' pins; nothing else should name a GPIO. The XIAO has an RF switch (`HAS_RF_SWITCH`), the Super Mini doesn't. Build all four combinations (XIAO / Super Mini × MG90S / N20) before committing a change to `board.h` or `app_main.c`.
 - **The direction switch is applied in the player** (`target = cmd * dir`). It affects web commands too, on purpose: the physical switch is the safety override.
 - **Settings live in NVS as one JSON blob** (namespace `cambox`, key `cfg`). `settings_apply_json()` clamps every field. Add new fields in `settings.h`, in the defaults, and in both `settings_to_json` and `settings_apply_json`. Never return passwords from the API; only `*_pass_set` flags.
 - **Story names** match `^[A-Za-z0-9_-]{1,31}$`. This is enforced in both `storage.c` and the UI. Stories are capped at 64 steps (`STORY_MAX_STEPS`) and 32 KB.

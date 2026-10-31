@@ -13,4 +13,17 @@ menu "CamBox"
             bool "N20 gearmotor + DRV8833"
     endchoice
 
+    choice CAM_BOARD
+        prompt "Board"
+        default CAM_BOARD_XIAO_C6
+        help
+            Which ESP32-C6 board is fitted. Only the pin map (main/board.h)
+            and the antenna set-up differ.
+
+        config CAM_BOARD_XIAO_C6
+            bool "Seeed XIAO ESP32-C6"
+        config CAM_BOARD_SUPERMINI_C6
+            bool "ESP32-C6 Super Mini (26 x 18 mm, castellated)"
+    endchoice
+
 endmenu
