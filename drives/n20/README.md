@@ -4,7 +4,7 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 
 **Status: rev C designed (2026-10-31), not yet built; rev B was ready for a PETG fit test (2026-10-26).** The first printed mount showed the motor's screw holes are the inline pair and that the boards need room for solder underneath (fixed 2026-10-24). A change request then reworked the capacitor and diode, the wiring, the clamps, the motor mount and the control panel connector; see [What changed on 2026-10-26](#what-changed-on-2026-10-26). Since 2026-10-27 the motor and its cartridge snap in, with no screws (see [Snap-fit motor](#snap-fit-motor-2026-10-27)). Print the PETG fit coupon, the cartridge with the socket coupon, and the mount fit coupon (pieces of the real mount and pod that check the capacitor, diode, board, cartridge, zip-tie and connector fits) before the mount (see [cad/stl](cad/stl/README.md)). Wiring, schematic and cut list are in [docs/wiring.md](docs/wiring.md); the build order is in [Assembly order and tool access](#assembly-order-and-tool-access).
 
-**Rev C (2026-10-31): perfboard electronics, ESP32-C6 Super Mini, motor strain relief.** The electronics are soldered onto an ElectroCookie perfboard on the mount's enlarged +X flange ear, under a printed cover. That covers the ESP32-C6 Super Mini, the DRV8833, the diode, a board-mounted speed knob and a plug for the motor. The motor's wires are tied to the cartridge right beside its terminals. See [What changed on 2026-10-31](#what-changed-on-2026-10-31-rev-c), the hole map in [docs/perfboard.md](docs/perfboard.md), and the wiring in [docs/wiring.md](docs/wiring.md). Not yet printed or built.
+**Rev C (2026-10-31): perfboard electronics, ESP32-C6 Super Mini, motor strain relief.** The electronics are soldered onto an ElectroCookie perfboard on the mount's electronics-side (−Y) face, under a printed cover that forms the mount's outer wall. That covers the USB-C PD board, the ESP32-C6 Super Mini, the DRV8833, the diode, a board-mounted speed knob and a plug for the motor. Both USB-C ports face +X. The motor's wires are tied to the cartridge right beside its terminals. See [What changed on 2026-10-31](#what-changed-on-2026-10-31-rev-c), the hole map in [docs/perfboard.md](docs/perfboard.md), and the wiring in [docs/wiring.md](docs/wiring.md). Not yet printed or built.
 
 - **Fusion design:** *Cam Rotation N20* in MovementStudy › Cam Rotation Tool, copied from *Cam Rotation Starter*. The N20 reference model is *N20 DC MOTOR*, copied into the same folder.
 
@@ -12,7 +12,7 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 
 | Part | Reused as is? | Notes |
 |---|---|---|
-| USB-C PD trigger board (5 V), 1N5817 diode | Yes | Same power path: PD 5 V feeds the motor side; the board gets 5 V through the diode, which now lies on the perfboard. |
+| USB-C PD trigger board (5 V), 1N5817 diode | Yes | Same power path: PD 5 V feeds the motor side; the board gets 5 V through the diode. From rev C both are on the perfboard, and the PD board's screw terminal is removed. |
 | XIAO ESP32-C6 | Replaced in rev C | By an ESP32-C6 Super Mini on the perfboard. The mount keeps the XIAO pocket, so a rev B build with a XIAO still fits; the firmware builds for either board. |
 | 470 µF capacitor | Yes, 8 × 13 mm | The seat is 14 mm tall for the 13 mm can. |
 | 12 mm button, direction switch | Yes | In the pod, through a 6-pin JST-PH connector (J3). On the Super Mini they use GPIO1, GPIO3 and GPIO0. |
@@ -20,8 +20,8 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 | Control pod | Changed | `N20_Control_Pod` has a holder for the J3 header inside; print it from this drive's folder. Unchanged in rev C. |
 | Bushings, dowel gauges, shims | Yes | Print them from [`drives/mg90s/cad/stl`](../mg90s/cad/stl/README.md). |
 | Dowel adapters, clamp bodies and caps | No | Same dowel sockets and grip screws, but a 3 mm D-shaft bore through the base in place of the servo spline pocket and horn screw, with an M3 set screw onto the shaft's flat. The clamps take M3 socket cap screws in flat-bottomed counterbores. `N20_Adapter_*` and `N20_Clamp_*` in [cad/stl](cad/stl/README.md). |
-| Mount | Changed | `N20_Mount`: same walls, flange, pod face and XIAO pocket; the PD board sits on a 3.5 mm pad on the outside of the wall. The motor snaps into a printed cartridge (`N20_Cartridge`), which latches up into a socket in the base, on the dowel axis; a printed key (`N20_Latch_Key`) releases it. The base and the N20 plate are joined solid (no open slot between them for supports to get trapped in). The DRV8833 sits in a pocket on the underside of the base, with the diode in a channel beside it. Both boards' pockets have a 2.5 mm relief under their pin rows for wire ends and solder. Rev C enlarges the +X flange ear (to x 76, ±27.6 mm) with four 9 mm bosses for the perfboard; the rev B pockets stay. |
-| Electronics cover | New in rev C | `N20_Electronics_Cover`: covers the perfboard and carries the speed knob. Four M2 × 20 screws hold the cover and the board to the ear bosses. |
+| Mount | Changed | `N20_Mount`: same walls, flange, pod face and XIAO pocket; the PD board sits on a 3.5 mm pad on the outside of the wall. The motor snaps into a printed cartridge (`N20_Cartridge`), which latches up into a socket in the base, on the dowel axis; a printed key (`N20_Latch_Key`) releases it. The base and the N20 plate are joined solid (no open slot between them for supports to get trapped in). The DRV8833 sits in a pocket on the underside of the base, with the diode in a channel beside it. Both boards' pockets have a 2.5 mm relief under their pin rows for wire ends and solder. Rev C adds the perfboard's supports to the −Y face: two posts from the flange, two gusseted bosses and a rail past the face's +X edge. The flange ear is unchanged. The rev B pockets stay, but the supports block the XIAO's USB-C port. |
+| Electronics cover | New in rev C | `N20_Electronics_Cover`: covers the perfboard, forms the mount's outer −Y wall and carries the speed knob. Three M2 × 20 screws hold the cover and the board to the supports. |
 | 330 Ω signal resistor (R1) | Dropped | Not needed for a motor driver input. |
 | Firmware | Shared | Same story player and web app; a DRV8833 motor output in place of the servo pulse (see below). |
 
@@ -38,12 +38,13 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 | — | 2 per clamp | **M3 × 8** socket cap screws | Clamp caps. M3 × 10 is too long for the 5/8 clamp: its tip would come out of the side. |
 | — | 1 | Double-sided foam tape, about 15 × 15 mm | Holds the DRV8833 module in its pocket. |
 | — | 1 | 0.1 µF ceramic capacitor | Solder across the N20's terminals to cut electrical noise. |
-| — | 4–5 | Small zip ties, 2.5 mm wide | Through anchor A2 under the base (motor wires), one round the cartridge's motor arms to lock them, and one through the cartridge's wire clamp (rev C). Anchor A1 under the wall is no longer on the power wires' route. |
+| — | 2–3 | Small zip ties, 2.5 mm wide | One round the cartridge's motor arms to lock them, and one through the cartridge's wire clamp (rev C). The tie anchors A1 and A2 under the mount aren't on the rev C wire routes; use them if you add a tie. |
 | U2 | 1 | ESP32-C6 Super Mini (26 × 18 mm, castellated, USB-C), with its header strips | Rev C. On the perfboard. |
 | — | 1 | ElectroCookie mini solderable breadboard, 1/4 size (38.1 × 50.8 mm) | Rev C. Rows 1–17, A–E / F–J, no power rails. |
 | RV1 | 1 | RK097N 10 kΩ linear pot, 6 mm knurled shaft, with nut, washer and knob cap | Rev C. Replaces the pod's knob. |
 | J4 | 1 | JST-PH 2.0 mm 2-pin, side entry: S2B-PH-K-S header, PHR-2 housing, 2 crimp contacts | Rev C. The motor plug. |
-| — | 4 | **M2 × 20** pan-head screws | Rev C. Cover and perfboard to the ear bosses. |
+| — | 3 | **M2 × 20** pan-head screws | Rev C. Cover and perfboard to the supports on the −Y face. |
+| — | 2 | Double-sided foam pads, 3 mm thick, about 10 × 4 mm | Rev C. Hold the PD board on the perfboard. |
 | — | — | 30 AWG solid insulated wire | Rev C. The ten links on the perfboard's underside. |
 | — | — | Hot glue or CA | A dab to hold D1 in its channel and the J3 header in its holder. |
 
@@ -53,8 +54,8 @@ Rev C, on the perfboard with the ESP32-C6 Super Mini (rev B, with a XIAO, is in 
 
 | From | To | Why |
 |---|---|---|
-| PD board + (5 V) | Perfboard 5V bus → DRV8833 VCC; C1 + at the PD board | Motor supply (VCC on this module is the DRV8833's VM); the capacitor buffers start-up current |
-| PD board GND | Perfboard GND bus → DRV8833 GND, Super Mini GND; C1 − | Common ground |
+| PD board + pad (5 V), C1 + | Perfboard 5V bus → DRV8833 VCC | Motor supply (VCC on this module is the DRV8833's VM); the capacitor buffers start-up current |
+| PD board − pad, C1 − | Perfboard GND bus → DRV8833 GND, Super Mini GND | Common ground |
 | 5V bus | D1 → Super Mini 5V | Same job as on the MG90S drive |
 | GPIO18 | DRV8833 IN3 | PWM forward |
 | GPIO20 | DRV8833 IN4 | PWM reverse |
@@ -94,11 +95,11 @@ After the first units were built:
 |---|---|---|
 | 1 | Motor strain relief | The motor's solder joints were getting stressed in transit. The cartridge now has a **wire clamp**: a 1.5 mm plate below its +Y snap arm with two slots for a 2.5 mm zip tie, which holds W14 and W15 about 5 mm from the terminals. The motor also unplugs at **J4**, a side-entry JST-PH 2-pin header on the perfboard, so it can travel separately. See [J4 and the motor wire clamp](docs/wiring.md#j4-and-the-motor-wire-clamp). |
 | 2 | Board | An **ESP32-C6 Super Mini** replaces the XIAO. The firmware has a board choice (`sdkconfig.supermini`). The driver stays on GPIO18/20/19, and the panel moves to GPIO1/2/3/0, clear of the strapping, USB and UART pins. |
-| 3 | Perfboard | The electronics are on an **ElectroCookie 1/4-size perfboard**, with links on its underside in place of loose wires. It sits on four 9 mm bosses on the enlarged +X flange ear under `N20_Electronics_Cover`, held by four M2 × 20 screws. The bosses clear the wall bolt's head by 2.5 mm. The PD board and C1 stay where they were. [docs/perfboard.md](docs/perfboard.md) has the hole map. |
+| 3 | Perfboard | The electronics are on an **ElectroCookie 1/4-size perfboard**, with links on its underside in place of loose wires. The PD board is on it too, its screw terminal removed. The board sits on four supports on the mount's −Y face, 5.8 mm off it, under `N20_Electronics_Cover`, which forms the mount's outer wall. Three M2 × 20 screws hold it. Both USB-C ports face +X, and the knob points out sideways. C1 stays in its seat and is wired to the board. [docs/perfboard.md](docs/perfboard.md) has the hole map. |
 | 4 | Speed knob | An **RK097N** pot on the perfboard, its shaft through a 7 mm hole in the cover, which its nut clamps. The cover's inside face is 9.0 mm off the board, the height of the pot's base. Same pin (GPIO2) and scaling, so the web app's virtual knob behaves as before. |
-| 5 | Wiring | W4, W5, W12 and W13 are underside links, joined by W16–W21. W7, W8, W7p, W8p and J2 are gone, and J3 pins 4 and 5 are unused. W1 and W2 run round the end of the PD board to the perfboard. Cut list rebuilt from the model. |
+| 5 | Wiring | W4, W5, W12 and W13 are underside links, joined by W16–W21. W7, W8, W7p, W8p and J2 are gone, and J3 pins 4 and 5 are unused. W1 and W2 are short jumpers from the PD board's pads. Wires from the mount go into the board from the underside. The motor pair runs from the cover's bottom notch under the base to the motor. Cut list rebuilt from the model. |
 
-![The perfboard on the enlarged flange ear with the cover off: the DRV8833, the Super Mini, D1 and the speed pot on the board, the power wires coming round the end of the PD board, and the motor pair leaving J4.](docs/images/perfboard.png)
+![The perfboard on the mount's -Y face with the cover off: the PD board over its top-right corner, the Super Mini below it, the DRV8833 at the left with D1 standing above it, J4 and the speed pot along the bottom edge, and the motor pair leaving J4 downward.](docs/images/perfboard.png)
 
 ## Snap-fit motor (2026-10-27)
 
@@ -152,7 +153,14 @@ Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and ro
 8. **Motor in.** Push the wired motor up into the cartridge so the D-shaft enters the adapter's bore (turn the dowel to line up the flat), until the arms click over the end cap. W14 and W15 run down the motor's open side, between the arms. Put a zip tie round both arms between their ribs, head on the side away from the wires, and pull it tight; W14 and W15 stay inside it, held against the motor. Then tie W14 and W15 to the wire clamp below the +Y arm (rev C; see [the clamp](docs/wiring.md#j4-and-the-motor-wire-clamp)).
 9. **Set screw.** Turn the dowel until the set screw faces an open end of the mount, just above the face plate, and tighten it onto the shaft's flat with a 1.5 mm hex key: firm, not forced, or it strips the plastic. To take the drive apart, loosen it, cut the arms' zip tie, spread the arms and pull the motor down. The cartridge can stay in the mount. If it has to come out, slide the dowel out and take the adapter off, push `N20_Latch_Key` down into the two slots beside the cartridge's top plate, and pull the cartridge out by its flange.
 10. **Control panel.** Plug J3 into the header in the pod, then screw the pod on (four M3 screws, as before). Reverse this to take it off.
-11. **Perfboard and cover (rev C).** The ear's wall bolt must already be in (step 4). Lay the perfboard on the four ear bosses, components out, row 17 (the USB-C end) toward the electronics side. Put the cover over it, with RV1's bushing through the 7 mm hole. Drive the four M2 × 20 screws through the cover posts and the board into the bosses, then fit RV1's washer, nut and knob cap. Route W1, W2 and the panel harness in through the cover's open side, plug the motor into J4 through the +Y notch, and tie the motor pair at anchor A2.
+11. **Perfboard and cover (rev C).** With C1 in its seat:
+    1. Push L1, L2 and the panel wires through their holes from the underside and solder them (see [docs/perfboard.md](docs/perfboard.md#build-order)).
+    2. Lay the perfboard on the four supports on the −Y face, components out, row 17 (both USB-C ports) toward +X.
+    3. Put the cover over it, with RV1's bushing through the 7 mm hole. Drive the three M2 × 20 screws through the cover posts and the board into the supports.
+    4. Fit RV1's washer, nut and knob cap.
+    5. Plug the motor into J4 through the cover's bottom notch.
+
+    Power plugs in at the PD board's USB-C, at the +X end of the cover; programming is the Super Mini's USB-C beside it.
 
 ## Fusion design
 
@@ -188,13 +196,21 @@ Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and ro
 
 Rev C added no user parameters; its features use sketch numbers. They are:
 
-- **Ear (`Servo_Mount`):** "Perfboard ear" is x 22–76, y ±27.6, on the flange (z 32.2–38.2); the wall bolt hole at x 42 is re-cut through it.
-- **Bosses (`Servo_Mount`):** "Perfboard bosses" are Ø5 × 9 mm at (46 ± 15.9, ±22.25), with Ø1.6 × 10 mm M2 pilots from their faces at z 23.2.
-- **Perfboard component:** board centre x 46, component side at z 21.6.
-- **Cover (`N20_Electronics_Cover`):** x 25.3–73.6, y ±27.6, a 2 mm top with its inside face at z 12.6, 1.6 mm walls, 9.0 mm posts, Ø2.4 / Ø7 holes, and openings at x 40.8–53.8 (−Y wall) and 65.5–71.5 (+Y wall).
+- **Supports (`Servo_Mount`):** they start at y −20.0, inside the −Y face, which is at y −20.67.
+  - "Perfboard left supports": 5 × 6.5 mm at x −19.45 to −14.45, z 28.4–38.2 and −3.4 to 1.6.
+  - "Perfboard right rail": x 22–30.05, z −8 to 38.2, to y −24.0.
+  - "Perfboard right supports": x 25.05–30.05, to y −26.5.
+  - Two 45° gussets above the bottom supports.
+  - Ø1.6 × 9 mm M2 pilots at (−16.95 / 27.55, z 30.9 / −0.9).
+- **Perfboard component:** the bodies are built in the old ear frame (board centre x 46, component side at z 23.6, facing −z). The occurrence transform puts them on the −Y face: world x = 5.3 − y_c, y = z_c − 51.7, z = 61 − x_c. So the board's centre is at (5.3, ·, 15), its component side at y −28.1 facing −Y, and its underside at y −26.5. U1, the PD board, is modelled there as simple blocks.
+- **Cover (`N20_Electronics_Cover`):** same frame and transform as the perfboard.
+  - In its own frame: x 25.3–73.6, y ±27.6, a 2 mm top with its inside face at z 12.6, and 1.6 mm walls 10.5 mm high, ending at the board's underside plane.
+  - Three 9.0 mm posts; the corner under U1 has none.
+  - Ø2.4 / Ø7 holes.
+  - Openings: the +X end over both USB-C ports ("Cover USB-C end and motor notch") and a notch in the bottom wall at J4.
 - **Wire clamp (`N20_Cartridge`):** a plate at x −7.5–7.5 (so it starts on the bed, as the cartridge prints on its −x face), y 5.3–6.8, z −25.8 to −31.3, with slots 2.8 × 1.3 at z −26.3/−27.6 and −29.0/−30.3.
 
-The two components were moved 2 mm down when the bosses grew from 7 to 9 mm, with a position snapshot after. `wires.py` has the board-hole helper that maps a column and row to model coordinates.
+The occurrence transforms were set together, with a position snapshot after. `wires.py` has the board-hole helper that maps a column and row to model coordinates.
 
 `d1_x`, `d1_axis_z` and `cart_ear_y` record where the diode channel and the cartridge screws are; their sketches use those numbers but aren't linked to the parameters, so move those sketches as well if you change them. The cartridge's M1.6 holes do follow `n20_hole_x`/`n20_hole_y`. The snap arms, hooks, barbs and tie ribs follow `n20_len`; the rest of the snap fit is sketch numbers (arms 1.5 mm, hooks 1.2 mm with a 0.2 mm barb, tongues 1.2 mm in 0.6 mm slits, bumps 1.4 mm with a square catch at z −3.7, release slots y 6.5–8.6 from z −3.8 up through the top of the base; key prongs 1.8 mm thick, their inner faces 6.55 mm from the axis), so change those sketches to tune it. Keep the key's prongs inside the socket wall (`n20_d`/2 + `n20_clear` + `cart_wall` + `cart_clear`, 6.7 mm), or the key won't release the latch.
 

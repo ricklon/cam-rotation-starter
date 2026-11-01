@@ -1,6 +1,6 @@
 # CAD
 
-The design lives in Autodesk Fusion, as the document *Cam Rotation N20* in MovementStudy › Cam Rotation Tool, copied from the MG90S drive's *Cam Rotation Starter*. No release is tagged yet; the snapshots in `step/` match Fusion version 24 of that document (rev C: perfboard, Super Mini, electronics cover, motor wire clamp). Version 23 included the owner's own earlier unsaved edits as well as rev C. When this drive is tagged `vMAJOR.MINOR-n20`, record here which Fusion version the tag matches. This folder holds copies you can open without Fusion, the print files, and the scripts used to build and document the model.
+The design lives in Autodesk Fusion, as the document *Cam Rotation N20* in MovementStudy › Cam Rotation Tool, copied from the MG90S drive's *Cam Rotation Starter*. No release is tagged yet; the snapshots in `step/` match Fusion version 25 of that document (rev C: perfboard with the PD board on the mount's −Y face, Super Mini, electronics cover, motor wire clamp). Version 23 included the owner's own earlier unsaved edits as well as rev C; version 24 had the perfboard on an enlarged flange ear. When this drive is tagged `vMAJOR.MINOR-n20`, record here which Fusion version the tag matches. This folder holds copies you can open without Fusion, the print files, and the scripts used to build and document the model.
 
 | Folder | What's in it |
 |---|---|

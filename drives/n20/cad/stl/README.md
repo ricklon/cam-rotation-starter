@@ -5,9 +5,9 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 <!-- parts -->
 | Part | Orientation | Size on bed (mm) | Bed contact (mm²) |
 |---|---|---|---|
-| N20_Mount | flange (wall face) down | 130.5 × 55.2 × 48.6 | 5543 |
+| N20_Mount | flange (wall face) down | 109.0 × 47.2 × 48.6 | 3931 |
 | N20_Cartridge | on its side (-x face down), arms flat along the bed | 34.3 × 29.0 × 15.0 | 279 |
-| N20_Electronics_Cover | top plate down, walls and posts up | 48.3 × 55.2 × 21.1 | 2610 |
+| N20_Electronics_Cover | top plate down, walls and posts up | 48.3 × 55.2 × 12.5 | 2544 |
 | N20_Socket_Coupon | socket coupon: plate top down, as the mount | 20.5 × 27.0 × 12.4 | 318 |
 | N20_Latch_Key | flat on its side, the U on the bed | 12.2 × 16.7 × 7.0 | 109 |
 | N20_Control_Pod | front panel down, open back up | 39.2 × 38.0 × 24.0 | 955 |
@@ -45,7 +45,13 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 
 **Updated 2026-10-27 (version 20): wiring only, print files unchanged.** The zip ties at anchors A1 and A2 are now modelled in place, and W14 and W15 are routed through A2, so they're cut 55 and 65 mm (were 50 and 60).
 
-**Updated 2026-10-31 (version 24): rev C.** Reprint `N20_Mount` (the +X flange ear is larger, with four 9 mm bosses and M2 pilots for the perfboard) and `N20_Cartridge` (a wire clamp plate below the +Y snap arm, with two slots for a 2.5 mm zip tie). New: `N20_Electronics_Cover`, which goes over the perfboard and carries the speed knob. The mount is now 130.5 mm long on the bed. The socket and mount fit coupons didn't change. See [What changed on 2026-10-31](../../README.md#what-changed-on-2026-10-31-rev-c).
+**Updated 2026-10-31 (version 25): rev C.** Reprint `N20_Mount` and `N20_Cartridge`, and print the new `N20_Electronics_Cover`. The socket and mount fit coupons didn't change.
+
+- **`N20_Mount`:** supports for the perfboard on the −Y face: two posts from the flange, two bosses with 45° gussets, and a rail past the face's +X edge, all with M2 pilots. The flange ear is unchanged.
+- **`N20_Cartridge`:** a wire clamp plate below the +Y snap arm, with two slots for a 2.5 mm zip tie.
+- **`N20_Electronics_Cover`:** goes over the perfboard as the mount's outer −Y wall, open at the +X end for both USB-C plugs, and carries the speed knob.
+
+The supports print up from the flange without supports of their own. See [What changed on 2026-10-31](../../README.md#what-changed-on-2026-10-31-rev-c).
 
 ## Test prints, in order
 

@@ -2,26 +2,28 @@
 
 A USB-C PD trigger board set to 5 V powers a DRV8833 motor driver, which runs the N20 gearmotor. The same 5 V feeds an ESP32-C6 Super Mini through a diode. The Super Mini drives the DRV8833's channel B inputs from GPIO18 and GPIO20, and holds the driver asleep from GPIO19 until the firmware is running. All grounds are tied together.
 
-From rev C the Super Mini, the DRV8833, the diode, the speed knob and the motor plug are soldered onto an ElectroCookie perfboard on the mount's enlarged +X flange ear, under a printed cover. The perfboard's hole map and build order are in [perfboard.md](perfboard.md).
+From rev C nearly all of this is on one ElectroCookie perfboard: the PD board, the Super Mini, the DRV8833, the diode, the speed knob and the motor plug. The board is on the mount's electronics-side (−Y) face, under a printed cover that forms the mount's outer wall. Its hole map and build order are in [perfboard.md](perfboard.md).
 
-- The PD board and its capacitor stay where they were.
+- C1 stays in its seat on the mount and is wired to the board.
 - The motor unplugs at J4.
 - The button and the direction switch stay in the pod and unplug at J3, as before.
+- Both USB-C ports, the PD board's for power and the Super Mini's for programming, are at the +X end of the drive.
 
 ## Schematic
 
 [Open the schematic full size](images/schematic.svg) (SVG, rev C).
 
-![Schematic, rev C. PD board 5 V goes to the DRV8833 VCC pin and, through diode D1, to the Super Mini's 5V pin; a 470 µF capacitor sits across 5 V. Super Mini GPIO18, GPIO20 and GPIO19 go to DRV8833 IN3, IN4 and EEP. DRV8833 OUT3 and OUT4 go through the 2-pin plug J4 to the N20 motor M1, with a 0.1 µF capacitor C2 across it. The 12 mm button S1 runs from GPIO1 to ground. The 10 kΩ knob RV1 sits between 3.3 V and ground with its wiper on GPIO2. Switch SW1 has its common to ground and its throws to GPIO3 and GPIO0. The button and switch wires pass through connector J3. U2, U3 and D1 are outlined as the perfboard.](images/schematic.svg)
+![Schematic, rev C. PD board 5 V goes to the DRV8833 VCC pin and, through diode D1, to the Super Mini's 5V pin; a 470 µF capacitor sits across 5 V. Super Mini GPIO18, GPIO20 and GPIO19 go to DRV8833 IN3, IN4 and EEP. DRV8833 OUT3 and OUT4 go through the 2-pin plug J4 to the N20 motor M1, with a 0.1 µF capacitor C2 across it. The 12 mm button S1 runs from GPIO1 to ground. The 10 kΩ knob RV1 sits between 3.3 V and ground with its wiper on GPIO2. Switch SW1 has its common to ground and its throws to GPIO3 and GPIO0. The button and switch wires pass through connector J3. U1, U2, U3 and D1 are outlined as the perfboard; C1 is outside it.](images/schematic.svg)
 
 ## Connections
 
 | From | To | Net |
 |---|---|---|
-| U1 OUT+ | perfboard 5V bus (row 8 left), C1 + | +5V |
+| U1 + pad | perfboard 5V bus (row 7 left) | +5V |
+| C1 + | 5V bus | +5V |
 | 5V bus | U3 VCC; D1 anode | +5V |
 | D1 cathode | U2 5V pin | +5V, Super Mini side |
-| U1 OUT− | perfboard GND bus (row 9 left), C1 − | GND |
+| U1 − pad, C1 − | perfboard GND bus (row 8 left), DRV GND strip | GND |
 | GND bus | U3 GND, U2 GND | GND |
 | U2 GPIO18 | U3 IN3 | MOT_IN1 (forward) |
 | U2 GPIO20 | U3 IN4 | MOT_IN2 (reverse) |
@@ -35,23 +37,21 @@ From rev C the Super Mini, the DRV8833, the diode, the speed knob and the motor 
 
 | Ref | Part | Note |
 |---|---|---|
-| U1 | USB-C PD trigger board | Set to 5 V. Sits on a 3.5 mm pad on the outside of the electronics-side wall. |
-| U2 | ESP32-C6 Super Mini, 26 × 18 mm | On the perfboard, rows 12–17 (pins), USB-C toward the cover's −Y opening. Build the firmware for the Super Mini (see [Board](../../../firmware/README.md#board)). |
+| U1 | USB-C PD trigger board, set to 5 V | On the perfboard over columns A–C, on two 3 mm foam pads, USB-C at the +X end. **Desolder its screw terminal**: its pads take W1 and W2 instead, and with the terminal it's too tall for the cover. |
+| U2 | ESP32-C6 Super Mini, 26 × 18 mm | On the perfboard, rows 12–17 (pins), USB-C at the +X end beside U1's. Build the firmware for the Super Mini (see [Board](../../../firmware/README.md#board)). |
 | U3 | DRV8833 module, 12-pin, 18.5 × 16 mm | On the perfboard, rows 1–6, component side out. Leave the **J1** jumper open. Channel B (IN3/IN4 → OUT3/OUT4) is used. |
 | M1 | N20 gearmotor, 6 V, 100:1 | In the printed cartridge under the base, terminals pointing away from the base |
 | C2 | Ceramic capacitor, 0.1 µF (104) | Soldered straight across the motor terminals |
-| D1 | Schottky diode, 1 A, axial (1N5817) | Flat on the perfboard, B11 to B17, band at B17 |
-| C1 | Electrolytic, 470 µF, ≥ 10 V, **8 × 13 mm** | Press-fits into the 14 mm-tall seat beside the old XIAO pocket, legs down |
-| RV1 | RK097N 10 kΩ linear pot, 6 mm knurled shaft | On the perfboard, J8–J10, shaft through the cover's 7 mm hole; supplied knob cap |
+| D1 | Schottky diode, 1 A, axial (1N5817) | Standing on the perfboard: anode in A3, band up, cathode lead bent down into A2 |
+| C1 | Electrolytic, 470 µF, ≥ 10 V, **8 × 13 mm** | Press-fits into its 14 mm-tall seat in the −Y wall, legs down, behind the perfboard; L1 and L2 run up to the board |
+| RV1 | RK097N 10 kΩ linear pot, 6 mm knurled shaft | On the perfboard, J8–J10, shaft out through the cover's 7 mm hole (sideways, −Y); supplied knob cap |
 | J3 | JST-PH 2.0 mm, 6 pins: B6B-PH-K-S header + PHR-6 housing | Header held in the pod; the mount harness ends in the housing. Pins 4 and 5 are unused from rev C. |
-| J4 | JST-PH 2.0 mm, 2 pins, side entry: S2B-PH-K-S header + PHR-2 housing | Header on the perfboard at J2/J3; the motor wires end in the housing |
+| J4 | JST-PH 2.0 mm, 2 pins, side entry: S2B-PH-K-S header + PHR-2 housing | Header on the perfboard at J2/J3, mouth toward the cover's bottom notch; the motor wires end in the housing |
 | S1, SW1 | Button, direction switch | As on the MG90S drive, wired to J3 |
 
 The MG90S drive's R1 is not used. The pod's knob hole is left empty: RV1 moved to the perfboard.
 
-**Building with a XIAO ESP32-C6 instead:** rev B wiring is in the git history (commit 3efb5c3, `drives/n20/docs/wiring.md`). The mount still has the XIAO pocket, the DRV8833 pocket and the diode channel, so a rev B build still fits. Build the firmware for the XIAO, the default.
-
-![Straight-on view of the electronics side, the mount shown see-through: the PD board with C1 below it and L1, L2 down to the PD terminals; W1 and W2, red and black, leave the terminals, run round the end of the PD board and across to the cover at the right. The gray control harness comes up the face from the base tunnel and its wires join the run into the cover. The cover, with the perfboard inside, stands on the flange ear at the right, and the white and blue motor pair runs down behind the mount to the cartridge at the bottom.](images/wiring_electronics.png)
+**Building with a XIAO ESP32-C6 instead:** rev B wiring is in the git history (commit 3efb5c3, `drives/n20/docs/wiring.md`). It needs the rev B mount (Fusion version 22): the rev C mount still has the XIAO pocket, but the perfboard's supports block the XIAO's USB-C port.
 
 ## The DRV8833 module's pins
 
@@ -63,9 +63,11 @@ The module has two rows of six pins. Seen from the back, where the labels are pr
 
 Bold pins are used. On the perfboard, component side up, these rows land in columns D and H, read the other way round: [perfboard.md](perfboard.md#placement) has the hole for each pin. Check against the labels on your module before soldering.
 
-![The electronics side of the drive, seen from outside the box: the perfboard on its four bosses on the enlarged flange ear, cover removed. The DRV8833 and the Super Mini straddle the board's centre channel, D1 lies beside the Super Mini, and the speed pot RV1 hangs off the board's far edge. The red and black power wires come round the end of the PD board into the open side, and the panel harness comes in along the mount's face. The white and blue motor pair leaves J4 and runs back to the mount.](images/perfboard.png)
+![The electronics side of the drive with the cover off: the perfboard stands on its supports on the mount's -Y face. The PD board lies over the top-right corner of the perfboard with short red and black jumpers down to the buses, and its USB-C port and the Super Mini's both face right. The DRV8833 is at the left with D1 standing above it, and J4 and the speed pot RV1 are along the bottom edge, the pot hanging below the board. The white and blue motor pair leaves J4 downward.](images/perfboard.png)
 
-![The whole drive from below with the cover on: the gray printed cover over the perfboard on the enlarged flange ear, with the knob's cap standing out of it, the PD board and C1 on the electronics side, and the motor in its cartridge under the base with the motor pair running down to it.](images/perfboard_cover.png)
+![The whole drive from the electronics side with the cover on: the gray printed cover forms the mount's outer wall, with the knob's cap standing out of it and a notch at its bottom edge where the motor pair comes out. The pair runs under the base to the motor, which hangs in its cartridge.](images/perfboard_cover.png)
+
+![Straight-on view of the electronics side with the cover off and the perfboard see-through. The wires behind the board are visible: L1 and L2 from C1's seat, the panel harness coming up from the base tunnel, and the underside links. The PD board's jumpers and J4 sit on the front, and the motor pair drops from J4 to the cartridge below.](images/wiring_electronics.png)
 
 ## J3: the control panel connector
 
@@ -74,7 +76,7 @@ The pod holds a 6-pin JST-PH header (B6B-PH-K-S) in a printed holder against its
 | J3 pin | Signal | Mount side (from the perfboard) | Pod side |
 |---|---|---|---|
 | 1 | DIR_REV | W10 from I15 (GPIO0) | W10p to SW1 lug B |
-| 2 | GND | W11 from A16 | W11p to SW1 centre lug |
+| 2 | GND | W11 from A4 | W11p to SW1 centre lug |
 | 3 | DIR_FWD | W9 from I12 (GPIO3) | W9p to SW1 lug A |
 | 4 | — | unused (was SPEED) | — |
 | 5 | — | unused (was +3V3) | — |
@@ -84,40 +86,40 @@ Pin 1 is the end nearest the pod's floor. Crimp the mount-side wires into the PH
 
 ## J4 and the motor wire clamp
 
-The motor plugs into J4, a side-entry JST-PH 2-pin header on the perfboard, so the motor and its cartridge can come off for transit or repair without desoldering. Crimp W14 into pin 1 and W15 into pin 2 of a PHR-2 housing.
+The motor plugs into J4, a side-entry JST-PH 2-pin header on the perfboard, so the motor and its cartridge can come off for transit or repair without desoldering. Crimp W14 into pin 1 and W15 into pin 2 of a PHR-2 housing. From J4 the pair leaves through the notch in the cover's bottom wall and runs under the base's −Y edge to the motor's +X side.
 
 At the motor, the wires are held right next to the terminals, so tugging or vibration loads the cartridge rather than the solder joints. This is the **wire clamp**: a 1.5 mm plate hanging 5.5 mm below the cartridge's +Y snap arm, with two slots for a **2.5 mm zip tie**.
 
 1. Solder W14, W15 and C2 to the terminals.
-2. Lead both wires toward the +Y arm, then along the inside face of the clamp plate toward the motor's round +X side, and up between the arms as before.
+2. Lead both wires toward the +Y arm, then along the inside face of the clamp plate toward the motor's round +X side, and up between the arms.
 3. Put a zip tie in through one slot, out through the other, and round both wires on the plate's inside face. Pull it tight.
 
 The tie bar sits about 5 mm from the terminals. Leave a little slack between the tie and each terminal, so the wire bends there and not at the joint.
 
 ![The bottom of the cartridge from the +Y side: below the black zip tie round the snap arms, the clamp plate hangs from the arm with two rectangular slots one above the other, and the blue motor wire shows through the lower slot. C2's tan body is just visible below.](images/motor_clamp.png)
 
-![The underside of the mount, from below: the N20 in its cartridge on the dowel axis, with the black zip tie round its arms and C2 across its terminals. The empty DRV8833 pocket and diode channel of the XIAO build are beside it. The white and blue motor pair comes in under the base from the far corner, passes through anchor A2, and goes down the motor's side. The cover over the perfboard is at the left, on the flange ear.](images/wiring_under_base.png)
+![The underside of the mount, from below: the N20 in its cartridge on the dowel axis, with the black zip tie round its arms and C2 across its terminals. The empty DRV8833 pocket and diode channel of the XIAO build are beside it. At the bottom of the picture the cover hangs below the base's edge, and the white and blue motor pair comes out of the notch in its bottom wall, runs across under the base and down the motor's side.](images/wiring_under_base.png)
 
 ## Point-to-point wire list
 
-Follow this table one wire at a time and tick each off. The colours match the 3D model. The links on the perfboard's underside are listed in [perfboard.md](perfboard.md#links-underside), and their cut lengths are in the cut list below.
+Follow this table one wire at a time and tick each off. The colours match the 3D model. The links on the perfboard's underside are listed in [perfboard.md](perfboard.md#links-underside), and their cut lengths are in the cut list below. Wires that come from the mount (L1, L2, W6, W9, W10, W11) go into the perfboard **from the underside** and are soldered on the component side.
 
 | Wire | Colour | From | To | Notes |
 |---|---|---|---|---|
-| **Power harness, 22–26 AWG** | | | | |
-| W1 | red | U1 + terminal | perfboard A8 (5V bus) | Round the −Y end of the PD board, along the mount's +X face, into the cover's open side. |
-| W2 | black | U1 GND terminal | perfboard A9 (GND bus) | Beside W1. |
-| L1 | red | C1 + (long leg) | U1 + terminal | |
-| L2 | black | C1 − (stripe side) | U1 GND terminal | Reversed polarity damages the capacitor. |
+| **Power, 22–26 AWG** | | | | |
+| W1 | red | U1 + pad | perfboard A7 (5V bus) | Short jumper on the component side. |
+| W2 | black | U1 − pad | perfboard A8 (GND bus) | Short jumper on the component side. |
+| L1 | red | C1 + (long leg) | perfboard C7 (5V bus) | Up the −Y face behind the board, in from the underside. |
+| L2 | black | C1 − (stripe side) | perfboard B4 (GND) | Beside L1. Reversed polarity damages the capacitor. |
 | **Motor, 22–26 AWG** | | | | |
-| W14 | white | J4 pin 1 (OUT3) | M1 terminal (either) | Out of the notch in the cover's +Y wall, down past the base's corner, under the base through anchor A2, down the motor's open side inside the arms' zip tie, then the clamp. If the motor runs backwards, swap the two pins in the PHR-2 housing. |
+| W14 | white | J4 pin 1 (OUT3) | M1 terminal (either) | Out of the cover's bottom notch, under the base's −Y edge, down the motor's open side inside the arms' zip tie, then the clamp. If the motor runs backwards, swap the two pins in the PHR-2 housing. |
 | W15 | blue | J4 pin 2 (OUT4) | M1 other terminal | Beside W14, then along the clamp's tie bar and behind the end cap, inside the snap hooks, to the far terminal. |
 | C2 | — | M1 terminal | M1 other terminal | Solder its legs to the terminals with the wires. |
-| **Control harness, mount side, 30 AWG: perfboard → cover's open side → along the −Y face → base tunnel → J3 housing** | | | | |
+| **Control harness, mount side, 30 AWG: perfboard (from behind) → −Y face → base tunnel → J3 housing** | | | | |
 | W6 | white | perfboard I14 (GPIO1) | J3 pin 6 | |
 | W9 | green | perfboard I12 (GPIO3) | J3 pin 3 | |
 | W10 | blue | perfboard I15 (GPIO0) | J3 pin 1 | |
-| W11 | black | perfboard A16 (GND) | J3 pin 2 | |
+| W11 | black | perfboard A4 (GND) | J3 pin 2 | |
 | **Pod side, 30 AWG** | | | | |
 | W10p | blue | J3 pin 1 | SW1 lug B (reverse) | |
 | W11p | black | J3 pin 2 | SW1 centre lug | Ground for the whole pod. |
@@ -129,7 +131,8 @@ Gone in rev C:
 
 - **W7, W8, W7p, W8p and J2:** the knob is on the perfboard, wired by the links W19–W21.
 - **The loose W4, W5, W12 and W13:** they are underside links now.
-- **D1's long leads:** it sits on the board.
+- **The long runs of W1 and W2:** the PD board is on the perfboard.
+- **D1's long leads:** it stands on the board.
 
 ### Terminal check
 
@@ -137,15 +140,15 @@ When you're done, every terminal should hold exactly this many wires.
 
 | Terminal | Wires landing here | Count |
 |---|---|---|
-| U1 + terminal | W1 · L1 | 2 |
-| U1 GND terminal | W2 · L2 | 2 |
-| Perfboard strip 8 left (5V bus) | W1 · W16 · W17 | 3 |
-| Perfboard strip 9 left (GND bus) | W2 · W18 · W4 | 3 |
-| Strip 3 left (U3 VCC) / 4 left (U3 GND) | W16 / W18 · W20 | 1 / 2 |
+| U1 + pad / − pad | W1 / W2 | 1 each |
+| Perfboard strip 7 left (5V bus) | W1 · W16 · L1 | 3 |
+| Perfboard strip 8 left (GND bus) | W2 · W18 · W4 | 3 |
+| Strip 2 left (D1 cathode) | D1 cathode lead · W17 | 2 |
+| Strip 3 left (U3 VCC) | D1 anode lead · W16 | 2 |
+| Strip 4 left (U3 GND) | W11 · L2 · W18 | 3 |
 | Strip 5 left (IN3) / 6 left (IN4) / 6 right (EEP) | W5 / W12 / W13 | 1 each |
-| Strip 11 left / 17 left | W17 · D1 anode / D1 cathode | 2 / 1 |
 | Strips 12, 13, 14 left (GPIO18, 19, 20) | W5, W13, W12 | 1 each |
-| Strip 15 left (3V3) / 16 left (GND) | W21 / W4 · W11 | 1 / 2 |
+| Strip 15 left (3V3) / 16 left (GND) / 17 left (5V) | W21 / W4 · W20 / W17 | 1 / 2 / 1 |
 | Strips 8, 9, 10 right (RV1) | W20, W19, W21 | 1 each |
 | Strips 12, 13, 14, 15 right (GPIO3, 2, 1, 0) | W9, W19, W6, W10 | 1 each |
 | Strips 2, 3 right (OUT4, OUT3) | J4 pins | 1 each |
@@ -160,25 +163,25 @@ Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm p
 
 | Wire | Colour | Gauge | Routed | **Cut** |
 |---|---|---|---|---|
-| W1 | red | 22–26 AWG | 88 mm | **115** |
-| W2 | black | 22–26 AWG | 88 mm | **115** |
-| L1 | red | 22–26 AWG | 49 mm | **70** |
-| L2 | black | 22–26 AWG | 35 mm | **50** |
-| W14 | white | 22–26 AWG | 138 mm | **170** |
-| W15 | blue | 22–26 AWG | 145 mm | **180** |
-| W6 | white | 30 AWG | 173 mm | **210** |
-| W9 | green | 30 AWG | 175 mm | **215** |
-| W10 | blue | 30 AWG | 172 mm | **210** |
-| W11 | black | 30 AWG | 145 mm | **180** |
-| W4 | black | 30 AWG solid | 20 mm | **35** |
+| W1 | red | 22–26 AWG | 10 mm | **25** |
+| W2 | black | 22–26 AWG | 9 mm | **20** |
+| L1 | red | 22–26 AWG | 35 mm | **50** |
+| L2 | black | 22–26 AWG | 37 mm | **55** |
+| W14 | white | 22–26 AWG | 62 mm | **85** |
+| W15 | blue | 22–26 AWG | 72 mm | **95** |
+| W6 | white | 30 AWG | 130 mm | **160** |
+| W9 | green | 30 AWG | 126 mm | **155** |
+| W10 | blue | 30 AWG | 133 mm | **165** |
+| W11 | black | 30 AWG | 121 mm | **150** |
+| W4 | black | 30 AWG solid | 22 mm | **40** |
 | W5 | orange | 30 AWG solid | 18 mm | **35** |
 | W12 | brown | 30 AWG solid | 21 mm | **35** |
 | W13 | gray | 30 AWG solid | 39 mm | **55** |
-| W16 | red | 30 AWG solid | 14 mm | **30** |
-| W17 | red | 30 AWG solid | 8 mm | **20** |
-| W18 | black | 30 AWG solid | 14 mm | **30** |
+| W16 | red | 30 AWG solid | 11 mm | **25** |
+| W17 | red | 30 AWG solid | 39 mm | **60** |
+| W18 | black | 30 AWG solid | 11 mm | **25** |
 | W19 | yellow | 30 AWG solid | 11 mm | **25** |
-| W20 | black | 30 AWG solid | 36 mm | **55** |
+| W20 | black | 30 AWG solid | 51 mm | **70** |
 | W21 | violet | 30 AWG solid | 37 mm | **55** |
 | W6p | button lead | pre-wired | 30 mm | **trim to 45** |
 | W9p | green | 30 AWG | 27 mm | **45** |
@@ -199,7 +202,7 @@ Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm p
 
 ## Bring-up
 
-1. Set the PD board to 5 V and measure OUT+ to OUT− with a meter before wiring anything.
+1. Set the PD board to 5 V and measure its + to − pads with a meter before wiring anything.
 2. Before applying power, check each row of the terminal check table for continuity. Confirm that +5V, +3V3 and GND aren't connected to each other.
 3. Flash the N20 build of the firmware for the Super Mini (see [Board](../../../firmware/README.md#board)). The XIAO build drives the wrong pins on a Super Mini, and the MG90S build leaves EEP low, so the motor never runs.
 4. Plug in J3 and J4. Turn the knob up slowly with the switch on forward. If the motor turns the wrong way, swap the two pins in J4's housing. If the knob works backwards, swap W20 and W21 at the pot.
