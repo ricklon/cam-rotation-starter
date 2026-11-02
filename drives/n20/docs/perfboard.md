@@ -11,7 +11,7 @@ From rev C the electronics are soldered onto an **ElectroCookie mini solderable 
 
 Only C1 stays in its seat on the mount, wired to the board. The motor plugs into J4, and the button and switch in the pod connect through J3 as before. The board sits on the mount's electronics-side (−Y) face under a printed cover that forms the mount's outer wall, and the knob comes out of the cover sideways (see [Where it goes](#where-it-goes)). The schematic and the full wire list are in [wiring.md](wiring.md).
 
-![Hole map of the perfboard, seen from the component side with row 1 at the top and column A at the left. The DRV8833 straddles the centre channel in rows 1 to 6, with the J4 motor header beside it at J2 and J3, and D1 stands at A3 with its cathode lead in A2. The Super Mini straddles the channel in rows 12 to 17, with its USB-C port past row 17. The PD trigger board U1 lies over columns A to C, rows 9 to 17, its USB-C port also past row 17, with short jumpers from its pads to the 5 V bus (row 7) and the ground bus (row 8). The speed pot RV1 has its pins at J8 to J10, and its body overhangs the right-hand edge. Links on the underside join the buses, the driver signals and the pot.](images/perfboard.svg)
+![Hole map of the perfboard, seen from the component side with row 1 at the top and column A at the left. The DRV8833 straddles the centre channel in rows 1 to 6, with the J4 motor header beside it at J2 and J3, and D1 stands at A3 with its cathode lead in A2. The Super Mini straddles the channel in rows 12 to 17, with its USB-C port past row 17. The PD trigger board U1 lies over columns A to C, rows 9 to 17, its USB-C port also past row 17, with short jumpers from its pads to the 5 V bus (row 7) and the ground bus (row 8). The speed pot RV1 has its pins at J10 to J12, in the strips of 3V3, GPIO4 and GPIO3, and its body overhangs the right-hand edge. Links on the underside join the buses, the driver signals and the pot's 3V3 end.](images/perfboard.svg)
 
 ## The board
 
@@ -31,17 +31,17 @@ Both modules straddle the channel with their two pin rows in columns **D** and *
 | Part | Where | Pins |
 |---|---|---|
 | U3 DRV8833 module, component side up | Rows 1–6 (pins used in rows 2–6), IN row in column D, OUT row in column H | D3 VCC · D4 GND · D5 IN3 · D6 IN4 (a 4-pin strip); H2 OUT4 · H3 OUT3 · H6 EEP (a 5-pin strip with the rows 4 and 5 pins pulled) |
-| U2 ESP32-C6 Super Mini, component side up, USB-C past row 17 | Rows 8–17 (pins), bottom-edge pins in column D, top-edge pins in column H | D12 GPIO18 · D13 GPIO19 · D14 GPIO20 · D15 3V3 · D16 GND · D17 5V (a 6-pin strip); H12 GPIO3 · H13 GPIO2 · H14 GPIO1 · H15 GPIO0 (a 4-pin strip) |
+| U2 ESP32-C6 Super Mini, component side up, USB-C past row 17 | Rows 8–17 (pins), bottom-edge pins in column D, top-edge pins in column H | D12 GPIO18 · D13 GPIO19 · D14 GPIO20 · D15 3V3 · D16 GND · D17 5V (a 6-pin strip); H11 GPIO4 · H12 GPIO3 · H13 GPIO2 · H14 GPIO1 · H15 GPIO0 (a 5-pin strip). **Leave H10 (GPIO5) out**: strip 10 right carries 3V3. |
 | U1 USB-C PD trigger board, screw terminal removed | Over columns A–C, rows 9–17, USB-C past row 17 beside the Super Mini's, on two **3 mm double-sided foam pads** | None: its + and − pads take W1 and W2 down to A7 and A8. Desolder its screw terminal first; with it, the board is too tall for the cover. Set its switches to 5 V before you stick it down. |
 | D1 1N5817, standing | Anode lead in A3, body upright, banded end at the top; the cathode lead bends over and down into A2 | Its own leads |
 | J4 JST-PH 2-pin header, **side entry** (S2B-PH-K-S) | J3 (pin 1, OUT3) and J2 (pin 2, OUT4), mouth toward the right-hand edge (down, on the drive). A top-entry plug would stand too tall for the cover. | The PH pins are 2.0 mm apart. Splay them 0.27 mm each to reach the 2.54 mm holes; they go in with a light push. |
-| RV1 RK097N 10 kΩ linear pot, shaft up | Pins in J8 (pin 1, GND end), J9 (pin 2, wiper), J10 (pin 3, 3V3 end); the body points off the right-hand edge (down, on the drive) | The pins are 2.5 mm apart, which goes straight into the 2.54 mm holes. Snip off the two mounting tabs if yours has them: they're wider than the 1 mm holes. The panel nut holds the pot instead. |
+| RV1 RK097N 10 kΩ linear pot, shaft up | Pins in J10 (pin 1, 3V3 end), J11 (pin 2, wiper, in the GPIO4 strip), J12 (pin 3, low end, in the GPIO3 strip); the body points off the right-hand edge (down, on the drive) | The pins are 2.5 mm apart, which goes straight into the 2.54 mm holes. Snip off the two mounting tabs if yours has them: they're wider than the 1 mm holes. The panel nut holds the pot instead. |
 
 With the DRV8833 held component side up, the pin rows read, top to bottom: **IN1, IN2, VCC, GND, IN3, IN4** in column D and **ULT, OUT4, OUT3, OUT2, OUT1, EEP** in column H. That is the label order printed on the back, upside down. **Check it against the labels on your module before soldering**: if yours differs, keep the same nets and move the header pins and links to suit.
 
 **Both USB-C ports** face the same end, past row 17. The Super Mini's port ends about 3 mm inside the board edge, and U1's about 1.4 mm outside it. Both plugs go in from that end of the drive (+X), through the open end of the cover.
 
-**The knob's direction:** seen from the shaft end with the pins facing you, turning clockwise moves the wiper toward pin 3. With pin 3 on 3V3, clockwise is faster, as on the old pod knob. If yours runs the other way, swap the W20 and W21 links at J8 and J10.
+**The knob's direction:** seen from the shaft end with the pins facing you, turning clockwise moves the wiper toward pin 3. Pin 3 is on GPIO3, the low end, so the firmware inverts the reading (`KNOB_REVERSED` in `firmware/main/board.h`) and clockwise is faster, as on the old pod knob. If yours runs the other way, set `KNOB_REVERSED` to 0.
 
 **The pot hangs off the board.** Its pins are at the front of its base, and the 9.5 mm deep base runs from about 2 mm to 11.5 mm past the pin row, off the board's edge. The pins alone don't carry the knob's load: the nut on the cover does.
 
@@ -60,16 +60,15 @@ With the DRV8833 held component side up, the pin rows read, top to bottom: **IN1
 | 13 left | GPIO19 | D13 pin · C13 link to J6 |
 | 14 left | GPIO20 | D14 pin · C14 link to C6 |
 | 15 left | +3V3 | D15 pin · A15 link to RV1's 3V3 end |
-| 16 left | GND | D16 pin · A16 link to RV1's GND end · C16 link from the GND bus |
+| 16 left | GND | D16 pin · C16 link from the GND bus |
 | 17 left | +5V, Super Mini side | D17 pin · C17 link from D1's cathode |
 | 2 right | motor (OUT4) | H2 pin · J2 J4 pin 2 |
 | 3 right | motor (OUT3) | H3 pin · J3 J4 pin 1 |
 | 6 right | DRV_SLEEP (EEP) | H6 pin · J6 link from GPIO19 |
-| 8 right | GND, RV1 end | J8 RV1 pin 1 · I8 link from A16 |
-| 9 right | SPEED, RV1 wiper | J9 RV1 pin 2 · I9 link to I13 |
-| 10 right | +3V3, RV1 end | J10 RV1 pin 3 · I10 link from A15 |
-| 12 right | DIR_FWD (GPIO3) | H12 pin · I12 **W9** to J3 pin 3 |
-| 13 right | SPEED (GPIO2) | H13 pin · I13 link from RV1's wiper |
+| 10 right | +3V3, RV1 end | J10 RV1 pin 1 · I10 link from A15. H10 (GPIO5) stays out. |
+| 11 right | SPEED (GPIO4) | H11 pin · J11 RV1 pin 2 (wiper) |
+| 12 right | KNOB_LO (GPIO3, driven low) | H12 pin · J12 RV1 pin 3 |
+| 13 right | DIR_FWD (GPIO2) | H13 pin · I13 **W9** to J3 pin 3 |
 | 14 right | BTN (GPIO1) | H14 pin · I14 **W6** to J3 pin 6 |
 | 15 right | DIR_REV (GPIO0) | H15 pin · I15 **W10** to J3 pin 1 |
 
@@ -79,7 +78,7 @@ Under U1, rows 9–17 in columns A–C are used only from the underside: the lin
 
 ## Links (underside)
 
-Ten links of 30 AWG stranded wire, ends tinned, run on the underside (solder side), each from hole to hole. They take over the jobs of the old loose wires W4, W5, W12 and W13 and of the pod-side knob wires, and add the power links.
+Eight links of 30 AWG stranded wire, ends tinned, run on the underside (solder side), each from hole to hole. They take over the jobs of the old loose wires W4, W5, W12 and W13 and of the pod-side knob wires, and add the power links.
 
 | Link | Colour | From | To | Job | Cut |
 |---|---|---|---|---|---|
@@ -90,11 +89,9 @@ Ten links of 30 AWG stranded wire, ends tinned, run on the underside (solder sid
 | W5 | green | C12 (GPIO18) | C5 (IN3) | MOT_IN1, forward PWM | 35 mm |
 | W12 | blue | C14 (GPIO20) | C6 (IN4) | MOT_IN2, reverse PWM | 35 mm |
 | W13 | white | C13 (GPIO19) | J6 (EEP) | DRV_SLEEP | 55 mm |
-| W19 | yellow | I9 (RV1 wiper) | I13 (GPIO2) | SPEED | 25 mm |
-| W20 | black | A16 (GND) | I8 (RV1 pin 1) | GND end of the knob | 70 mm |
-| W21 | yellow | A15 (3V3) | I10 (RV1 pin 3) | 3V3 end of the knob, 3.3 V only | 55 mm |
+| W21 | yellow | A15 (3V3) | I10 (RV1 pin 1) | 3V3 end of the knob, 3.3 V only | 55 mm |
 
-The cut lengths come from the routes in the 3D model, worked out the same way as every wire in the [cut list](cut-list.csv); trim each one to fit on the board. W17, W20 and W21 cross other links. Keep every link flat against the board: stranded wire springs up more than solid. W21 is yellow like W19, the wiper link, but not red, because red means 5 V on this board.
+The cut lengths come from the routes in the 3D model, worked out the same way as every wire in the [cut list](cut-list.csv); trim each one to fit on the board. W17 and W21 cross other links. Keep every link flat against the board: stranded wire springs up more than solid. W21 is yellow, not red, because red means 5 V on this board. The knob needs no wiper or ground link: its pins sit in the GPIO4 and GPIO3 strips.
 
 ## Where it goes
 
@@ -128,7 +125,7 @@ Everything else on the board is under 9 mm tall:
 
 1. Desolder U1's screw terminal and set its switches to 5 V. Pull the unused pins out of the header strips (see the placement table). Fit the strips to the Super Mini and the DRV8833, using the perfboard as the jig so they come out square, and solder them to the modules only.
 2. Stand D1 in A3 and A2, banded end up.
-3. Solder the ten links on the underside, shortest first: W16, W18, W19, W5, W12, W4, W13, W21, W17, W20.
+3. Solder the eight links on the underside, shortest first: W16, W18, W5, W12, W4, W13, W21, W17.
 4. Solder J4 and RV1.
 5. Solder both modules onto the perfboard.
 6. Stick U1 down on its two foam pads, USB-C past row 17 beside the Super Mini's, then solder W1 and W2 from its pads to A7 and A8.

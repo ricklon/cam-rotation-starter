@@ -1,5 +1,5 @@
 """Cam Rotation N20 - point-to-point wiring, rev C (matches drives/n20/docs/wiring.md and docs/perfboard.md:
-W1, W2, W4-W6, W9-W21, W6p, W9p-W11p, L1, L2, J1, C2, D1 leads).
+W1, W2, W4-W6, W9-W18, W21, W6p, W9p-W11p, L1, L2, J1, C2, D1 leads).
 Rebuilds everything inside the Wiring component. Coordinates in mm, world frame.
 Perfboard (component Perfboard): on four supports on the mount's -Y face, parallel to it, rows along +X, column A at the top
   (toward the box wall), component side facing -Y. Board-local u (columns), v (rows), d (height off the component side) map to
@@ -70,7 +70,7 @@ WIRES = [
         (-2.6, 4.7, -28.9), (-3.1, 2.2, -28.4), (-3.1, 0.4, -26.8)]),
     # --- control harness, mount side: trunk end on the -Y face, behind the perfboard, in from the underside
     ('W10 GPIO0 (I15) to J3 pin 1 (rev)', 'blue', 0.6, [(-6.0, -21.9, 13.5), (-3.0, -22.0, 13.4), (8.0, -22.6, 9.8), (17.0, -23.6, 5.4), (19.4, -24.6, 4.2), back('I', 15, -1.0), hole('I', 15, 0.4)]),
-    ('W9 GPIO3 (I12) to J3 pin 3 (fwd)', 'green', 0.6, [(-6.0, -22.1, 13.9), (-3.0, -22.6, 13.0), (4.0, -23.4, 9.0), (9.6, -23.8, 5.2), (11.8, -24.8, 4.2), back('I', 12, -1.0), hole('I', 12, 0.4)]),
+    ('W9 GPIO2 (I13) to J3 pin 3 (fwd)', 'green', 0.6, [(-6.0, -22.1, 13.9), (-3.0, -22.6, 13.0), (4.0, -23.4, 9.0), (10.0, -24.4, 5.6), (14.3, -25.1, 4.2), back('I', 13, -1.0), hole('I', 13, 0.4)]),
     ('W6 GPIO1 (I14) to J3 pin 6 (button)', 'white', 0.6, [(-6.0, -22.7, 13.6), (-3.0, -23.2, 12.6), (6.0, -23.8, 8.4), (14.6, -24.0, 5.0), (16.9, -25.0, 4.2), back('I', 14, -1.0), hole('I', 14, 0.4)]),
     ('W11 GND (A4) to J3 pin 2', 'black', 0.6, [(-6.0, -23.0, 13.2), (-6.8, -24.9, 13.6), (-6.6, -25.0, 27.4),
         back('A', 4, -1.0), hole('A', 4, 0.4)]),
@@ -85,9 +85,7 @@ LINKS = [
     ('W5 GPIO18 (C12) to DRV IN3 (C5)', 'green', 0.6, L4(('C', 12), lane('C', 0.6), ('C', 5))),
     ('W12 GPIO20 (C14) to DRV IN4 (C6)', 'blue', 0.6, L4(('C', 14), lane('C', 1.27), ('C', 6))),
     ('W13 GPIO19 (C13) to DRV EEP (J6)', 'white', 0.6, link([('C', 13), (lane('C', 1.9), 12.6), (lane('C', 1.9), 6.5), (cu('J'), 6.5), ('J', 6)])),
-    ('W19 RV1 wiper (I9) to GPIO2 (I13)', 'yellow', 0.6, L4(('I', 9), lane('I', 1.0), ('I', 13))),
-    ('W20 GND (A16) to RV1 pin 1 (I8)', 'black', 0.6, link([('A', 16), (lane('A', -0.9), 15.65), (lane('A', -0.9), 7.25), (lane('I', 0.5), 7.25), ('I', 8)], 1)),
-    ('W21 3V3 (A15) to RV1 pin 3 (I10)', 'yellow', 0.6, link([('A', 15), (lane('A', 0.7), 14.5), (lane('A', 0.7), 10.6), (lane('I', -0.6), 10.6), ('I', 10)], 1)),
+    ('W21 3V3 (A15) to RV1 3V3 end (I10)', 'yellow', 0.6, link([('A', 15), (lane('A', 0.7), 14.5), (lane('A', 0.7), 10.6), (lane('I', -0.6), 10.6), ('I', 10)], 1)),
 ]
 
 # pod side: from the JST-PH header tails (x -6.75, y 38.1; pin 1 at z 17.9 .. pin 6 at z 27.9) to the controls.

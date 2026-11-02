@@ -7,7 +7,7 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 |---|---|---|---|
 | N20_Mount | flange (wall face) down | 109.0 × 47.2 × 48.6 | 3931 |
 | N20_Cartridge | on its side (-x face down), arms flat along the bed | 34.3 × 29.0 × 15.0 | 279 |
-| N20_Electronics_Cover | top plate down, walls and posts up | 48.3 × 55.2 × 12.5 | 2544 |
+| N20_Electronics_Cover | top plate down, walls and posts up | 48.3 × 55.2 × 12.5 | 2512 |
 | N20_Socket_Coupon | socket coupon: plate top down, as the mount | 20.5 × 27.0 × 12.4 | 318 |
 | N20_Latch_Key | flat on its side, the U on the bed | 12.2 × 16.7 × 7.0 | 109 |
 | N20_Control_Pod | front panel down, open back up | 39.2 × 38.0 × 24.0 | 955 |

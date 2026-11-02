@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 800" role="img" aria-label="Perfboard hole map, component side, row 1 at the top, column A at the left. The DRV8833 module straddles the centre channel in rows 1 to 6 with header pins at D3 VCC, D4 GND, D5 IN3, D6 IN4, H2 OUT4, H3 OUT3 and H6 EEP. The ESP32-C6 Super Mini straddles it in rows 8 to 17, USB-C past row 17, with pins at D12 GPIO18, D13 GPIO19, D14 GPIO20, D15 3V3, D16 GND, D17 5V, H12 GPIO3, H13 GPIO2, H14 GPIO1 and H15 GPIO0. The PD trigger board U1 lies over columns A to C, rows 9 to 17, its USB-C port also past row 17, with jumpers W1 from its plus pad to A7 and W2 from its minus pad to A8. Row 7 left is the 5 volt bus and row 8 left the ground bus. D1 stands at A3 with its cathode lead in A2. Underside links: W16 B7 to C3, W18 B8 to C4, W4 C8 to C16, W17 B2 to C17, W5 C12 to C5, W12 C14 to C6, W13 C13 to J6, W19 I9 to I13, W20 A16 to I8, W21 A15 to I10. The speed pot RV1 has its pins at J8, J9 and J10 with its body past the right-hand edge, and the motor header J4 sits at J3 and J2. Wires from behind the board: L1 at C7, L2 at B4, W11 at A4, W9 at I12, W6 at I14, W10 at I15. The board mounts on three of its M2 corner holes.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 800" role="img" aria-label="Perfboard hole map, component side, row 1 at the top, column A at the left. The DRV8833 module straddles the centre channel in rows 1 to 6 with header pins at D3 VCC, D4 GND, D5 IN3, D6 IN4, H2 OUT4, H3 OUT3 and H6 EEP. The ESP32-C6 Super Mini straddles it in rows 8 to 17, USB-C past row 17, with pins at D12 GPIO18, D13 GPIO19, D14 GPIO20, D15 3V3, D16 GND, D17 5V, H11 GPIO4, H12 GPIO3, H13 GPIO2, H14 GPIO1 and H15 GPIO0. The PD trigger board U1 lies over columns A to C, rows 9 to 17, its USB-C port also past row 17, with jumpers W1 from its plus pad to A7 and W2 from its minus pad to A8. Row 7 left is the 5 volt bus and row 8 left the ground bus. D1 stands at A3 with its cathode lead in A2. Underside links: W16 B7 to C3, W18 B8 to C4, W4 C8 to C16, W17 B2 to C17, W5 C12 to C5, W12 C14 to C6, W13 C13 to J6, W21 A15 to I10. The speed pot RV1 has its pins at J10 (3.3 volt end, fed by W21), J11 (wiper, in the GPIO4 strip) and J12 (low end, in the GPIO3 strip) with its body past the right-hand edge, and the motor header J4 sits at J3 and J2. Wires from behind the board: L1 at C7, L2 at B4, W11 at A4, W9 at I13, W6 at I14, W10 at I15. The board mounts on three of its M2 corner holes.">
 <style>
 .t{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;fill:#1c2729}
 .tb{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;font-weight:600;fill:#1c2729}
@@ -299,6 +299,8 @@
 <text class="lbl" x="512" y="635.34" text-anchor="start" style="fill:#fff;font-weight:600">GND</text>
 <rect x="484.05" y="653.3100000000001" width="22.099999999999998" height="22.099999999999998" fill="#111" stroke="#fff" stroke-width="1"/>
 <text class="lbl" x="512" y="668.36" text-anchor="start" style="fill:#fff;font-weight:600">5V</text>
+<rect x="682.1700000000001" y="455.18999999999994" width="22.099999999999998" height="22.099999999999998" fill="#111" stroke="#fff" stroke-width="1"/>
+<text class="lbl" x="676.32" y="470.23999999999995" text-anchor="end" style="fill:#fff;font-weight:600">4</text>
 <rect x="682.1700000000001" y="488.2099999999999" width="22.099999999999998" height="22.099999999999998" fill="#111" stroke="#fff" stroke-width="1"/>
 <text class="lbl" x="676.32" y="503.25999999999993" text-anchor="end" style="fill:#fff;font-weight:600">3</text>
 <rect x="682.1700000000001" y="521.23" width="22.099999999999998" height="22.099999999999998" fill="#111" stroke="#fff" stroke-width="1"/>
@@ -314,13 +316,13 @@
 <rect x="728.06" y="146.57" width="58.5" height="78" rx="2" fill="#f2efe6" stroke="#fff"/>
 <rect x="752.76" y="195.57999999999998" width="13" height="13" fill="#111"/><rect x="752.76" y="162.55999999999997" width="13" height="13" fill="#111"/>
 <text class="lbl" x="790.46" y="189.57" style="fill:#fff;font-weight:600">J4</text>
-<rect x="785.26" y="328.7" width="123.5" height="143" rx="3" fill="#2a6e3a" fill-opacity="0.85" stroke="#fff" stroke-width="2" stroke-dasharray="7 5"/>
-<circle cx="847.01" cy="400.2" r="39" fill="#c9c9cf" stroke="#555"/>
-<rect x="751.46" y="359.38" width="15.6" height="15.6" fill="#111" stroke="#fff"/><line x1="767.06" y1="367.18" x2="785.26" y2="367.18" stroke="#c9c9cf" stroke-width="3"/>
-<rect x="751.46" y="392.4" width="15.6" height="15.6" fill="#111" stroke="#fff"/><line x1="767.06" y1="400.2" x2="785.26" y2="400.2" stroke="#c9c9cf" stroke-width="3"/>
+<rect x="785.26" y="394.73999999999995" width="123.5" height="143" rx="3" fill="#2a6e3a" fill-opacity="0.85" stroke="#fff" stroke-width="2" stroke-dasharray="7 5"/>
+<circle cx="847.01" cy="466.23999999999995" r="39" fill="#c9c9cf" stroke="#555"/>
 <rect x="751.46" y="425.41999999999996" width="15.6" height="15.6" fill="#111" stroke="#fff"/><line x1="767.06" y1="433.21999999999997" x2="785.26" y2="433.21999999999997" stroke="#c9c9cf" stroke-width="3"/>
-<text class="t" x="833.3" y="288.4" text-anchor="start" style="font-weight:600">RV1 10k</text>
-<text class="ts" x="833.3" y="306.59999999999997" text-anchor="start">1 GND · 2 wiper · 3 3V3</text>
+<rect x="751.46" y="458.43999999999994" width="15.6" height="15.6" fill="#111" stroke="#fff"/><line x1="767.06" y1="466.23999999999995" x2="785.26" y2="466.23999999999995" stroke="#c9c9cf" stroke-width="3"/>
+<rect x="751.46" y="491.4599999999999" width="15.6" height="15.6" fill="#111" stroke="#fff"/><line x1="767.06" y1="499.25999999999993" x2="785.26" y2="499.25999999999993" stroke="#c9c9cf" stroke-width="3"/>
+<text class="t" x="833.3" y="354.43999999999994" text-anchor="start" style="font-weight:600">RV1 10k</text>
+<text class="ts" x="833.3" y="372.63999999999993" text-anchor="start">1 3V3 · 2 wiper (GPIO4) · 3 GPIO3, driven low</text>
 <polyline points="429.1,334.2 436.9,322.5 436.9,213.8 462.1,202.1" fill="none" stroke="#c23b2a" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="429.1,169.1 453.8,180.8 453.8,652.7 462.1,664.4" fill="none" stroke="#c23b2a" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="429.1,367.2 445.6,355.5 445.6,246.8 462.1,235.1" fill="none" stroke="#2f3a3d" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -328,8 +330,6 @@
 <polyline points="462.1,499.3 469.9,487.6 469.9,279.8 462.1,268.1" fill="none" stroke="#2e8b45" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="462.1,565.3 478.6,553.6 478.6,312.8 462.1,301.1" fill="none" stroke="#3a6fd8" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="462.1,532.3 486.8,519.1 486.8,317.6 759.3,317.6 759.3,301.1" fill="none" stroke="#eeeeea" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
-<polyline points="726.2,400.2 739.2,411.9 739.2,520.6 726.2,532.3" fill="none" stroke="#b08d10" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
-<polyline points="396.0,631.3 384.3,619.8 384.3,342.4 732.7,342.4 726.2,367.2" fill="none" stroke="#2f3a3d" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="396.0,598.3 405.1,581.8 405.1,453.0 545.0,453.0 718.4,453.0 726.2,433.2" fill="none" stroke="#b08d10" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="326.75" y="384.59999999999997" width="143" height="364" rx="3" fill="#202020" fill-opacity="0.55" stroke="#fff" stroke-width="2" stroke-dasharray="7 5"/>
 <rect x="339.75" y="653.6999999999999" width="117" height="98.8" rx="4" fill="#bbb" fill-opacity="0.9" stroke="#fff"/>
@@ -348,15 +348,15 @@
 <circle cx="462.08000000000004" cy="334.16" r="10.4" fill="none" stroke="#c23b2a" stroke-width="3"/>
 <polyline points="451.68000000000006,334.16 338,287.93199999999996 310,287.93199999999996" stroke="#c23b2a" stroke-width="2.5" fill="none"/>
 <text class="tb" x="304" y="291.93199999999996" text-anchor="end" style="fill:#c23b2a">L1 from C1 +, from behind</text>
-<circle cx="726.24" cy="499.25999999999993" r="10.4" fill="none" stroke="#28963c" stroke-width="3"/>
-<polyline points="736.64,499.25999999999993 845.3,499.25999999999993" stroke="#28963c" stroke-width="2.5" fill="none"/>
-<text class="tb" x="851.3" y="503.25999999999993" style="fill:#28963c">W9 → J3 pin 3 (FWD)</text>
+<circle cx="726.24" cy="532.28" r="10.4" fill="none" stroke="#28963c" stroke-width="3"/>
+<polyline points="736.64,532.28 742.75,532.28 742.75,557.045 845.3,557.045" stroke="#28963c" stroke-width="2.5" fill="none"/>
+<text class="tb" x="851.3" y="561.045" style="fill:#28963c">W9 → J3 pin 3 (FWD)</text>
 <circle cx="726.24" cy="565.3" r="10.4" fill="none" stroke="#6b6b60" stroke-width="3"/>
-<polyline points="736.64,565.3 845.3,565.3" stroke="#6b6b60" stroke-width="2.5" fill="none"/>
-<text class="tb" x="851.3" y="569.3" style="fill:#6b6b60">W6 → J3 pin 6 (BTN)</text>
+<polyline points="736.64,565.3 742.75,565.3 742.75,586.7629999999999 845.3,586.7629999999999" stroke="#6b6b60" stroke-width="2.5" fill="none"/>
+<text class="tb" x="851.3" y="590.7629999999999" style="fill:#6b6b60">W6 → J3 pin 6 (BTN)</text>
 <circle cx="726.24" cy="598.32" r="10.4" fill="none" stroke="#285ac8" stroke-width="3"/>
-<polyline points="736.64,598.32 845.3,598.32" stroke="#285ac8" stroke-width="2.5" fill="none"/>
-<text class="tb" x="851.3" y="602.32" style="fill:#285ac8">W10 → J3 pin 1 (REV)</text>
+<polyline points="736.64,598.32 742.75,598.32 742.75,616.481 845.3,616.481" stroke="#285ac8" stroke-width="2.5" fill="none"/>
+<text class="tb" x="851.3" y="620.481" style="fill:#285ac8">W10 → J3 pin 1 (REV)</text>
 <text class="t" x="304" y="338.16" text-anchor="end" style="fill:#c23b2a;font-weight:600">row 7 left = +5V bus (W1 from U1 +)</text>
 <text class="t" x="304" y="371.18" text-anchor="end" style="fill:#2f3a3d;font-weight:600">row 8 left = GND bus (W2 from U1 −)</text>
 <text class="h" x="880" y="70" style="font-size:15px">Key</text>

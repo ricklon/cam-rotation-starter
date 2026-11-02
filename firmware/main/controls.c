@@ -46,6 +46,9 @@ static int read_knob_pct(void)
         if (adc_oneshot_read(s_adc, s_knob_ch, &raw) == ESP_OK) sum += raw;
     }
     int pct = (sum / 8) * 100 / 4095;
+#if KNOB_REVERSED
+    pct = 100 - pct;
+#endif
     // small dead zones at both ends so "off" and "full" are easy to hit
     if (pct < 2) pct = 0;
     if (pct > 98) pct = 100;
@@ -116,6 +119,12 @@ static void controls_task(void *arg)
 void controls_init(ctl_cb_t cb)
 {
     s_cb = cb;
+#ifdef PIN_KNOB_GND
+    // the pot's low end is a GPIO: drive it low before the first knob reading
+    gpio_config_t gnd = { .pin_bit_mask = 1ULL << PIN_KNOB_GND, .mode = GPIO_MODE_OUTPUT };
+    ESP_ERROR_CHECK(gpio_config(&gnd));
+    gpio_set_level(PIN_KNOB_GND, 0);
+#endif
     gpio_config_t io = {
         .pin_bit_mask = (1ULL << PIN_BTN) | (1ULL << PIN_DIR_FWD) | (1ULL << PIN_DIR_REV),
         .mode = GPIO_MODE_INPUT,
@@ -133,5 +142,6 @@ void controls_init(ctl_cb_t cb)
     ESP_ERROR_CHECK(adc_oneshot_config_channel(s_adc, s_knob_ch, &ccfg));
 
     xTaskCreate(controls_task, "controls", 3072, NULL, 8, NULL);
-    ESP_LOGI(TAG, "button D1, knob D2 (ADC ch %d), switch D3/D4", (int)s_knob_ch);
+    ESP_LOGI(TAG, "button GPIO%d, knob GPIO%d (ADC ch %d), switch GPIO%d/GPIO%d",
+             PIN_BTN, PIN_KNOB, (int)s_knob_ch, PIN_DIR_FWD, PIN_DIR_REV);
 }

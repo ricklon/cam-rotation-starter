@@ -13,9 +13,10 @@
 #endif
 
 #if CONFIG_CAM_BOARD_SUPERMINI_C6
-// ESP32-C6 Super Mini. Avoids the strapping pins (4, 5, 8, 9, 15), USB (12, 13), UART0 (16 RX,
-// 17 TX) and the in-package flash. The driver pins are the same GPIOs as on the XIAO, on the
-// bottom edge; the panel pins are on the top edge, the knob on an ADC1 pin.
+// ESP32-C6 Super Mini. Avoids USB (12, 13), UART0 (16 RX, 17 TX), the in-package flash and every
+// strapping pin (5, 8, 9, 15) except GPIO4. The driver pins are the same GPIOs as on the XIAO, on
+// the bottom edge; the panel pins are on the top edge. The pot's pins go straight into the strips of
+// GPIO4 and GPIO3 (drives/n20/docs/perfboard.md), so GPIO3 is the pot's ground.
 #define BOARD_NAME        "supermini-c6"
 #if CONFIG_CAM_DRIVE_N20
 #define PIN_AIN1          GPIO_NUM_18  // DRV8833 IN3 (forward PWM; BIN1)
@@ -25,8 +26,13 @@
 #define PIN_SERVO         GPIO_NUM_18  // servo CTRL (through R1)
 #endif
 #define PIN_BTN           GPIO_NUM_1   // push button to GND (internal pull-up)
-#define PIN_KNOB          GPIO_NUM_2   // pot wiper (ADC1 ch2), pot across 3V3/GND
-#define PIN_DIR_FWD       GPIO_NUM_3   // switch outer pin A to GND
+// GPIO4 is a strapping pin (MTMS), but on the C6 it only picks the JTAG source, and only when the
+// JTAG_SEL_ENABLE eFuse is burned (it isn't by default). Otherwise its level at reset is ignored,
+// so the wiper's position at boot doesn't matter.
+#define PIN_KNOB          GPIO_NUM_4   // pot wiper (ADC1 ch4)
+#define PIN_KNOB_GND      GPIO_NUM_3   // pot's low end; driven low as an output, so the pot runs 3V3 -> GPIO3
+#define KNOB_REVERSED     1            // the pot's clockwise end is on GPIO3, so invert: clockwise is faster
+#define PIN_DIR_FWD       GPIO_NUM_2   // switch outer pin A to GND
 #define PIN_DIR_REV       GPIO_NUM_0   // switch outer pin B to GND
 
 #define PIN_LED           GPIO_NUM_15  // on-board LED; check the level on the bench (15 is a strapping pin, fine as an output after boot)
@@ -45,6 +51,7 @@
 #endif
 #define PIN_BTN           GPIO_NUM_1   // D1  push button to GND (internal pull-up)
 #define PIN_KNOB          GPIO_NUM_2   // D2  pot wiper (ADC), pot across 3V3/GND
+#define KNOB_REVERSED     0
 #define PIN_DIR_FWD       GPIO_NUM_21  // D3  switch outer pin A to GND
 #define PIN_DIR_REV       GPIO_NUM_22  // D4  switch outer pin B to GND
 

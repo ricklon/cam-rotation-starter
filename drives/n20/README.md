@@ -15,8 +15,8 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 | USB-C PD trigger board (5 V), 1N5817 diode | Yes | Same power path: PD 5 V feeds the motor side; the board gets 5 V through the diode. From rev C both are on the perfboard, and the PD board's screw terminal is removed. |
 | XIAO ESP32-C6 | Replaced in rev C | By an ESP32-C6 Super Mini on the perfboard. The mount keeps the XIAO pocket, so a rev B build with a XIAO still fits; the firmware builds for either board. |
 | 470 µF capacitor | Yes, 8 × 13 mm | The seat is 14 mm tall for the 13 mm can. |
-| 12 mm button, direction switch | Yes | In the pod, through a 6-pin JST-PH connector (J3). On the Super Mini they use GPIO1, GPIO3 and GPIO0. |
-| Speed knob | Changed in rev C | An RK097N 10 kΩ pot on the perfboard, its shaft through the electronics cover, wiper on GPIO2. The pod's knob hole is unused. |
+| 12 mm button, direction switch | Yes | In the pod, through a 6-pin JST-PH connector (J3). On the Super Mini they use GPIO1, GPIO2 and GPIO0. |
+| Speed knob | Changed in rev C | An RK097N 10 kΩ pot on the perfboard, its shaft through the electronics cover. Its wiper and low end go straight into the GPIO4 and GPIO3 strips, and the firmware drives GPIO3 low as its ground. The pod's knob hole is unused. |
 | Control pod | Changed | `N20_Control_Pod` has a holder for the J3 header inside; print it from this drive's folder. Unchanged in rev C. |
 | Bushings, dowel gauges, shims | Yes | Print them from [`drives/mg90s/cad/stl`](../mg90s/cad/stl/README.md). |
 | Dowel adapters, clamp bodies and caps | No | Same dowel sockets and grip screws, but a 3 mm D-shaft bore through the base in place of the servo spline pocket and horn screw, with an M3 set screw onto the shaft's flat. The clamps take M3 socket cap screws in flat-bottomed counterbores. `N20_Adapter_*` and `N20_Clamp_*` in [cad/stl](cad/stl/README.md). |
@@ -61,8 +61,8 @@ Rev C, on the perfboard with the ESP32-C6 Super Mini (rev B, with a XIAO, is in 
 | GPIO20 | DRV8833 IN4 | PWM reverse |
 | GPIO19 | DRV8833 EEP (nSLEEP) | Keeps the driver asleep until the firmware is running, so the motor can't twitch at power-up. Leave the module's J1 jumper open: bridging it ties EEP high. |
 | DRV8833 OUT3, OUT4 | J4 → N20 terminals | Swap the two pins in J4's housing if forward runs backwards |
-| 3V3, GPIO2, GND | RV1 (on the perfboard) | Speed knob |
-| GPIO1, GPIO3, GPIO0, GND | J3 → button, switch | Four wires through the 6-pin JST-PH, so the pod unplugs |
+| 3V3, GPIO4, GPIO3 (driven low) | RV1 (on the perfboard) | Speed knob |
+| GPIO1, GPIO2, GPIO0, GND | J3 → button, switch | Four wires through the 6-pin JST-PH, so the pod unplugs |
 
 IN1, IN2, OUT1, OUT2 and ULT (the fault output) stay unconnected.
 
@@ -94,10 +94,10 @@ After the first units were built:
 | # | Change | What it is now |
 |---|---|---|
 | 1 | Motor strain relief | The motor's solder joints were getting stressed in transit. The cartridge now has a **wire clamp**: a 1.5 mm plate below its +Y snap arm with two slots for a 2.5 mm zip tie, which holds W14 and W15 about 5 mm from the terminals. The motor also unplugs at **J4**, a side-entry JST-PH 2-pin header on the perfboard, so it can travel separately. See [J4 and the motor wire clamp](docs/wiring.md#j4-and-the-motor-wire-clamp). |
-| 2 | Board | An **ESP32-C6 Super Mini** replaces the XIAO. The firmware has a board choice (`sdkconfig.supermini`). The driver stays on GPIO18/20/19, and the panel moves to GPIO1/2/3/0, clear of the strapping, USB and UART pins. |
+| 2 | Board | An **ESP32-C6 Super Mini** replaces the XIAO. The firmware has a board choice (`sdkconfig.supermini`). The driver stays on GPIO18/20/19, and the panel moves to GPIO1/2/0, with the knob on GPIO4/3, clear of the USB and UART pins. GPIO4 is a strapping pin, but only for JTAG and only with an eFuse burned, so it's safe for the knob. |
 | 3 | Perfboard | The electronics are on an **ElectroCookie 1/4-size perfboard**, with links on its underside in place of loose wires. The PD board is on it too, its screw terminal removed. The board sits on four supports on the mount's −Y face, 5.8 mm off it, under `N20_Electronics_Cover`, which forms the mount's outer wall. Three M2 × 20 screws hold it. Both USB-C ports face +X, and the knob points out sideways. C1 stays in its seat and is wired to the board. [docs/perfboard.md](docs/perfboard.md) has the hole map. |
-| 4 | Speed knob | An **RK097N** pot on the perfboard, its shaft through a 7 mm hole in the cover, which its nut clamps. The cover's inside face is 9.0 mm off the board, the height of the pot's base. Same pin (GPIO2) and scaling, so the web app's virtual knob behaves as before. |
-| 5 | Wiring | W4, W5, W12 and W13 are underside links, joined by W16–W21. W7, W8, W7p, W8p and J2 are gone, and J3 pins 4 and 5 are unused. W1 and W2 are short jumpers from the PD board's pads. Wires from the mount go into the board from the underside. The motor pair runs from the cover's bottom notch under the base to the motor. Cut list rebuilt from the model. |
+| 4 | Speed knob | An **RK097N** pot on the perfboard, its shaft through a 7 mm hole in the cover, which its nut clamps. The cover's inside face is 9.0 mm off the board, the height of the pot's base. Its pins go straight into the GPIO4 and GPIO3 strips: GPIO4 reads the wiper and GPIO3, driven low, is its ground. The firmware inverts the reading so clockwise is still faster, and the 0–100 scaling is unchanged, so the web app's virtual knob behaves as before. |
+| 5 | Wiring | W4, W5, W12 and W13 are underside links, joined by W16, W17, W18 and W21. W7, W8, W7p, W8p and J2 are gone, and J3 pins 4 and 5 are unused. W1 and W2 are short jumpers from the PD board's pads. Wires from the mount go into the board from the underside. The motor pair runs from the cover's bottom notch under the base to the motor. Cut list rebuilt from the model. |
 
 ![The perfboard on the mount's -Y face with the cover off: the PD board over its top-right corner, the Super Mini below it, the DRV8833 at the left with D1 standing above it, J4 and the speed pot along the bottom edge, and the motor pair leaving J4 downward.](docs/images/perfboard.png)
 

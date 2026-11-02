@@ -15,13 +15,14 @@ Firmware for the Cam Rotation Starter: an ESP32-C6 (a Seeed XIAO ESP32-C6 or an 
 | DRV8833 IN4, reverse (N20) | D9 | 20 | 20 | 20 kHz LEDC PWM. |
 | DRV8833 nSLEEP (N20) | D8 | 19 | 19 | Held low until the firmware runs, and after the motor has been stopped for `idle_release_ms`. |
 | Button (to GND) | D1 | 1 | 1 | Internal pull-up. |
-| Speed knob wiper | D2 | 2 | 2 | 10 k pot between 3V3 and GND. ADC1, 12 dB attenuation. |
-| Direction switch FWD (to GND) | D3 | 21 | 3 | ON-OFF-ON switch, common to GND. |
+| Speed knob wiper | D2 | 2 | 4 | 10 k pot. ADC1, 12 dB attenuation. XIAO: pot between 3V3 and GND. |
+| Speed knob low end | GND | — | 3 | Super Mini only: the pot runs 3V3 → pot → GPIO3, and the firmware drives GPIO3 low before reading the knob. The reading is inverted (`KNOB_REVERSED`) so clockwise is still faster. |
+| Direction switch FWD (to GND) | D3 | 21 | 2 | ON-OFF-ON switch, common to GND. |
 | Direction switch REV (to GND) | D4 | 22 | 0 | Centre position = both open = stop. |
 | User LED | on board | 15 (active low) | 15 (active high, unconfirmed) | |
 | RF switch enable / antenna select | on board | 3 / 14 | none | XIAO only: driven low for the on-board antenna. The Super Mini has a fixed antenna. |
 
-The Super Mini pins avoid the ESP32-C6's strapping pins (GPIO4, 5, 8, 9, 15 as inputs), USB (GPIO12, 13), UART0 (GPIO16, 17) and the in-package flash. The driver pins are the same GPIOs on both boards; on the Super Mini they are on the edge with the 5V, GND and 3V3 pins, and the panel pins on the other edge.
+The Super Mini pins avoid USB (GPIO12, 13), UART0 (GPIO16, 17), the in-package flash and the strapping pins GPIO5, 8, 9 and 15 as inputs. The knob uses GPIO4, which is a strapping pin (MTMS), because the pot's pins go straight into the strips of GPIO4 and GPIO3 on the N20 perfboard. That's safe: on the ESP32-C6, GPIO4 only selects the JTAG source at reset, and only if the JTAG_SEL_ENABLE eFuse is burned, which it isn't by default. Otherwise its level at boot is ignored, so the wiper's position doesn't matter. The driver pins are the same GPIOs on both boards; on the Super Mini they are on the edge with the 5V, GND and 3V3 pins, and the panel pins on the other edge.
 
 The full point-to-point wire list for the MG90S drive (W1–W11, L1–L3, J1–J2) is in [`docs/wiring.md`](../drives/mg90s/docs/wiring.md); the N20's (on a perfboard with the Super Mini) is in [`drives/n20/docs/wiring.md`](../drives/n20/docs/wiring.md). Pins are defined in `main/board.h`.
 

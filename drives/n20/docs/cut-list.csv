@@ -6,7 +6,7 @@ L2,black,30 AWG stranded,C1 -,perfboard B4 (GND),37,55,from C1's seat behind the
 W14,white,30 AWG stranded,J4 pin 1 (DRV8833 OUT3),N20 terminal +,63,85,PHR-2 housing at J4; out of the cover's bottom notch and under the base's -Y edge; tie at the cartridge's wire clamp
 W15,blue,30 AWG stranded,J4 pin 2 (DRV8833 OUT4),N20 terminal -,73,95,beside W14; along the clamp's tie bar and behind the end cap to the far terminal
 W6,white,30 AWG stranded,perfboard I14 (GPIO1),J3 pin 6,130,160,includes the 101 mm trunk to the PHR-6 housing; in from the underside
-W9,green,30 AWG stranded,perfboard I12 (GPIO3),J3 pin 3,126,155,includes the trunk; in from the underside
+W9,green,30 AWG stranded,perfboard I13 (GPIO2),J3 pin 3,127,160,includes the trunk; in from the underside
 W10,blue,30 AWG stranded,perfboard I15 (GPIO0),J3 pin 1,133,165,includes the trunk; in from the underside
 W11,black,30 AWG stranded,perfboard A4 (GND),J3 pin 2,121,150,includes the trunk; in from the underside
 W4,black,30 AWG stranded,perfboard C8 (GND bus),C16 (Super Mini GND),22,40,underside link
@@ -16,9 +16,7 @@ W13,white,30 AWG stranded,perfboard C13 (GPIO19),J6 (DRV EEP),39,55,underside li
 W16,red,30 AWG stranded,perfboard B7 (5V bus),C3 (DRV VCC),11,25,underside link
 W17,red,30 AWG stranded,perfboard B2 (D1 cathode),C17 (Super Mini 5V),39,60,underside link; crosses others
 W18,black,30 AWG stranded,perfboard B8 (GND bus),C4 (DRV GND),11,25,underside link
-W19,yellow,30 AWG stranded,perfboard I9 (RV1 wiper),I13 (GPIO2),11,25,underside link
-W20,black,30 AWG stranded,perfboard A16 (GND),I8 (RV1 pin 1),51,70,underside link; crosses under both modules
-W21,yellow,30 AWG stranded,perfboard A15 (3V3),I10 (RV1 pin 3),37,55,underside link; crosses under both modules; 3.3 V only
+W21,yellow,30 AWG stranded,perfboard A15 (3V3),I10 (RV1 pin 1),37,55,underside link; crosses under both modules; 3.3 V only
 W6p,button lead,pre-wired,J3 pin 6,S1 lead A,30,45,trim the button's own lead
 W9p,green,30 AWG stranded,J3 pin 3,SW1 lug A (forward),27,45,
 W10p,blue,30 AWG stranded,J3 pin 1,SW1 lug B (reverse),29,45,
