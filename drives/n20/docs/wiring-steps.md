@@ -22,6 +22,8 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 ![Step 1: The perfboard seen from the component side, column A on the left. D1 drawn in colour, anode A3, cathode A2, its holes circled.](images/steps-wiring/step-01-D1.svg)
 
+![Which end of the 1N5817 is which. Its body is black with a grey band at one end. The band end is the cathode, minus, and goes to A2; the plain end is the anode, plus, and goes to A3. In the schematic symbol, a triangle pointing at a bar, the bar is the band. Standing on the board, seen from the side: the body stands in A3 with the band at the top, and the top lead bends over and down into A2.](images/steps-wiring/d1-polarity.svg)
+
 - **Part:** D1
 - **Holes:** anode A3, cathode A2
 - **Side:** component side
@@ -168,6 +170,8 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 ### Step 14: C3, the 470 µF hold-up capacitor, lying down
 
 ![Step 14: The perfboard seen from the component side, column A on the left, with the 13 earlier steps drawn in grey. C3 drawn in colour, + I7, − I8, its holes circled.](images/steps-wiring/step-14-C3.svg)
+
+![Which lead of C3 is which. The 470 µF capacitor is a blue can with a light stripe printed down one side, marked with minus signs. The lead on the stripe side is minus and goes to I8; the other lead, usually the longer one, is plus and goes to I7. Lying on the board, the stripe faces row 8.](images/steps-wiring/c3-polarity.svg)
 
 - **Part:** C3
 - **Holes:** + I7, − I8

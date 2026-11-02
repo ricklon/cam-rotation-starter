@@ -74,7 +74,9 @@ const PART = {
     return `<line x1="${hx('A')}" y1="${hy(3)}" x2="${hx('A')}" y2="${hy(2)}" stroke="${g ? DONE : '#8d8d96'}" stroke-width="${g ? 3 : 5}"/>` +
       `<circle cx="${hx('A')}" cy="${hy(3)}" r="${mm(1.35)}" fill="${g ? '#d5d9dc' : '#151515'}" stroke="${g ? DONE : '#fff'}" stroke-width="2"/>` +
       (g ? '' : `<circle cx="${hx('A')}" cy="${hy(3)}" r="${mm(0.75)}" fill="none" stroke="#e8e8e8" stroke-width="2.5"/>`) +
-      `<circle cx="${hx('A')}" cy="${hy(2)}" r="${mm(0.6)}" fill="${g ? DONE : '#8d8d96'}"/>`;
+      `<circle cx="${hx('A')}" cy="${hy(2)}" r="${mm(0.6)}" fill="${g ? DONE : '#8d8d96'}"/>` +
+      (g ? '' : `<rect x="${Math.min(hx('A'), hx('A') + sg() * 250) + (mirror ? -mm(1.2) : mm(1.2))}" y="${hy(4.5) - 14}" width="240" height="24" rx="5" fill="#ffffff" stroke="${INK}" stroke-width="1.5"/>` +
+        `<text x="${hx('A') + sg() * (mm(1.2) + 120)}" y="${hy(4.5) + 4}" text-anchor="middle" ${FONT} font-size="15" font-weight="700" fill="${INK}">band on top, lead over to A2</text>`);
   },
   J4(mode) {
     const g = mode === 'done', u = cu('J'), vm = (rv(2) + rv(3)) / 2;
@@ -144,7 +146,7 @@ const STEPS = [
     what: 'D1 joins the 5 V that feeds the motor driver (strip 3 left) to the Super Mini\'s 5 V (strip 2 left), one way only.',
     how: 'Stand it in A3 with the banded (cathode) end at the top, bend the top lead over and down into A2, and solder both from the underside.',
     check: 'Diode test, red probe on A3 and black on A2: about 0.2–0.3 V. Reversed: open.',
-    ends: [{ hole: 'A3', role: 'anode' }, { hole: 'A2', role: 'cathode' }], strips: ['A3', 'A2'] },
+    ends: [{ hole: 'A3', role: 'anode +' }, { hole: 'A2', role: 'band −' }], strips: ['A3', 'A2'] },
 
   { id: 'W16', kind: 'link', colour: 'red', from: 'B7', to: 'C3', fromRole: '5V bus', toRole: 'VCC',
     what: 'Takes +5 V from the bus (row 7) to the motor driver\'s VCC strip and D1\'s anode.',
@@ -423,6 +425,63 @@ function altFor(n, s, viewSide) {
   return `Step ${n}: ${view}${prev}. ${now}.`;
 }
 
+// ---- polarity sketches for the two parts that only go in one way ----
+const sketch = (h, alt, body) => `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VW} ${h}" role="img" aria-label="${esc(alt)}">\n<rect width="${VW}" height="${h}" fill="#ffffff"/>\n${body}\n</svg>\n`;
+const T = (x, y, t, size = 16, opts = '') => `<text x="${x}" y="${y}" ${FONT} font-size="${size}" ${/fill=/.test(opts) ? '' : `fill="${INK}"`} ${opts}>${t}</text>`;
+const POLARITY = {
+  D1: {
+    file: 'd1-polarity.svg',
+    alt: 'Which end of the 1N5817 is which. Its body is black with a grey band at one end. The band end is the cathode, minus, and goes to A2; the plain end is the anode, plus, and goes to A3. In the schematic symbol, a triangle pointing at a bar, the bar is the band. Standing on the board, seen from the side: the body stands in A3 with the band at the top, and the top lead bends over and down into A2.',
+    svg() {
+      const o = [];
+      o.push(T(24, 34, 'D1 · 1N5817: which end is which', 20, 'font-weight="700"'));
+      // the part, lying
+      o.push(`<line x1="40" y1="110" x2="560" y2="110" stroke="#8d8d96" stroke-width="5"/>`);
+      o.push(`<rect x="200" y="84" width="200" height="52" rx="8" fill="#151515"/>`);
+      o.push(`<rect x="356" y="84" width="26" height="52" fill="#c9c9cf"/>`);
+      o.push(T(40, 74, 'anode (+)', 18, 'font-weight="700"'), T(40, 158, 'plain end → A3', 16));
+      o.push(T(560, 74, 'cathode (−)', 18, 'font-weight="700" text-anchor="end"'), T(560, 158, 'band end → A2', 16, 'text-anchor="end"'));
+      o.push(`<line x1="369" y1="140" x2="369" y2="168" stroke="${RING}" stroke-width="2.5"/>`, T(369, 188, 'band', 17, `font-weight="700" text-anchor="middle" fill="${RING}"`));
+      // symbol
+      const sy = 250;
+      o.push(`<line x1="150" y1="${sy}" x2="270" y2="${sy}" stroke="${INK}" stroke-width="3"/><polygon points="270,${sy - 24} 270,${sy + 24} 312,${sy}" fill="${INK}"/><line x1="314" y1="${sy - 26}" x2="314" y2="${sy + 26}" stroke="${INK}" stroke-width="5"/><line x1="314" y1="${sy}" x2="450" y2="${sy}" stroke="${INK}" stroke-width="3"/>`);
+      o.push(T(140, sy + 6, 'A3  +', 18, 'font-weight="700" text-anchor="end"'), T(460, sy + 6, '−  A2', 18, 'font-weight="700"'));
+      o.push(`<line x1="314" y1="${sy + 30}" x2="314" y2="${sy + 44}" stroke="${RING}" stroke-width="2.5"/>`, T(314, sy + 64, 'the bar is the band', 17, `font-weight="700" text-anchor="middle" fill="${RING}"`));
+      // standing on the board, from the side
+      const by = 500, a3 = 260, a2 = 330;
+      o.push(T(24, 348, 'On the board, seen from the side:', 17, 'font-weight="700"'));
+      o.push(`<rect x="150" y="${by}" width="300" height="12" fill="#c6d3e2"/>`);
+      o.push(`<line x1="${a3}" y1="${by + 12}" x2="${a3}" y2="${by - 20}" stroke="#8d8d96" stroke-width="5"/>`);
+      o.push(`<rect x="${a3 - 17}" y="${by - 100}" width="34" height="80" rx="6" fill="#151515"/><rect x="${a3 - 17}" y="${by - 100}" width="34" height="14" fill="#c9c9cf"/>`);
+      o.push(`<path d="M ${a3} ${by - 100} L ${a3} ${by - 112} Q ${a3} ${by - 124} ${a3 + 12} ${by - 124} L ${a2 - 12} ${by - 124} Q ${a2} ${by - 124} ${a2} ${by - 112} L ${a2} ${by + 12}" fill="none" stroke="#8d8d96" stroke-width="5"/>`);
+      o.push(T(a3, by + 40, 'A3', 18, 'font-weight="700" text-anchor="middle"'), T(a2, by + 40, 'A2', 18, 'font-weight="700" text-anchor="middle"'));
+      o.push(`<line x1="${a3 - 22}" y1="${by - 93}" x2="200" y2="${by - 93}" stroke="${RING}" stroke-width="2.5"/>`, T(194, by - 87, 'band at the top', 16, `font-weight="700" text-anchor="end" fill="${RING}"`));
+      return sketch(by + 60, this.alt, o.join('\n'));
+    },
+  },
+  C3: {
+    file: 'c3-polarity.svg',
+    alt: 'Which lead of C3 is which. The 470 µF capacitor is a blue can with a light stripe printed down one side, marked with minus signs. The lead on the stripe side is minus and goes to I8; the other lead, usually the longer one, is plus and goes to I7. Lying on the board, the stripe faces row 8.',
+    svg() {
+      const o = [];
+      o.push(T(24, 34, 'C3 · 470 µF: which lead is which', 20, 'font-weight="700"'));
+      const y0 = 80;
+      o.push(`<rect x="250" y="${y0}" width="280" height="110" rx="16" fill="#1e3c8c"/>`);
+      o.push(`<rect x="250" y="${y0 + 72}" width="280" height="38" fill="#c8c8cd"/><rect x="250" y="${y0 + 72}" width="280" height="38" rx="0" fill="none"/>`);
+      for (let x = 290; x < 520; x += 60) o.push(T(x, y0 + 100, '−', 26, 'font-weight="700" text-anchor="middle"'));
+      o.push(`<line x1="250" y1="${y0 + 30}" x2="70" y2="${y0 + 30}" stroke="#8d8d96" stroke-width="5"/>`);
+      o.push(`<line x1="250" y1="${y0 + 90}" x2="120" y2="${y0 + 90}" stroke="#8d8d96" stroke-width="5"/>`);
+      o.push(T(70, y0 + 18, '+ → I7', 20, 'font-weight="700"'), T(70, y0 + 60, 'usually the longer lead', 15));
+      o.push(T(120, y0 + 124, '− → I8', 20, `font-weight="700" fill="${INK}"`));
+      o.push(`<line x1="505" y1="${y0 + 112}" x2="505" y2="${y0 + 124}" stroke="${RING}" stroke-width="2.5"/>`);
+      o.push(T(560, y0 + 140, 'stripe = −', 18, `font-weight="700" text-anchor="end" fill="${RING}"`));
+      o.push(T(24, y0 + 180, 'Go by the stripe, not the lead length: the leads may be cut.', 16));
+      o.push(T(24, y0 + 204, 'Lying on the board, the stripe faces row 8.', 16, 'font-weight="700"'));
+      return sketch(y0 + 226, this.alt, o.join('\n'));
+    },
+  },
+};
+
 // ---- markdown ----
 const pad2 = n => String(n).padStart(2, '0');
 const file = (n, s) => `step-${pad2(n)}-${s.id}.svg`;
@@ -459,6 +518,7 @@ STEPS.forEach((s, i) => {
   if (s.kind === 'part') {
     md.push(`### Step ${n}: ${s.title}\n`);
     md.push(`![${altFor(n, s, 'top')}](images/steps-wiring/${file(n, s)})\n`);
+    if (POLARITY[s.id]) md.push(`![${POLARITY[s.id].alt}](images/steps-wiring/${POLARITY[s.id].file})\n`);
     md.push(`- **Part:** ${s.id}`);
     md.push(`- **Holes:** ${s.fromTo}`);
     md.push(`- **Side:** ${side}`);
@@ -487,5 +547,6 @@ _Generated by [make_steps.mjs](images/steps-wiring/make_steps.mjs) from the same
 `);
 
 STEPS.forEach((s, i) => writeFileSync(join(HERE, file(i + 1, s)), svgFor(i + 1, s)));
+for (const p of Object.values(POLARITY)) writeFileSync(join(HERE, p.file), p.svg());
 writeFileSync(join(DOCS, 'wiring-steps.md'), md.join('\n'));
 console.log(`${STEPS.length} steps written`);
