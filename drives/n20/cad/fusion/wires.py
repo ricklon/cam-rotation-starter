@@ -12,7 +12,7 @@ U1, the PD board, sits over columns A-C, rows 9-17, on two 3 mm foam pads, USB-C
   and its + / - pads take W1 / W2 down to the 5V (row 7) and GND (row 8) buses.
 J4 (side-entry JST-PH 2) at J3/J2 opens toward -Z; the motor pair leaves through the notch in the cover's bottom wall and runs
   under the base's -Y edge to the motor's +x side, inside the arms' zip tie, then into the cartridge's wire clamp
-  (the tie plate on the +y arm, inner face y 5.3, tie bar at z -28.3) and back along it to the tabs at x +/-3.1.
+  (the tie plate on the +y arm, inner face y 5.3, tie bar z -27.6 to -30.0) and back along it to the tabs at x +/-3.1.
 Control panel: JST-PH 6-pin header in the pod (pins at x -6.75, z 17.9..27.9, tails end at y 38.1); the mount harness ends in the plug
   at y 22.9 and runs through the base tunnel to the -Y face, then behind the perfboard to its holes.
 """
@@ -24,7 +24,8 @@ COLORS = {
     'blue': (40, 90, 205), 'gray': (120, 120, 120), 'tan': (214, 184, 130), 'tin': (195, 195, 200),
 }
 
-# name, color, diameter mm, waypoints (mm). All wire is 30 AWG stranded, about 0.6 mm over the insulation.
+# name, color, diameter mm, waypoints (mm). All wire is 30 AWG stranded, about 0.6 mm over the insulation, except the motor's
+# factory leads W14/W15 (assumed 26 AWG, 1.0 mm).
 BUNDLE_TRUNK = ('Control harness to J3 (4 x 30 AWG)', 'gray', 1.4, 'raw', [
     (-6.75, 22.9, 23.0), (-6.75, 22.0, 21.6), (-6.9, 21.8, 18.0), (-7.0, 21.8, 4.0), (-7.6, 21.8, 0.0), (-10.0, 21.8, -2.2),
     (-11.3, 20.7, -2.6), (-11.5, 19.4, -4.2), (-11.6, 19.4, -6.4),
@@ -67,12 +68,13 @@ WIRES = [
     ('C3 - lead to I8', 'tin', 0.6, [W(12.6, -3.25, 4.1), W(11.6, -3.25, 4.1), W(cu('I'), rv(8), 2.0), hole('I', 8, -0.8)]),
     # --- motor pair: J4 (side entry, mouth toward -Z) -> notch in the cover's bottom wall -> under the base's -Y edge
     #     -> the motor's +x side inside the arms' zip tie -> the wire clamp -> the tabs
-    ('W14 J4 pin 1 (OUT3) to motor +', 'white', 0.6, [W(26.4, rv(3), 2.4), W(29.0, rv(3), 2.4), (-9.9, -29.0, -15.0), (-2.0, -22.0, -15.0),
-        (8.8, -14.0, -15.0), (9.0, -7.0, -15.2), (8.2, -1.0, -15.8), (6.7, 1.2, -17.0), (6.7, 1.2, -24.0), (6.7, 2.6, -26.6), (6.4, 4.8, -27.9),
-        (3.6, 4.8, -27.9), (3.1, 1.8, -27.4), (3.1, 0.4, -26.8)]),
-    ('W15 J4 pin 2 (OUT4) to motor -', 'blue', 0.6, [W(26.4, rv(2), 2.4), W(29.6, rv(2), 2.4), (-11.3, -29.6, -15.8), (-2.8, -22.0, -15.9),
-        (9.8, -13.6, -15.9), (10.0, -6.4, -16.0), (9.0, -0.4, -16.6), (6.7, 2.6, -17.8), (6.7, 2.6, -24.0), (6.9, 3.4, -27.0), (6.2, 4.7, -28.9),
-        (-2.6, 4.7, -28.9), (-3.1, 2.2, -28.4), (-3.1, 0.4, -26.8)]),
+    # the motor's own factory leads (assumed 26 AWG, about 1.0 mm over the insulation), cut to length and crimped into J4's housing
+    ('W14 J4 pin 1 (OUT3) to motor + (factory lead)', 'red', 1.0, [W(26.4, rv(3), 2.4), W(29.0, rv(3), 2.4), (-9.9, -29.0, -15.0), (-2.0, -22.0, -15.0),
+        (8.8, -14.0, -15.0), (9.0, -7.0, -15.2), (8.2, -1.0, -15.8), (6.7, 1.2, -17.0), (6.7, 1.2, -24.0), (6.7, 2.6, -26.6), (6.4, 4.65, -28.1),
+        (3.6, 4.65, -28.1), (3.1, 1.8, -27.4), (3.1, 0.4, -26.8)]),
+    ('W15 J4 pin 2 (OUT4) to motor - (factory lead)', 'black', 1.0, [W(26.4, rv(2), 2.4), W(29.6, rv(2), 2.4), (-11.3, -29.6, -15.8), (-2.8, -22.0, -15.9),
+        (9.8, -13.6, -15.9), (10.0, -6.4, -16.0), (9.0, -0.4, -16.6), (6.7, 2.6, -17.8), (6.7, 2.6, -24.0), (7.6, 3.0, -25.8), (7.6, 3.4, -28.6), (6.2, 4.6, -29.4),
+        (-2.6, 4.6, -29.4), (-3.1, 2.2, -28.6), (-3.1, 0.4, -26.8)]),
     # --- control harness, mount side: trunk end on the -Y face, behind the perfboard, in from the underside
     ('W10 GPIO0 (I15) to J3 pin 1 (rev)', 'blue', 0.6, [(-6.0, -21.9, 13.5), (-3.0, -22.0, 13.4), (8.0, -22.6, 9.8), (17.0, -23.6, 5.4), (19.4, -24.6, 4.2), back('I', 15, -1.0), hole('I', 15, 0.4)]),
     ('W9 GPIO2 (I13) to J3 pin 3 (fwd)', 'green', 0.6, [(-6.0, -22.1, 13.9), (-3.0, -22.6, 13.0), (4.0, -23.4, 9.0), (10.0, -24.4, 5.6), (14.3, -25.1, 4.2), back('I', 13, -1.0), hole('I', 13, 0.4)]),

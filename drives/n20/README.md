@@ -46,7 +46,7 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 | J4 | 1 | JST-PH 2.0 mm 2-pin, side entry: S2B-PH-K-S header, PHR-2 housing, 2 crimp contacts | Rev C. The motor plug. |
 | — | 3 | **M2 × 20** pan-head screws | Rev C. Cover and perfboard to the supports on the −Y face. |
 | — | 2 | Double-sided foam pads, 3 mm thick, about 10 × 4 mm | Rev C. Hold the PD board on the perfboard. |
-| — | — | 30 AWG stranded hook-up wire in red, black, green, blue, white and yellow | Rev C. Every wire in the drive, including the motor pair and the underside links; see the [cut list](docs/wiring.md#cut-list). |
+| — | — | 30 AWG stranded hook-up wire in red, black, green, blue, white and yellow | Rev C. Every wire in the drive except the motor's own leads (W14, W15), including the underside links; see the [cut list](docs/wiring.md#cut-list). |
 | — | — | Hot glue or CA | A dab to hold D1 in its channel and the J3 header in its holder. |
 
 ## Wiring plan
@@ -94,7 +94,7 @@ After the first units were built:
 
 | # | Change | What it is now |
 |---|---|---|
-| 1 | Motor strain relief | The motor's solder joints were getting stressed in transit. The cartridge now has a **wire clamp**: a 1.5 mm plate below its +Y snap arm with two slots for a 2.5 mm zip tie, which holds W14 and W15 about 5 mm from the terminals. The motor also unplugs at **J4**, a side-entry JST-PH 2-pin header on the perfboard, so it can travel separately. See [J4 and the motor wire clamp](docs/wiring.md#j4-and-the-motor-wire-clamp). |
+| 1 | Motor strain relief | The motor's solder joints were getting stressed in transit. The cartridge now has a **wire clamp**: a 1.5 mm plate below its +Y snap arm with two slots for a 2.5 mm zip tie, which holds W14 and W15, the motor's own leads, about 5 mm from the terminals. The motor also unplugs at **J4**, a side-entry JST-PH 2-pin header on the perfboard, so it can travel separately. See [J4 and the motor wire clamp](docs/wiring.md#j4-and-the-motor-wire-clamp). |
 | 2 | Board | An **ESP32-C6 Super Mini** replaces the XIAO. The firmware has a board choice (`sdkconfig.supermini`). The driver stays on GPIO18/20/19, and the panel moves to GPIO1/2/0, with the knob on GPIO4/3, clear of the USB and UART pins. GPIO4 is a strapping pin, but only for JTAG and only with an eFuse burned, so it's safe for the knob. |
 | 3 | Perfboard | The electronics are on an **ElectroCookie 1/4-size perfboard**, with links on its underside in place of loose wires. The PD board is on it too, its screw terminal removed. The board sits on four supports on the mount's −Y face, 5.8 mm off it, under `N20_Electronics_Cover`, which forms the mount's outer wall. Three M2 × 20 screws hold it. Both USB-C ports face +X, and the knob points out sideways. C1 stays in its seat and is wired to the board. [docs/perfboard.md](docs/perfboard.md) has the hole map. |
 | 4 | Speed knob | An **RK097N** pot on the perfboard, its shaft through a 7 mm hole in the cover, which its nut clamps. The cover's inside face is 9.0 mm off the board, the height of the pot's base. Its pins go straight into the GPIO4 and GPIO3 strips: GPIO4 reads the wiper and GPIO3, driven low, is its ground. The firmware inverts the reading so clockwise is still faster, and the 0–100 scaling is unchanged, so the web app's virtual knob behaves as before. |
@@ -145,7 +145,7 @@ From the change request after the first build attempt:
 Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and room for a hand at each step.
 
 1. **Bench: check the motor fits.** Push the N20 into `N20_Cartridge` from below until its gearbox face meets the top plate and the arms click over the end cap; spread the arms and take it out again.
-2. **Bench: wiring.** Build the perfboard as in [docs/perfboard.md](docs/perfboard.md#build-order), and wire C1 and the PD board as in [docs/wiring.md](docs/wiring.md). Solder W14, W15 and C2 to the motor, and crimp the J3 and J4 housings onto their harnesses.
+2. **Bench: wiring.** Build the perfboard as in [docs/perfboard.md](docs/perfboard.md#build-order), and wire C1 and the PD board as in [docs/wiring.md](docs/wiring.md). Solder C2 across the motor's tabs, cut the motor's own leads (W14, W15) to length and crimp them into J4's housing, and crimp the J3 housing onto its harness.
 3. **Bushing in** through the mount's open end, flange up into the flange recess (as on the MG90S drive).
 4. **Mount on the box wall** with the #14 screws through the flange ears.
 5. **Dowel through** the bushing.
@@ -209,7 +209,7 @@ Rev C added no user parameters; its features use sketch numbers. They are:
   - Three 9.0 mm posts; the corner under U1 has none.
   - Ø2.4 / Ø7 holes.
   - Openings: the +X end over both USB-C ports ("Cover USB-C end and motor notch") and a notch in the bottom wall at J4.
-- **Wire clamp (`N20_Cartridge`):** a plate at x −7.5–7.5 (so it starts on the bed, as the cartridge prints on its −x face), y 5.3–6.8, z −25.8 to −31.3, with slots 2.8 × 1.3 at z −26.3/−27.6 and −29.0/−30.3.
+- **Wire clamp (`N20_Cartridge`):** a plate at x −7.5–7.5 (so it starts on the bed, as the cartridge prints on its −x face), y 5.3–6.8, z −25.8 to −32.3, with slots 2.8 × 1.3 at z −26.3/−27.6 and −30.0/−31.3, leaving a 2.4 mm bar for the motor's two leads (assumed 1.0 mm each; the slots were 1.4 mm apart for 30 AWG).
 
 The occurrence transforms were set together, with a position snapshot after. `wires.py` has the board-hole helper that maps a column and row to model coordinates.
 

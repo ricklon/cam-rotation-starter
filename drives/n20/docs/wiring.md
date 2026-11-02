@@ -66,7 +66,7 @@ The module has two rows of six pins. Seen from the back, where the labels are pr
 
 Bold pins are used. On the perfboard, component side up, these rows land in columns D and H, read the other way round: [perfboard.md](perfboard.md#placement) has the hole for each pin. Check against the labels on your module before soldering.
 
-![The electronics side of the drive with the cover off: the perfboard stands on its supports on the mount's -Y face. The PD board lies over the top-right corner of the perfboard with short red and black jumpers down to the buses, and its USB-C port and the Super Mini's both face right. The DRV8833 is at the left with D1 standing above it, and J4, the blue hold-up capacitor C3 lying on its side, and the speed pot RV1 are along the bottom edge, the pot hanging below the board. The white and blue motor pair leaves J4 downward.](images/perfboard.png)
+![The electronics side of the drive with the cover off: the perfboard stands on its supports on the mount's -Y face. The PD board lies over the top-right corner of the perfboard with short red and black jumpers down to the buses, and its USB-C port and the Super Mini's both face right. The DRV8833 is at the left with D1 standing above it, and J4, the blue hold-up capacitor C3 lying on its side, and the speed pot RV1 are along the bottom edge, the pot hanging below the board. The red and black motor pair leaves J4 downward.](images/perfboard.png)
 
 ![The whole drive from the electronics side with the cover on: the gray printed cover forms the mount's outer wall, with the knob's cap standing out of it and a notch at its bottom edge where the motor pair comes out. The pair runs under the base to the motor, which hangs in its cartridge.](images/perfboard_cover.png)
 
@@ -89,27 +89,29 @@ Pin 1 is the end nearest the pod's floor. Crimp the mount-side wires into the PH
 
 ## J4 and the motor wire clamp
 
-The motor plugs into J4, a side-entry JST-PH 2-pin header on the perfboard, so the motor and its cartridge can come off for transit or repair without desoldering. Crimp W14 into pin 1 and W15 into pin 2 of a PHR-2 housing. From J4 the pair leaves through the notch in the cover's bottom wall and runs under the base's −Y edge to the motor's +X side.
+The motor plugs into J4, a side-entry JST-PH 2-pin header on the perfboard, so the motor and its cartridge can come off for transit or repair without desoldering. W14 and W15 are **the motor's own factory leads**, left soldered to its tabs. Measure each from the motor's end cap, cut it to length (85 mm for W14, 95 mm for W15), strip 2 mm, and crimp a JST-PH contact on: W14 into pin 1 and W15 into pin 2 of a PHR-2 housing. PH contacts take 24–32 AWG. From J4 the pair leaves through the notch in the cover's bottom wall and runs under the base's −Y edge to the motor's +X side.
 
-At the motor, the wires are held right next to the terminals, so tugging or vibration loads the cartridge rather than the solder joints. This is the **wire clamp**: a 1.5 mm plate hanging 5.5 mm below the cartridge's +Y snap arm, with two slots for a **2.5 mm zip tie**.
+At the motor, the wires are held right next to the terminals, so tugging or vibration loads the cartridge rather than the solder joints. This is the **wire clamp**: a 1.5 mm plate hanging 6.5 mm below the cartridge's +Y snap arm, with two slots for a **2.5 mm zip tie** and a 2.4 mm bar between them, sized for two leads of about 1.0 mm.
 
-1. Solder W14, W15 and C2 to the terminals.
+1. Solder C2 across the terminals, next to the factory joints. Leave the factory leads' joints as they are.
 2. Lead both wires toward the +Y arm, then along the inside face of the clamp plate toward the motor's round +X side, and up between the arms.
-3. Put a zip tie in through one slot, out through the other, and round both wires on the plate's inside face. Lay the two wires side by side across the 1.4 mm bar between the slots, so the tie presses both flat against the plate. Pull it tight.
+3. Put a zip tie in through one slot, out through the other, and round both wires on the plate's inside face. Lay the two leads side by side across the 2.4 mm bar between the slots, W14 above W15, so the tie presses both flat against the plate. Pull it tight.
 
 The tie bar sits about 5 mm from the terminals. Leave a little slack between the tie and each terminal, so the wire bends there and not at the joint.
 
-![The bottom of the cartridge from the +Y side: below the black zip tie round the snap arms, the clamp plate hangs from the arm with two rectangular slots one above the other, and the blue motor wire shows through the lower slot. C2's tan body is just visible below.](images/motor_clamp.png)
+![The bottom of the cartridge from the +Y side: below the black zip tie round the snap arms, the clamp plate hangs from the arm with two rectangular slots one above the other, and the motor leads lie behind the bar between the slots, just showing through them; the red and black pair loops up past the arm to the left. C2's tan body is just visible below.](images/motor_clamp.png)
 
-![The underside of the mount, from below: the N20 in its cartridge on the dowel axis, with the black zip tie round its arms and C2 across its terminals. The empty DRV8833 pocket and diode channel of the XIAO build are beside it. At the bottom of the picture the cover hangs below the base's edge, and the white and blue motor pair comes out of the notch in its bottom wall, runs across under the base and down the motor's side.](images/wiring_under_base.png)
+![The underside of the mount, from below: the N20 in its cartridge on the dowel axis, with the black zip tie round its arms and C2 across its terminals. The empty DRV8833 pocket and diode channel of the XIAO build are beside it. At the bottom of the picture the cover hangs below the base's edge, and the red and black motor pair comes out of the notch in its bottom wall, runs across under the base and down the motor's side.](images/wiring_under_base.png)
 
 ## Point-to-point wire list
 
 Every wire is **30 AWG stranded**, in six colours: red for +5V, black for GND, and green, blue, white and yellow for signals (yellow is also the knob's 3.3 V end, W21).
 
+The exception is the motor pair, **W14 and W15**: they are the N20's own factory leads, red and black, assumed about 26 AWG (**unconfirmed**). Here red and black don't mean +5V and GND: the pair runs only from the motor to J4, which nothing else plugs into, so it can't be confused with the supply. Which lead goes to which J4 pin only sets the spin direction.
+
 - **Tin the stripped ends** before pushing them through the perfboard's holes, so the strands don't splay or break off.
 - **Keep the underside links flat** against the board, and press each one down along its lane before soldering the next.
-- **Current is fine.** 30 AWG is about 0.34 Ω per metre: about 30 mV drop on a 100 mm run at 1 A. The wires that carry motor current are W14 and W15, and on the 5 V and ground paths W1, W2, W16 and W18; L1 and L2 carry only C1's surges, and W17 only the Super Mini's own current). Check your N20's stall current on its datasheet. The DRV8833 limits a channel to about 1.5 A, and 30 AWG handles a 1 A stall for the moment it lasts. If your motor stalls above 1 A, double up those six wires.
+- **Current is fine.** 30 AWG is about 0.34 Ω per metre: about 30 mV drop on a 100 mm run at 1 A. The wires that carry motor current are W14 and W15 (the motor's own, thicker leads), and on the 5 V and ground paths W1, W2, W16 and W18; L1 and L2 carry only C1's surges, and W17 only the Super Mini's own current). Check your N20's stall current on its datasheet. The DRV8833 limits a channel to about 1.5 A, and 30 AWG handles a 1 A stall for the moment it lasts. If your motor stalls above 1 A, double up W1, W2, W16 and W18.
 
 Follow this table one wire at a time and tick each off. The colours match the 3D model. The links on the perfboard's underside are listed in [perfboard.md](perfboard.md#links-underside), and their cut lengths are in the cut list below. Wires that come from the mount (L1, L2, W6, W9, W10, W11) go into the perfboard **from the underside** and are soldered on the component side.
 
@@ -120,9 +122,9 @@ Follow this table one wire at a time and tick each off. The colours match the 3D
 | W2 | black | U1 − pad | perfboard A8 (GND bus) | Short jumper on the component side. |
 | L1 | red | C1 + (long leg) | perfboard C7 (5V bus) | Up the −Y face behind the board, in from the underside. |
 | L2 | black | C1 − (stripe side) | perfboard B4 (GND) | Beside L1. Reversed polarity damages the capacitor. |
-| **Motor** | | | | |
-| W14 | white | J4 pin 1 (OUT3) | M1 terminal (either) | Out of the cover's bottom notch, under the base's −Y edge, down the motor's open side inside the arms' zip tie, then the clamp. If the motor runs backwards, swap the two pins in the PHR-2 housing. |
-| W15 | blue | J4 pin 2 (OUT4) | M1 other terminal | Beside W14, then along the clamp's tie bar and behind the end cap, inside the snap hooks, to the far terminal. |
+| **Motor: the N20's factory leads** | | | | |
+| W14 | red (factory) | J4 pin 1 (OUT3) | M1 terminal (either) | Out of the cover's bottom notch, under the base's −Y edge, down the motor's open side inside the arms' zip tie, then the clamp. If the motor runs backwards, swap the two pins in the PHR-2 housing. |
+| W15 | black (factory) | J4 pin 2 (OUT4) | M1 other terminal | Beside W14, then along the clamp's tie bar and behind the end cap, inside the snap hooks, to the far terminal. |
 | C2 | — | M1 terminal | M1 other terminal | Solder its legs to the terminals with the wires. |
 | **Control harness, mount side: perfboard (from behind) → −Y face → base tunnel → J3 housing** | | | | |
 | W6 | white | perfboard I14 (GPIO1) | J3 pin 6 | |
@@ -179,8 +181,8 @@ Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm p
 | W2 | black | 30 AWG stranded | 9 mm | **20** |
 | L1 | red | 30 AWG stranded | 35 mm | **50** |
 | L2 | black | 30 AWG stranded | 37 mm | **55** |
-| W14 | white | 30 AWG stranded | 63 mm | **85** |
-| W15 | blue | 30 AWG stranded | 73 mm | **95** |
+| W14 | red | motor's lead, ~26 AWG (assumed) | 62 mm | **85**, from the end cap |
+| W15 | black | motor's lead, ~26 AWG (assumed) | 74 mm | **95**, from the end cap |
 | W6 | white | 30 AWG stranded | 130 mm | **160** |
 | W9 | green | 30 AWG stranded | 127 mm | **160** |
 | W10 | blue | 30 AWG stranded | 133 mm | **165** |

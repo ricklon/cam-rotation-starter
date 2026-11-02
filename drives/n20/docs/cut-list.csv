@@ -3,8 +3,8 @@ W1,red,30 AWG stranded,U1 + pad,perfboard A7 (5V bus),10,25,jumper on the compon
 W2,black,30 AWG stranded,U1 - pad,perfboard A8 (GND bus),9,20,jumper on the component side
 L1,red,30 AWG stranded,C1 +,perfboard C7 (5V bus),35,50,from C1's seat behind the board; in from the underside
 L2,black,30 AWG stranded,C1 -,perfboard B4 (GND),37,55,from C1's seat behind the board; in from the underside
-W14,white,30 AWG stranded,J4 pin 1 (DRV8833 OUT3),N20 terminal +,63,85,PHR-2 housing at J4; out of the cover's bottom notch and under the base's -Y edge; tie at the cartridge's wire clamp
-W15,blue,30 AWG stranded,J4 pin 2 (DRV8833 OUT4),N20 terminal -,73,95,beside W14; along the clamp's tie bar and behind the end cap to the far terminal
+W14,red,motor factory lead, about 26 AWG (assumed),J4 pin 1 (DRV8833 OUT3),N20 terminal +,62,85,the motor's own lead; measure from the end cap and cut; crimp a PH contact into the PHR-2 housing at J4; out of the cover's bottom notch and under the base's -Y edge; tie at the cartridge's wire clamp
+W15,black,motor factory lead, about 26 AWG (assumed),J4 pin 2 (DRV8833 OUT4),N20 terminal -,74,95,the motor's own lead; measure from the end cap and cut; beside W14; along the clamp's tie bar and behind the end cap to the far terminal
 W6,white,30 AWG stranded,perfboard I14 (GPIO1),J3 pin 6,130,160,includes the 101 mm trunk to the PHR-6 housing; in from the underside
 W9,green,30 AWG stranded,perfboard I13 (GPIO2),J3 pin 3,127,160,includes the trunk; in from the underside
 W10,blue,30 AWG stranded,perfboard I15 (GPIO0),J3 pin 1,133,165,includes the trunk; in from the underside
