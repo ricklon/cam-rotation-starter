@@ -1,0 +1,491 @@
+// Generates the step-by-step wiring pictures in this folder and ../../wiring-steps.md,
+// from the same hole map as ../perfboard.svg. Run from this folder: node make_steps.mjs
+// Each step's wire ID, colour and cut length are checked against ../../cut-list.csv.
+import { writeFileSync, readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const HERE = dirname(fileURLToPath(import.meta.url));
+const DOCS = join(HERE, '..', '..');
+
+// ---- geometry (mm on the board, as in perfboard.md: u across the columns, v along the rows) ----
+const S = 8;                          // px per mm
+const VW = 600;                       // view width: the pictures are read on a phone
+const W = 38.1, H = 50.8;
+const OX = (VW - W * S) / 2, OY = 236;
+const colIdx = { A: 0, B: 1, C: 2, D: 3, E: 4, F: 7, G: 8, H: 9, I: 10, J: 11 };
+const COLS = 'ABCDEFGHIJ';
+let mirror = false;                   // true: seen from the underside, flipped left to right
+const sg = () => (mirror ? -1 : 1);
+const cu = c => (colIdx[c] - 5.5) * 2.54;
+const rv = r => (r - 9) * 2.54;
+const ux = u => OX + (W / 2 + sg() * u) * S;
+const vy = v => OY + (H / 2 + v) * S;
+const hx = c => ux(cu(c));
+const hy = r => vy(rv(r));
+const mm = v => v * S;
+const lane = (c, d) => hx(c) + sg() * mm(d);
+const hole = h => [hx(h[0]), hy(+h.slice(1))];
+const rectU = (u0, u1, v0, v1, attrs) => {
+  const xa = ux(u0), xb = ux(u1);
+  return `<rect x="${Math.min(xa, xb).toFixed(1)}" y="${vy(v0).toFixed(1)}" width="${Math.abs(xb - xa).toFixed(1)}" height="${(mm(v1 - v0)).toFixed(1)}" ${attrs}/>`;
+};
+const pts = p => p.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+
+// ---- colours ----
+const WIRE = { red: '#d12a1f', black: '#1b1b1b', green: '#1f9a3c', blue: '#2f66d8', white: '#ffffff', yellow: '#f2c300', tin: '#b9b9c2' };
+const INK = '#1c2729', MUTE = '#4f5b5e', DONE = '#9ea5a9', RING = '#d4147a', HL = '#ffd84d';
+const FONT = 'font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif"';
+const MONO = 'font-family="IBM Plex Mono,ui-monospace,SFMono-Regular,Menlo,monospace"';
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+// ---- link routes on the underside (same lanes as perfboard.svg) ----
+const L = (from, x, to) => {
+  const dn = to[1] < from[1] ? -1 : 1;
+  return [[hx(from[0]), hy(from[1])], [x(), hy(from[1]) + dn * mm(0.9)], [x(), hy(to[1]) - dn * mm(0.9)], [hx(to[0]), hy(to[1])]];
+};
+const ROUTE = {
+  W16: () => L(['B', 7], () => lane('B', 0.6), ['C', 3]),
+  W18: () => L(['B', 8], () => lane('B', 1.27), ['C', 4]),
+  W17: () => L(['B', 2], () => lane('B', 1.9), ['C', 17]),
+  W4: () => L(['C', 8], () => lane('B', 0.6), ['C', 16]),
+  W5: () => L(['C', 12], () => lane('C', 0.6), ['C', 5]),
+  W12: () => L(['C', 14], () => lane('C', 1.27), ['C', 6]),
+  W21: () => [[hx('A'), hy(15)], [lane('A', 0.7), hy(14.5)], [lane('A', 0.7), hy(10.6)], [lane('I', -0.6), hy(10.6)], [hx('I'), hy(10)]],
+  W22: () => [[hx('C'), hy(2)], [hx('C'), hy(1.6)], [lane('I', -0.7), hy(1.6)], [lane('I', -0.7), hy(6.6)], [hx('H'), hy(7)]],
+  W23: () => [[hx('A'), hy(16)], [lane('A', -0.9), hy(15.65)], [lane('A', -0.9), hy(7.4)], [lane('H', -0.9), hy(7.4)], [hx('H'), hy(8)]],
+  W13: () => [[hx('C'), hy(13)], [lane('C', 1.9), hy(12.6)], [lane('C', 1.9), hy(6.5)], [hx('J'), hy(6.5)], [hx('J'), hy(6)]],
+  // U1's pads to the buses, on the component side
+  W1: () => [[ux(-16.5), vy(0.3)], [ux(-16.5), vy(-0.9)], [hx('A'), hy(7) + mm(0.9)], [hx('A'), hy(7)]],
+  W2: () => [[ux(-11.0), vy(0.3)], [ux(-11.0), vy(-0.9)], [hx('A'), hy(8) + mm(0.9)], [hx('A'), hy(8)]],
+};
+
+// a wire drawn either done (grey, thin) or now (bold, real colour, dark outline)
+function wire(p, colour, mode, behind) {
+  if (mode === 'done') return `<polyline points="${pts(p)}" fill="none" stroke="${DONE}" stroke-width="3" ${behind ? 'stroke-dasharray="7 5"' : ''} stroke-linecap="round" stroke-linejoin="round"/>`;
+  return `<polyline points="${pts(p)}" fill="none" stroke="#1b1b1b" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>` +
+    `<polyline points="${pts(p)}" fill="none" stroke="${WIRE[colour]}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`;
+}
+
+// ---- parts ----
+const PART = {
+  D1(mode) {
+    const g = mode === 'done';
+    return `<line x1="${hx('A')}" y1="${hy(3)}" x2="${hx('A')}" y2="${hy(2)}" stroke="${g ? DONE : '#8d8d96'}" stroke-width="${g ? 3 : 5}"/>` +
+      `<circle cx="${hx('A')}" cy="${hy(3)}" r="${mm(1.35)}" fill="${g ? '#d5d9dc' : '#151515'}" stroke="${g ? DONE : '#fff'}" stroke-width="2"/>` +
+      (g ? '' : `<circle cx="${hx('A')}" cy="${hy(3)}" r="${mm(0.75)}" fill="none" stroke="#e8e8e8" stroke-width="2.5"/>`) +
+      `<circle cx="${hx('A')}" cy="${hy(2)}" r="${mm(0.6)}" fill="${g ? DONE : '#8d8d96'}"/>`;
+  },
+  J4(mode) {
+    const g = mode === 'done', u = cu('J'), vm = (rv(2) + rv(3)) / 2;
+    return rectU(u - 2.4, u + 2.1, vm - 3, vm + 3, `rx="2" fill="${g ? '#e6e9eb' : '#f4f0e2'}" stroke="${g ? DONE : '#1b1b1b'}" stroke-width="2"`) +
+      [2, 3].map(r => `<rect x="${hx('J') - mm(0.5)}" y="${hy(r) - mm(0.5)}" width="${mm(1)}" height="${mm(1)}" fill="${g ? DONE : '#111'}"/>`).join('');
+  },
+  RV1(mode) {
+    const g = mode === 'done', u = cu('J');
+    return rectU(u + 2, u + 11.5, rv(11) - 5.5, rv(11) + 5.5, `rx="3" fill="${g ? '#e6e9eb' : '#2a6e3a'}" fill-opacity="${g ? 1 : 0.9}" stroke="${g ? DONE : '#1b1b1b'}" stroke-width="2"`) +
+      `<circle cx="${ux(u + 6.75)}" cy="${hy(11)}" r="${mm(3)}" fill="${g ? '#f1f3f4' : '#c9c9cf'}" stroke="${g ? DONE : '#555'}" stroke-width="1.5"/>` +
+      [10, 11, 12].map(r => `<line x1="${hx('J')}" y1="${hy(r)}" x2="${ux(u + 2)}" y2="${hy(r)}" stroke="${g ? DONE : '#8d8d96'}" stroke-width="3"/><rect x="${hx('J') - mm(0.6)}" y="${hy(r) - mm(0.6)}" width="${mm(1.2)}" height="${mm(1.2)}" fill="${g ? DONE : '#111'}"/>`).join('');
+  },
+  C3(mode) {
+    const g = mode === 'done';
+    return rectU(12.6, 24.1, -9, -1, `rx="6" fill="${g ? '#e6e9eb' : '#1e3c8c'}" stroke="${g ? DONE : '#1b1b1b'}" stroke-width="2"`) +
+      rectU(12.6, 24.1, -4.1, -1.1, `rx="3" fill="${g ? '#f1f3f4' : '#c8c8cd'}"`) +
+      [[-6.75, 7], [-3.25, 8]].map(([v, r]) => `<polyline points="${pts([[ux(12.6), vy(v)], [ux(11.6), vy(v)], [hx('I'), hy(r)]])}" fill="none" stroke="${g ? DONE : '#8d8d96'}" stroke-width="3"/>`).join('') +
+      (g ? '' : `<text x="${ux(18.3)}" y="${vy(-5.6)}" text-anchor="middle" ${FONT} font-size="16" font-weight="700" fill="#fff">+</text><text x="${ux(18.3)}" y="${vy(-1.9)}" text-anchor="middle" ${FONT} font-size="16" font-weight="700" fill="${INK}">−</text>`);
+  },
+  U3(mode) { return module(mode, (rv(1) + rv(6)) / 2, 18.5, 16, 'U3 DRV8833', [['D', 3, 'VCC'], ['D', 4, 'GND'], ['D', 5, 'IN3'], ['D', 6, 'IN4'], ['H', 2, 'OUT4'], ['H', 3, 'OUT3'], ['H', 6, 'EEP']], rv(4.6)); },
+  U2(mode) {
+    const s = module(mode, rv(8) - 1.3 + 13, 18, 26, 'U2 Super Mini', [['D', 12, '18'], ['D', 13, '19'], ['D', 14, '20'], ['D', 15, '3V3'], ['D', 16, 'GND'], ['D', 17, '5V'],
+      ['H', 11, '4'], ['H', 12, '3'], ['H', 13, '2'], ['H', 14, '1'], ['H', 15, '0']], rv(9.6));
+    return rectU(-4.5, 4.5, rv(17) + 0.2, rv(17) + 2.8, `rx="4" fill="${mode === 'done' ? '#e6e9eb' : '#bbb'}" stroke="${mode === 'done' ? DONE : '#555'}"`) + s;
+  },
+  U1(mode) {
+    const g = mode === 'done';
+    return rectU(-19.3, -8.3, -1.2, 26.8, `rx="3" fill="${g ? '#dfe3e6' : '#202020'}" fill-opacity="${g ? 0.85 : 0.88}" stroke="${g ? DONE : '#fff'}" stroke-width="2"`) +
+      rectU(-18.3, -9.3, 19.5, 27.1, `rx="4" fill="${g ? '#eef0f1' : '#bbb'}" stroke="${g ? DONE : '#fff'}"`) +
+      [-16.5, -11.0].map(u => rectU(u - 1, u + 1, -0.7, 1.3, `fill="${g ? DONE : '#d7b95a'}"`)).join('') +
+      `<text x="${ux(-13.8)}" y="${vy(8.5)}" text-anchor="middle" ${FONT} font-size="16" font-weight="700" fill="${g ? MUTE : '#fff'}">U1</text>` +
+      (g ? '' : `<text x="${ux(-13.8)}" y="${vy(11)}" text-anchor="middle" ${FONT} font-size="14" fill="#fff">PD board</text><text x="${ux(-13.8)}" y="${vy(13.2)}" text-anchor="middle" ${FONT} font-size="14" fill="#fff">on foam</text>` +
+        `<text x="${ux(-16.5)}" y="${vy(3.6)}" text-anchor="middle" ${FONT} font-size="16" font-weight="700" fill="#fff">+</text><text x="${ux(-11)}" y="${vy(3.6)}" text-anchor="middle" ${FONT} font-size="16" font-weight="700" fill="#fff">−</text>`);
+  },
+};
+function module(mode, vc, w, h, name, pins, vText) {
+  const g = mode === 'done';
+  let s = rectU(-w / 2, w / 2, vc - h / 2, vc + h / 2, `rx="4" fill="${g ? '#dfe3e6' : '#2b2b2b'}" fill-opacity="${g ? 0.6 : 0.82}" stroke="${g ? DONE : '#fff'}" stroke-width="2"`);
+  for (const [c, r, n] of pins) {
+    s += `<rect x="${hx(c) - mm(0.85)}" y="${hy(r) - mm(0.85)}" width="${mm(1.7)}" height="${mm(1.7)}" fill="${g ? DONE : '#111'}" stroke="#fff" stroke-width="1"/>`;
+    if (!g) {
+      const inward = (c === 'D') !== mirror;   // label toward the channel
+      s += `<text x="${hx(c) + (inward ? mm(1.4) : -mm(1.4))}" y="${hy(r) + 5}" text-anchor="${inward ? 'start' : 'end'}" ${MONO} font-size="14" font-weight="700" fill="#fff">${n}</text>`;
+    }
+  }
+  s += `<text x="${ux(0)}" y="${vy(vText)}" text-anchor="middle" ${FONT} font-size="15" font-weight="700" fill="${g ? MUTE : '#fff'}">${name}</text>`;
+  return s;
+}
+
+// wires that come in from behind the board: a hole and a stub in the done state
+const OFF = {
+  L1: { hole: 'C7', side: 'L', ly: 5.6 }, L2: { hole: 'B4', side: 'L', ly: 4.4 }, W11: { hole: 'A4', side: 'L', ly: 3.2 },
+  W9: { hole: 'I13', side: 'R', ly: 13.75 }, W6: { hole: 'I14', side: 'R', ly: 14.65 }, W10: { hole: 'I15', side: 'R', ly: 15.55 },
+};
+function offPath(id) {
+  const o = OFF[id], [x, y] = hole(o.hole);
+  const edge = o.side === 'L' ? OX - 34 : OX + mm(W) + 34;
+  if (o.side === 'L') return [[x, y], [OX + 6, hy(o.ly)], [edge, hy(o.ly)]];
+  return [[x, y], [x + mm(1.27), y], [x + mm(1.27), hy(o.ly)], [edge, hy(o.ly)]];
+}
+// the motor pair leaves J4's mouth toward the right-hand edge
+const motorPath = pin => { const r = pin === 1 ? 3 : 2; return [[hx('J') + mm(2.1), hy(r)], [OX + mm(W) + 34, hy(r)]]; };
+
+// ---- the steps, in perfboard.md's build order ----
+const STEPS = [
+  { id: 'D1', kind: 'part', side: 'top', title: 'D1, the 1N5817 diode, standing', colour: 'black', fromTo: 'anode A3, cathode A2',
+    what: 'D1 joins the 5 V that feeds the motor driver (strip 3 left) to the Super Mini\'s 5 V (strip 2 left), one way only.',
+    how: 'Stand it in A3 with the banded (cathode) end at the top, bend the top lead over and down into A2, and solder both from the underside.',
+    check: 'Diode test, red probe on A3 and black on A2: about 0.2–0.3 V. Reversed: open.',
+    ends: [{ hole: 'A3', role: 'anode' }, { hole: 'A2', role: 'cathode' }], strips: ['A3', 'A2'] },
+
+  { id: 'W16', kind: 'link', colour: 'red', from: 'B7', to: 'C3', fromRole: '5V bus', toRole: 'VCC',
+    what: 'Takes +5 V from the bus (row 7) to the motor driver\'s VCC strip and D1\'s anode.',
+    check: 'B7 beeps to A3 (D1\'s anode). B7 does not beep to B8 (the ground bus).' },
+  { id: 'W18', kind: 'link', colour: 'black', from: 'B8', to: 'C4', fromRole: 'GND bus', toRole: 'GND',
+    what: 'Takes ground from the bus (row 8) to the motor driver\'s GND strip.',
+    check: 'B8 beeps to A4. B8 does not beep to B7, and C4 does not beep to C3.' },
+  { id: 'W5', kind: 'link', colour: 'green', from: 'C12', to: 'C5', fromRole: 'GPIO18', toRole: 'IN3',
+    what: 'MOT_IN1: the Super Mini\'s GPIO18 to the driver\'s IN3, the forward PWM.',
+    check: 'C12 beeps to A5. It should not touch C13 or C11 next door.' },
+  { id: 'W12', kind: 'link', colour: 'blue', from: 'C14', to: 'C6', fromRole: 'GPIO20', toRole: 'IN4',
+    what: 'MOT_IN2: GPIO20 to the driver\'s IN4, the reverse PWM.',
+    check: 'C14 beeps to A6. It should not touch C13, C15 or W5.' },
+  { id: 'W4', kind: 'link', colour: 'black', from: 'C8', to: 'C16', fromRole: 'GND bus', toRole: 'U2 GND',
+    what: 'Ground from the bus to the Super Mini\'s GND strip.',
+    check: 'C16 beeps to B8. C16 does not beep to C15 (3V3) or C17 (5V).' },
+  { id: 'W22', kind: 'link', colour: 'red', from: 'C2', to: 'H7', fromRole: 'D1 −', toRole: 'C3 +',
+    what: 'The Super Mini\'s 5 V, after D1, across the channel to the strip where C3\'s + lead will go.',
+    check: 'H7 beeps to A2. H7 does not beep to H8 or H6.' },
+  { id: 'W21', kind: 'link', colour: 'yellow', from: 'A15', to: 'I10', fromRole: '3V3', toRole: 'RV1 top',
+    what: 'The Super Mini\'s 3.3 V to the strip where the knob\'s pin 1 will go. Yellow, not red: this is 3.3 V only.',
+    check: 'A15 beeps to J10. I10 does not beep to I11 (the wiper strip), and A15 does not beep to A16.' },
+  { id: 'W13', kind: 'link', colour: 'white', from: 'C13', to: 'J6', fromRole: 'GPIO19', toRole: 'EEP',
+    what: 'DRV_SLEEP: GPIO19 to the driver\'s EEP pin, which wakes it.',
+    check: 'C13 beeps to J6. It should not touch C12, C14, or W22 where they cross.' },
+  { id: 'W17', kind: 'link', colour: 'red', from: 'B2', to: 'C17', fromRole: 'D1 −', toRole: 'U2 5V',
+    what: 'The Super Mini\'s 5 V: from D1\'s cathode strip down the board to the 5V pin\'s strip.',
+    check: 'C17 beeps to A2 and to H7. C17 does not beep to C16 (GND).' },
+  { id: 'W23', kind: 'link', colour: 'black', from: 'A16', to: 'H8', fromRole: 'GND', toRole: 'C3 −',
+    what: 'Ground to the strip where C3\'s − lead will go.',
+    check: 'H8 beeps to B8. H8 does not beep to H7 (5 V) or H9.' },
+
+  { id: 'J4', kind: 'part', side: 'top', title: 'J4, the motor plug (JST-PH 2-pin, side entry)', colour: 'white', fromTo: 'pin 1 in J3, pin 2 in J2',
+    what: 'The motor\'s plug: pin 1 in the OUT3 strip (row 3 right), pin 2 in the OUT4 strip (row 2 right).',
+    how: 'Splay the 2 mm-pitch pins a little so they reach the holes, mouth toward the right-hand edge. Push in and solder from the underside.',
+    check: 'J3 does not beep to J2. Each pin sits flat, mouth facing off the board.',
+    ends: [{ hole: 'J3', role: 'pin 1' }, { hole: 'J2', role: 'pin 2' }], strips: ['J3', 'J2'] },
+  { id: 'RV1', kind: 'part', side: 'top', title: 'RV1, the 10 kΩ speed knob', colour: 'green', fromTo: 'pins J10, J11, J12',
+    what: 'The knob: pin 1 in the 3V3 strip (fed by W21), the wiper in the GPIO4 strip, pin 3 in the GPIO3 strip.',
+    how: 'Snip off its two mounting tabs if it has them. Shaft up, body off the right-hand edge. Solder from the underside.',
+    check: 'J10 to J12 reads about 10 kΩ. J10 beeps to A15. J11 to J10 changes as you turn the shaft.',
+    ends: [{ hole: 'J10', role: '3V3' }, { hole: 'J11', role: 'wiper' }, { hole: 'J12', role: 'GPIO3' }], strips: ['J10', 'J11', 'J12'] },
+  { id: 'C3', kind: 'part', side: 'top', title: 'C3, the 470 µF hold-up capacitor, lying down', colour: 'blue', fromTo: '+ I7, − I8',
+    what: 'Keeps the Super Mini running through a motor start or stall.',
+    how: 'Bend both leads down 90° about 1 mm from the can. **+ lead in I7, the striped (−) side toward I8.** Lay it flat, its end past the right-hand edge.',
+    check: 'The stripe faces row 8. I7 beeps to A2, I8 beeps to B8, and I7 does not beep to I8 (a meter on resistance shows it charging, then open).',
+    ends: [{ hole: 'I7', role: '+' }, { hole: 'I8', role: '− stripe' }], strips: ['I7', 'I8'] },
+  { id: 'U3', kind: 'part', side: 'top', title: 'U3, the DRV8833 module', colour: 'black', fromTo: 'pins D3–D6, H2, H3, H6',
+    what: 'The motor driver: VCC, GND, IN3 and IN4 down column D, OUT4, OUT3 and EEP in column H.',
+    how: '**Check the labels on your module first** (see perfboard.md). Only these seven pins are fitted. Component side up, solder from the underside.',
+    check: 'D3 (VCC) does not beep to D4 (GND). VCC beeps to B7, GND to B8, H6 (EEP) to C13.', ends: [] },
+  { id: 'U2', kind: 'part', side: 'top', title: 'U2, the ESP32-C6 Super Mini', colour: 'black', fromTo: 'pins D12–D17, H11–H15',
+    what: 'The controller: GPIO18–20, 3V3, GND and 5V down column D; GPIO4 to GPIO0 in column H. H10 (GPIO5) stays out.',
+    how: 'Component side up, USB-C past row 17. Solder from the underside.',
+    check: 'The 5V, 3V3 and GND pins do not beep to each other. 5V beeps to A2, GND to B8, 3V3 to J10.', ends: [] },
+  { id: 'U1', kind: 'part', side: 'top', title: 'U1, the PD trigger board, on foam pads', colour: 'black', fromTo: 'over A–C, rows 9–17',
+    what: 'The USB-C power input. It isn\'t soldered into holes: it sits on two 3 mm foam pads over the Super Mini\'s left-hand strips.',
+    how: 'Screw terminal desoldered and switches set to 5 V (Before you start). Stick it down with its USB-C past row 17, beside the Super Mini\'s, and its + and − pads toward row 8.',
+    check: 'Its USB-C sits about 1.4 mm past the board edge, beside the Super Mini\'s, and it lies flat.', ends: [] },
+  { id: 'W1', kind: 'jumper', colour: 'red', from: 'U1 +', to: 'A7', fromRole: 'U1 + pad', toRole: '5V bus',
+    what: 'U1\'s 5 V output down to the +5V bus (row 7 left).',
+    check: 'U1\'s + pad beeps to B7 and A3. It does not beep to U1\'s − pad.' },
+  { id: 'W2', kind: 'jumper', colour: 'black', from: 'U1 −', to: 'A8', fromRole: 'U1 − pad', toRole: 'GND bus',
+    what: 'U1\'s ground down to the GND bus (row 8 left).',
+    check: 'U1\'s − pad beeps to B8 and the Super Mini\'s GND. U1 + to U1 − does not beep.' },
+
+  { id: 'L1', kind: 'off', colour: 'red', from: 'C1 + (long leg)', to: 'C7', toRole: '5V bus', offText: 'C1 + long leg',
+    what: 'C1, the 470 µF capacitor in its seat on the mount, to the +5V bus.',
+    check: 'C1\'s + leg beeps to A7. Its long leg (+) is the one on C7.' },
+  { id: 'L2', kind: 'off', colour: 'black', from: 'C1 − (stripe side)', to: 'B4', toRole: 'GND', offText: 'C1 − stripe',
+    what: 'C1\'s − leg to ground (strip 4 left). Reversed polarity damages the capacitor.',
+    check: 'C1\'s − leg beeps to B8. C1 + to C1 − does not beep.' },
+  { id: 'W6', kind: 'off', colour: 'white', from: 'I14', to: 'J3 pin 6', toRole: 'GPIO1', offText: 'J3 pin 6',
+    what: 'BTN: GPIO1 to the button, through J3 pin 6.',
+    check: 'J3 pin 6 beeps to H14 (GPIO1). It does not beep to I13 or I15.' },
+  { id: 'W9', kind: 'off', colour: 'green', from: 'I13', to: 'J3 pin 3', toRole: 'GPIO2', offText: 'J3 pin 3',
+    what: 'DIR_FWD: GPIO2 to the direction switch\'s forward side, through J3 pin 3.',
+    check: 'J3 pin 3 beeps to H13 (GPIO2). It does not beep to I12 or I14.' },
+  { id: 'W10', kind: 'off', colour: 'blue', from: 'I15', to: 'J3 pin 1', toRole: 'GPIO0', offText: 'J3 pin 1',
+    what: 'DIR_REV: GPIO0 to the direction switch\'s reverse side, through J3 pin 1.',
+    check: 'J3 pin 1 beeps to H15 (GPIO0). It does not beep to I14.' },
+  { id: 'W11', kind: 'off', colour: 'black', from: 'A4', to: 'J3 pin 2', toRole: 'GND', offText: 'J3 pin 2',
+    what: 'Ground for the whole control pod, through J3 pin 2.',
+    check: 'J3 pin 2 beeps to B8. It does not beep to J3 pins 1, 3 or 6.' },
+
+  { id: 'W14', kind: 'motor', colour: 'red', from: 'motor tab', to: 'J4 pin 1', toRole: 'J4 pin 1 (hole J3, OUT3)', pin: 1,
+    what: 'The motor\'s own red lead, to the driver\'s OUT3 through J4 pin 1.',
+    check: 'With the plug in, J4\'s housing pin 1 beeps to the motor tab its lead comes from, and to H3.' },
+  { id: 'W15', kind: 'motor', colour: 'black', from: 'motor tab', to: 'J4 pin 2', toRole: 'J4 pin 2 (hole J2, OUT4)', pin: 2,
+    what: 'The motor\'s own black lead, to the driver\'s OUT4 through J4 pin 2.',
+    check: 'With the plug in, pin 2 beeps to the other motor tab and to H2. On resistance, J3 to J2 reads the winding of the motor, a few ohms or more: 0 Ω means the leads or C2 are shorted.' },
+];
+
+// ---- cut list: the one source for colour, gauge and length ----
+const csv = readFileSync(join(DOCS, 'cut-list.csv'), 'utf8').replace(/\r/g, '').trim().split('\n');
+// columns: wire,colour,gauge,from,to,routed_mm,cut_mm,notes. The file isn't quoted, so the gauge and
+// notes columns may hold bare commas: find routed and cut as the first two all-digit fields, and the
+// 'from' column as the first field after the gauge that names a terminal.
+const CUT = {};
+for (const line of csv.slice(1)) {
+  const f = line.split(',');
+  let i = 2; while (!(/^\d+$/.test(f[i]) && /^\d+$/.test(f[i + 1]))) i++;
+  let g = 3; while (g < i && !/^(perfboard|U1|C1|J3|J4|S1)/.test(f[g])) g++;
+  CUT[f[0]] = { colour: f[1], gauge: f.slice(2, g).join(','), from: f[g], to: f.slice(g + 1, i).join(','), routed: +f[i], cut: +f[i + 1] };
+}
+
+const errors = [];
+for (const s of STEPS) {
+  if (s.kind === 'part') continue;
+  const c = CUT[s.id];
+  if (!c) { errors.push(`${s.id}: not in cut-list.csv`); continue; }
+  if (c.colour !== s.colour) errors.push(`${s.id}: colour ${s.colour} here, ${c.colour} in cut-list.csv`);
+  s.cut = c.cut; s.gauge = c.gauge;
+  const holes = [s.from, s.to].filter(h => /^[A-J]\d+$/.test(h));
+  for (const h of holes) if (!(`${c.from} ${c.to}`).includes(h)) errors.push(`${s.id}: hole ${h} not in cut-list.csv (${c.from} → ${c.to})`);
+}
+if (errors.length) { console.error(errors.join('\n')); process.exit(1); }
+
+// ---- drawing a step ----
+function board(highlightStrips) {
+  let o = '';
+  o += `<rect x="${OX}" y="${OY}" width="${mm(W)}" height="${mm(H)}" rx="${mm(2)}" fill="#e3eaf1" stroke="#9fb0c2" stroke-width="1.5"/>`;
+  for (let r = 1; r <= 17; r++) for (const [a, b] of [['A', 'E'], ['F', 'J']]) {
+    const hl = highlightStrips.some(h => +h.slice(1) === r && (colIdx[h[0]] < 5) === (a === 'A'));
+    const xa = Math.min(hx(a), hx(b)), xb = Math.max(hx(a), hx(b));
+    o += `<rect x="${xa - mm(0.95)}" y="${hy(r) - mm(0.95)}" width="${xb - xa + mm(1.9)}" height="${mm(1.9)}" rx="${mm(0.95)}" fill="${hl ? HL : '#c6d3e2'}"/>`;
+  }
+  for (const [x, y, d] of [[0, -20.3, 3.2], [0, 20.3, 3.2], [-15.9, -22.25, 2.2], [15.9, -22.25, 2.2], [-15.9, 22.25, 2.2], [15.9, 22.25, 2.2]])
+    o += `<circle cx="${ux(x)}" cy="${vy(y)}" r="${mm(d / 2)}" fill="#ffffff" stroke="#9fb0c2"/>`;
+  for (let r = 1; r <= 17; r++) for (const c of COLS)
+    o += `<circle cx="${hx(c)}" cy="${hy(r)}" r="${mm(0.7)}" fill="#c9a640"/><circle cx="${hx(c)}" cy="${hy(r)}" r="${mm(0.35)}" fill="#5a4c22"/>`;
+  return o;
+}
+function axisLabels(skipRows) {
+  let o = '';
+  for (const c of COLS) o += `<text x="${hx(c)}" y="${OY - 10}" text-anchor="middle" ${MONO} font-size="18" font-weight="700" fill="${INK}">${c}</text>`;
+  for (let r = 1; r <= 17; r++) for (const side of ['L', 'R']) {
+    if (skipRows.has(`${side}${r}`)) continue;
+    const x = side === 'L' ? OX - 15 : OX + mm(W) + 15;
+    o += `<text x="${x}" y="${hy(r) + 5}" text-anchor="middle" ${MONO} font-size="15" font-weight="700" fill="${MUTE}">${r}</text>`;
+  }
+  return o;
+}
+function wrap(text, n) {
+  const words = text.replace(/\*\*/g, '').split(' '); const lines = []; let cur = '';
+  for (const w of words) { if ((cur + ' ' + w).trim().length > n) { lines.push(cur.trim()); cur = w; } else cur += ' ' + w; }
+  if (cur.trim()) lines.push(cur.trim());
+  return lines;
+}
+function sideOf(id) { const s = STEPS.find(t => t.id === id); return s.kind === 'link' ? 'under' : 'top'; }
+
+function drawItem(s, mode, viewSide) {
+  const behind = viewSide === 'top';          // links seen through the board from the top
+  if (s.kind === 'part') return PART[s.id](mode);
+  if (s.kind === 'link') return wire(ROUTE[s.id](), s.colour, mode, behind);
+  if (s.kind === 'jumper') return wire(ROUTE[s.id](), s.colour, mode, false);
+  if (s.kind === 'off') {
+    const p = offPath(s.id), [x, y] = p[0];
+    if (mode === 'done') return `<circle cx="${x}" cy="${y}" r="${mm(0.9)}" fill="none" stroke="${DONE}" stroke-width="3"/>` + wire(p.slice(0, 2).map((q, i) => i ? [(q[0] + x) / 2, (q[1] + y) / 2] : q), s.colour, 'done', true);
+    return wire(p, s.colour, 'now', false);
+  }
+  if (s.kind === 'motor') {
+    const p = motorPath(s.pin);
+    if (mode === 'done') return wire(p, s.colour, 'done', false);
+    return PART.J4('now') + wire(p, s.colour, 'now', false);
+  }
+}
+
+function endsOf(s) {
+  if (s.kind === 'part') return s.ends.map(e => ({ ...e, xy: hole(e.hole) }));
+  if (s.kind === 'link') return [{ hole: s.from, role: s.fromRole, xy: hole(s.from) }, { hole: s.to, role: s.toRole, xy: hole(s.to) }];
+  if (s.kind === 'jumper') { const p = ROUTE[s.id](); return [{ hole: s.from.replace(' ', ' '), role: 'pad', xy: p[0], pad: true }, { hole: s.to, role: s.toRole, xy: hole(s.to) }]; }
+  if (s.kind === 'off') { const h = OFF[s.id].hole; return [{ hole: h, role: s.toRole, xy: hole(h), off: s.offText }]; }
+  if (s.kind === 'motor') { const h = s.pin === 1 ? 'J3' : 'J2'; return [{ hole: h, role: `J4 pin ${s.pin}`, xy: hole(h), motor: true }]; }
+}
+
+function svgFor(n, s) {
+  const viewSide = s.kind === 'link' ? 'under' : 'top';
+  mirror = viewSide === 'under';
+  const done = STEPS.slice(0, n - 1);
+  const ends = endsOf(s);
+  const strips = s.kind === 'part' ? (s.strips || []) : ends.filter(e => /^[A-J]\d+$/.test(e.hole) && !e.motor).map(e => e.hole);
+  // margin labels, one per end, on the side the hole is on (off-board wires and the motor leads have their own)
+  const labels = [];
+  for (const e of ends) {
+    if (e.off || e.motor) continue;
+    const left = e.xy[0] < OX + mm(W) / 2;
+    labels.push({ ...e, left, y: e.xy[1] });
+  }
+  for (const side of [true, false]) {
+    const g = labels.filter(l => l.left === side).sort((a, b) => a.y - b.y);
+    for (let i = 1; i < g.length; i++) if (g[i].y - g[i - 1].y < 24) g[i].y = g[i - 1].y + 24;
+  }
+  const skip = new Set();
+  for (const l of labels) for (let r = 1; r <= 17; r++) if (Math.abs(hy(r) - l.y) < 12) skip.add(`${l.left ? 'L' : 'R'}${r}`);
+  const partExt = ['C3', 'RV1'].filter(id => done.some(d => d.id === id) || s.id === id);
+  const ROWS = { C3: [5, 6, 7, 8], RV1: [9, 10, 11, 12, 13] };
+  if (viewSide === 'top') for (const id of partExt) for (const r of ROWS[id]) skip.add(`R${r}`);
+  // off-board labels: two lines round the leader's row
+  for (const e of ends) if (e.off || e.motor) {
+    const side = e.off ? OFF[s.id].side : 'R', yl = e.off ? hy(OFF[s.id].ly) : e.xy[1];
+    for (let r = 1; r <= 17; r++) if (Math.abs(hy(r) - yl) < 30) skip.add(`${side}${r}`);
+  }
+
+  let o = [];
+  const title = s.kind === 'part' ? s.title : `${s.id} · ${s.colour}`;
+  o.push(`<rect width="${VW}" height="__VH__" fill="#ffffff"/>`);
+  // header
+  o.push(`<text x="24" y="34" ${FONT} font-size="17" font-weight="700" fill="${MUTE}">STEP ${n} OF ${STEPS.length}</text>`);
+  const pill = viewSide === 'under' ? ['UNDERSIDE', '#7a3e00', '#ffe2c2'] : ['COMPONENT SIDE', '#0e4a52', '#d4eef1'];
+  o.push(`<rect x="${VW - 24 - (pill[0].length * 11 + 24)}" y="14" width="${pill[0].length * 11 + 24}" height="30" rx="15" fill="${pill[2]}"/>`);
+  o.push(`<text x="${VW - 24 - (pill[0].length * 11 + 24) / 2}" y="35" text-anchor="middle" ${FONT} font-size="16" font-weight="700" fill="${pill[1]}">${pill[0]}</text>`);
+  if (s.kind === 'part') {
+    o.push(`<text x="24" y="78" ${FONT} font-size="${s.title.length > 34 ? 22 : 26}" font-weight="700" fill="${INK}">${esc(s.title.split(',')[0])}</text>`);
+    o.push(`<text x="24" y="108" ${FONT} font-size="18" fill="${MUTE}">${esc(s.title.split(',').slice(1).join(',').trim())}</text>`);
+    o.push(`<text x="24" y="146" ${MONO} font-size="24" font-weight="700" fill="${INK}">${esc(s.fromTo)}</text>`);
+  } else {
+    o.push(`<circle cx="38" cy="70" r="13" fill="${WIRE[s.colour]}" stroke="#1b1b1b" stroke-width="2"/>`);
+    o.push(`<text x="62" y="80" ${FONT} font-size="32" font-weight="700" fill="${INK}">${s.id}</text>`);
+    o.push(`<text x="${62 + s.id.length * 22 + 14}" y="80" ${FONT} font-size="24" fill="${INK}">${s.colour} · cut <tspan font-weight="700">${s.cut} mm</tspan>${s.kind === 'motor' ? ' from the end cap' : ''}</text>`);
+    o.push(`<text x="24" y="122" ${MONO} font-size="${(s.from + s.to).length > 22 ? 21 : 26}" font-weight="700" fill="${INK}">${esc(s.from)} → ${esc(s.to)}</text>`);
+    o.push(`<text x="24" y="152" ${FONT} font-size="16" fill="${MUTE}">${esc(s.kind === 'motor' ? 'the motor\'s own lead, about 26 AWG (assumed)' : s.gauge)}</text>`);
+  }
+  const orient = viewSide === 'under' ? 'Board turned over: column A is on the RIGHT.' : (s.kind === 'off' ? 'Push it up from the underside, solder on this side.' : 'Column A on the left, row 1 at the top.');
+  o.push(`<text x="24" y="${OY - 40}" ${FONT} font-size="16" font-weight="600" fill="${viewSide === 'under' ? '#7a3e00' : MUTE}">${orient}</text>`);
+
+  o.push(board(strips));
+  // done items: links on the far side first, then the near side
+  for (const d of done) if (drawItem(d, 'done', viewSide) && ((d.kind === 'link') === (viewSide === 'top'))) o.push(drawItem(d, 'done', viewSide));
+  for (const d of done) if ((d.kind === 'link') !== (viewSide === 'top')) o.push(drawItem(d, 'done', viewSide));
+  o.push(axisLabels(skip));
+  // now
+  o.push(drawItem(s, 'now', viewSide));
+  // end rings and labels
+  for (const e of ends) o.push(`<circle cx="${e.xy[0].toFixed(1)}" cy="${e.xy[1].toFixed(1)}" r="11" fill="none" stroke="${RING}" stroke-width="4"/>`);
+  const rightLimit = OX + mm(W) + (partExt.length && viewSide === 'top' ? mm(6.6) : 0);
+  for (const l of labels) {
+    const xl = l.left ? OX - 32 : Math.max(OX + mm(W) + 32, rightLimit + 8);
+    const xe = l.left ? l.xy[0] - 11 : l.xy[0] + 11;
+    o.push(`<polyline points="${pts([[xe, l.xy[1]], [l.left ? OX - 4 : rightLimit + 2, l.y], [xl + (l.left ? 4 : -4), l.y]])}" fill="none" stroke="${RING}" stroke-width="2.5"/>`);
+    const name = l.pad ? l.hole : l.hole;
+    o.push(`<text x="${xl}" y="${l.y + 7}" text-anchor="${l.left ? 'end' : 'start'}" ${MONO} font-size="20" font-weight="700" fill="${RING}">${esc(name)}</text>`);
+    o.push(`<text x="${xl + (l.left ? -name.length * 12.3 - 6 : name.length * 12.3 + 6)}" y="${l.y + 6}" text-anchor="${l.left ? 'end' : 'start'}" ${FONT} font-size="14" font-weight="600" fill="${INK}">${esc(l.pad ? '' : l.role)}</text>`);
+  }
+  // off-board ends
+  for (const e of ends) {
+    if (e.off) {
+      const o2 = OFF[s.id], left = o2.side === 'L', x = left ? OX - 38 : OX + mm(W) + 38, y = hy(o2.ly);
+      o.push(`<text x="${x}" y="${y - 6}" text-anchor="${left ? 'end' : 'start'}" ${MONO} font-size="20" font-weight="700" fill="${RING}">${e.hole}</text>`);
+      o.push(`<text x="${x}" y="${y + 16}" text-anchor="${left ? 'end' : 'start'}" ${FONT} font-size="14" font-weight="600" fill="${INK}">to ${esc(e.off)}</text>`);
+    }
+    if (e.motor) {
+      const x = OX + mm(W) + 38, y = e.xy[1];
+      o.push(`<text x="${x}" y="${y - 8}" ${FONT} font-size="17" font-weight="700" fill="${RING}">J4 pin ${s.pin}</text>`);
+      o.push(`<text x="${x}" y="${y + 12}" ${FONT} font-size="14" font-weight="600" fill="${INK}">to the motor</text>`);
+    }
+  }
+  // check
+  let y = OY + mm(H) + 52;
+  const chk = wrap('Check: ' + s.check, 58);
+  o.push(`<rect x="16" y="${y - 26}" width="${VW - 32}" height="${chk.length * 22 + 18}" rx="8" fill="#f4f6f7" stroke="#d5dddc"/>`);
+  chk.forEach((t, i) => o.push(`<text x="28" y="${y + i * 22}" ${FONT} font-size="16" fill="${INK}">${i === 0 ? `<tspan font-weight="700">Check:</tspan>${esc(t.slice(6))}` : esc(t)}</text>`));
+  const VH = Math.ceil(y + chk.length * 22 + 10);
+  const alt = altFor(n, s, viewSide);
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VW} ${VH}" role="img" aria-label="${esc(alt)}">\n` + o.join('\n').replace('__VH__', VH) + '\n</svg>\n';
+}
+
+function altFor(n, s, viewSide) {
+  const view = viewSide === 'under' ? 'The perfboard seen from the underside, turned over so column A is on the right' : 'The perfboard seen from the component side, column A on the left';
+  const prev = n === 2 ? ', with the earlier step drawn in grey' : n > 2 ? `, with the ${n - 1} earlier steps drawn in grey` : '';
+  let now;
+  if (s.kind === 'part') now = `${s.title.split(',')[0]} drawn in colour, ${s.fromTo}${s.ends.length ? ', its holes circled' : ''}`;
+  else if (s.kind === 'off') now = `${s.id}, ${s.colour}, drawn bold from hole ${s.kind === 'off' ? OFF[s.id].hole : ''} off the board's ${OFF[s.id].side === 'L' ? 'left' : 'right'} edge, labelled ${s.offText}`;
+  else if (s.kind === 'motor') now = `${s.id}, ${s.colour}, drawn bold from J4's mouth off the right-hand edge; J4 pin ${s.pin} is hole ${s.pin === 1 ? 'J3' : 'J2'}`;
+  else now = `${s.id}, ${s.colour}, drawn bold from ${s.from} to ${s.to}, both ends circled`;
+  return `Step ${n}: ${view}${prev}. ${now}.`;
+}
+
+// ---- markdown ----
+const pad2 = n => String(n).padStart(2, '0');
+const file = (n, s) => `step-${pad2(n)}-${s.id}.svg`;
+const md = [];
+md.push(`# Step-by-step wiring: N20 perfboard (rev C)
+
+One wire, link or part per step, in the [build order](perfboard.md#build-order). Each picture shows everything already done in grey and the current step in its real colour, with its end holes circled and named. The [hole map](images/perfboard.svg) and the [wire list](wiring.md#point-to-point-wire-list) show the whole board at once; this page is the same board taken one step at a time. The wire IDs, colours and cut lengths come from the [cut list](cut-list.csv).
+
+**Reading the pictures**
+
+- Columns **A–E** and **F–J**, rows **1–17**. Every hole in a row's half is joined to the other four in that half: a **strip**. The strips that the current step joins are drawn yellow.
+- **Component side** pictures show the board as in the hole map, column A on the left.
+- **Underside** pictures show the board **turned over**, as you see it while soldering a link: **column A is on the right**. Rows stay top to bottom.
+- A **check** at the end of each step says what should beep on the meter's continuity setting, and what must not.
+
+## Before you start
+
+- **Wire:** 30 AWG stranded, in red (+5 V), black (GND), green, blue, white and yellow. Only W14 and W15 differ: they're the motor's own leads.
+- **Tin every stripped end** before it goes through a hole, so the strands don't splay.
+- **Links on the underside lie flat.** Press each one down along its lane before soldering the next, and keep them off the holes they cross.
+- **Prepare the modules** (build step 1): desolder U1's screw terminal and set its switches to 5 V. Pull the unused pins out of the header strips: the DRV8833 keeps D3–D6 and H2, H3, H6; the Super Mini keeps D12–D17 and H11–H15 (H10, GPIO5, stays out). Fit the strips to the modules with the perfboard as a jig, and solder them **to the modules only**.
+`);
+const sections = { 1: '## On the bench: D1 and the links', 12: '## On the bench: J4, RV1 and C3', 15: '## On the bench: the modules and U1', 20: '## On the drive: C1 and the control harness', 26: '## The motor leads' };
+const intro = {
+  2: '**The ten links** go on the underside, shortest first. Turn the board over: from here to step 11 the pictures show the underside, column A on the right.',
+  20: 'With C1 already in its seat on the mount. These six wires come from behind the board: push each **up from the underside** and solder it on the component side.',
+  26: 'W14 and W15 are the N20\'s own factory leads, red and black, left soldered to its tabs (assumed about 26 AWG, unconfirmed). Solder C2 across the tabs first if it isn\'t on yet. Measure each lead from the motor\'s end cap, cut it, strip 2 mm and crimp a JST-PH contact on, then push the contact into a PHR-2 housing. Routing and the wire clamp are in [wiring.md](wiring.md#j4-and-the-motor-wire-clamp). Red and black here don\'t mean +5 V and GND: this pair only runs from the motor to J4.',
+};
+STEPS.forEach((s, i) => {
+  const n = i + 1;
+  if (sections[n]) md.push(sections[n] + '\n');
+  if (intro[n]) md.push(intro[n] + '\n');
+  const side = s.kind === 'link' ? 'underside (link)' : s.kind === 'off' ? 'in from the underside, soldered on the component side' : s.kind === 'motor' ? 'off the board: crimped into J4\'s housing' : 'component side';
+  if (s.kind === 'part') {
+    md.push(`### Step ${n}: ${s.title}\n`);
+    md.push(`![${altFor(n, s, 'top')}](images/steps-wiring/${file(n, s)})\n`);
+    md.push(`- **Part:** ${s.id}`);
+    md.push(`- **Holes:** ${s.fromTo}`);
+    md.push(`- **Side:** ${side}`);
+    md.push(`- **What it does:** ${s.what}`);
+    if (s.how) md.push(`- **How:** ${s.how}`);
+  } else {
+    md.push(`### Step ${n}: ${s.id}, ${s.colour}, ${s.from} → ${s.to}\n`);
+    md.push(`![${altFor(n, s, s.kind === 'link' ? 'under' : 'top')}](images/steps-wiring/${file(n, s)})\n`);
+    md.push(`- **Wire:** ${s.id}, ${s.colour}, ${s.kind === 'motor' ? 'the motor\'s own lead' : s.gauge}`);
+    md.push(`- **Cut:** ${s.cut} mm${s.kind === 'motor' ? ', measured from the motor\'s end cap' : ''}`);
+    md.push(`- **From → to:** ${s.from} → ${s.to}`);
+    md.push(`- **Side:** ${side}`);
+    md.push(`- **What it does:** ${s.what}`);
+  }
+  md.push(`- **Check:** ${s.check}\n`);
+});
+md.push(`## Last checks
+
+1. Go through the [terminal check](wiring.md#terminal-check): every terminal should hold exactly the wires it lists.
+2. **+5V, +3V3 and GND must not beep to each other**, or to the strip next door. Check B7 to B8, A15 to A16, and C17 to C16.
+3. Then follow [bring-up](wiring.md#bring-up) before the first power-on.
+
+The pod side of J3 (W6p, W9p, W10p, W11p, J1) is wired in the pod, as described in [wiring.md](wiring.md#j3-the-control-panel-connector).
+
+_Generated by [make_steps.mjs](images/steps-wiring/make_steps.mjs) from the same hole map as [perfboard.svg](images/perfboard.svg); the wire IDs, colours and cut lengths are checked against [cut-list.csv](cut-list.csv) when it runs._
+`);
+
+STEPS.forEach((s, i) => writeFileSync(join(HERE, file(i + 1, s)), svgFor(i + 1, s)));
+writeFileSync(join(DOCS, 'wiring-steps.md'), md.join('\n'));
+console.log(`${STEPS.length} steps written`);

@@ -145,7 +145,7 @@ From the change request after the first build attempt:
 Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and room for a hand at each step.
 
 1. **Bench: check the motor fits.** Push the N20 into `N20_Cartridge` from below until its gearbox face meets the top plate and the arms click over the end cap; spread the arms and take it out again.
-2. **Bench: wiring.** Build the perfboard as in [docs/perfboard.md](docs/perfboard.md#build-order), and wire C1 and the PD board as in [docs/wiring.md](docs/wiring.md). Solder C2 across the motor's tabs, cut the motor's own leads (W14, W15) to length and crimp them into J4's housing, and crimp the J3 housing onto its harness.
+2. **Bench: wiring.** Build the perfboard as in [docs/perfboard.md](docs/perfboard.md#build-order), one wire at a time with the [step-by-step wiring guide](docs/wiring-steps.md), and wire C1 and the PD board as in [docs/wiring.md](docs/wiring.md). Solder C2 across the motor's tabs, cut the motor's own leads (W14, W15) to length and crimp them into J4's housing, and crimp the J3 housing onto its harness.
 3. **Bushing in** through the mount's open end, flange up into the flange recess (as on the MG90S drive).
 4. **Mount on the box wall** with the #14 screws through the flange ears.
 5. **Dowel through** the bushing.

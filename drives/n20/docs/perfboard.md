@@ -130,6 +130,8 @@ Everything else on the board is under 9 mm tall:
 
 ## Build order
 
+For one wire at a time, with a picture and a continuity check for each, follow the [step-by-step wiring guide](wiring-steps.md).
+
 1. Desolder U1's screw terminal and set its switches to 5 V. Pull the unused pins out of the header strips (see the placement table). Fit the strips to the Super Mini and the DRV8833, using the perfboard as the jig so they come out square, and solder them to the modules only.
 2. Stand D1 in A3 and A2, banded end up.
 3. Solder the ten links on the underside, shortest first: W16, W18, W5, W12, W4, W22, W21, W13, W17, W23.

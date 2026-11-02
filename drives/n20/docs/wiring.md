@@ -113,7 +113,7 @@ The exception is the motor pair, **W14 and W15**: they are the N20's own factory
 - **Keep the underside links flat** against the board, and press each one down along its lane before soldering the next.
 - **Current is fine.** 30 AWG is about 0.34 Ω per metre: about 30 mV drop on a 100 mm run at 1 A. The wires that carry motor current are W14 and W15 (the motor's own, thicker leads), and on the 5 V and ground paths W1, W2, W16 and W18; L1 and L2 carry only C1's surges, and W17 only the Super Mini's own current). Check your N20's stall current on its datasheet. The DRV8833 limits a channel to about 1.5 A, and 30 AWG handles a 1 A stall for the moment it lasts. If your motor stalls above 1 A, double up W1, W2, W16 and W18.
 
-Follow this table one wire at a time and tick each off. The colours match the 3D model. The links on the perfboard's underside are listed in [perfboard.md](perfboard.md#links-underside), and their cut lengths are in the cut list below. Wires that come from the mount (L1, L2, W6, W9, W10, W11) go into the perfboard **from the underside** and are soldered on the component side.
+Follow this table one wire at a time and tick each off. The [step-by-step wiring guide](wiring-steps.md) takes the perfboard one wire at a time, with a picture and a check for each. The colours match the 3D model. The links on the perfboard's underside are listed in [perfboard.md](perfboard.md#links-underside), and their cut lengths are in the cut list below. Wires that come from the mount (L1, L2, W6, W9, W10, W11) go into the perfboard **from the underside** and are soldered on the component side.
 
 | Wire | Colour | From | To | Notes |
 |---|---|---|---|---|
