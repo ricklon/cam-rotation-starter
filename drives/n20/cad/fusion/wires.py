@@ -1,11 +1,13 @@
 """Cam Rotation N20 - point-to-point wiring, rev C (matches drives/n20/docs/wiring.md and docs/perfboard.md:
-W1, W2, W4-W6, W9-W18, W21, W6p, W9p-W11p, L1, L2, J1, C2, D1 leads).
+W1, W2, W4-W6, W9-W18, W21-W23, W6p, W9p-W11p, L1, L2, J1, C2, D1 leads).
 Rebuilds everything inside the Wiring component. Coordinates in mm, world frame.
 Perfboard (component Perfboard): on four supports on the mount's -Y face, parallel to it, rows along +X, column A at the top
   (toward the box wall), component side facing -Y. Board-local u (columns), v (rows), d (height off the component side) map to
   the world as x = 5.3 + v, y = -28.1 - d, z = 15 - u, with u = (index(c) - 5.5) * 2.54 (A..E = 0..4, F..J = 7..11) and
   v = (row - 9) * 2.54. The underside (solder side, toward the mount) is at y -26.5; links run there, on two layers.
   Wires from the mount (L1, L2, the panel harness) go in from the underside and are soldered on the component side.
+C3, the 470 uF hold-up capacitor for the Super Mini, lies on its side over columns I-J, rows 5-8, its end past the board's edge
+  inside the cover; its + lead goes into I7 (strip fed from D1's cathode by W22 at H7) and its - lead into I8 (GND, W23 at H8).
 U1, the PD board, sits over columns A-C, rows 9-17, on two 3 mm foam pads, USB-C at the +X end; its screw terminal is removed
   and its + / - pads take W1 / W2 down to the 5V (row 7) and GND (row 8) buses.
 J4 (side-entry JST-PH 2) at J3/J2 opens toward -Z; the motor pair leaves through the notch in the cover's bottom wall and runs
@@ -60,6 +62,9 @@ WIRES = [
     # --- D1 standing at A3 (anode down), band up; its cathode lead bends over and down into A2
     ('D1 anode lead to A3', 'tin', 0.6, [hole('A', 3, 1.0), hole('A', 3, -0.8)]),
     ('D1 cathode lead to A2', 'tin', 0.6, [hole('A', 3, 6.2), hole('A', 3, 7.0), W(cu('A'), rv(2.5), 7.0), hole('A', 2, 6.0), hole('A', 2, -0.8)]),
+    # --- C3 lying on its side (axis across the columns, centre v -5.0, d 4.1), leads out of its inner end bent down into I7 / I8
+    ('C3 + lead to I7', 'tin', 0.6, [W(12.6, -6.75, 4.1), W(11.6, -6.75, 4.1), W(cu('I'), rv(7), 2.0), hole('I', 7, -0.8)]),
+    ('C3 - lead to I8', 'tin', 0.6, [W(12.6, -3.25, 4.1), W(11.6, -3.25, 4.1), W(cu('I'), rv(8), 2.0), hole('I', 8, -0.8)]),
     # --- motor pair: J4 (side entry, mouth toward -Z) -> notch in the cover's bottom wall -> under the base's -Y edge
     #     -> the motor's +x side inside the arms' zip tie -> the wire clamp -> the tabs
     ('W14 J4 pin 1 (OUT3) to motor +', 'white', 0.6, [W(26.4, rv(3), 2.4), W(29.0, rv(3), 2.4), (-9.9, -29.0, -15.0), (-2.0, -22.0, -15.0),
@@ -85,6 +90,8 @@ LINKS = [
     ('W5 GPIO18 (C12) to DRV IN3 (C5)', 'green', 0.6, L4(('C', 12), lane('C', 0.6), ('C', 5))),
     ('W12 GPIO20 (C14) to DRV IN4 (C6)', 'blue', 0.6, L4(('C', 14), lane('C', 1.27), ('C', 6))),
     ('W13 GPIO19 (C13) to DRV EEP (J6)', 'white', 0.6, link([('C', 13), (lane('C', 1.9), 12.6), (lane('C', 1.9), 6.5), (cu('J'), 6.5), ('J', 6)])),
+    ('W22 D1 cathode (C2) to C3 + strip (H7)', 'red', 0.6, link([('C', 2), (cu('C'), 1.6), (lane('I', -0.7), 1.6), (lane('I', -0.7), 6.6), ('H', 7)], 1)),
+    ('W23 GND (A16) to C3 - strip (H8)', 'black', 0.6, link([('A', 16), (lane('A', -0.9), 15.65), (lane('A', -0.9), 7.4), (lane('H', -0.9), 7.4), ('H', 8)], 1)),
     ('W21 3V3 (A15) to RV1 3V3 end (I10)', 'yellow', 0.6, link([('A', 15), (lane('A', 0.7), 14.5), (lane('A', 0.7), 10.6), (lane('I', -0.6), 10.6), ('I', 10)], 1)),
 ]
 

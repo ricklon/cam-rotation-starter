@@ -17,6 +17,8 @@ W16,red,30 AWG stranded,perfboard B7 (5V bus),C3 (DRV VCC),11,25,underside link
 W17,red,30 AWG stranded,perfboard B2 (D1 cathode),C17 (Super Mini 5V),39,60,underside link; crosses others
 W18,black,30 AWG stranded,perfboard B8 (GND bus),C4 (DRV GND),11,25,underside link
 W21,yellow,30 AWG stranded,perfboard A15 (3V3),I10 (RV1 pin 1),37,55,underside link; crosses under both modules; 3.3 V only
+W22,red,30 AWG stranded,perfboard C2 (D1 cathode),H7 (C3 +),35,50,underside link; crosses W13
+W23,black,30 AWG stranded,perfboard A16 (GND),H8 (C3 -),46,65,underside link; crosses under both modules
 W6p,button lead,pre-wired,J3 pin 6,S1 lead A,30,45,trim the button's own lead
 W9p,green,30 AWG stranded,J3 pin 3,SW1 lug A (forward),27,45,
 W10p,blue,30 AWG stranded,J3 pin 1,SW1 lug B (reverse),29,45,

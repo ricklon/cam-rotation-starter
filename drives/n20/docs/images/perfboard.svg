@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 800" role="img" aria-label="Perfboard hole map, component side, row 1 at the top, column A at the left. The DRV8833 module straddles the centre channel in rows 1 to 6 with header pins at D3 VCC, D4 GND, D5 IN3, D6 IN4, H2 OUT4, H3 OUT3 and H6 EEP. The ESP32-C6 Super Mini straddles it in rows 8 to 17, USB-C past row 17, with pins at D12 GPIO18, D13 GPIO19, D14 GPIO20, D15 3V3, D16 GND, D17 5V, H11 GPIO4, H12 GPIO3, H13 GPIO2, H14 GPIO1 and H15 GPIO0. The PD trigger board U1 lies over columns A to C, rows 9 to 17, its USB-C port also past row 17, with jumpers W1 from its plus pad to A7 and W2 from its minus pad to A8. Row 7 left is the 5 volt bus and row 8 left the ground bus. D1 stands at A3 with its cathode lead in A2. Underside links: W16 B7 to C3, W18 B8 to C4, W4 C8 to C16, W17 B2 to C17, W5 C12 to C5, W12 C14 to C6, W13 C13 to J6, W21 A15 to I10. The speed pot RV1 has its pins at J10 (3.3 volt end, fed by W21), J11 (wiper, in the GPIO4 strip) and J12 (low end, in the GPIO3 strip) with its body past the right-hand edge, and the motor header J4 sits at J3 and J2. Wires from behind the board: L1 at C7, L2 at B4, W11 at A4, W9 at I13, W6 at I14, W10 at I15. The board mounts on three of its M2 corner holes.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 800" role="img" aria-label="Perfboard hole map, component side, row 1 at the top, column A at the left. The DRV8833 module straddles the centre channel in rows 1 to 6 with header pins at D3 VCC, D4 GND, D5 IN3, D6 IN4, H2 OUT4, H3 OUT3 and H6 EEP. The ESP32-C6 Super Mini straddles it in rows 8 to 17, USB-C past row 17, with pins at D12 GPIO18, D13 GPIO19, D14 GPIO20, D15 3V3, D16 GND, D17 5V, H11 GPIO4, H12 GPIO3, H13 GPIO2, H14 GPIO1 and H15 GPIO0. The PD trigger board U1 lies over columns A to C, rows 9 to 17, its USB-C port also past row 17, with jumpers W1 from its plus pad to A7 and W2 from its minus pad to A8. Row 7 left is the 5 volt bus and row 8 left the ground bus. D1 stands at A3 with its cathode lead in A2. Underside links: W16 B7 to C3, W18 B8 to C4, W4 C8 to C16, W17 B2 to C17, W5 C12 to C5, W12 C14 to C6, W13 C13 to J6, W21 A15 to I10, W22 C2 to H7, W23 A16 to H8. The hold-up capacitor C3 lies on its side over columns I and J, rows 5 to 8, its end past the right-hand edge, with its plus lead in I7 and its minus lead in I8. The speed pot RV1 has its pins at J10 (3.3 volt end, fed by W21), J11 (wiper, in the GPIO4 strip) and J12 (low end, in the GPIO3 strip) with its body past the right-hand edge, and the motor header J4 sits at J3 and J2. Wires from behind the board: L1 at C7, L2 at B4, W11 at A4, W9 at I13, W6 at I14, W10 at I15. The board mounts on three of its M2 corner holes.">
 <style>
 .t{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;fill:#1c2729}
 .tb{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;font-weight:600;fill:#1c2729}
@@ -321,8 +321,8 @@
 <rect x="751.46" y="425.41999999999996" width="15.6" height="15.6" fill="#111" stroke="#fff"/><line x1="767.06" y1="433.21999999999997" x2="785.26" y2="433.21999999999997" stroke="#c9c9cf" stroke-width="3"/>
 <rect x="751.46" y="458.43999999999994" width="15.6" height="15.6" fill="#111" stroke="#fff"/><line x1="767.06" y1="466.23999999999995" x2="785.26" y2="466.23999999999995" stroke="#c9c9cf" stroke-width="3"/>
 <rect x="751.46" y="491.4599999999999" width="15.6" height="15.6" fill="#111" stroke="#fff"/><line x1="767.06" y1="499.25999999999993" x2="785.26" y2="499.25999999999993" stroke="#c9c9cf" stroke-width="3"/>
-<text class="t" x="833.3" y="354.43999999999994" text-anchor="start" style="font-weight:600">RV1 10k</text>
-<text class="ts" x="833.3" y="372.63999999999993" text-anchor="start">1 3V3 · 2 wiper (GPIO4) · 3 GPIO3, driven low</text>
+<text class="t" x="923.06" y="464.23999999999995" text-anchor="start" style="font-weight:600">RV1 10k</text>
+<text class="ts" x="923.06" y="480.23999999999995" text-anchor="start">1 3V3 · 2 wiper (GPIO4) · 3 GPIO3, driven low</text>
 <polyline points="429.1,334.2 436.9,322.5 436.9,213.8 462.1,202.1" fill="none" stroke="#c23b2a" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="429.1,169.1 453.8,180.8 453.8,652.7 462.1,664.4" fill="none" stroke="#c23b2a" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="429.1,367.2 445.6,355.5 445.6,246.8 462.1,235.1" fill="none" stroke="#2f3a3d" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -331,6 +331,8 @@
 <polyline points="462.1,565.3 478.6,553.6 478.6,312.8 462.1,301.1" fill="none" stroke="#3a6fd8" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="462.1,532.3 486.8,519.1 486.8,317.6 759.3,317.6 759.3,301.1" fill="none" stroke="#eeeeea" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="396.0,598.3 405.1,581.8 405.1,453.0 545.0,453.0 718.4,453.0 726.2,433.2" fill="none" stroke="#b08d10" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="462.1,169.1 462.1,155.9 717.1,155.9 717.1,321.0 693.2,334.2" fill="none" stroke="#c23b2a" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="396.0,631.3 384.3,619.8 384.3,347.4 681.5,347.4 693.2,367.2" fill="none" stroke="#2f3a3d" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="326.75" y="384.59999999999997" width="143" height="364" rx="3" fill="#202020" fill-opacity="0.55" stroke="#fff" stroke-width="2" stroke-dasharray="7 5"/>
 <rect x="339.75" y="653.6999999999999" width="117" height="98.8" rx="4" fill="#bbb" fill-opacity="0.9" stroke="#fff"/>
 <text class="lbl" x="398.25" y="523.7" text-anchor="middle" style="fill:#fff;font-weight:600">U1 PD</text>
@@ -339,6 +341,14 @@
 <polyline points="363.15,404.09999999999997 363.15,388.5 396.04,345.86 396.04,334.16" fill="none" stroke="#c23b2a" stroke-width="3.5" stroke-linejoin="round"/>
 <rect x="421.65" y="391.09999999999997" width="26" height="26" fill="#d7b95a"/>
 <polyline points="434.65,404.09999999999997 434.65,388.5 396.04,378.88 396.04,367.18" fill="none" stroke="#2f3a3d" stroke-width="3.5" stroke-linejoin="round"/>
+<rect x="741.45" y="283.2" width="149.5" height="104" rx="6" fill="#1e3c8c" fill-opacity="0.5" stroke="#fff" stroke-width="2" stroke-dasharray="7 5"/>
+<rect x="741.45" y="346.9" width="149.5" height="39" rx="3" fill="#c8c8cd" fill-opacity="0.45"/>
+<polyline points="741.45,312.45 728.45,312.45 726.24,334.16" fill="none" stroke="#c9c9cf" stroke-width="3"/><rect x="718.44" y="326.36" width="15.6" height="15.6" fill="#111" stroke="#fff"/>
+<polyline points="741.45,357.95 728.45,357.95 726.24,367.18" fill="none" stroke="#c9c9cf" stroke-width="3"/><rect x="718.44" y="359.38" width="15.6" height="15.6" fill="#111" stroke="#fff"/>
+<text class="lbl" x="815.55" y="319.6" text-anchor="middle" style="fill:#fff;font-weight:600">C3 +</text>
+<text class="lbl" x="815.55" y="371.59999999999997" text-anchor="middle" style="fill:#1c2729;font-weight:600">−</text>
+<text class="t" x="905.25" y="322.2" text-anchor="start" style="font-weight:600">C3 470 µF</text>
+<text class="ts" x="905.25" y="338.2" text-anchor="start">hold-up, lying: + I7 · − I8</text>
 <circle cx="396.04" cy="235.1" r="10.4" fill="none" stroke="#2f3a3d" stroke-width="3"/>
 <polyline points="385.64000000000004,235.1 338,208.684 310,208.684" stroke="#2f3a3d" stroke-width="2.5" fill="none"/>
 <text class="tb" x="304" y="212.684" text-anchor="end" style="fill:#2f3a3d">W11 → J3 pin 2 (GND), from behind</text>

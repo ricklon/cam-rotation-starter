@@ -11,9 +11,9 @@ From rev C nearly all of this is on one ElectroCookie perfboard: the PD board, t
 
 ## Schematic
 
-[Open the schematic full size](images/schematic.svg) (SVG, rev C.1).
+[Open the schematic full size](images/schematic.svg) (SVG, rev C.2).
 
-![Schematic, rev C.1. PD board 5 V goes to the DRV8833 VCC pin and, through diode D1, to the Super Mini's 5V pin; a 470 µF capacitor sits across 5 V. Super Mini GPIO18, GPIO20 and GPIO19 go to DRV8833 IN3, IN4 and EEP. DRV8833 OUT3 and OUT4 go through the 2-pin plug J4 to the N20 motor M1, with a 0.1 µF capacitor C2 across it. The 12 mm button S1 runs from GPIO1 to ground. The 10 kΩ knob RV1 sits between 3.3 V and GPIO3, which the firmware drives low, with its wiper on GPIO4. Switch SW1 has its common to ground and its throws to GPIO2 and GPIO0. The button and switch wires pass through connector J3. U1, U2, U3 and D1 are outlined as the perfboard; C1 is outside it.](images/schematic.svg)
+![Schematic, rev C.2. PD board 5 V goes to the DRV8833 VCC pin and, through diode D1, to the Super Mini's 5V pin; a 470 µF capacitor C1 sits across 5 V, and a second 470 µF capacitor C3 sits from D1's cathode to ground. Super Mini GPIO18, GPIO20 and GPIO19 go to DRV8833 IN3, IN4 and EEP. DRV8833 OUT3 and OUT4 go through the 2-pin plug J4 to the N20 motor M1, with a 0.1 µF capacitor C2 across it. The 12 mm button S1 runs from GPIO1 to ground. The 10 kΩ knob RV1 sits between 3.3 V and GPIO3, which the firmware drives low, with its wiper on GPIO4. Switch SW1 has its common to ground and its throws to GPIO2 and GPIO0. The button and switch wires pass through connector J3. U1, U2, U3, D1 and C3 are outlined as the perfboard; C1 is outside it.](images/schematic.svg)
 
 ## Connections
 
@@ -22,7 +22,8 @@ From rev C nearly all of this is on one ElectroCookie perfboard: the PD board, t
 | U1 + pad | perfboard 5V bus (row 7 left) | +5V |
 | C1 + | 5V bus | +5V |
 | 5V bus | U3 VCC; D1 anode | +5V |
-| D1 cathode | U2 5V pin | +5V, Super Mini side |
+| D1 cathode | U2 5V pin; C3 + | +5V, Super Mini side |
+| C3 − | GND | GND |
 | U1 − pad, C1 − | perfboard GND bus (row 8 left), DRV GND strip | GND |
 | GND bus | U3 GND, U2 GND | GND |
 | U2 GPIO18 | U3 IN3 | MOT_IN1 (forward) |
@@ -44,6 +45,7 @@ From rev C nearly all of this is on one ElectroCookie perfboard: the PD board, t
 | M1 | N20 gearmotor, 6 V, 100:1 | In the printed cartridge under the base, terminals pointing away from the base |
 | C2 | Ceramic capacitor, 0.1 µF (104) | Soldered straight across the motor terminals |
 | D1 | Schottky diode, 1 A, axial (1N5817) | Standing on the perfboard: anode in A3, band up, cathode lead bent down into A2 |
+| C3 | Electrolytic, 470 µF, ≥ 6.3 V (10 V preferred), at most **8 mm across and 11.5 mm long** | The Super Mini's hold-up capacitor. Lying on its side on the perfboard over columns I–J, rows 5–8, its end past the board's edge inside the cover; + lead in I7, − lead (stripe side) in I8. See [placement](perfboard.md#placement). Not to be confused with hole C3 on the board. |
 | C1 | Electrolytic, 470 µF, ≥ 10 V, **8 × 13 mm** | Press-fits into its 14 mm-tall seat in the −Y wall, legs down, behind the perfboard; L1 and L2 run up to the board |
 | RV1 | RK097N 10 kΩ linear pot, 6 mm knurled shaft | On the perfboard, J10–J12, its wiper and low end straight into the GPIO4 and GPIO3 strips; shaft out through the cover's 7 mm hole (sideways, −Y); supplied knob cap |
 | J3 | JST-PH 2.0 mm, 6 pins: B6B-PH-K-S header + PHR-6 housing | Header held in the pod; the mount harness ends in the housing. Pins 4 and 5 are unused from rev C. |
@@ -64,7 +66,7 @@ The module has two rows of six pins. Seen from the back, where the labels are pr
 
 Bold pins are used. On the perfboard, component side up, these rows land in columns D and H, read the other way round: [perfboard.md](perfboard.md#placement) has the hole for each pin. Check against the labels on your module before soldering.
 
-![The electronics side of the drive with the cover off: the perfboard stands on its supports on the mount's -Y face. The PD board lies over the top-right corner of the perfboard with short red and black jumpers down to the buses, and its USB-C port and the Super Mini's both face right. The DRV8833 is at the left with D1 standing above it, and J4 and the speed pot RV1 are along the bottom edge, the pot hanging below the board. The white and blue motor pair leaves J4 downward.](images/perfboard.png)
+![The electronics side of the drive with the cover off: the perfboard stands on its supports on the mount's -Y face. The PD board lies over the top-right corner of the perfboard with short red and black jumpers down to the buses, and its USB-C port and the Super Mini's both face right. The DRV8833 is at the left with D1 standing above it, and J4, the blue hold-up capacitor C3 lying on its side, and the speed pot RV1 are along the bottom edge, the pot hanging below the board. The white and blue motor pair leaves J4 downward.](images/perfboard.png)
 
 ![The whole drive from the electronics side with the cover on: the gray printed cover forms the mount's outer wall, with the knob's cap standing out of it and a notch at its bottom edge where the motor pair comes out. The pair runs under the base to the motor, which hangs in its cartridge.](images/perfboard_cover.png)
 
@@ -151,12 +153,13 @@ When you're done, every terminal should hold exactly this many wires.
 | U1 + pad / − pad | W1 / W2 | 1 each |
 | Perfboard strip 7 left (5V bus) | W1 · W16 · L1 | 3 |
 | Perfboard strip 8 left (GND bus) | W2 · W18 · W4 | 3 |
-| Strip 2 left (D1 cathode) | D1 cathode lead · W17 | 2 |
+| Strip 2 left (D1 cathode) | D1 cathode lead · W17 · W22 | 3 |
 | Strip 3 left (U3 VCC) | D1 anode lead · W16 | 2 |
 | Strip 4 left (U3 GND) | W11 · L2 · W18 | 3 |
 | Strip 5 left (IN3) / 6 left (IN4) / 6 right (EEP) | W5 / W12 / W13 | 1 each |
 | Strips 12, 13, 14 left (GPIO18, 19, 20) | W5, W13, W12 | 1 each |
-| Strip 15 left (3V3) / 16 left (GND) / 17 left (5V) | W21 / W4 / W17 | 1 each |
+| Strip 15 left (3V3) / 16 left (GND) / 17 left (5V) | W21 / W4 · W23 / W17 | 1 / 2 / 1 |
+| Strips 7, 8 right (C3 + / −) | W22 · C3 + lead / W23 · C3 − lead | 2 each |
 | Strip 10 right (RV1 3V3 end) | W21 · RV1 pin 1 | 2 |
 | Strips 11, 12 right (GPIO4, GPIO3) | RV1 pin 2 (wiper), RV1 pin 3 | 1 each |
 | Strips 13, 14, 15 right (GPIO2, 1, 0) | W9, W6, W10 | 1 each |
@@ -190,6 +193,8 @@ Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm p
 | W17 | red | 30 AWG stranded | 39 mm | **60** |
 | W18 | black | 30 AWG stranded | 11 mm | **25** |
 | W21 | yellow | 30 AWG stranded | 37 mm | **55** |
+| W22 | red | 30 AWG stranded | 35 mm | **50** |
+| W23 | black | 30 AWG stranded | 46 mm | **65** |
 | W6p | button lead | pre-wired | 30 mm | **trim to 45** |
 | W9p | green | 30 AWG stranded | 27 mm | **45** |
 | W10p | blue | 30 AWG stranded | 29 mm | **45** |
@@ -202,6 +207,8 @@ Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm p
 - The Super Mini's 3.3 V outputs drive the DRV8833 inputs directly: they accept logic levels from about 2 V up.
 - EEP is the chip's sleep input. Held low by GPIO19 until the firmware has started, the motor can't twitch at power-up. The module's J1 jumper would tie EEP high permanently, which is why it stays open.
 - C2 across the motor terminals absorbs the brush noise, which otherwise couples into the knob reading and the Wi-Fi.
+- **C3** holds the Super Mini up through a motor start or stall. When the N20 starts or stalls, the 5 V bus sags. C1 sits on the bus and mostly feeds the motor. C3 sits after D1, so D1 stops it feeding the bus, and it can only discharge into the Super Mini. At about 300 mA (Wi-Fi transmitting), 470 µF covers a dip of about 1.7 ms before the Super Mini's 3.3 V regulator drops out; at 100 mA, about 5 ms.
+- **Inrush at plug-in:** C1 and C3 together are 940 µF, all charged through the PD board when the USB-C cable goes in, and C3 also charges from the Super Mini's own USB port when it's plugged into a computer. The 1N5817 takes that surge comfortably. The USB specification allows only 10 µF on a device's VBUS at attach, so 940 µF is well over it. This PD trigger board hasn't been tested with that much capacitance, and neither has any particular charger. Most chargers ride through a few hundred µF, but a charger with tight overcurrent protection may cut out and retry. **Test it on the bench**: plug the drive in several times with the charger you'll use. If the charger cycles or the PD board fails to reach 5 V, use 220 µF for C3 (or C1).
 - D1, C1 and the single common ground do the same jobs as on the MG90S drive: see [why it's wired this way](../../mg90s/docs/wiring.md#why-its-wired-this-way) there. D1 also stops the Super Mini's USB port from back-feeding the motor supply when it's plugged into a computer.
 - GPIO18, GPIO20 and GPIO19 are the same GPIOs the XIAO build uses, so the motor code doesn't change between boards. The panel pins avoid USB (GPIO12, 13) and UART0 (GPIO16, 17).
 - The knob sits with its pins straight in the strips of GPIO4 (wiper) and GPIO3 (low end), next to each other on the Super Mini's edge. The firmware drives GPIO3 low before it reads the knob, so GPIO3 is the knob's ground. Its other end gets 3V3 through W21.
@@ -213,7 +220,7 @@ Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm p
 ## Bring-up
 
 1. Set the PD board to 5 V and measure its + to − pads with a meter before wiring anything.
-2. Before applying power, check each row of the terminal check table for continuity. Confirm that +5V, +3V3 and GND aren't connected to each other.
+2. Before applying power, check each row of the terminal check table for continuity, and that C3's stripe (−) is in I8. Confirm that +5V, +3V3 and GND aren't connected to each other.
 3. Flash the N20 build of the firmware for the Super Mini (see [Board](../../../firmware/README.md#board)). The XIAO build drives the wrong pins on a Super Mini, and the MG90S build leaves EEP low, so the motor never runs.
 4. Plug in J3 and J4. Turn the knob up slowly with the switch on forward. If the motor turns the wrong way, swap the two pins in J4's housing. If the knob works backwards, set `KNOB_REVERSED` to 0 in `firmware/main/board.h` and reflash: the pot's pins are soldered straight into the strips.
 5. Check the controls: the button should start and pause a story, the knob should change speed, and the switch should run forward, stop in the centre, and reverse.

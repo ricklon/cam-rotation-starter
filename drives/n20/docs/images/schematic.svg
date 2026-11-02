@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 860" role="img" aria-label="Schematic. Power: PD board 5 volt output to the DRV8833 VCC pin and through diode D1 to the ESP32-C6 Super Mini 5V pin; 470 microfarad capacitor across the 5 volt supply; all grounds common. Drive: Super Mini GPIO18 to DRV8833 IN3, GPIO20 to IN4, GPIO19 to the sleep pin EEP (channel B of the module); DRV8833 OUT3 and OUT4 through the 2-pin plug J4 to the N20 motor, with a 0.1 microfarad capacitor C2 across the motor terminals. Controls: 12 millimetre stainless push button S1 from GPIO1 to ground; 10 kilohm speed knob RV1 (an RK097N on the perfboard) between 3.3 volts and GPIO3, which the firmware drives low as the knob's ground, with its wiper to GPIO4; three-position switch SW1 with common to ground and its two throws to GPIO2 (forward) and GPIO0 (reverse). The PD board, the Super Mini, the DRV8833, D1, the knob and J4 are on a perfboard; C1 is wired to it from the mount. On a XIAO ESP32-C6 the same nets use D10, D9, D8 and D1 to D4, and the knob's low end goes to ground. The button and switch wires pass through J3, a 6-pin JST-PH connector, so the pod can be unplugged."><style>.grid{stroke:#e9eeed;stroke-width:1}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 860" role="img" aria-label="Schematic. Power: PD board 5 volt output to the DRV8833 VCC pin and through diode D1 to the ESP32-C6 Super Mini 5V pin; 470 microfarad capacitor C1 across the 5 volt supply; a second 470 microfarad capacitor C3 from D1's cathode to ground, so it can only feed the Super Mini through a motor start or stall; all grounds common. Drive: Super Mini GPIO18 to DRV8833 IN3, GPIO20 to IN4, GPIO19 to the sleep pin EEP (channel B of the module); DRV8833 OUT3 and OUT4 through the 2-pin plug J4 to the N20 motor, with a 0.1 microfarad capacitor C2 across the motor terminals. Controls: 12 millimetre stainless push button S1 from GPIO1 to ground; 10 kilohm speed knob RV1 (an RK097N on the perfboard) between 3.3 volts and GPIO3, which the firmware drives low as the knob's ground, with its wiper to GPIO4; three-position switch SW1 with common to ground and its two throws to GPIO2 (forward) and GPIO0 (reverse). The PD board, the Super Mini, the DRV8833, D1, C3, the knob and J4 are on a perfboard; C1 is wired to it from the mount. On a XIAO ESP32-C6 the same nets use D10, D9, D8 and D1 to D4, and the knob's low end goes to ground. The button and switch wires pass through J3, a 6-pin JST-PH connector, so the pod can be unplugged."><style>.grid{stroke:#e9eeed;stroke-width:1}
 .w-pwr{stroke:#c23b2a;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .w-gnd{stroke:#2f3a3d;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .w-sig{stroke:#d07a1c;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -70,6 +70,17 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <text class="small" x="404" y="204">SS14 / 1N5817</text>
         <text class="small" x="404" y="221">Schottky</text>
         <circle class="dot-pwr" cx="380" cy="110" r="5"/>
+
+        <!-- C3 hold-up capacitor on the Super Mini side of D1: D1 stops it feeding the motor rail -->
+        <path class="w-pwr" d="M380 240 H320 V300"/>
+        <path class="sym" d="M300 300 H340"/>
+        <path class="sym" d="M300 316 Q320 306 340 316"/>
+        <path class="w-gnd" d="M320 312 V480"/>
+        <circle class="dot-pwr" cx="380" cy="240" r="5"/>
+        <circle class="dot-gnd" cx="320" cy="480" r="5"/>
+        <text class="pin" x="296" y="296" text-anchor="end">+</text>
+        <text class="ref" x="346" y="300">C3</text>
+        <text class="small" x="346" y="317">470 µF</text>
 
         <!-- U2 XIAO ESP32-C6 -->
         <rect class="part" x="440" y="240" width="190" height="200" rx="6"/>
@@ -152,7 +163,7 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <text class="ref" x="1128" y="150" text-anchor="end">C1</text>
         <text class="small" x="1128" y="168" text-anchor="end">470 µF ≥10 V</text>
 
-        <!-- Perfboard outline (rev C): U1, U2, U3, D1, RV1 and J4 are on the ElectroCookie board; C1 is not -->
+        <!-- Perfboard outline (rev C): U1, U2, U3, D1, C3, RV1 and J4 are on the ElectroCookie board; C1 is not -->
         <rect x="92" y="150" width="838" height="305" rx="10" fill="none" stroke="#1f6670" stroke-width="1.5" stroke-dasharray="8 6"/>
         <text class="lblm" x="636" y="448">PERFBOARD (docs/perfboard.md)</text>
         <text class="small" x="24" y="500">On a XIAO ESP32-C6:</text>
@@ -216,7 +227,7 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <text class="tbt" x="692" y="809">TITLE</text>
         <text class="tbv" x="746" y="809">Cam Rotation N20</text>
         <text class="tbt" x="952" y="809">REV</text>
-        <text class="tbv" x="990" y="809">C.1 · 2026-11-01</text>
+        <text class="tbv" x="990" y="809">C.2 · 2026-11-01</text>
         <text class="tbt" x="692" y="837">SUPPLY</text>
         <text class="tbv" x="752" y="837">5 V USB-C PD</text>
         <text class="tbt" x="952" y="837">MCU</text>
