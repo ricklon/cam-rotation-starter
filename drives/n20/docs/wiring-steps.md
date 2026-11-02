@@ -7,7 +7,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - Columns **A–E** and **F–J**, rows **1–17**. Every hole in a row's half is joined to the other four in that half: a **strip**. The strips that the current step joins are drawn yellow.
 - **Component side** pictures show the board as in the hole map, column A on the left.
 - **Underside** pictures show the board **turned over**, as you see it while soldering a link: **column A is on the right**. Rows stay top to bottom.
-- A **check** at the end of each step says what should beep on the meter's continuity setting, and what must not.
+- A **check** at the end of each step says what should connect and what must not. Test each one on the meter's **continuity setting**: connected means it beeps (or reads near 0 Ω). The few checks that need the diode-test or resistance setting say so.
 
 ## Before you start
 
@@ -42,7 +42,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **From → to:** B7 → C3
 - **Side:** underside (link)
 - **What it does:** Takes +5 V from the bus (row 7) to the motor driver's VCC strip and D1's anode.
-- **Check:** B7 beeps to A3 (D1's anode). B7 does not beep to B8 (the ground bus).
+- **Check:** B7 connects to A3 (D1's anode). B7 must not connect to B8 (the ground bus).
 
 ### Step 3: W18, black, B8 → C4
 
@@ -53,7 +53,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **From → to:** B8 → C4
 - **Side:** underside (link)
 - **What it does:** Takes ground from the bus (row 8) to the motor driver's GND strip.
-- **Check:** B8 beeps to A4. B8 does not beep to B7, and C4 does not beep to C3.
+- **Check:** B8 connects to A4. B8 must not connect to B7, and C4 must not connect to C3.
 
 ### Step 4: W5, green, C12 → C5
 
@@ -64,7 +64,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **From → to:** C12 → C5
 - **Side:** underside (link)
 - **What it does:** MOT_IN1: the Super Mini's GPIO18 to the driver's IN3, the forward PWM.
-- **Check:** C12 beeps to A5. It should not touch C13 or C11 next door.
+- **Check:** C12 connects to A5. It should not touch C13 or C11 next door.
 
 ### Step 5: W12, blue, C14 → C6
 
@@ -75,7 +75,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **From → to:** C14 → C6
 - **Side:** underside (link)
 - **What it does:** MOT_IN2: GPIO20 to the driver's IN4, the reverse PWM.
-- **Check:** C14 beeps to A6. It should not touch C13, C15 or W5.
+- **Check:** C14 connects to A6. It should not touch C13, C15 or W5.
 
 ### Step 6: W4, black, C8 → C16
 
@@ -86,7 +86,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **From → to:** C8 → C16
 - **Side:** underside (link)
 - **What it does:** Ground from the bus to the Super Mini's GND strip.
-- **Check:** C16 beeps to B8. C16 does not beep to C15 (3V3) or C17 (5V).
+- **Check:** C16 connects to B8. C16 must not connect to C15 (3V3) or C17 (5V).
 
 ### Step 7: W22, red, C2 → H7
 
@@ -97,7 +97,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **From → to:** C2 → H7
 - **Side:** underside (link)
 - **What it does:** The Super Mini's 5 V, after D1, across the channel to the strip where C3's + lead will go.
-- **Check:** H7 beeps to A2. H7 does not beep to H8 or H6.
+- **Check:** H7 connects to A2. H7 must not connect to H8 or H6.
 
 ### Step 8: W21, yellow, A15 → I10
 
@@ -108,7 +108,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **From → to:** A15 → I10
 - **Side:** underside (link)
 - **What it does:** The Super Mini's 3.3 V to the strip where the knob's pin 1 will go. Yellow, not red: this is 3.3 V only.
-- **Check:** A15 beeps to J10. I10 does not beep to I11 (the wiper strip), and A15 does not beep to A16.
+- **Check:** A15 connects to J10. I10 must not connect to I11 (the wiper strip), and A15 must not connect to A16.
 
 ### Step 9: W13, white, C13 → J6
 
@@ -119,7 +119,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **From → to:** C13 → J6
 - **Side:** underside (link)
 - **What it does:** DRV_SLEEP: GPIO19 to the driver's EEP pin, which wakes it.
-- **Check:** C13 beeps to J6. It should not touch C12, C14, or W22 where they cross.
+- **Check:** C13 connects to J6. It should not touch C12, C14, or W22 where they cross.
 
 ### Step 10: W17, red, B2 → C17
 
@@ -130,7 +130,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **From → to:** B2 → C17
 - **Side:** underside (link)
 - **What it does:** The Super Mini's 5 V: from D1's cathode strip down the board to the 5V pin's strip.
-- **Check:** C17 beeps to A2 and to H7. C17 does not beep to C16 (GND).
+- **Check:** C17 connects to A2 and to H7. C17 must not connect to C16 (GND).
 
 ### Step 11: W23, black, A16 → H8
 
@@ -141,7 +141,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **From → to:** A16 → H8
 - **Side:** underside (link)
 - **What it does:** Ground to the strip where C3's − lead will go.
-- **Check:** H8 beeps to B8. H8 does not beep to H7 (5 V) or H9.
+- **Check:** H8 connects to B8. H8 must not connect to H7 (5 V) or H9.
 
 ## On the bench: J4, RV1 and C3
 
@@ -154,7 +154,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **Side:** component side
 - **What it does:** The motor's plug: pin 1 in the OUT3 strip (row 3 right), pin 2 in the OUT4 strip (row 2 right).
 - **How:** Splay the 2 mm-pitch pins a little so they reach the holes, mouth toward the right-hand edge. Push in and solder from the underside.
-- **Check:** J3 does not beep to J2. Each pin sits flat, mouth facing off the board.
+- **Check:** J3 must not connect to J2. Each pin sits flat, mouth facing off the board.
 
 ### Step 13: RV1, the 10 kΩ speed knob
 
@@ -165,7 +165,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **Side:** component side
 - **What it does:** The knob: pin 1 in the 3V3 strip (fed by W21), the wiper in the GPIO4 strip, pin 3 in the GPIO3 strip.
 - **How:** Snip off its two mounting tabs if it has them. Shaft up, body off the right-hand edge. Solder from the underside.
-- **Check:** J10 to J12 reads about 10 kΩ. J10 beeps to A15. J11 to J10 changes as you turn the shaft.
+- **Check:** J10 to J12 reads about 10 kΩ. J10 connects to A15. J11 to J10 changes as you turn the shaft.
 
 ### Step 14: C3, the 470 µF hold-up capacitor, lying down
 
@@ -178,7 +178,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **Side:** component side
 - **What it does:** Keeps the Super Mini running through a motor start or stall.
 - **How:** Bend both leads down 90° about 1 mm from the can. **+ lead in I7, the striped (−) side toward I8.** Lay it flat, its end past the right-hand edge.
-- **Check:** The stripe faces row 8. I7 beeps to A2, I8 beeps to B8, and I7 does not beep to I8 (a meter on resistance shows it charging, then open).
+- **Check:** The stripe faces row 8. I7 connects to A2, I8 connects to B8, and I7 must not connect to I8 (a meter on resistance shows it charging, then open).
 
 ## On the bench: the modules and U1
 
@@ -191,7 +191,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **Side:** component side
 - **What it does:** The motor driver: VCC, GND, IN3 and IN4 down column D, OUT4, OUT3 and EEP in column H.
 - **How:** **Check the labels on your module first** (see perfboard.md). Only these seven pins are fitted. Component side up, solder from the underside.
-- **Check:** D3 (VCC) does not beep to D4 (GND). VCC beeps to B7, GND to B8, H6 (EEP) to C13.
+- **Check:** D3 (VCC) must not connect to D4 (GND). VCC connects to B7, GND to B8, H6 (EEP) to C13.
 
 ### Step 16: U2, the ESP32-C6 Super Mini
 
@@ -202,7 +202,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **Side:** component side
 - **What it does:** The controller: GPIO18–20, 3V3, GND and 5V down column D; GPIO4 to GPIO0 in column H. H10 (GPIO5) stays out.
 - **How:** Component side up, USB-C past row 17. Solder from the underside.
-- **Check:** The 5V, 3V3 and GND pins do not beep to each other. 5V beeps to A2, GND to B8, 3V3 to J10.
+- **Check:** The 5V, 3V3 and GND pins must not connect to each other. 5V connects to A2, GND to B8, 3V3 to J10.
 
 ### Step 17: U1, the PD trigger board, on foam pads
 
@@ -224,7 +224,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **From → to:** U1 + → A7
 - **Side:** component side
 - **What it does:** U1's 5 V output down to the +5V bus (row 7 left).
-- **Check:** U1's + pad beeps to B7 and A3. It does not beep to U1's − pad.
+- **Check:** U1's + pad connects to B7 and A3. It must not connect to U1's − pad.
 
 ### Step 19: W2, black, U1 − → A8
 
@@ -235,7 +235,7 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **From → to:** U1 − → A8
 - **Side:** component side
 - **What it does:** U1's ground down to the GND bus (row 8 left).
-- **Check:** U1's − pad beeps to B8 and the Super Mini's GND. U1 + to U1 − does not beep.
+- **Check:** U1's − pad connects to B8 and the Super Mini's GND. U1 + must not connect to U1 −.
 
 ## On the drive: C1 and the control harness
 
@@ -250,7 +250,7 @@ With C1 already in its seat on the mount. These six wires come from behind the b
 - **From → to:** C1 + (long leg) → C7
 - **Side:** in from the underside, soldered on the component side
 - **What it does:** C1, the 470 µF capacitor in its seat on the mount, to the +5V bus.
-- **Check:** C1's + leg beeps to A7. Its long leg (+) is the one on C7.
+- **Check:** C1's + leg connects to A7. Its long leg (+) is the one on C7.
 
 ### Step 21: L2, black, C1 − (stripe side) → B4
 
@@ -261,7 +261,7 @@ With C1 already in its seat on the mount. These six wires come from behind the b
 - **From → to:** C1 − (stripe side) → B4
 - **Side:** in from the underside, soldered on the component side
 - **What it does:** C1's − leg to ground (strip 4 left). Reversed polarity damages the capacitor.
-- **Check:** C1's − leg beeps to B8. C1 + to C1 − does not beep.
+- **Check:** C1's − leg connects to B8. C1 + must not connect to C1 −.
 
 ### Step 22: W6, white, I14 → J3 pin 6
 
@@ -272,7 +272,7 @@ With C1 already in its seat on the mount. These six wires come from behind the b
 - **From → to:** I14 → J3 pin 6
 - **Side:** in from the underside, soldered on the component side
 - **What it does:** BTN: GPIO1 to the button, through J3 pin 6.
-- **Check:** J3 pin 6 beeps to H14 (GPIO1). It does not beep to I13 or I15.
+- **Check:** J3 pin 6 connects to H14 (GPIO1). It must not connect to I13 or I15.
 
 ### Step 23: W9, green, I13 → J3 pin 3
 
@@ -283,7 +283,7 @@ With C1 already in its seat on the mount. These six wires come from behind the b
 - **From → to:** I13 → J3 pin 3
 - **Side:** in from the underside, soldered on the component side
 - **What it does:** DIR_FWD: GPIO2 to the direction switch's forward side, through J3 pin 3.
-- **Check:** J3 pin 3 beeps to H13 (GPIO2). It does not beep to I12 or I14.
+- **Check:** J3 pin 3 connects to H13 (GPIO2). It must not connect to I12 or I14.
 
 ### Step 24: W10, blue, I15 → J3 pin 1
 
@@ -294,7 +294,7 @@ With C1 already in its seat on the mount. These six wires come from behind the b
 - **From → to:** I15 → J3 pin 1
 - **Side:** in from the underside, soldered on the component side
 - **What it does:** DIR_REV: GPIO0 to the direction switch's reverse side, through J3 pin 1.
-- **Check:** J3 pin 1 beeps to H15 (GPIO0). It does not beep to I14.
+- **Check:** J3 pin 1 connects to H15 (GPIO0). It must not connect to I14.
 
 ### Step 25: W11, black, A4 → J3 pin 2
 
@@ -305,7 +305,7 @@ With C1 already in its seat on the mount. These six wires come from behind the b
 - **From → to:** A4 → J3 pin 2
 - **Side:** in from the underside, soldered on the component side
 - **What it does:** Ground for the whole control pod, through J3 pin 2.
-- **Check:** J3 pin 2 beeps to B8. It does not beep to J3 pins 1, 3 or 6.
+- **Check:** J3 pin 2 connects to B8. It must not connect to J3 pins 1, 3 or 6.
 
 ## The motor leads
 
@@ -320,7 +320,7 @@ W14 and W15 are the N20's own factory leads, red and black, left soldered to its
 - **From → to:** motor tab → J4 pin 1
 - **Side:** off the board: crimped into J4's housing
 - **What it does:** The motor's own red lead, to the driver's OUT3 through J4 pin 1.
-- **Check:** With the plug in, J4's housing pin 1 beeps to the motor tab its lead comes from, and to H3.
+- **Check:** With the plug in, J4's housing pin 1 connects to the motor tab its lead comes from, and to H3.
 
 ### Step 27: W15, black, motor tab → J4 pin 2
 
@@ -331,12 +331,12 @@ W14 and W15 are the N20's own factory leads, red and black, left soldered to its
 - **From → to:** motor tab → J4 pin 2
 - **Side:** off the board: crimped into J4's housing
 - **What it does:** The motor's own black lead, to the driver's OUT4 through J4 pin 2.
-- **Check:** With the plug in, pin 2 beeps to the other motor tab and to H2. On resistance, J3 to J2 reads the winding of the motor, a few ohms or more: 0 Ω means the leads or C2 are shorted.
+- **Check:** With the plug in, pin 2 connects to the other motor tab and to H2. On resistance, J3 to J2 reads the winding of the motor, a few ohms or more: 0 Ω means the leads or C2 are shorted.
 
 ## Last checks
 
 1. Go through the [terminal check](wiring.md#terminal-check): every terminal should hold exactly the wires it lists.
-2. **+5V, +3V3 and GND must not beep to each other**, or to the strip next door. Check B7 to B8, A15 to A16, and C17 to C16.
+2. **+5V, +3V3 and GND must not connect to each other**, or to the strip next door. Check B7 to B8, A15 to A16, and C17 to C16.
 3. Then follow [bring-up](wiring.md#bring-up) before the first power-on.
 
 The pod side of J3 (W6p, W9p, W10p, W11p, J1) is wired in the pod, as described in [wiring.md](wiring.md#j3-the-control-panel-connector).

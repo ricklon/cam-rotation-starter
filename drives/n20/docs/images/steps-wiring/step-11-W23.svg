@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 727" role="img" aria-label="Step 11: The perfboard seen from the underside, turned over so column A is on the right, with the 10 earlier steps drawn in grey. W23, black, drawn bold from A16 to H8, both ends circled.">
-<rect width="600" height="727" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 749" role="img" aria-label="Step 11: The perfboard seen from the underside, turned over so column A is on the right, with the 10 earlier steps drawn in grey. W23, black, drawn bold from A16 to H8, both ends circled.">
+<rect width="600" height="749" fill="#ffffff"/>
 <text x="24" y="34" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="17" font-weight="700" fill="#4f5b5e">STEP 11 OF 27</text>
 <rect x="453" y="14" width="123" height="30" rx="15" fill="#ffe2c2"/>
 <text x="514.5" y="35" text-anchor="middle" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" font-weight="700" fill="#7a3e00">UNDERSIDE</text>
@@ -31,6 +31,7 @@
 <polyline points="217.9,418.9 143.6,418.9 119.6,418.9" fill="none" stroke="#d4147a" stroke-width="2.5"/>
 <text x="115.6" y="425.88" text-anchor="end" font-family="IBM Plex Mono,ui-monospace,SFMono-Regular,Menlo,monospace" font-size="20" font-weight="700" fill="#d4147a">H8</text>
 <text x="85" y="424.88" text-anchor="end" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="14" font-weight="600" fill="#1c2729">C3 −</text>
-<rect x="16" y="668.4" width="568" height="40" rx="8" fill="#f4f6f7" stroke="#d5dddc"/>
-<text x="28" y="694.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729"><tspan font-weight="700">Check:</tspan> H8 beeps to B8. H8 does not beep to H7 (5 V) or H9.</text>
+<rect x="16" y="668.4" width="568" height="62" rx="8" fill="#f4f6f7" stroke="#d5dddc"/>
+<text x="28" y="694.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729"><tspan font-weight="700">Check:</tspan> H8 connects to B8. H8 must not connect to H7 (5 V)</text>
+<text x="28" y="716.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729">or H9.</text>
 </svg>

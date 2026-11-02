@@ -36,6 +36,6 @@
 <text x="109.6" y="364.11199999999997" text-anchor="end" font-family="IBM Plex Mono,ui-monospace,SFMono-Regular,Menlo,monospace" font-size="20" font-weight="700" fill="#d4147a">C7</text>
 <text x="109.6" y="386.11199999999997" text-anchor="end" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="14" font-weight="600" fill="#1c2729">to C1 + long leg</text>
 <rect x="16" y="668.4" width="568" height="62" rx="8" fill="#f4f6f7" stroke="#d5dddc"/>
-<text x="28" y="694.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729"><tspan font-weight="700">Check:</tspan> C1's + leg beeps to A7. Its long leg (+) is the one</text>
-<text x="28" y="716.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729">on C7.</text>
+<text x="28" y="694.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729"><tspan font-weight="700">Check:</tspan> C1's + leg connects to A7. Its long leg (+) is the</text>
+<text x="28" y="716.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729">one on C7.</text>
 </svg>

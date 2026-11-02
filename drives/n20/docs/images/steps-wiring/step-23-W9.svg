@@ -39,6 +39,6 @@
 <text x="490.4" y="529.72" text-anchor="start" font-family="IBM Plex Mono,ui-monospace,SFMono-Regular,Menlo,monospace" font-size="20" font-weight="700" fill="#d4147a">I13</text>
 <text x="490.4" y="551.72" text-anchor="start" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="14" font-weight="600" fill="#1c2729">to J3 pin 3</text>
 <rect x="16" y="668.4" width="568" height="62" rx="8" fill="#f4f6f7" stroke="#d5dddc"/>
-<text x="28" y="694.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729"><tspan font-weight="700">Check:</tspan> J3 pin 3 beeps to H13 (GPIO2). It does not beep to</text>
-<text x="28" y="716.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729">I12 or I14.</text>
+<text x="28" y="694.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729"><tspan font-weight="700">Check:</tspan> J3 pin 3 connects to H13 (GPIO2). It must not</text>
+<text x="28" y="716.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729">connect to I12 or I14.</text>
 </svg>

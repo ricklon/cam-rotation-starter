@@ -29,6 +29,6 @@
 <text x="115.6" y="466.52" text-anchor="end" font-family="IBM Plex Mono,ui-monospace,SFMono-Regular,Menlo,monospace" font-size="20" font-weight="700" fill="#d4147a">I10</text>
 <text x="72.69999999999999" y="465.52" text-anchor="end" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="14" font-weight="600" fill="#1c2729">RV1 top</text>
 <rect x="16" y="668.4" width="568" height="62" rx="8" fill="#f4f6f7" stroke="#d5dddc"/>
-<text x="28" y="694.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729"><tspan font-weight="700">Check:</tspan> A15 beeps to J10. I10 does not beep to I11 (the</text>
-<text x="28" y="716.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729">wiper strip), and A15 does not beep to A16.</text>
+<text x="28" y="694.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729"><tspan font-weight="700">Check:</tspan> A15 connects to J10. I10 must not connect to I11</text>
+<text x="28" y="716.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729">(the wiper strip), and A15 must not connect to A16.</text>
 </svg>

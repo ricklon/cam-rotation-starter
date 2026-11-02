@@ -33,7 +33,7 @@
 <text x="513.2" y="429.56" text-anchor="start" font-family="IBM Plex Mono,ui-monospace,SFMono-Regular,Menlo,monospace" font-size="20" font-weight="700" fill="#d4147a">I8</text>
 <text x="543.8000000000001" y="428.56" text-anchor="start" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="14" font-weight="600" fill="#1c2729">− stripe</text>
 <rect x="16" y="668.4" width="568" height="84" rx="8" fill="#f4f6f7" stroke="#d5dddc"/>
-<text x="28" y="694.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729"><tspan font-weight="700">Check:</tspan> The stripe faces row 8. I7 beeps to A2, I8 beeps to</text>
-<text x="28" y="716.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729">B8, and I7 does not beep to I8 (a meter on resistance</text>
-<text x="28" y="738.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729">shows it charging, then open).</text>
+<text x="28" y="694.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729"><tspan font-weight="700">Check:</tspan> The stripe faces row 8. I7 connects to A2, I8</text>
+<text x="28" y="716.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729">connects to B8, and I7 must not connect to I8 (a meter on</text>
+<text x="28" y="738.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729">resistance shows it charging, then open).</text>
 </svg>

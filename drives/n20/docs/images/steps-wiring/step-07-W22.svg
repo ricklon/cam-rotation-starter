@@ -28,5 +28,5 @@
 <text x="115.6" y="405.56" text-anchor="end" font-family="IBM Plex Mono,ui-monospace,SFMono-Regular,Menlo,monospace" font-size="20" font-weight="700" fill="#d4147a">H7</text>
 <text x="85" y="404.56" text-anchor="end" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="14" font-weight="600" fill="#1c2729">C3 +</text>
 <rect x="16" y="668.4" width="568" height="40" rx="8" fill="#f4f6f7" stroke="#d5dddc"/>
-<text x="28" y="694.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729"><tspan font-weight="700">Check:</tspan> H7 beeps to A2. H7 does not beep to H8 or H6.</text>
+<text x="28" y="694.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729"><tspan font-weight="700">Check:</tspan> H7 connects to A2. H7 must not connect to H8 or H6.</text>
 </svg>

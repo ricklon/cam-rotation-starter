@@ -42,6 +42,6 @@
 <text x="490.4" y="309.28" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="17" font-weight="700" fill="#d4147a">J4 pin 1</text>
 <text x="490.4" y="329.28" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="14" font-weight="600" fill="#1c2729">to the motor</text>
 <rect x="16" y="668.4" width="568" height="62" rx="8" fill="#f4f6f7" stroke="#d5dddc"/>
-<text x="28" y="694.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729"><tspan font-weight="700">Check:</tspan> With the plug in, J4's housing pin 1 beeps to the</text>
-<text x="28" y="716.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729">motor tab its lead comes from, and to H3.</text>
+<text x="28" y="694.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729"><tspan font-weight="700">Check:</tspan> With the plug in, J4's housing pin 1 connects to</text>
+<text x="28" y="716.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729">the motor tab its lead comes from, and to H3.</text>
 </svg>
