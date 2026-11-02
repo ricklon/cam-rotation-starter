@@ -325,12 +325,12 @@
 <polyline points="429.1,169.1 453.8,180.8 453.8,652.7 462.1,664.4" fill="none" stroke="#c23b2a" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="429.1,367.2 445.6,355.5 445.6,246.8 462.1,235.1" fill="none" stroke="#2f3a3d" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="462.1,367.2 436.9,378.9 436.9,619.6 462.1,631.3" fill="none" stroke="#2f3a3d" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
-<polyline points="462.1,499.3 469.9,487.6 469.9,279.8 462.1,268.1" fill="none" stroke="#d07a1c" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
-<polyline points="462.1,565.3 478.6,553.6 478.6,312.8 462.1,301.1" fill="none" stroke="#7a4a20" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
-<polyline points="462.1,532.3 486.8,519.1 486.8,317.6 759.3,317.6 759.3,301.1" fill="none" stroke="#8a8a8a" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="462.1,499.3 469.9,487.6 469.9,279.8 462.1,268.1" fill="none" stroke="#2e8b45" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="462.1,565.3 478.6,553.6 478.6,312.8 462.1,301.1" fill="none" stroke="#3a6fd8" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="462.1,532.3 486.8,519.1 486.8,317.6 759.3,317.6 759.3,301.1" fill="none" stroke="#eeeeea" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="726.2,400.2 739.2,411.9 739.2,520.6 726.2,532.3" fill="none" stroke="#b08d10" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="396.0,631.3 384.3,619.8 384.3,342.4 732.7,342.4 726.2,367.2" fill="none" stroke="#2f3a3d" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
-<polyline points="396.0,598.3 405.1,581.8 405.1,453.0 545.0,453.0 718.4,453.0 726.2,433.2" fill="none" stroke="#8246b4" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="396.0,598.3 405.1,581.8 405.1,453.0 545.0,453.0 718.4,453.0 726.2,433.2" fill="none" stroke="#b08d10" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="326.75" y="384.59999999999997" width="143" height="364" rx="3" fill="#202020" fill-opacity="0.55" stroke="#fff" stroke-width="2" stroke-dasharray="7 5"/>
 <rect x="339.75" y="653.6999999999999" width="117" height="98.8" rx="4" fill="#bbb" fill-opacity="0.9" stroke="#fff"/>
 <text class="lbl" x="398.25" y="523.7" text-anchor="middle" style="fill:#fff;font-weight:600">U1 PD</text>

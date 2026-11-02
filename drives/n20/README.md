@@ -45,7 +45,7 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 | J4 | 1 | JST-PH 2.0 mm 2-pin, side entry: S2B-PH-K-S header, PHR-2 housing, 2 crimp contacts | Rev C. The motor plug. |
 | — | 3 | **M2 × 20** pan-head screws | Rev C. Cover and perfboard to the supports on the −Y face. |
 | — | 2 | Double-sided foam pads, 3 mm thick, about 10 × 4 mm | Rev C. Hold the PD board on the perfboard. |
-| — | — | 30 AWG solid insulated wire | Rev C. The ten links on the perfboard's underside. |
+| — | — | 30 AWG stranded hook-up wire in red, black, green, blue, white and yellow | Rev C. Every wire in the drive, including the motor pair and the underside links; see the [cut list](docs/wiring.md#cut-list). |
 | — | — | Hot glue or CA | A dab to hold D1 in its channel and the J3 header in its holder. |
 
 ## Wiring plan

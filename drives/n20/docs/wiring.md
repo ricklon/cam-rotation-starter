@@ -92,7 +92,7 @@ At the motor, the wires are held right next to the terminals, so tugging or vibr
 
 1. Solder W14, W15 and C2 to the terminals.
 2. Lead both wires toward the +Y arm, then along the inside face of the clamp plate toward the motor's round +X side, and up between the arms.
-3. Put a zip tie in through one slot, out through the other, and round both wires on the plate's inside face. Pull it tight.
+3. Put a zip tie in through one slot, out through the other, and round both wires on the plate's inside face. Lay the two wires side by side across the 1.4 mm bar between the slots, so the tie presses both flat against the plate. Pull it tight.
 
 The tie bar sits about 5 mm from the terminals. Leave a little slack between the tie and each terminal, so the wire bends there and not at the joint.
 
@@ -102,25 +102,31 @@ The tie bar sits about 5 mm from the terminals. Leave a little slack between the
 
 ## Point-to-point wire list
 
+Every wire is **30 AWG stranded**, in six colours: red for +5V, black for GND, and green, blue, white and yellow for signals (yellow is also the knob's 3.3 V end, W21).
+
+- **Tin the stripped ends** before pushing them through the perfboard's holes, so the strands don't splay or break off.
+- **Keep the underside links flat** against the board, and press each one down along its lane before soldering the next.
+- **Current is fine.** 30 AWG is about 0.34 Ω per metre: about 30 mV drop on a 100 mm run at 1 A. The wires that carry motor current are W14 and W15, and on the 5 V and ground paths W1, W2, W16 and W18; L1 and L2 carry only C1's surges, and W17 only the Super Mini's own current). Check your N20's stall current on its datasheet. The DRV8833 limits a channel to about 1.5 A, and 30 AWG handles a 1 A stall for the moment it lasts. If your motor stalls above 1 A, double up those six wires.
+
 Follow this table one wire at a time and tick each off. The colours match the 3D model. The links on the perfboard's underside are listed in [perfboard.md](perfboard.md#links-underside), and their cut lengths are in the cut list below. Wires that come from the mount (L1, L2, W6, W9, W10, W11) go into the perfboard **from the underside** and are soldered on the component side.
 
 | Wire | Colour | From | To | Notes |
 |---|---|---|---|---|
-| **Power, 22–26 AWG** | | | | |
+| **Power** | | | | |
 | W1 | red | U1 + pad | perfboard A7 (5V bus) | Short jumper on the component side. |
 | W2 | black | U1 − pad | perfboard A8 (GND bus) | Short jumper on the component side. |
 | L1 | red | C1 + (long leg) | perfboard C7 (5V bus) | Up the −Y face behind the board, in from the underside. |
 | L2 | black | C1 − (stripe side) | perfboard B4 (GND) | Beside L1. Reversed polarity damages the capacitor. |
-| **Motor, 22–26 AWG** | | | | |
+| **Motor** | | | | |
 | W14 | white | J4 pin 1 (OUT3) | M1 terminal (either) | Out of the cover's bottom notch, under the base's −Y edge, down the motor's open side inside the arms' zip tie, then the clamp. If the motor runs backwards, swap the two pins in the PHR-2 housing. |
 | W15 | blue | J4 pin 2 (OUT4) | M1 other terminal | Beside W14, then along the clamp's tie bar and behind the end cap, inside the snap hooks, to the far terminal. |
 | C2 | — | M1 terminal | M1 other terminal | Solder its legs to the terminals with the wires. |
-| **Control harness, mount side, 30 AWG: perfboard (from behind) → −Y face → base tunnel → J3 housing** | | | | |
+| **Control harness, mount side: perfboard (from behind) → −Y face → base tunnel → J3 housing** | | | | |
 | W6 | white | perfboard I14 (GPIO1) | J3 pin 6 | |
 | W9 | green | perfboard I12 (GPIO3) | J3 pin 3 | |
 | W10 | blue | perfboard I15 (GPIO0) | J3 pin 1 | |
 | W11 | black | perfboard A4 (GND) | J3 pin 2 | |
-| **Pod side, 30 AWG** | | | | |
+| **Pod side** | | | | |
 | W10p | blue | J3 pin 1 | SW1 lug B (reverse) | |
 | W11p | black | J3 pin 2 | SW1 centre lug | Ground for the whole pod. |
 | W9p | green | J3 pin 3 | SW1 lug A (forward) | |
@@ -163,30 +169,30 @@ Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm p
 
 | Wire | Colour | Gauge | Routed | **Cut** |
 |---|---|---|---|---|
-| W1 | red | 22–26 AWG | 10 mm | **25** |
-| W2 | black | 22–26 AWG | 9 mm | **20** |
-| L1 | red | 22–26 AWG | 35 mm | **50** |
-| L2 | black | 22–26 AWG | 37 mm | **55** |
-| W14 | white | 22–26 AWG | 62 mm | **85** |
-| W15 | blue | 22–26 AWG | 72 mm | **95** |
-| W6 | white | 30 AWG | 130 mm | **160** |
-| W9 | green | 30 AWG | 126 mm | **155** |
-| W10 | blue | 30 AWG | 133 mm | **165** |
-| W11 | black | 30 AWG | 121 mm | **150** |
-| W4 | black | 30 AWG solid | 22 mm | **40** |
-| W5 | orange | 30 AWG solid | 18 mm | **35** |
-| W12 | brown | 30 AWG solid | 21 mm | **35** |
-| W13 | gray | 30 AWG solid | 39 mm | **55** |
-| W16 | red | 30 AWG solid | 11 mm | **25** |
-| W17 | red | 30 AWG solid | 39 mm | **60** |
-| W18 | black | 30 AWG solid | 11 mm | **25** |
-| W19 | yellow | 30 AWG solid | 11 mm | **25** |
-| W20 | black | 30 AWG solid | 51 mm | **70** |
-| W21 | violet | 30 AWG solid | 37 mm | **55** |
+| W1 | red | 30 AWG stranded | 10 mm | **25** |
+| W2 | black | 30 AWG stranded | 9 mm | **20** |
+| L1 | red | 30 AWG stranded | 35 mm | **50** |
+| L2 | black | 30 AWG stranded | 37 mm | **55** |
+| W14 | white | 30 AWG stranded | 63 mm | **85** |
+| W15 | blue | 30 AWG stranded | 73 mm | **95** |
+| W6 | white | 30 AWG stranded | 130 mm | **160** |
+| W9 | green | 30 AWG stranded | 126 mm | **155** |
+| W10 | blue | 30 AWG stranded | 133 mm | **165** |
+| W11 | black | 30 AWG stranded | 121 mm | **150** |
+| W4 | black | 30 AWG stranded | 22 mm | **40** |
+| W5 | green | 30 AWG stranded | 18 mm | **35** |
+| W12 | blue | 30 AWG stranded | 21 mm | **35** |
+| W13 | white | 30 AWG stranded | 39 mm | **55** |
+| W16 | red | 30 AWG stranded | 11 mm | **25** |
+| W17 | red | 30 AWG stranded | 39 mm | **60** |
+| W18 | black | 30 AWG stranded | 11 mm | **25** |
+| W19 | yellow | 30 AWG stranded | 11 mm | **25** |
+| W20 | black | 30 AWG stranded | 51 mm | **70** |
+| W21 | yellow | 30 AWG stranded | 37 mm | **55** |
 | W6p | button lead | pre-wired | 30 mm | **trim to 45** |
-| W9p | green | 30 AWG | 27 mm | **45** |
-| W10p | blue | 30 AWG | 29 mm | **45** |
-| W11p | black | 30 AWG | 28 mm | **45** |
+| W9p | green | 30 AWG stranded | 27 mm | **45** |
+| W10p | blue | 30 AWG stranded | 29 mm | **45** |
+| W11p | black | 30 AWG stranded | 28 mm | **45** |
 | J1 | button lead | pre-wired | 21 mm | **trim to 35** |
 
 ## Why it's wired this way

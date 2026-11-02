@@ -79,7 +79,7 @@ Under U1, rows 9–17 in columns A–C are used only from the underside: the lin
 
 ## Links (underside)
 
-Ten links of insulated 30 AWG solid wire run on the underside (solder side), each from hole to hole. They take over the jobs of the old loose wires W4, W5, W12 and W13 and of the pod-side knob wires, and add the power links.
+Ten links of 30 AWG stranded wire, ends tinned, run on the underside (solder side), each from hole to hole. They take over the jobs of the old loose wires W4, W5, W12 and W13 and of the pod-side knob wires, and add the power links.
 
 | Link | Colour | From | To | Job | Cut |
 |---|---|---|---|---|---|
@@ -87,14 +87,14 @@ Ten links of insulated 30 AWG solid wire run on the underside (solder side), eac
 | W18 | black | B8 (GND bus) | C4 (DRV GND) | GND to the motor driver | 25 mm |
 | W4 | black | C8 (GND bus) | C16 (Super Mini GND) | GND to the Super Mini | 40 mm |
 | W17 | red | B2 (D1 cathode) | C17 (Super Mini 5V) | +5V to the Super Mini, through D1 | 60 mm |
-| W5 | orange | C12 (GPIO18) | C5 (IN3) | MOT_IN1, forward PWM | 35 mm |
-| W12 | brown | C14 (GPIO20) | C6 (IN4) | MOT_IN2, reverse PWM | 35 mm |
-| W13 | gray | C13 (GPIO19) | J6 (EEP) | DRV_SLEEP | 55 mm |
+| W5 | green | C12 (GPIO18) | C5 (IN3) | MOT_IN1, forward PWM | 35 mm |
+| W12 | blue | C14 (GPIO20) | C6 (IN4) | MOT_IN2, reverse PWM | 35 mm |
+| W13 | white | C13 (GPIO19) | J6 (EEP) | DRV_SLEEP | 55 mm |
 | W19 | yellow | I9 (RV1 wiper) | I13 (GPIO2) | SPEED | 25 mm |
 | W20 | black | A16 (GND) | I8 (RV1 pin 1) | GND end of the knob | 70 mm |
-| W21 | violet | A15 (3V3) | I10 (RV1 pin 3) | 3V3 end of the knob, 3.3 V only | 55 mm |
+| W21 | yellow | A15 (3V3) | I10 (RV1 pin 3) | 3V3 end of the knob, 3.3 V only | 55 mm |
 
-The cut lengths come from the routes in the 3D model, worked out the same way as every wire in the [cut list](cut-list.csv); trim each one to fit on the board. W17, W20 and W21 cross other links; keep them flat against the board.
+The cut lengths come from the routes in the 3D model, worked out the same way as every wire in the [cut list](cut-list.csv); trim each one to fit on the board. W17, W20 and W21 cross other links. Keep every link flat against the board: stranded wire springs up more than solid. W21 is yellow like W19, the wiper link, but not red, because red means 5 V on this board.
 
 ## Where it goes
 

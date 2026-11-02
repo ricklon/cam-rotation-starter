@@ -1,26 +1,26 @@
 wire,colour,gauge,from,to,routed_mm,cut_mm,notes
-W1,red,22-26 AWG,U1 + pad,perfboard A7 (5V bus),10,25,jumper on the component side; U1's screw terminal removed
-W2,black,22-26 AWG,U1 - pad,perfboard A8 (GND bus),9,20,jumper on the component side
-L1,red,22-26 AWG,C1 +,perfboard C7 (5V bus),35,50,from C1's seat behind the board; in from the underside
-L2,black,22-26 AWG,C1 -,perfboard B4 (GND),37,55,from C1's seat behind the board; in from the underside
-W14,white,22-26 AWG,J4 pin 1 (DRV8833 OUT3),N20 terminal +,62,85,PHR-2 housing at J4; out of the cover's bottom notch and under the base's -Y edge; tie at the cartridge's wire clamp
-W15,blue,22-26 AWG,J4 pin 2 (DRV8833 OUT4),N20 terminal -,72,95,beside W14; along the clamp's tie bar and behind the end cap to the far terminal
-W6,white,30 AWG,perfboard I14 (GPIO1),J3 pin 6,130,160,includes the 101 mm trunk to the PHR-6 housing; in from the underside
-W9,green,30 AWG,perfboard I12 (GPIO3),J3 pin 3,126,155,includes the trunk; in from the underside
-W10,blue,30 AWG,perfboard I15 (GPIO0),J3 pin 1,133,165,includes the trunk; in from the underside
-W11,black,30 AWG,perfboard A4 (GND),J3 pin 2,121,150,includes the trunk; in from the underside
-W4,black,30 AWG solid,perfboard C8 (GND bus),C16 (Super Mini GND),22,40,underside link
-W5,orange,30 AWG solid,perfboard C12 (GPIO18),C5 (DRV IN3),18,35,underside link
-W12,brown,30 AWG solid,perfboard C14 (GPIO20),C6 (DRV IN4),21,35,underside link
-W13,gray,30 AWG solid,perfboard C13 (GPIO19),J6 (DRV EEP),39,55,underside link
-W16,red,30 AWG solid,perfboard B7 (5V bus),C3 (DRV VCC),11,25,underside link
-W17,red,30 AWG solid,perfboard B2 (D1 cathode),C17 (Super Mini 5V),39,60,underside link; crosses others
-W18,black,30 AWG solid,perfboard B8 (GND bus),C4 (DRV GND),11,25,underside link
-W19,yellow,30 AWG solid,perfboard I9 (RV1 wiper),I13 (GPIO2),11,25,underside link
-W20,black,30 AWG solid,perfboard A16 (GND),I8 (RV1 pin 1),51,70,underside link; crosses under both modules
-W21,violet,30 AWG solid,perfboard A15 (3V3),I10 (RV1 pin 3),37,55,underside link; crosses under both modules; 3.3 V only
+W1,red,30 AWG stranded,U1 + pad,perfboard A7 (5V bus),10,25,jumper on the component side; U1's screw terminal removed
+W2,black,30 AWG stranded,U1 - pad,perfboard A8 (GND bus),9,20,jumper on the component side
+L1,red,30 AWG stranded,C1 +,perfboard C7 (5V bus),35,50,from C1's seat behind the board; in from the underside
+L2,black,30 AWG stranded,C1 -,perfboard B4 (GND),37,55,from C1's seat behind the board; in from the underside
+W14,white,30 AWG stranded,J4 pin 1 (DRV8833 OUT3),N20 terminal +,63,85,PHR-2 housing at J4; out of the cover's bottom notch and under the base's -Y edge; tie at the cartridge's wire clamp
+W15,blue,30 AWG stranded,J4 pin 2 (DRV8833 OUT4),N20 terminal -,73,95,beside W14; along the clamp's tie bar and behind the end cap to the far terminal
+W6,white,30 AWG stranded,perfboard I14 (GPIO1),J3 pin 6,130,160,includes the 101 mm trunk to the PHR-6 housing; in from the underside
+W9,green,30 AWG stranded,perfboard I12 (GPIO3),J3 pin 3,126,155,includes the trunk; in from the underside
+W10,blue,30 AWG stranded,perfboard I15 (GPIO0),J3 pin 1,133,165,includes the trunk; in from the underside
+W11,black,30 AWG stranded,perfboard A4 (GND),J3 pin 2,121,150,includes the trunk; in from the underside
+W4,black,30 AWG stranded,perfboard C8 (GND bus),C16 (Super Mini GND),22,40,underside link
+W5,green,30 AWG stranded,perfboard C12 (GPIO18),C5 (DRV IN3),18,35,underside link
+W12,blue,30 AWG stranded,perfboard C14 (GPIO20),C6 (DRV IN4),21,35,underside link
+W13,white,30 AWG stranded,perfboard C13 (GPIO19),J6 (DRV EEP),39,55,underside link
+W16,red,30 AWG stranded,perfboard B7 (5V bus),C3 (DRV VCC),11,25,underside link
+W17,red,30 AWG stranded,perfboard B2 (D1 cathode),C17 (Super Mini 5V),39,60,underside link; crosses others
+W18,black,30 AWG stranded,perfboard B8 (GND bus),C4 (DRV GND),11,25,underside link
+W19,yellow,30 AWG stranded,perfboard I9 (RV1 wiper),I13 (GPIO2),11,25,underside link
+W20,black,30 AWG stranded,perfboard A16 (GND),I8 (RV1 pin 1),51,70,underside link; crosses under both modules
+W21,yellow,30 AWG stranded,perfboard A15 (3V3),I10 (RV1 pin 3),37,55,underside link; crosses under both modules; 3.3 V only
 W6p,button lead,pre-wired,J3 pin 6,S1 lead A,30,45,trim the button's own lead
-W9p,green,30 AWG,J3 pin 3,SW1 lug A (forward),27,45,
-W10p,blue,30 AWG,J3 pin 1,SW1 lug B (reverse),29,45,
-W11p,black,30 AWG,J3 pin 2,SW1 centre lug,28,45,
+W9p,green,30 AWG stranded,J3 pin 3,SW1 lug A (forward),27,45,
+W10p,blue,30 AWG stranded,J3 pin 1,SW1 lug B (reverse),29,45,
+W11p,black,30 AWG stranded,J3 pin 2,SW1 centre lug,28,45,
 J1,button lead,pre-wired,S1 lead B,SW1 centre lug,21,35,trim the button's second lead
