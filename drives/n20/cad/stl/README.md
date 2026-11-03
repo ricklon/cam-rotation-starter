@@ -5,7 +5,7 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 <!-- parts -->
 | Part | Orientation | Size on bed (mm) | Bed contact (mm²) |
 |---|---|---|---|
-| N20_Mount | flange (wall face) down | 109.0 × 47.2 × 48.6 | 3705 |
+| N20_Mount | flange (wall face) down | 109.0 × 47.2 × 48.6 | 3506 |
 | N20_Bushing_075 | flange down | 34.0 × 29.0 × 6.0 | 478 |
 | N20_Bushing_0625 | flange down | 34.0 × 29.0 × 6.0 | 574 |
 | N20_Bushing_025 | flange down | 34.0 × 29.0 × 6.0 | 765 |
@@ -49,6 +49,8 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 **Updated 2026-10-27 (version 20): wiring only, print files unchanged.** The zip ties at anchors A1 and A2 are now modelled in place, and W14 and W15 are routed through A2, so they're cut 55 and 65 mm (were 50 and 60).
 
 **Updated 2026-11-03 (version 34): `N20_Electronics_Cover` again, with the measured sizes.** RV1's shaft is 5 mm above the board and its bushing reaches 5 mm past the board edge, so the knob hole moved down and an Ø11.5 × 0.8 mm recess round it on the outside gives the M7 nut and washer 3.5 mm of thread. C3 is an 8 × 13 mm can like C1, through a 9 mm hole. Reprint the cover from this version.
+
+**Updated 2026-11-03 (version 35): `N20_Mount` only.** The bushing's flange recess has moved from the underside of the top plate to the flat wall face: the bushing drops into the bore from the wall side, its Ø34 mm double-D flange sits in a 1.6 mm deep recess (flange 1.5 mm, so it sits 0.1 mm below the face), and the box wall holds it in once the mount is screwed on. Nothing has to slide in under the plate any more, where the 5/8 clamp left no room. The old recess under the plate is filled. Bore (Ø29.2 mm), bushing and dowel bores are unchanged, so the bushings don't need reprinting; reprint only the mount. The recess is on the bed face: its ceiling is a 2.6 mm ring overhang round the bore, which prints without supports. The box wall hole now only needs to pass the dowel: the dowel and its clamp go through the mount, then the bushing, before the mount goes on the wall (see the [assembly order](../../README.md#assembly-order-and-tool-access)). The MG90S drive has the same change (*Cam Rotation Starter* version 51).
 
 **Updated 2026-11-03 (version 33): `N20_Electronics_Cover` only.** Fitted to the board as built: RV1 stands with its shaft parallel to the board, pointing off the J edge, and C3 stands. The cover's J-edge wall moved in to just past RV1's face and carries the Ø7.2 mm knob hole; the top has a notch for RV1's body and a hole for C3's top; the C1 hole, the USB-C opening, the posts and the motor notch stay. It still prints top plate down with no supports (the knob hole is a horizontal Ø7.2 mm hole in a wall). RV1 and C3 sizes are assumed until measured: see `cad/fusion/cover_rv1.py`.
 

@@ -1,6 +1,6 @@
 # CAD
 
-The design lives in Autodesk Fusion, as the document *Cam Rotation Starter* in MovementStudy › Cam Rotation Tool. Tag `v1.0-mg90s` matches Fusion version 48 of that document; version 49 sinks the 5/8 clamp's screw heads 1 mm deeper; version 50 enlarges the mount's bushing bore to Ø29.2 mm with the N20 drive's double-D bushings, so the assembled 5/8 clamp drops through from above. This folder holds copies you can open without Fusion, the print files, and the scripts used to build and document the model.
+The design lives in Autodesk Fusion, as the document *Cam Rotation Starter* in MovementStudy › Cam Rotation Tool. Tag `v1.0-mg90s` matches Fusion version 48 of that document; version 49 sinks the 5/8 clamp's screw heads 1 mm deeper; version 50 enlarges the mount's bushing bore to Ø29.2 mm with the N20 drive's double-D bushings, so the assembled 5/8 clamp drops through from above; version 51 moves the bushing's flange recess to the mount's wall face, so the bushing goes in from the wall side and the box wall retains it (`bush_recess_depth`, 1.6 mm). This folder holds copies you can open without Fusion, the print files, and the scripts used to build and document the model.
 
 | Folder | What's in it |
 |---|---|

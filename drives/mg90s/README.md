@@ -30,7 +30,7 @@ The original Cam Rotation Starter drive: an MG90S continuous-rotation micro serv
    idf.py set-target esp32c6 && idf.py build
    idf.py -p /dev/cu.usbmodemXXXX flash
    ```
-4. **Assemble** the unit on the bench, slide it onto the shaft (28 mm sticking out of the wall), and screw it down.
+4. **Assemble** the unit on the bench, slide the bushing and then the unit onto the shaft (28 mm sticking out of the wall), and screw it down. The bushing goes in from the wall side and the box wall holds it in.
 5. **Connect** to the `CamBox-XXXX` Wi-Fi network, set the stop trim, and play the demo story.
 
 ## Folder layout
