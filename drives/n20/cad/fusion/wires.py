@@ -8,8 +8,8 @@ Perfboard (component Perfboard): on four supports on the mount's -Y face, parall
   Wires from the mount (the panel harness) go in from the underside and are soldered on the component side.
 C1, the 470 uF bulk capacitor on the 5 V bus, stands on the board over columns A-C, rows 4-7 (between D1 and W1/W2), its top through
   a 9 mm hole in the cover; sleeved leads to C7 (+) and B4 (-). It stands over A4, so W11 is soldered there before C1 goes on.
-C3, the 470 uF hold-up capacitor for the Super Mini, lies on its side over columns I-J, rows 5-8, its end past the board's edge
-  inside the cover; its + lead goes into I7 (strip fed from D1's cathode by W22 at H7) and its - lead into I8 (GND, W23 at H8).
+C3, the 470 uF hold-up capacitor for the Super Mini, stands upright over I7/I8 as built (cover_rv1.py sizes and places it);
+  its + lead goes into I7 (strip fed from D1's cathode by W22 at H7) and its - lead into I8 (GND, W23 at H8).
 U1, the PD board, sits over columns A-C, rows 9-17, on two 3 mm foam pads, USB-C at the +X end; its screw terminal is removed
   and its + / - pads take W1 / W2 down to the 5V (row 7) and GND (row 8) buses. The - pad is the outer one (column A side),
   the + pad the inner one (channel side), as on the owner's board; other PD boards may differ, so go by the board's own marking.
@@ -71,9 +71,9 @@ WIRES = [
     # --- D1 standing at A3 (anode down), band up; its cathode lead bends over and down into A2
     ('D1 anode lead to A3', 'tin', 0.6, [hole('A', 3, 1.0), hole('A', 3, -0.8)]),
     ('D1 cathode lead to A2', 'tin', 0.6, [hole('A', 3, 6.2), hole('A', 3, 7.0), W(cu('A'), rv(2.5), 7.0), hole('A', 2, 6.0), hole('A', 2, -0.8)]),
-    # --- C3 lying on its side (axis across the columns, centre v -5.0, d 4.1), leads out of its inner end bent down into I7 / I8
-    ('C3 + lead to I7', 'tin', 0.6, [W(12.6, -6.75, 4.1), W(11.6, -6.75, 4.1), W(cu('I'), rv(7), 2.0), hole('I', 7, -0.8)]),
-    ('C3 - lead to I8', 'tin', 0.6, [W(12.6, -3.25, 4.1), W(11.6, -3.25, 4.1), W(cu('I'), rv(8), 2.0), hole('I', 8, -0.8)]),
+    # --- C3 standing over I7 / I8 as built (cover_rv1.py places the can from c3_u / c3_v; 5 mm lead pitch, 0.5 mm off the board)
+    ('C3 + lead to I7', 'tin', 0.6, [W(cu('I'), rv(7.5) - 2.5, 0.6), W(cu('I'), rv(7), 0.0), hole('I', 7, -0.8)]),
+    ('C3 - lead to I8', 'tin', 0.6, [W(cu('I'), rv(7.5) + 2.5, 0.6), W(cu('I'), rv(8), 0.0), hole('I', 8, -0.8)]),
     # --- motor pair: J4 (side entry, mouth toward -Z) -> notch in the cover's bottom wall -> under the base's -Y edge
     #     -> the motor's +x side inside the arms' zip tie -> the wire clamp -> the tabs
     # the motor's own factory leads (assumed 26 AWG, about 1.0 mm over the insulation), cut to length and crimped into J4's housing

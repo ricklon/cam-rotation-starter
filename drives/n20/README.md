@@ -41,7 +41,7 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 | — | 2–3 | Small zip ties, 2.5 mm wide | One round the cartridge's motor arms to lock them, and one through the cartridge's wire clamp (rev C). The tie anchors A1 and A2 under the mount aren't on the rev C wire routes; use them if you add a tie. |
 | U2 | 1 | ESP32-C6 Super Mini (26 × 18 mm, castellated, USB-C), with its header strips | Rev C. On the perfboard. |
 | — | 1 | ElectroCookie mini solderable breadboard, 1/4 size (38.1 × 50.8 mm) | Rev C. Rows 1–17, A–E / F–J, no power rails. |
-| C3 | 1 | 470 µF electrolytic, ≥ 6.3 V (10 V preferred), at most 8 mm across and 11.5 mm long | Rev C. Hold-up capacitor for the Super Mini, lying on the perfboard. |
+| C3 | 1 | 470 µF electrolytic, ≥ 6.3 V (10 V preferred) | Rev C. Hold-up capacitor for the Super Mini, standing on the perfboard over I7/I8, its top through a hole in the cover (as built; see [perfboard.md](docs/perfboard.md#placement)). |
 | RV1 | 1 | RK097N 10 kΩ linear pot, 6 mm knurled shaft, with nut, washer and knob cap | Rev C. Replaces the pod's knob. |
 | J4 | 1 | JST-PH 2.0 mm 2-pin, side entry: S2B-PH-K-S header, PHR-2 housing, 2 crimp contacts | Rev C. The motor plug. |
 | — | 3 | **M2 × 20** pan-head screws | Rev C. Cover and perfboard to the supports on the −Y face. |
@@ -97,10 +97,10 @@ After the first units were built:
 | 1 | Motor strain relief | The motor's solder joints were getting stressed in transit. The cartridge now has a **wire clamp**: a 1.5 mm plate below its +Y snap arm with two slots for a 2.5 mm zip tie, which holds W14 and W15, the motor's own leads, about 5 mm from the terminals. The motor also unplugs at **J4**, a side-entry JST-PH 2-pin header on the perfboard, so it can travel separately. See [J4 and the motor wire clamp](docs/wiring.md#j4-and-the-motor-wire-clamp). |
 | 2 | Board | An **ESP32-C6 Super Mini** replaces the XIAO. The firmware has a board choice (`sdkconfig.supermini`). The driver stays on GPIO18/20/19, and the panel moves to GPIO1/2/0, with the knob on GPIO4/3, clear of the USB and UART pins. GPIO4 is a strapping pin, but only for JTAG and only with an eFuse burned, so it's safe for the knob. |
 | 3 | Perfboard | The electronics are on an **ElectroCookie 1/4-size perfboard**, with links on its underside in place of loose wires. The PD board is on it too, its screw terminal removed. The board sits on four supports on the mount's −Y face, 5.8 mm off it, under `N20_Electronics_Cover`, which forms the mount's outer wall. Three M2 × 20 screws hold it. Both USB-C ports face +X, and the knob points out sideways. C1 stays in its seat and is wired to the board. [docs/perfboard.md](docs/perfboard.md) has the hole map. |
-| 4 | Speed knob | An **RK097N** pot on the perfboard, its shaft through a 7 mm hole in the cover, which its nut clamps. The cover's inside face is 9.0 mm off the board, the height of the pot's base. Its pins go straight into the GPIO4 and GPIO3 strips: GPIO4 reads the wiper and GPIO3, driven low, is its ground. The firmware inverts the reading so clockwise is still faster, and the 0–100 scaling is unchanged, so the web app's virtual knob behaves as before. |
+| 4 | Speed knob | An **RK097N**-style pot on the perfboard. As built (2026-11-03) it stands on its pins with its shaft parallel to the board, through a Ø7.2 mm hole in the cover's J-edge wall, which its nut clamps. Its pins go straight into the GPIO4 and GPIO3 strips: GPIO4 reads the wiper and GPIO3, driven low, is its ground. The firmware inverts the reading so clockwise is still faster, and the 0–100 scaling is unchanged, so the web app's virtual knob behaves as before. |
 | 5 | Wiring | W4, W5, W12 and W13 are underside links, joined by W16, W17, W18 and W21–W23. C3, a 470 µF hold-up capacitor after D1, keeps the Super Mini running through motor starts and stalls. W7, W8, W7p, W8p and J2 are gone, and J3 pins 4 and 5 are unused. W1 and W2 are short jumpers from the PD board's pads. Wires from the mount go into the board from the underside. The motor pair runs from the cover's bottom notch under the base to the motor. Cut list rebuilt from the model. |
 
-![The perfboard on the mount's -Y face with the cover off: the PD board over its top-right corner, the Super Mini below it, the DRV8833 at the left with D1 and the capacitor C1 standing above it, J4, the hold-up capacitor C3 lying on its side and the speed pot along the bottom edge, and the motor pair leaving J4 downward.](docs/images/perfboard.png)
+![The perfboard on the mount's -Y face with the cover off: the PD board over its top-right corner, the Super Mini below it, the DRV8833 at the left with D1 and the capacitor C1 standing above it, J4, the hold-up capacitor C3 standing and the speed pot along the bottom edge (the pot standing, its shaft and cap pointing down off the edge), and the motor pair leaving J4 downward.](docs/images/perfboard.png)
 
 ## Snap-fit motor (2026-10-27)
 
@@ -157,7 +157,7 @@ Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and ro
 11. **Perfboard and cover (rev C).**
     1. Push the panel wires through their holes from the underside and solder them, W11 at A4 first, then stand C1 on the board over it (see [docs/perfboard.md](docs/perfboard.md#build-order)).
     2. Lay the perfboard on the four supports on the −Y face, components out, row 17 (both USB-C ports) toward +X.
-    3. Put the cover over it, with RV1's bushing through the 7 mm hole and C1's top through the 9 mm hole. Drive the three M2 × 20 screws through the cover posts and the board into the supports.
+    3. Put the cover over it, with RV1's bushing through the Ø7.2 mm hole in its bottom (J-edge) wall, and C1's and C3's tops and RV1's body through the openings in its top. Put RV1's washer and nut on from outside. Drive the three M2 × 20 screws through the cover posts and the board into the supports.
     4. Fit RV1's washer, nut and knob cap.
     5. Plug the motor into J4 through the cover's bottom notch.
 
