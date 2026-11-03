@@ -52,6 +52,10 @@ const state = {
   settings: null,
   editing: null,      // story being edited: {name, loop, steps:[{label,speed,ms,ramp}]}
   isNew: false,
+  playlists: [],
+  plEditing: null,    // playlist being edited: {name, orig, stories:[]}
+  plIsNew: false,
+  recGuide: '',       // story to play along with while recording ('' = none)
   recording: null,    // {t0, points:[{t,v}], lastV, settleTimer}
 };
 
@@ -91,6 +95,7 @@ function throttle(fn, ms) {
 const sendSpeed = throttle((v) => send({ t: 'speed', v }), 80);
 const sendMaster = throttle((v) => send({ t: 'master', v }), 120);
 const sendTrim = throttle((v) => send({ t: 'trim', v }), 80);
+const sendKnob = throttle((v) => send({ t: 'knob', v }), 80);
 
 function setConn(text, cls) {
   const c = $('#conn');
@@ -123,6 +128,7 @@ function storySelect(id, selected, includeNone) {
 
 async function loadStories() {
   try { state.stories = (await api('GET', '/api/stories')).sort(); } catch (e) { toast(`Couldn't load stories: ${e.message}`); }
+  try { state.playlists = (await api('GET', '/api/playlists')).sort(); } catch { state.playlists = []; }
 }
 
 // ---------------------------------------------------------------- Play tab
@@ -155,7 +161,20 @@ function renderPlay() {
       h('input', { type: 'range', id: 'manual', min: -100, max: 100, step: 1, value: 0, 'aria-label': 'Manual speed',
         oninput: (e) => sendSpeed(Number(e.target.value)) }),
       h('div', { class: 'row muted' }, h('span', {}, '◀ Reverse'), h('span', { class: 'grow', style: 'text-align:center' }, 'Stop'), h('span', {}, 'Forward ▶')),
-      h('p', { class: 'muted', style: 'margin:0;font-size:14px' }, 'The direction switch on the box still applies: center stops, reverse flips whatever you send.')),
+      h('p', { class: 'muted', style: 'margin:0;font-size:14px' }, 'The direction switch still applies, the box\'s or the virtual one below: center stops, reverse flips whatever you send.')),
+
+    h('section', { class: 'card' },
+      h('h2', {}, 'Virtual panel'),
+      h('p', { class: 'muted', style: 'margin:0;font-size:14px' }, 'Stands in for the button, knob and direction switch on the box.'),
+      h('div', { class: 'seg', id: 'vSwitch', role: 'group', 'aria-label': 'Virtual direction switch' },
+        [['-1', 'Reverse'], ['0', 'Stop'], ['1', 'Forward']].map(([v, label]) =>
+          h('button', { class: 'btn', 'data-dir': v, 'aria-pressed': 'false', onclick: () => send({ t: 'dir', v: Number(v) }) }, label))),
+      h('div', { class: 'muted', id: 'vSwitchNote', hidden: true }, 'A wired switch is turned on in Settings, so this one is off. Untick "Direction switch is wired" to use it.'),
+      h('label', { class: 'field' }, 'Knob: ', h('span', { class: 'mono', id: 'vKnobVal' }, '0%'),
+        h('input', { type: 'range', id: 'vKnob', min: 0, max: 100, step: 1, value: 0, 'aria-label': 'Virtual speed knob',
+          oninput: (e) => { sendKnob(Number(e.target.value)); $('#vKnobVal').textContent = `${e.target.value}%`; } })),
+      h('button', { class: 'btn primary big', id: 'vBtn', style: 'touch-action:manipulation;user-select:none' }, 'Button'),
+      h('div', { class: 'muted', style: 'font-size:14px' }, 'Tap: play or pause · double-tap: next story · hold 2 s: stop.')),
 
     h('section', { class: 'card', id: 'masterCard' },
       h('h2', {}, 'Story speed'),
@@ -170,7 +189,8 @@ function updateLive() {
   if (!s) return;
   const story = s.mode === 'story';
   const set = (id, txt) => { const el = document.getElementById(id); if (el && el.textContent !== txt) el.textContent = txt; };
-  set('nowMode', story ? (s.resting ? 'Resting between loops' : s.paused ? 'Story · paused' : 'Story · playing') : 'Manual');
+  const kind = s.playlist ? `Playlist ${s.playlist} (${s.pl_pos} of ${s.pl_n})` : 'Story';
+  set('nowMode', story ? (s.resting ? 'Resting between loops' : s.paused ? `${kind} · paused` : `${kind} · playing`) : 'Manual');
   set('nowTitle', story ? s.story : (Math.abs(s.target) > 0.5 ? `Turning at ${Math.round(s.target)}%` : 'Stopped'));
   set('nowBeat', story && s.steps ? `Beat ${s.step + 1} of ${s.steps}${s.step_label ? ` · ${s.step_label}` : ''} · loop ${s.loops + 1}` : '');
   setGauge(document.getElementById('liveGauge'), s.speed);
@@ -182,12 +202,41 @@ function updateLive() {
       h('span', { class: 'pill mono' }, outputLabel(s)),
       story && !s.paused ? h('span', { class: 'pill on' }, 'Playing') : null);
   }
+  const wired = !!s.switch_installed;
+  document.querySelectorAll('#vSwitch button').forEach((/** @type {HTMLButtonElement} */ b) => {
+    b.disabled = wired;
+    b.setAttribute('aria-pressed', String(!wired && b.dataset.dir === String(s.dir)));
+  });
+  const note = document.getElementById('vSwitchNote');
+  if (note) note.hidden = !wired;
   const mc = document.getElementById('masterCard');
   if (mc) mc.hidden = !story;
   const mv = /** @type {HTMLInputElement} */ (document.getElementById('master'));
   if (mv && document.activeElement !== mv) { mv.value = s.master; set('masterVal', `${s.master}%`); }
   const tl = document.getElementById('trimLive');
   if (tl) tl.textContent = outputLabel(s);
+}
+
+// The virtual button mirrors the physical one: tap = short, two taps = double, hold 2 s = long.
+function wireVirtualButton() {
+  const btn = document.getElementById('vBtn');
+  if (!btn) return;
+  let holdTimer = 0, tapTimer = 0, taps = 0, held = false;
+  btn.addEventListener('pointerdown', () => {
+    held = false;
+    holdTimer = setTimeout(() => { held = true; taps = 0; clearTimeout(tapTimer); send({ t: 'btn', v: 'long' }); }, 2000);
+  });
+  const release = () => clearTimeout(holdTimer);
+  btn.addEventListener('pointerleave', release);
+  btn.addEventListener('pointercancel', release);
+  btn.addEventListener('pointerup', () => {
+    release();
+    if (held) return;
+    taps++;
+    clearTimeout(tapTimer);
+    if (taps >= 2) { taps = 0; send({ t: 'btn', v: 'double' }); return; }
+    tapTimer = setTimeout(() => { taps = 0; send({ t: 'btn', v: 'short' }); }, 350);
+  });
 }
 
 // What the motor output is doing: servo pulse width, or N20 PWM duty.
@@ -198,9 +247,10 @@ function outputLabel(s) {
 
 // ---------------------------------------------------------------- Stories tab
 
-const blankStory = () => ({ name: '', loop: true, steps: [{ label: 'Begin', speed: 30, ms: 3000, ramp: 800 }] });
+const blankStory = () => ({ name: '', orig: '', loop: true, steps: [{ label: 'Begin', speed: 30, ms: 3000, ramp: 800 }] });
 
 function renderStories() {
+  if (state.plEditing) return renderPlaylistEditor();
   if (state.editing) return renderEditor();
   return [
     h('section', { class: 'card' },
@@ -217,13 +267,26 @@ function renderStories() {
             h('button', { class: 'btn small', onclick: () => deleteStory(n) }, 'Delete')))),
       h('label', { class: 'btn', style: 'justify-self:start' }, 'Import story (.json)',
         h('input', { type: 'file', accept: '.json,application/json', hidden: true, onchange: importStory }))),
+
+    h('section', { class: 'card' },
+      h('div', { class: 'row' },
+        h('h2', { class: 'grow' }, 'Playlists'),
+        h('button', { class: 'btn primary', disabled: state.stories.length === 0, onclick: () => { state.plEditing = { name: '', orig: '', stories: [state.stories[0]] }; state.plIsNew = true; render(); } }, 'New playlist')),
+      h('p', { class: 'muted', style: 'margin:0;font-size:14px' }, 'A playlist plays its stories in order, once each, then starts again.'),
+      state.playlists.length === 0
+        ? h('p', { class: 'muted', style: 'margin:0' }, 'No playlists yet.')
+        : h('div', { class: 'list' }, state.playlists.map((n) => h('div', { class: 'item', 'data-pl': n },
+            h('span', { class: 'name' }, n),
+            h('button', { class: 'btn small primary', onclick: () => api('POST', '/api/play', { playlist: n }).then(() => toast(`Playing ${n}`)).catch((e) => toast(e.message)) }, 'Play'),
+            h('button', { class: 'btn small', onclick: () => editPlaylist(n) }, 'Edit'),
+            h('button', { class: 'btn small', onclick: (e) => deletePlaylist(n, e.currentTarget) }, 'Delete'))))),
   ];
 }
 
 async function editStory(name) {
   try {
     const s = await api('GET', `/api/stories/${encodeURIComponent(name)}`);
-    state.editing = { name, loop: s.loop !== false, steps: (s.steps || []).map((x) => ({ label: x.label || '', speed: x.speed, ms: x.ms, ramp: x.ramp ?? 300 })) };
+    state.editing = { name, orig: name, loop: s.loop !== false, steps: (s.steps || []).map((x) => ({ label: x.label || '', speed: x.speed, ms: x.ms, ramp: x.ramp ?? 300 })) };
     state.isNew = false;
     render();
   } catch (e) { toast(e.message); }
@@ -309,7 +372,8 @@ function renderEditor() {
         h('h2', { class: 'grow' }, state.isNew ? 'New story' : `Editing ${st.name}`)),
       h('div', { class: 'grid2' },
         h('label', { class: 'field' }, 'Name (letters, digits, - and _)',
-          h('input', { type: 'text', value: st.name, maxlength: 31, disabled: !state.isNew, oninput: (e) => (st.name = e.target.value) })),
+          h('input', { type: 'text', value: st.name, maxlength: 31, placeholder: 'Name this story', oninput: (e) => (st.name = e.target.value.trim()) }),
+          state.isNew ? null : h('span', { class: 'muted', style: 'font-size:13px' }, `Change the name to save a copy; "${st.orig}" stays as it is.`)),
         h('label', { class: 'check', style: 'align-self:end' }, h('input', { type: 'checkbox', checked: st.loop, onchange: (e) => (st.loop = e.target.checked) }), 'Loop forever')),
       tl),
 
@@ -318,6 +382,11 @@ function renderEditor() {
         h('h2', { class: 'grow' }, 'Record by performing'),
         rec ? h('span', { class: 'rec' }, '● Recording') : null),
       h('p', { class: 'muted', style: 'margin:0;font-size:14px' }, 'Press Record, then move the slider the way you would turn the crank. Each time you settle on a speed it becomes a beat. Recording replaces the beats below.'),
+      h('label', { class: 'field' }, 'Play along with (optional)',
+        h('select', { id: 'recGuide', disabled: !!rec, onchange: (e) => (state.recGuide = e.target.value) },
+          h('option', { value: '' }, 'Nothing: the slider drives the motor'),
+          state.stories.map((n) => h('option', { value: n, selected: n === state.recGuide }, n)))),
+      rec && rec.guide ? h('p', { class: 'muted', style: 'margin:0;font-size:14px' }, `${rec.guide} is playing on the motor. The slider only records, so the new take is built on top of it.`) : null,
       h('input', { type: 'range', id: 'recSlider', min: -100, max: 100, value: 0, disabled: !rec, 'aria-label': 'Performance speed',
         oninput: (e) => recordInput(Number(e.target.value)) }),
       h('div', { class: 'row' },
@@ -341,10 +410,12 @@ async function saveStory(andPlay) {
   const st = state.editing;
   const name = (st.name || '').trim();
   if (!/^[A-Za-z0-9_-]{1,31}$/.test(name)) { toast('Name: 1–31 letters, digits, - or _'); return; }
+  if (name !== st.orig && state.stories.includes(name)) { toast(`A story called ${name} already exists. Pick another name.`); return; }
   const body = { name, loop: st.loop, steps: st.steps.map((s) => ({ label: s.label, speed: Math.round(s.speed), ms: Math.max(0, Math.round(s.ms)), ramp: Math.max(0, Math.round(s.ramp)) })) };
   try {
     await api('PUT', `/api/stories/${encodeURIComponent(name)}`, body);
     state.isNew = false;
+    st.orig = name;
     await loadStories();
     if (andPlay) await api('POST', '/api/play', { name });
     toast(andPlay ? `Saved and playing ${name}` : `Saved ${name}`);
@@ -352,8 +423,13 @@ async function saveStory(andPlay) {
   } catch (e) { toast(`Save failed: ${e.message}`); }
 }
 
-function startRecording() {
-  state.recording = { t0: performance.now(), points: [{ t: 0, v: 0 }], lastV: 0, settle: null };
+async function startRecording() {
+  const guide = state.recGuide && state.stories.includes(state.recGuide) ? state.recGuide : '';
+  if (guide) {
+    // The guide story drives the motor; the slider only records.
+    try { await api('POST', '/api/play', { name: guide }); } catch (e) { toast(e.message); return; }
+  }
+  state.recording = { t0: performance.now(), points: [{ t: 0, v: 0 }], lastV: 0, settle: null, guide };
   render();
   $('#recSlider')?.focus();
 }
@@ -361,7 +437,7 @@ function startRecording() {
 function recordInput(v) {
   const r = state.recording;
   if (!r) return;
-  sendSpeed(v);
+  if (!r.guide) sendSpeed(v);
   clearTimeout(r.settle);
   // A beat is recorded once the slider rests for a moment at a new speed.
   r.settle = setTimeout(() => {
@@ -375,7 +451,7 @@ function stopRecording(keep) {
   clearTimeout(r.settle);
   state.recording = null;
   sendSpeed.cancel();
-  send({ t: 'speed', v: 0 });
+  send({ t: 'stop' });
   if (keep && r.points.length > 1) {
     const end = performance.now() - r.t0;
     const pts = r.points.slice(1);
@@ -389,6 +465,69 @@ function stopRecording(keep) {
     toast('Nothing recorded: move the slider and pause on each speed.');
   }
   render();
+}
+
+// ---------------------------------------------------------------- Playlists
+
+async function editPlaylist(name) {
+  try {
+    const p = await api('GET', `/api/playlists/${encodeURIComponent(name)}`);
+    state.plEditing = { name, orig: name, stories: Array.isArray(p.stories) ? p.stories.slice() : [] };
+    state.plIsNew = false;
+    render();
+  } catch (e) { toast(e.message); }
+}
+
+async function deletePlaylist(name, btn) {
+  // Two-tap delete, like stories.
+  if (btn.dataset.armed !== '1') { btn.dataset.armed = '1'; btn.textContent = 'Tap again'; setTimeout(() => { btn.dataset.armed = ''; btn.textContent = 'Delete'; }, 3000); return; }
+  try { await api('DELETE', `/api/playlists/${encodeURIComponent(name)}`); await loadStories(); render(); toast(`Deleted ${name}`); }
+  catch (e) { toast(e.message); }
+}
+
+function renderPlaylistEditor() {
+  const pl = state.plEditing;
+  const rows = pl.stories.map((n, i) => h('div', { class: 'item' },
+    h('span', { class: 'num mono muted' }, String(i + 1).padStart(2, '0')),
+    h('select', { class: 'grow', 'aria-label': `Story ${i + 1}`, onchange: (e) => (pl.stories[i] = e.target.value) },
+      [...new Set([...state.stories, n])].map((s) => h('option', { value: s, selected: s === n }, state.stories.includes(s) ? s : `${s} (missing)`))),
+    h('button', { class: 'btn small', 'aria-label': 'Move up', disabled: i === 0, onclick: () => { [pl.stories[i - 1], pl.stories[i]] = [pl.stories[i], pl.stories[i - 1]]; render(); } }, '↑'),
+    h('button', { class: 'btn small', 'aria-label': 'Move down', disabled: i === pl.stories.length - 1, onclick: () => { [pl.stories[i + 1], pl.stories[i]] = [pl.stories[i], pl.stories[i + 1]]; render(); } }, '↓'),
+    h('button', { class: 'btn small', 'aria-label': 'Remove story', disabled: pl.stories.length === 1, onclick: () => { pl.stories.splice(i, 1); render(); } }, '✕')));
+  return [
+    h('section', { class: 'card' },
+      h('div', { class: 'row' },
+        h('button', { class: 'btn', onclick: () => { state.plEditing = null; render(); } }, '← Stories'),
+        h('h2', { class: 'grow' }, state.plIsNew ? 'New playlist' : `Editing ${pl.orig}`)),
+      h('label', { class: 'field' }, 'Name (letters, digits, - and _)',
+        h('input', { type: 'text', value: pl.name, maxlength: 31, placeholder: 'Name this playlist', oninput: (e) => (pl.name = e.target.value.trim()) }),
+        state.plIsNew ? null : h('span', { class: 'muted', style: 'font-size:13px' }, `Change the name to save a copy; "${pl.orig}" stays as it is.`))),
+    h('section', { class: 'card' },
+      h('h2', {}, `Stories in order (${pl.stories.length})`),
+      h('div', { class: 'list' }, rows),
+      h('button', { class: 'btn', style: 'justify-self:start', disabled: pl.stories.length >= 16 || state.stories.length === 0,
+        onclick: () => { pl.stories.push(state.stories[0]); render(); } }, 'Add a story')),
+    h('section', { class: 'card' },
+      h('div', { class: 'row' },
+        h('button', { class: 'btn primary big', onclick: () => savePlaylist(false) }, 'Save'),
+        h('button', { class: 'btn big', onclick: () => savePlaylist(true) }, 'Save and play'))),
+  ];
+}
+
+async function savePlaylist(andPlay) {
+  const pl = state.plEditing;
+  const name = (pl.name || '').trim();
+  if (!/^[A-Za-z0-9_-]{1,31}$/.test(name)) { toast('Name: 1–31 letters, digits, - or _'); return; }
+  if (name !== pl.orig && state.playlists.includes(name)) { toast(`A playlist called ${name} already exists. Pick another name.`); return; }
+  try {
+    await api('PUT', `/api/playlists/${encodeURIComponent(name)}`, { stories: pl.stories });
+    state.plIsNew = false;
+    pl.orig = name;
+    await loadStories();
+    if (andPlay) await api('POST', '/api/play', { playlist: name });
+    toast(andPlay ? `Saved and playing ${name}` : `Saved ${name}`);
+    render();
+  } catch (e) { toast(`Save failed: ${e.message}`); }
 }
 
 // ---------------------------------------------------------------- Settings tab
@@ -440,13 +579,17 @@ function renderSettings() {
     h('section', { class: 'card' },
       h('h2', {}, 'Wi-Fi'),
       h('p', { class: 'muted', style: 'margin:0;font-size:14px' },
-        `The box runs its own network${net.ap_ssid ? ` "${net.ap_ssid}"` : ''}. Optionally it can also join yours${net.sta_ip ? ` (joined, ${net.sta_ip})` : ''}. Changes apply after a restart. Hold the panel button while powering up to reset these.`),
+        `The box runs its own network${net.ap_ssid ? ` "${net.ap_ssid}"` : ''}. It can also join up to ${MAX_NETS} of yours, tried in the order listed${net.sta_ip ? ` (joined ${net.sta_ssid}, ${net.sta_ip})` : ''}. Changes apply after a restart. Hold the panel button while powering up to reset these.`),
       h('div', { class: 'grid2' },
         text('ap_ssid', 'Box network name (blank = CamBox-XXXX)'),
         text('ap_pass', 'Box password (8+ characters, blank = open)', 'password', s.ap_pass_set ? 'unchanged' : ''),
-        text('sta_ssid', 'Join this network (optional)'),
-        text('sta_pass', 'Its password', 'password', s.sta_pass_set ? 'unchanged' : ''),
         text('hostname', 'Name on the network (.local)')),
+      h('h3', { style: 'margin:8px 0 0;font-size:15px' }, 'Networks to join'),
+      h('div', { class: 'list', id: 'netList' }, (s.networks || []).map(netRow)),
+      h('button', { class: 'btn', id: 'btnAddNet', style: 'justify-self:start', onclick: () => {
+        $('#netList').append(netRow({ ssid: '', pass_set: false }));
+        updateAddNet();
+      } }, 'Add a network'),
       h('div', { class: 'row' },
         h('button', { class: 'btn primary', onclick: saveNetwork }, 'Save Wi-Fi'),
         h('button', { class: 'btn', id: 'btnRestart', onclick: () => api('POST', '/api/restart').then(() => toast('Restarting… reconnect in a few seconds')).catch(() => toast('Restarting…')) }, 'Restart box'))),
@@ -471,12 +614,43 @@ function collect(keys) {
   return out;
 }
 
+const MAX_NETS = 4;
+
+// One saved network: name, password (blank keeps the saved one), Use (saved ones only) and a remove button.
+function netRow(n) {
+  const joined = !!n.ssid && state.status?.net?.sta_ssid === n.ssid;
+  const row = h('div', { class: 'item net', style: 'flex-wrap:wrap' },
+    h('input', { type: 'text', class: 'net-ssid', value: n.ssid, placeholder: 'Network name', 'aria-label': 'Network name', autocomplete: 'off', style: 'flex:1 1 140px' }),
+    h('input', { type: 'password', class: 'net-pass', value: '', placeholder: n.pass_set ? 'password unchanged' : 'password (blank = open)', 'aria-label': 'Network password', autocomplete: 'off', style: 'flex:1 1 140px' }),
+    n.ssid ? h('button', { class: 'btn small', disabled: joined, 'aria-label': `Use ${n.ssid}`, onclick: () => useNetwork(n.ssid) }, joined ? 'Joined' : 'Use') : null,
+    h('button', { class: 'btn small', 'aria-label': 'Remove network', onclick: () => { row.remove(); updateAddNet(); } }, 'Remove'));
+  return row;
+}
+
+// Make a saved network the first choice and rejoin it now (no restart, unless none was saved at power-up).
+async function useNetwork(ssid) {
+  try {
+    const res = await api('POST', '/api/wifi/use', { ssid });
+    state.settings = res;
+    toast(res.restart_needed ? `Saved ${ssid} as first choice. Restart the box to join it.` : `Switching to ${ssid}…`);
+    render();
+  } catch (e) { toast(`Couldn't switch: ${e.message}`); }
+}
+
+function updateAddNet() {
+  const b = /** @type {HTMLButtonElement | null} */ (document.getElementById('btnAddNet'));
+  if (b) b.disabled = document.querySelectorAll('#netList .net').length >= MAX_NETS;
+}
+
 async function saveNetwork() {
-  const body = collect(['ap_ssid', 'sta_ssid', 'hostname']);
-  for (const k of ['ap_pass', 'sta_pass']) {
-    const v = /** @type {HTMLInputElement} */ (document.getElementById(`set_${k}`)).value;
-    if (v) body[k] = v;
-  }
+  const body = collect(['ap_ssid', 'hostname']);
+  const ap = /** @type {HTMLInputElement} */ (document.getElementById('set_ap_pass')).value;
+  if (ap) body.ap_pass = ap;
+  body.networks = [...document.querySelectorAll('#netList .net')].map((row) => {
+    const ssid = /** @type {HTMLInputElement} */ (row.querySelector('.net-ssid')).value.trim();
+    const pass = /** @type {HTMLInputElement} */ (row.querySelector('.net-pass')).value;
+    return pass ? { ssid, pass } : { ssid };   // no "pass" key: the box keeps the saved password for that name
+  }).filter((n) => n.ssid);
   if (body.ap_pass && body.ap_pass.length < 8) { toast('Box password needs 8 or more characters'); return; }
   const res = await saveSettings(body);
   if (res && res.restart_needed) toast('Saved. Restart the box to use the new Wi-Fi settings.');
@@ -498,6 +672,7 @@ function render() {
   document.querySelectorAll('.tabs button').forEach((/** @type {HTMLButtonElement} */ b) => b.setAttribute('aria-selected', String(b.dataset.tab === state.tab)));
   const views = { play: renderPlay, stories: renderStories, settings: renderSettings };
   $('#app').replaceChildren(...views[state.tab]().filter(Boolean));
+  if (state.tab === 'play') wireVirtualButton();
   updateLive();
 }
 
@@ -506,7 +681,7 @@ document.querySelectorAll('.tabs button').forEach((/** @type {HTMLButtonElement}
   if (state.tab === 'settings') send({ t: 'trim_end' });
   state.tab = b.dataset.tab;
   if (state.tab === 'settings') state.settings = await api('GET', '/api/settings').catch(() => state.settings);
-  if (state.tab !== 'stories') state.editing = null;
+  if (state.tab !== 'stories') { state.editing = null; state.plEditing = null; }
   render();
   try { localStorage.setItem('cambox.tab', state.tab); } catch { /* private mode */ }
 }));

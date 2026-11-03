@@ -14,7 +14,22 @@ static const char *TAG = "net";
 static esp_netif_t *s_ap, *s_sta;
 static char s_ap_ssid[33];
 static char s_sta_ip[16] = "";
-static int  s_sta_retries = 0;
+static char s_cur_ssid[33] = "";      // network we are joined to
+static int  s_idx = 0;                // network being tried
+static int  s_tries = 0;              // failed attempts on s_idx
+static int  s_total = 0;              // failed attempts since the last success
+static bool s_paused = false;         // retries stopped so a scan can run
+
+#define TRIES_PER_NET 3
+#define MAX_ROUNDS    5               // give up after this many passes through the list
+
+static void use_net(int i)
+{
+    wifi_config_t sta = { 0 };
+    strncpy((char *)sta.sta.ssid, g_settings.nets[i].ssid, sizeof sta.sta.ssid);
+    strncpy((char *)sta.sta.password, g_settings.nets[i].pass, sizeof sta.sta.password);
+    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &sta));
+}
 
 static void on_event(void *arg, esp_event_base_t base, int32_t id, void *data)
 {
@@ -22,13 +37,24 @@ static void on_event(void *arg, esp_event_base_t base, int32_t id, void *data)
         esp_wifi_connect();
     } else if (base == WIFI_EVENT && id == WIFI_EVENT_STA_DISCONNECTED) {
         s_sta_ip[0] = 0;
-        if (s_sta_retries++ < 20) esp_wifi_connect();
-        else ESP_LOGW(TAG, "giving up on %s; access point still running", g_settings.sta_ssid);
+        s_cur_ssid[0] = 0;
+        if (s_paused) return;
+        if (++s_total > TRIES_PER_NET * g_settings.net_count * MAX_ROUNDS) {
+            ESP_LOGW(TAG, "giving up on Wi-Fi; access point still running");
+            return;
+        }
+        if (++s_tries >= TRIES_PER_NET && g_settings.net_count > 1) {
+            s_tries = 0;
+            s_idx = (s_idx + 1) % g_settings.net_count;
+            use_net(s_idx);
+        }
+        esp_wifi_connect();
     } else if (base == IP_EVENT && id == IP_EVENT_STA_GOT_IP) {
         ip_event_got_ip_t *e = data;
         snprintf(s_sta_ip, sizeof s_sta_ip, IPSTR, IP2STR(&e->ip_info.ip));
-        s_sta_retries = 0;
-        ESP_LOGI(TAG, "joined %s as %s", g_settings.sta_ssid, s_sta_ip);
+        s_tries = s_total = 0;
+        strncpy(s_cur_ssid, g_settings.nets[s_idx].ssid, sizeof s_cur_ssid - 1);
+        ESP_LOGI(TAG, "joined %s as %s", s_cur_ssid, s_sta_ip);
     } else if (base == WIFI_EVENT && id == WIFI_EVENT_AP_STACONNECTED) {
         ESP_LOGI(TAG, "a device joined %s", s_ap_ssid);
     }
@@ -38,7 +64,7 @@ void net_start(void)
 {
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
-    bool use_sta = g_settings.sta_ssid[0] != 0;
+    bool use_sta = g_settings.net_count > 0;
     s_ap = esp_netif_create_default_wifi_ap();
     if (use_sta) s_sta = esp_netif_create_default_wifi_sta();
 
@@ -67,10 +93,7 @@ void net_start(void)
     ESP_ERROR_CHECK(esp_wifi_set_mode(use_sta ? WIFI_MODE_APSTA : WIFI_MODE_AP));
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &ap));
     if (use_sta) {
-        wifi_config_t sta = { 0 };
-        strncpy((char *)sta.sta.ssid, g_settings.sta_ssid, sizeof sta.sta.ssid);
-        strncpy((char *)sta.sta.password, g_settings.sta_pass, sizeof sta.sta.password);
-        ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &sta));
+        use_net(0);
     }
     ESP_ERROR_CHECK(esp_wifi_start());
 
@@ -87,11 +110,44 @@ void net_start(void)
              s_ap_ssid, ap.ap.authmode == WIFI_AUTH_OPEN ? "open" : "WPA2", IP2STR(&ip.ip), g_settings.hostname);
 }
 
+esp_err_t net_use(int i)
+{
+    if (i < 0 || i >= g_settings.net_count) return ESP_ERR_INVALID_ARG;
+    wifi_net_t chosen = g_settings.nets[i];
+    memmove(&g_settings.nets[1], &g_settings.nets[0], i * sizeof chosen);
+    g_settings.nets[0] = chosen;
+    esp_err_t err = settings_save();
+    if (err != ESP_OK) return err;
+    if (!s_sta) return ESP_ERR_INVALID_STATE;     // the station interface exists only if a network was saved at boot
+    s_idx = 0;
+    s_tries = s_total = 0;
+    use_net(0);
+    ESP_LOGI(TAG, "switching to %s", chosen.ssid);
+    esp_wifi_disconnect();
+    esp_wifi_connect();
+    return ESP_OK;
+}
+
+bool net_pause(void)
+{
+    if (!s_sta || s_sta_ip[0]) return false;      // joined: a scan can run alongside
+    s_paused = true;
+    esp_wifi_disconnect();
+    return true;
+}
+
+void net_resume(void)
+{
+    s_paused = false;
+    s_tries = s_total = 0;
+    esp_wifi_connect();
+}
+
 cJSON *net_status(void)
 {
     cJSON *j = cJSON_CreateObject();
     cJSON_AddStringToObject(j, "ap_ssid", s_ap_ssid);
-    cJSON_AddStringToObject(j, "sta_ssid", g_settings.sta_ssid);
+    cJSON_AddStringToObject(j, "sta_ssid", s_cur_ssid);
     cJSON_AddStringToObject(j, "sta_ip", s_sta_ip);
     cJSON_AddStringToObject(j, "hostname", g_settings.hostname);
     return j;
