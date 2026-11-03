@@ -1,5 +1,6 @@
 // Serial console on the board's USB-C (USB Serial/JTAG): Wi-Fi setup and diagnostics without the web app.
-// Type `help` for the list. Settings changes are saved to NVS at once; network changes apply after `restart`.
+// Type `help` for the list. Settings changes are saved to NVS at once; `wifi use` switches networks live,
+// other network changes apply after `restart`.
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -44,8 +45,10 @@ static int cmd_status(int argc, char **argv)
     const char *ip = cJSON_GetObjectItem(n, "sta_ip")->valuestring;
     printf("access point \"%s\", http://%s.local\n", cJSON_GetObjectItem(n, "ap_ssid")->valuestring,
            cJSON_GetObjectItem(n, "hostname")->valuestring);
-    if (!sta[0]) {
-        printf("home network: none set (wifi join <name> <password>)\n");
+    if (!g_settings.net_count) {
+        printf("home network: none saved (wifi add <name> <password>)\n");
+    } else if (!sta[0]) {
+        printf("home network: not connected (%d saved; type `wifi`)\n", g_settings.net_count);
     } else {
         wifi_ap_record_t ap;
         if (ip[0] && esp_wifi_sta_get_ap_info(&ap) == ESP_OK)
@@ -80,8 +83,11 @@ static int wifi_scan(void)
     wifi_mode_t mode;
     esp_wifi_get_mode(&mode);
     if (mode == WIFI_MODE_AP) esp_wifi_set_mode(WIFI_MODE_APSTA);   // scanning needs the station interface
+    bool paused = net_pause();
     wifi_scan_config_t cfg = { .show_hidden = false };
-    esp_err_t err = esp_wifi_scan_start(&cfg, true);
+    esp_err_t err;
+    for (int i = 0; (err = esp_wifi_scan_start(&cfg, true)) == ESP_ERR_WIFI_STATE && i < 10; i++)
+        vTaskDelay(pdMS_TO_TICKS(100));             // the disconnect takes a moment to land
     uint16_t n = 0;
     wifi_ap_record_t *recs = NULL;
     if (err == ESP_OK) {
@@ -91,6 +97,7 @@ static int wifi_scan(void)
         if (recs) esp_wifi_scan_get_ap_records(&n, recs);
     }
     if (mode == WIFI_MODE_AP) esp_wifi_set_mode(WIFI_MODE_AP);
+    if (paused) net_resume();
     if (err != ESP_OK || !recs) { printf("scan failed: %s\n", esp_err_to_name(err)); free(recs); return 1; }
     printf("%d networks (2.4 GHz only; this chip can't see 5 GHz):\n", n);
     for (int i = 0; i < n; i++)
@@ -100,32 +107,88 @@ static int wifi_scan(void)
     return 0;
 }
 
+static const char *WIFI_USE =
+    "use: wifi | wifi scan | wifi add <name> [password] | wifi use <n|name> | wifi join <name> [password]\n"
+    "     wifi remove <n|name> | wifi forget   (quote names with spaces)\n";
+
+static void wifi_list(void)
+{
+    cJSON *n = net_status();
+    const char *cur = cJSON_GetObjectItem(n, "sta_ssid")->valuestring;
+    if (!g_settings.net_count) printf("no saved networks (wifi add <name> <password>)\n");
+    else printf("saved networks, tried in this order (* = joined now):\n");
+    for (int i = 0; i < g_settings.net_count; i++)
+        printf("  %d %s %s%s\n", i + 1, cur[0] && !strcmp(cur, g_settings.nets[i].ssid) ? "*" : " ",
+               g_settings.nets[i].ssid, g_settings.nets[i].pass[0] ? "" : "  (open)");
+    cJSON_Delete(n);
+}
+
+// A list number (1-based) or a saved name; -1 if neither.
+static int wifi_find(const char *arg)
+{
+    char *end;
+    long k = strtol(arg, &end, 10);
+    if (*arg && !*end) return (k >= 1 && k <= g_settings.net_count) ? (int)k - 1 : -1;
+    for (int i = 0; i < g_settings.net_count; i++) if (!strcmp(g_settings.nets[i].ssid, arg)) return i;
+    return -1;
+}
+
+// Add a network, or update the password of one already saved. Returns its index, or -1.
+static int wifi_add(int argc, char **argv)
+{
+    if (strlen(argv[2]) > 32 || (argc == 4 && strlen(argv[3]) > 64)) { printf("name or password too long\n"); return -1; }
+    int i = 0;
+    while (i < g_settings.net_count && strcmp(g_settings.nets[i].ssid, argv[2])) i++;   // same name: update it
+    if (i == g_settings.net_count) {
+        if (i >= WIFI_MAX_NETS) { printf("already %d networks saved; wifi remove one first\n", WIFI_MAX_NETS); return -1; }
+        g_settings.net_count++;
+    }
+    strcpy(g_settings.nets[i].ssid, argv[2]);
+    strcpy(g_settings.nets[i].pass, argc == 4 ? argv[3] : "");
+    return save_or_complain() ? -1 : i;
+}
+
+static int wifi_use(int i)
+{
+    esp_err_t err = net_use(i);
+    if (err == ESP_ERR_INVALID_STATE) { printf("saved as first choice. Type `restart` to join it.\n"); return 0; }
+    if (err != ESP_OK) { printf("could not switch: %s\n", esp_err_to_name(err)); return 1; }
+    printf("switching to \"%s\"... type `status` in a few seconds to see the address\n", g_settings.nets[0].ssid);
+    return 0;
+}
+
 static int cmd_wifi(int argc, char **argv)
 {
-    if (argc == 1) {
-        printf("home network: %s%s%s\n", g_settings.sta_ssid[0] ? "\"" : "none",
-               g_settings.sta_ssid, g_settings.sta_ssid[0] ? "\"" : "");
-        printf("password: %s\n", g_settings.sta_pass[0] ? "set" : "none");
-        printf("use: wifi scan | wifi join <name> [password] | wifi forget   (quote names with spaces)\n");
+    if (argc == 1 || (argc == 2 && !strcmp(argv[1], "list"))) { wifi_list(); if (argc == 1) printf("%s", WIFI_USE); return 0; }
+    if (!strcmp(argv[1], "scan")) return wifi_scan();
+    if ((!strcmp(argv[1], "add") || !strcmp(argv[1], "join")) && (argc == 3 || argc == 4)) {
+        int i = wifi_add(argc, argv);
+        if (i < 0) return 1;
+        if (!strcmp(argv[1], "join")) return wifi_use(i);
+        printf("saved \"%s\" as number %d. `wifi use %d` switches to it now.\n", g_settings.nets[i].ssid, i + 1, i + 1);
         return 0;
     }
-    if (!strcmp(argv[1], "scan")) return wifi_scan();
-    if (!strcmp(argv[1], "join") && (argc == 3 || argc == 4)) {
-        if (strlen(argv[2]) > 32 || (argc == 4 && strlen(argv[3]) > 64)) { printf("name or password too long\n"); return 1; }
-        strcpy(g_settings.sta_ssid, argv[2]);
-        strcpy(g_settings.sta_pass, argc == 4 ? argv[3] : "");
-        if (save_or_complain()) return 1;
-        printf("saved \"%s\". Type `restart` to join it (the CamBox access point stays on).\n", g_settings.sta_ssid);
-        return 0;
+    if (!strcmp(argv[1], "use") && argc == 3) {
+        int i = wifi_find(argv[2]);
+        if (i < 0) { printf("no saved network \"%s\" (type `wifi` for the list)\n", argv[2]); return 1; }
+        return wifi_use(i);
+    }
+    if (!strcmp(argv[1], "remove") && argc == 3) {
+        int i = wifi_find(argv[2]);
+        if (i < 0) { printf("no saved network \"%s\" (type `wifi` for the list)\n", argv[2]); return 1; }
+        printf("removed \"%s\"\n", g_settings.nets[i].ssid);
+        memmove(&g_settings.nets[i], &g_settings.nets[i + 1], (g_settings.net_count - i - 1) * sizeof g_settings.nets[0]);
+        memset(&g_settings.nets[--g_settings.net_count], 0, sizeof g_settings.nets[0]);
+        return save_or_complain();
     }
     if (!strcmp(argv[1], "forget")) {
-        g_settings.sta_ssid[0] = 0;
-        g_settings.sta_pass[0] = 0;
+        memset(g_settings.nets, 0, sizeof g_settings.nets);
+        g_settings.net_count = 0;
         if (save_or_complain()) return 1;
-        printf("home network forgotten. Type `restart` to apply.\n");
+        printf("all saved networks forgotten. Type `restart` to apply.\n");
         return 0;
     }
-    printf("use: wifi | wifi scan | wifi join <name> [password] | wifi forget\n");
+    printf("%s", WIFI_USE);
     return 1;
 }
 
@@ -243,7 +306,7 @@ void console_start(void)
 {
     static const esp_console_cmd_t cmds[] = {
         { .command = "status", .help = "Board, Wi-Fi, knob, button, motor and player at a glance", .func = cmd_status },
-        { .command = "wifi", .help = "Home network: wifi | wifi scan | wifi join <name> [password] | wifi forget", .func = cmd_wifi },
+        { .command = "wifi", .help = "Saved networks: wifi | scan | add <name> [password] | use <n|name> | join <name> [password] | remove <n|name> | forget", .func = cmd_wifi },
         { .command = "ap", .help = "CamBox access point: ap <name> [password] | ap default", .func = cmd_ap },
         { .command = "get", .help = "Show settings: get | get <name>", .func = cmd_get },
         { .command = "set", .help = "Change and save a setting: set <name> <value>", .func = cmd_set },

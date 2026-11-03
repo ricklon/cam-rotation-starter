@@ -37,13 +37,25 @@ The full point-to-point wire list for the MG90S drive (W1–W11, L1–L3, J1–J
 | Knob | Story speed (master %) while a story plays; manual speed otherwise. It can be disabled in Settings. |
 | Switch FWD / centre / REV | Sets direction for everything, including web commands. Centre stops the motor and pauses a story. If the switch isn't fitted, untick "Direction switch is wired" so the box always runs forward. The Super Mini board has no switch at all (`BOARD_HAS_DIR_SWITCH` 0 in `board.h`): it runs forward and the web app hides the setting. |
 
+### Virtual panel
+
+The Play tab has a **Virtual panel** with the same three controls, for a box whose button, knob or switch aren't fitted yet (or for testing from a phone):
+
+| Virtual control | Does the same as |
+|---|---|
+| Button: tap, double-tap, hold 2 s | Button short, double, long press |
+| Knob slider, 0–100 % | The knob. It works even when "Use the speed knob" is off. |
+| Reverse / Stop / Forward | The direction switch. **Only active while "Direction switch is wired" is unticked**; a wired switch always wins. It starts at Forward after every boot and isn't saved. |
+
+The WebSocket messages behind them are `{"t":"btn","v":"short"|"double"|"long"}`, `{"t":"dir","v":-1|0|1}` and `{"t":"knob","v":0..100}`.
+
 LED: steady while a story plays, a short blink every 2 s when ready.
 
 ## Connecting
 
 1. Power the box. Join the Wi-Fi network **CamBox-XXXX** (open by default; the last four characters come from the board's MAC address).
 2. Your phone should open the app automatically (captive portal). If it doesn't, go to `http://192.168.4.1` or `http://cambox.local`.
-3. Optional: in Settings → Wi-Fi, enter your own network so the box joins it too. Then use `http://cambox.local` from that network. Or do it over USB with the serial console (below).
+3. Optional: in Settings → Wi-Fi, add your own network (or several: school, home, a phone hotspot) so the box joins the first one it can reach. Then use `http://cambox.local` from that network. Or do it over USB with the serial console (below).
 
 ## Serial console
 
@@ -56,10 +68,12 @@ uvx --from pyserial pyserial-miniterm --eol CRLF COM3 115200    # or idf.py -p P
 | Command | What it does |
 |---|---|
 | `status` | Board, drive, uptime, free heap, access point, home network (IP, signal), knob, button, direction, motor speed and duty, player |
-| `wifi` | Show the saved home network (the password only as set / none) |
+| `wifi`, `wifi list` | The saved networks (up to 4), numbered in the order they're tried. `*` marks the one joined now. |
 | `wifi scan` | List the networks the board can hear. It's 2.4 GHz only, so a 5 GHz-only network won't appear. |
-| `wifi join <name> [password]` | Save a home network. Quote names with spaces: `wifi join "Dog Den" secret`. Then `restart`. |
-| `wifi forget` | Clear the home network. Then `restart`. |
+| `wifi add <name> [password]` | Save a network at the end of the list, or change the password of one already saved. Quote names with spaces: `wifi add "Dog Den" secret`. |
+| `wifi use <n\|name>` | Make that network first and join it now |
+| `wifi join <name> [password]` | `wifi add`, then `wifi use` |
+| `wifi remove <n\|name>`, `wifi forget` | Remove one saved network, or all of them |
 | `ap <name> [password]`, `ap default` | Rename the CamBox access point or give it a password (8+ characters). Then `restart`. |
 | `get`, `get <name>` | Show settings (the same fields as `/api/settings`, no passwords) |
 | `set <name> <value>` | Change and save one setting, clamped like the web app: `set slew 200`, `set knob_enabled false` |
@@ -69,7 +83,7 @@ uvx --from pyserial pyserial-miniterm --eol CRLF COM3 115200    # or idf.py -p P
 | `restart` | Restart (applies network changes) |
 | `reset-network` | All Wi-Fi settings back to defaults, like holding the button at power-up |
 
-Network changes are saved at once and take effect after `restart`; everything else takes effect immediately.
+Changes are saved at once. `wifi use` and `wifi join` switch networks straight away if the box started with at least one network saved; otherwise, and after `wifi forget`, `ap` or `reset-network`, `restart` to apply them. Everything else takes effect immediately.
 
 ## Build and flash
 
@@ -129,6 +143,8 @@ Vite serves the app on your computer and proxies `/api` and `/ws` to the box. `n
 
 ## Stories
 
+A **playlist** (`/data/playlists/<name>.json`) is an ordered list of up to 16 story names. Play one with `POST /api/play {"playlist":"<name>"}` or from the Stories tab. It plays each story once, in order, then starts again; stories missing from the box are skipped. The loop flag and rest settings don't apply inside a playlist. Double-press or `POST /api/next` skips to the next story, and Stop ends the playlist. In the editor, changing a story's or playlist's name before Save saves a copy and leaves the original alone.
+
 Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–31 characters from `A–Z a–z 0–9 _ -`. Each story holds up to 64 steps.
 
 ```json
@@ -154,9 +170,12 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 | GET | `/api/status` | Player status plus `net`, `drive` (`"mg90s"` or `"n20"`), `trim_us`, `free_heap`. The motor output is `pulse_us` (servo) or `duty` (N20, −100..100 %). |
 | GET | `/api/settings` | Settings. Passwords are not returned; `ap_pass_set` / `sta_pass_set` say whether one is stored. |
 | POST | `/api/settings` | Any subset of the settings fields. Returns the settings plus `restart_needed`. |
+| POST | `/api/wifi/use` | `{"ssid":"school"}`: moves that saved network to the top of `networks` and joins it now. Returns the settings plus `restart_needed` (true if the box started with no network saved). |
 | POST | `/api/restart` | Restarts the box. |
 | GET | `/api/stories` | `["demo", …]` |
 | GET / PUT / DELETE | `/api/stories/<name>` | Story JSON |
+| GET | `/api/playlists` | `["both", …]` |
+| GET / PUT / DELETE | `/api/playlists/<name>` | Playlist JSON: `{"name":"both","stories":["demo","fwd-pause-rev"]}` (1–16 story names) |
 | POST | `/api/play` | `{"name":"demo"}` |
 | POST | `/api/pause`, `/api/stop`, `/api/next` | |
 
@@ -182,7 +201,7 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 | `autoplay`, `autoplay_story` | false, "" | Gallery mode: play this story when powered on. |
 | `rest_every`, `rest_ms` | 0, 5000 | Pause for `rest_ms` after every N loops. |
 | `ap_ssid`, `ap_pass` | "" | The box's own network. Blank name = CamBox-XXXX; a password under 8 characters = open network. |
-| `sta_ssid`, `sta_pass` | "" | Optional network to join as well. |
+| `networks` | [] | Up to 4 networks to join as well, `[{"ssid","pass"}]`, tried in order (3 attempts each). The API never returns passwords, only `pass_set`; an entry sent without `pass` keeps its saved password. A single `sta_ssid` / `sta_pass` from an older save becomes the first entry. |
 | `hostname` | cambox | mDNS name (`cambox.local`). |
 
 ## Layout

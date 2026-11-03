@@ -12,6 +12,7 @@
 #include "controls.h"
 
 #define STORY_MAX_STEPS 64
+#define PLAYLIST_MAX    16
 
 typedef struct {
     char  label[32];
@@ -31,6 +32,7 @@ void      player_init(void);
 bool      story_from_json(const cJSON *j, story_t *out, char *err, int errlen);
 
 esp_err_t player_play(const char *name);
+esp_err_t player_play_playlist(const char *name);   // stories in order, one pass each, then round again
 void      player_toggle_pause(void);
 void      player_stop(void);
 void      player_next(void);
