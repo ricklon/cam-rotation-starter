@@ -118,8 +118,8 @@ Follow this table one wire at a time and tick each off. The [step-by-step wiring
 | Wire | Colour | From | To | Notes |
 |---|---|---|---|---|
 | **Power** | | | | |
-| W1 | red | U1 + pad | perfboard A7 (5V bus) | Short jumper on the component side. |
-| W2 | black | U1 − pad | perfboard A8 (GND bus) | Short jumper on the component side. |
+| W1 | red | U1 + pad | perfboard A7 (5V bus) | Short jumper on the component side. On our PD board + is the inner pad, toward the channel; go by the marking on yours. Passes between A8 and B8, clear of W2. |
+| W2 | black | U1 − pad | perfboard A8 (GND bus) | Short jumper on the component side. On our PD board − is the outer pad, toward the column A edge. |
 | L1 | red | C1 + (long leg) | perfboard C7 (5V bus) | Up the −Y face behind the board, in from the underside. |
 | L2 | black | C1 − (stripe side) | perfboard B4 (GND) | Beside L1. Reversed polarity damages the capacitor. |
 | **Motor: the N20's factory leads** | | | | |
@@ -178,7 +178,7 @@ Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm p
 | Wire | Colour | Gauge | Routed | **Cut** |
 |---|---|---|---|---|
 | W1 | red | 30 AWG stranded | 10 mm | **25** |
-| W2 | black | 30 AWG stranded | 9 mm | **20** |
+| W2 | black | 30 AWG stranded | 8 mm | **20** |
 | L1 | red | 30 AWG stranded | 35 mm | **50** |
 | L2 | black | 30 AWG stranded | 37 mm | **55** |
 | W14 | red | motor's lead, ~26 AWG (assumed) | 62 mm | **85**, from the end cap |

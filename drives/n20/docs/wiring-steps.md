@@ -214,8 +214,8 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **Holes:** over A–C, rows 9–17
 - **Side:** component side
 - **What it does:** The USB-C power input. It isn't soldered into holes: it sits on two 3 mm foam pads over the Super Mini's left-hand strips.
-- **How:** Screw terminal desoldered and switches set to 5 V (Before you start). Stick it down with its USB-C past row 17, beside the Super Mini's, and its + and − pads toward row 8.
-- **Check:** Its USB-C sits about 1.4 mm past the board edge, beside the Super Mini's, and it lies flat.
+- **How:** Screw terminal desoldered and switches set to 5 V (Before you start). Stick it down with its USB-C past row 17, beside the Super Mini's, and its two output pads toward row 8. **Find + and − by the marking printed on your own PD board** (+ / − or VBUS / GND), not by this picture: boards differ. On ours, − (GND) is the outer pad, toward the column A edge, and + (VBUS) the inner one, toward the channel, as drawn.
+- **Check:** Before soldering W1 and W2: plug a USB-C charger into U1 and measure across its two pads on DC volts. The pad that reads +5 V against the other is + (W1, red); the other is − (W2, black). Unplug it again. Its USB-C sits about 1.4 mm past the board edge, and it lies flat.
 
 ### Step 18: W1, red, U1 + → A7
 
@@ -225,8 +225,8 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **Cut:** 25 mm
 - **From → to:** U1 + → A7
 - **Side:** component side
-- **What it does:** U1's 5 V output down to the +5V bus (row 7 left).
-- **Check:** U1's + pad connects to B7 and A3. It must not connect to U1's − pad.
+- **What it does:** U1's 5 V output, from its + (VBUS) pad, down to the +5V bus (row 7 left). On our board + is the inner pad; go by the marking on yours. Run it between A8 and B8, so it doesn't cross W2.
+- **Check:** Before soldering, make sure this is the pad marked + (or VBUS), the one that read +5 V in step 17. After: U1's + pad connects to B7 and A3. It must not connect to U1's − pad.
 
 ### Step 19: W2, black, U1 − → A8
 
@@ -236,8 +236,8 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **Cut:** 20 mm
 - **From → to:** U1 − → A8
 - **Side:** component side
-- **What it does:** U1's ground down to the GND bus (row 8 left).
-- **Check:** U1's − pad connects to B8 and the Super Mini's GND. U1 + must not connect to U1 −.
+- **What it does:** U1's ground, from its − (GND) pad, down to the GND bus (row 8 left). On our board − is the outer pad; go by the marking on yours.
+- **Check:** Before soldering, make sure this is the pad marked − (or GND). After: U1's − pad connects to B8 and the Super Mini's GND. U1 + must not connect to U1 −.
 
 ## On the drive: C1 and the control harness
 

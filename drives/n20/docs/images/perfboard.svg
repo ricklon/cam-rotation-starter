@@ -337,10 +337,12 @@
 <rect x="339.75" y="653.6999999999999" width="117" height="98.8" rx="4" fill="#bbb" fill-opacity="0.9" stroke="#fff"/>
 <text class="lbl" x="398.25" y="523.7" text-anchor="middle" style="fill:#fff;font-weight:600">U1 PD</text>
 <text class="lbl" x="398.25" y="545.8" text-anchor="middle" style="fill:#fff">on foam</text>
-<rect x="350.15" y="391.09999999999997" width="26" height="26" fill="#d7b95a"/>
-<polyline points="363.15,404.09999999999997 363.15,388.5 396.04,345.86 396.04,334.16" fill="none" stroke="#c23b2a" stroke-width="3.5" stroke-linejoin="round"/>
 <rect x="421.65" y="391.09999999999997" width="26" height="26" fill="#d7b95a"/>
-<polyline points="434.65,404.09999999999997 434.65,388.5 396.04,378.88 396.04,367.18" fill="none" stroke="#2f3a3d" stroke-width="3.5" stroke-linejoin="round"/>
+<polyline points="434.65,404.09999999999997 434.65,388.5 412.55,367.18 412.55,345.86 396.04,334.16" fill="none" stroke="#c23b2a" stroke-width="3.5" stroke-linejoin="round"/>
+<text class="lbl" x="434.65" y="441.79999999999995" text-anchor="middle" style="fill:#fff;font-weight:600;font-size:15px">+</text>
+<rect x="350.15" y="391.09999999999997" width="26" height="26" fill="#d7b95a"/>
+<polyline points="363.15,404.09999999999997 363.15,388.5 396.04,378.88 396.04,367.18" fill="none" stroke="#2f3a3d" stroke-width="3.5" stroke-linejoin="round"/>
+<text class="lbl" x="363.15" y="441.79999999999995" text-anchor="middle" style="fill:#fff;font-weight:600;font-size:15px">−</text>
 <rect x="741.45" y="283.2" width="149.5" height="104" rx="6" fill="#1e3c8c" fill-opacity="0.5" stroke="#fff" stroke-width="2" stroke-dasharray="7 5"/>
 <rect x="741.45" y="346.9" width="149.5" height="39" rx="3" fill="#c8c8cd" fill-opacity="0.45"/>
 <polyline points="741.45,312.45 728.45,312.45 726.24,334.16" fill="none" stroke="#c9c9cf" stroke-width="3"/><rect x="718.44" y="326.36" width="15.6" height="15.6" fill="#111" stroke="#fff"/>

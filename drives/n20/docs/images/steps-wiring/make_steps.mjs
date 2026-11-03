@@ -59,9 +59,10 @@ const ROUTE = {
   W22: () => [[hx('C'), hy(2)], [hx('C'), hy(1.6)], [lane('I', -0.7), hy(1.6)], [lane('I', -0.7), hy(6.6)], [hx('H'), hy(7)]],
   W23: () => [[hx('A'), hy(16)], [lane('A', -0.9), hy(15.65)], [lane('A', -0.9), hy(7.4)], [lane('H', -0.9), hy(7.4)], [hx('H'), hy(8)]],
   W13: () => [[hx('C'), hy(13)], [lane('C', 1.9), hy(12.6)], [lane('C', 1.9), hy(6.5)], [hx('J'), hy(6.5)], [hx('J'), hy(6)]],
-  // U1's pads to the buses, on the component side
-  W1: () => [[ux(-16.5), vy(0.3)], [ux(-16.5), vy(-0.9)], [hx('A'), hy(7) + mm(0.9)], [hx('A'), hy(7)]],
-  W2: () => [[ux(-11.0), vy(0.3)], [ux(-11.0), vy(-0.9)], [hx('A'), hy(8) + mm(0.9)], [hx('A'), hy(8)]],
+  // U1's pads to the buses, on the component side. Its - pad is the outer one (u -16.5) and its + pad the inner one (u -11):
+  // W2 goes straight to A8, and W1 passes between A8 and B8 to A7, so they don't cross
+  W1: () => [[ux(-11.0), vy(0.3)], [ux(-11.0), vy(-0.9)], [ux(-12.7), hy(8)], [ux(-12.7), hy(7) + mm(0.9)], [hx('A'), hy(7)]],
+  W2: () => [[ux(-16.5), vy(0.3)], [ux(-16.5), vy(-0.9)], [hx('A'), hy(8) + mm(0.9)], [hx('A'), hy(8)]],
 };
 
 // a wire drawn either done (grey, thin) or now (bold, real colour, dark outline)
@@ -113,7 +114,7 @@ const PART = {
       [-16.5, -11.0].map(u => rectU(u - 1, u + 1, -0.7, 1.3, `fill="${g ? DONE : '#d7b95a'}"`)).join('') +
       `<text x="${ux(-13.8)}" y="${vy(8.5)}" text-anchor="middle" ${FONT} font-size="16" font-weight="700" fill="${g ? MUTE : '#fff'}">U1</text>` +
       (g ? '' : `<text x="${ux(-13.8)}" y="${vy(11)}" text-anchor="middle" ${FONT} font-size="14" fill="#fff">PD board</text><text x="${ux(-13.8)}" y="${vy(13.2)}" text-anchor="middle" ${FONT} font-size="14" fill="#fff">on foam</text>` +
-        `<text x="${ux(-16.5)}" y="${vy(3.6)}" text-anchor="middle" ${FONT} font-size="16" font-weight="700" fill="#fff">+</text><text x="${ux(-11)}" y="${vy(3.6)}" text-anchor="middle" ${FONT} font-size="16" font-weight="700" fill="#fff">−</text>`);
+        `<text x="${ux(-16.5)}" y="${vy(3.6)}" text-anchor="middle" ${FONT} font-size="16" font-weight="700" fill="#fff">−</text><text x="${ux(-11)}" y="${vy(3.6)}" text-anchor="middle" ${FONT} font-size="16" font-weight="700" fill="#fff">+</text>`);
   },
 };
 function module(mode, vc, w, h, name, pins, vText) {
@@ -208,14 +209,14 @@ const STEPS = [
     check: 'The 5V, 3V3 and GND pins must not connect to each other. 5V connects to A2, GND to B8, 3V3 to J10.', ends: [] },
   { id: 'U1', kind: 'part', side: 'top', title: 'U1, the PD trigger board, on foam pads', colour: 'black', fromTo: 'over A–C, rows 9–17',
     what: 'The USB-C power input. It isn\'t soldered into holes: it sits on two 3 mm foam pads over the Super Mini\'s left-hand strips.',
-    how: 'Screw terminal desoldered and switches set to 5 V (Before you start). Stick it down with its USB-C past row 17, beside the Super Mini\'s, and its + and − pads toward row 8.',
-    check: 'Its USB-C sits about 1.4 mm past the board edge, beside the Super Mini\'s, and it lies flat.', ends: [] },
+    how: 'Screw terminal desoldered and switches set to 5 V (Before you start). Stick it down with its USB-C past row 17, beside the Super Mini\'s, and its two output pads toward row 8. **Find + and − by the marking printed on your own PD board** (+ / − or VBUS / GND), not by this picture: boards differ. On ours, − (GND) is the outer pad, toward the column A edge, and + (VBUS) the inner one, toward the channel, as drawn.',
+    check: 'Before soldering W1 and W2: plug a USB-C charger into U1 and measure across its two pads on DC volts. The pad that reads +5 V against the other is + (W1, red); the other is − (W2, black). Unplug it again. Its USB-C sits about 1.4 mm past the board edge, and it lies flat.', ends: [] },
   { id: 'W1', kind: 'jumper', colour: 'red', from: 'U1 +', to: 'A7', fromRole: 'U1 + pad', toRole: '5V bus',
-    what: 'U1\'s 5 V output down to the +5V bus (row 7 left).',
-    check: 'U1\'s + pad connects to B7 and A3. It must not connect to U1\'s − pad.' },
+    what: 'U1\'s 5 V output, from its + (VBUS) pad, down to the +5V bus (row 7 left). On our board + is the inner pad; go by the marking on yours. Run it between A8 and B8, so it doesn\'t cross W2.',
+    check: 'Before soldering, make sure this is the pad marked + (or VBUS), the one that read +5 V in step 17. After: U1\'s + pad connects to B7 and A3. It must not connect to U1\'s − pad.' },
   { id: 'W2', kind: 'jumper', colour: 'black', from: 'U1 −', to: 'A8', fromRole: 'U1 − pad', toRole: 'GND bus',
-    what: 'U1\'s ground down to the GND bus (row 8 left).',
-    check: 'U1\'s − pad connects to B8 and the Super Mini\'s GND. U1 + must not connect to U1 −.' },
+    what: 'U1\'s ground, from its − (GND) pad, down to the GND bus (row 8 left). On our board − is the outer pad; go by the marking on yours.',
+    check: 'Before soldering, make sure this is the pad marked − (or GND). After: U1\'s − pad connects to B8 and the Super Mini\'s GND. U1 + must not connect to U1 −.' },
 
   { id: 'L1', kind: 'off', colour: 'red', from: 'C1 + (long leg)', to: 'C7', toRole: '5V bus', offText: 'C1 + long leg',
     what: 'C1, the 470 µF capacitor in its seat on the mount, to the +5V bus.',

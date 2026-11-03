@@ -9,7 +9,8 @@ Perfboard (component Perfboard): on four supports on the mount's -Y face, parall
 C3, the 470 uF hold-up capacitor for the Super Mini, lies on its side over columns I-J, rows 5-8, its end past the board's edge
   inside the cover; its + lead goes into I7 (strip fed from D1's cathode by W22 at H7) and its - lead into I8 (GND, W23 at H8).
 U1, the PD board, sits over columns A-C, rows 9-17, on two 3 mm foam pads, USB-C at the +X end; its screw terminal is removed
-  and its + / - pads take W1 / W2 down to the 5V (row 7) and GND (row 8) buses.
+  and its + / - pads take W1 / W2 down to the 5V (row 7) and GND (row 8) buses. The - pad is the outer one (column A side),
+  the + pad the inner one (channel side), as on the owner's board; other PD boards may differ, so go by the board's own marking.
 J4 (side-entry JST-PH 2) at J3/J2 opens toward -Z; the motor pair leaves through the notch in the cover's bottom wall and runs
   under the base's -Y edge to the motor's +x side, inside the arms' zip tie, then into the cartridge's wire clamp
   (the tie plate on the +y arm, inner face y 5.3, tie bar z -27.6 to -30.0) and back along it to the tabs at x +/-3.1.
@@ -50,12 +51,13 @@ def L4(a, u, b, layer=0):
     up = -1 if b[1] < a[1] else 1
     return link([a, (u, a[1] + 0.35 * up), (u, b[1] - 0.35 * up), b], layer)
 
-PD_P, PD_N = W(-16.5, 0.3, 4.7), W(-11.0, 0.3, 4.7)       # U1's + and - pads (screw terminal removed)
+PD_P, PD_N = W(-11.0, 0.3, 4.7), W(-16.5, 0.3, 4.7)       # U1's + (inner, channel side) and - (outer, column A side) pads
 
 WIRES = [
     # --- power: U1's pads down to the buses (5V row 7, GND row 8); C1 from its seat in behind to C7 / B4
-    ('W1 U1 + to 5V bus (A7)', 'red', 0.6, [PD_P, W(-16.0, -1.8, 5.2), W(-14.6, -4.2, 2.6), hole('A', 7, 0.9), hole('A', 7, -0.8)]),
-    ('W2 U1 GND to GND bus (A8)', 'black', 0.6, [PD_N, W(-12.0, -1.6, 5.2), W(-13.4, -2.4, 2.6), hole('A', 8, 0.9), hole('A', 8, -0.8)]),
+    # W2 runs from the outer - pad straight to A8; W1 from the inner + pad passes between A8 and B8 to A7, so they don't cross
+    ('W1 U1 + to 5V bus (A7)', 'red', 0.6, [PD_P, W(-11.4, -1.6, 5.2), W(-12.4, -3.4, 3.4), W(-13.3, -4.6, 1.8), hole('A', 7, 0.9), hole('A', 7, -0.8)]),
+    ('W2 U1 GND to GND bus (A8)', 'black', 0.6, [PD_N, W(-16.0, -1.2, 5.2), W(-15.0, -2.4, 2.6), hole('A', 8, 0.9), hole('A', 8, -0.8)]),
     ('L1 C1 + to 5V bus (C7)', 'red', 0.6, [(-2.75, -19.78, -3.1), (-2.75, -21.6, -3.15), (-2.4, -23.6, -3.6), (0.22, -24.8, -1.0),
         (0.22, -24.8, 22.3), back('C', 7, -1.0), hole('C', 7, 0.4)]),
     ('L2 C1 - to GND (B4)', 'black', 0.6, [(-6.25, -19.78, -3.1), (-6.3, -21.6, -3.2), (-6.6, -23.6, -3.8), (-8.4, -24.8, -1.0),

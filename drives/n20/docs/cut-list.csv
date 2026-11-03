@@ -1,6 +1,6 @@
 wire,colour,gauge,from,to,routed_mm,cut_mm,notes
 W1,red,30 AWG stranded,U1 + pad,perfboard A7 (5V bus),10,25,jumper on the component side; U1's screw terminal removed
-W2,black,30 AWG stranded,U1 - pad,perfboard A8 (GND bus),9,20,jumper on the component side
+W2,black,30 AWG stranded,U1 - pad,perfboard A8 (GND bus),8,20,jumper on the component side
 L1,red,30 AWG stranded,C1 +,perfboard C7 (5V bus),35,50,from C1's seat behind the board; in from the underside
 L2,black,30 AWG stranded,C1 -,perfboard B4 (GND),37,55,from C1's seat behind the board; in from the underside
 W14,red,motor factory lead, about 26 AWG (assumed),J4 pin 1 (DRV8833 OUT3),N20 terminal +,62,85,the motor's own lead; measure from the end cap and cut; crimp a PH contact into the PHR-2 housing at J4; out of the cover's bottom notch and under the base's -Y edge; tie at the cartridge's wire clamp
