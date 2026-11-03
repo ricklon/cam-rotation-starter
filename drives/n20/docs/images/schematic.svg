@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 860" role="img" aria-label="Schematic. Power: PD board 5 volt output to the DRV8833 VCC pin and through diode D1 to the ESP32-C6 Super Mini 5V pin; 470 microfarad capacitor C1 across the 5 volt supply; a second 470 microfarad capacitor C3 from D1's cathode to ground, so it can only feed the Super Mini through a motor start or stall; all grounds common. Drive: Super Mini GPIO18 to DRV8833 IN3, GPIO20 to IN4, GPIO19 to the sleep pin EEP (channel B of the module); DRV8833 OUT3 and OUT4 through the 2-pin plug J4 to the N20 motor, with a 0.1 microfarad capacitor C2 across the motor terminals. Controls: 12 millimetre stainless push button S1 from GPIO1 to ground; 10 kilohm speed knob RV1 (an RK097N on the perfboard) between 3.3 volts and GPIO3, which the firmware drives low as the knob's ground, with its wiper to GPIO4; three-position switch SW1 with common to ground and its two throws to GPIO2 (forward) and GPIO0 (reverse). The PD board, the Super Mini, the DRV8833, D1, C1, C3, the knob and J4 are on a perfboard. On a XIAO ESP32-C6 the same nets use D10, D9, D8 and D1 to D4, and the knob's low end goes to ground. The button and switch wires pass through J3, a 6-pin JST-PH connector, so the pod can be unplugged."><style>.grid{stroke:#e9eeed;stroke-width:1}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 860" role="img" aria-label="Schematic. Power: PD board 5 volt output to the DRV8833 VCC pin and through diode D1 to the ESP32-C6 Super Mini 5V pin; 470 microfarad capacitor C1 across the 5 volt supply; a second 470 microfarad capacitor C3 from D1's cathode to ground, so it can only feed the Super Mini through a motor start or stall; all grounds common. Drive: Super Mini GPIO18 to DRV8833 IN3, GPIO20 to IN4, GPIO19 to the sleep pin EEP (channel B of the module); DRV8833 OUT3 and OUT4 through the 2-pin plug J4 to the N20 motor, with a 0.1 microfarad capacitor C2 across the motor terminals. Controls: 12 millimetre stainless push button S1 from GPIO1 to ground; 10 kilohm speed knob RV1 (an RK097N on the perfboard) between 3.3 volts and GPIO3, which the firmware drives low as the knob's ground, with its wiper to GPIO4; no direction switch, so GPIO2 and GPIO0 are unused and the motor runs forward. The PD board, the Super Mini, the DRV8833, D1, C1, C3, the knob and J4 are on a perfboard. On a XIAO ESP32-C6 the same nets use D10, D9, D8 and D1 to D4, and the knob's low end goes to ground. The button's two wires run straight to the perfboard; there's no connector, so the pod doesn't unplug."><style>.grid{stroke:#e9eeed;stroke-width:1}
 .w-pwr{stroke:#c23b2a;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .w-gnd{stroke:#2f3a3d;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .w-sig{stroke:#d07a1c;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -105,12 +105,11 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <path class="w-ctl" d="M440 330 H414"/>
         <text class="net c" x="408" y="335" text-anchor="end">+3V3</text>
         <!-- control nets -->
-        <path class="w-ctl" d="M630 340 H690 M630 358 H690 M630 376 H690 M630 394 H690 M630 412 H690"/>
+        <path class="w-ctl" d="M630 340 H690 M630 358 H690 M630 376 H690"/>
         <text class="net c" x="696" y="345">BTN</text>
         <text class="net c" x="696" y="363">SPEED</text>
         <text class="net c" x="696" y="381">KNOB_LO</text>
-        <text class="net c" x="696" y="399">DIR_FWD</text>
-        <text class="net c" x="696" y="417">DIR_REV</text>
+        <text class="small" x="640" y="408">unused (no switch)</text>
 
         <!-- XIAO to the DRV8833 inputs -->
         <path class="w-sig" d="M630 270 H790 M630 295 H790 M630 320 H790"/>
@@ -179,7 +178,7 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
 
         <!-- ===== Control panel ===== -->
         <path class="divider" d="M24 562 H1156"/>
-        <text class="sect" x="24" y="586">CONTROLS · S1, SW1 in the pod via J3 (JST-PH 6-pin): 1 REV · 2 GND · 3 FWD · 6 BTN (4, 5 unused) · RV1 on the perfboard</text>
+        <text class="sect" x="24" y="586">CONTROLS · S1 in the pod, wired straight to the perfboard (W6 BTN, W11 GND) · RV1 on the perfboard · no direction switch</text>
 
         <!-- S1 push button: BTN to GND -->
         <text class="net c" x="40" y="665">BTN</text>
@@ -209,19 +208,10 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <text class="small" x="350" y="752">Speed knob, RK097N, on the perfboard:</text>
         <text class="small" x="350" y="769">pins straight into the GPIO4 / GPIO3 strips</text>
 
-        <!-- SW1 ON-OFF-ON: common to GND, throws to DIR_FWD / DIR_REV -->
-        <path class="w-gnd" d="M720 700 V662 H742"/>
-        <path class="sym" d="M704 700 H736 M710 707 H730 M716 714 H724"/>
-        <circle class="contact" cx="748" cy="662" r="5"/>
-        <circle class="contact" cx="800" cy="626" r="5"/>
-        <circle class="contact" cx="800" cy="698" r="5"/>
-        <path class="sym" d="M752 660 L792 650"/>
-        <path class="w-ctl" d="M806 626 H850 M806 698 H850"/>
-        <text class="net c" x="858" y="631">DIR_FWD</text>
-        <text class="net c" x="858" y="703">DIR_REV</text>
-        <text class="small" x="812" y="667">center = stop</text>
-        <text class="ref" x="740" y="610">SW1</text>
-        <text class="small" x="700" y="752">3-position switch, ON-OFF-ON</text>
+        <!-- no direction switch (SW1 dropped, C.4): GPIO2 / GPIO0 unused; the firmware runs forward -->
+        <text class="small" x="700" y="640">No direction switch: GPIO2 and GPIO0</text>
+        <text class="small" x="700" y="657">are unused, and the motor runs forward</text>
+        <text class="small" x="700" y="674">("Direction switch is wired" off).</text>
 
         <!-- Title block -->
         <rect class="tb" x="680" y="790" width="480" height="56"/>
@@ -229,7 +219,7 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <text class="tbt" x="692" y="809">TITLE</text>
         <text class="tbv" x="746" y="809">Cam Rotation N20</text>
         <text class="tbt" x="952" y="809">REV</text>
-        <text class="tbv" x="990" y="809">C.3 · 2026-11-02</text>
+        <text class="tbv" x="990" y="809">C.4 · 2026-11-02</text>
         <text class="tbt" x="692" y="837">SUPPLY</text>
         <text class="tbv" x="752" y="837">5 V USB-C PD</text>
         <text class="tbt" x="952" y="837">MCU</text>

@@ -15,9 +15,9 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 | USB-C PD trigger board (5 V), 1N5817 diode | Yes | Same power path: PD 5 V feeds the motor side; the board gets 5 V through the diode. From rev C both are on the perfboard, and the PD board's screw terminal is removed. |
 | XIAO ESP32-C6 | Replaced in rev C | By an ESP32-C6 Super Mini on the perfboard. The mount keeps the XIAO pocket, so a rev B build with a XIAO still fits; the firmware builds for either board. |
 | 470 µF capacitor | Yes, 8 × 13 mm | From Fusion version 29 it stands on the perfboard, its top through a 9 mm hole in the cover; the mount's seat for it is gone. |
-| 12 mm button, direction switch | Yes | In the pod, through a 6-pin JST-PH connector (J3). On the Super Mini they use GPIO1, GPIO2 and GPIO0. |
+| 12 mm button | Yes | In its mount in the pod, wired straight to the perfboard (GPIO1 and GND on the Super Mini). The direction switch was dropped: it never arrived, and the drive runs forward. |
 | Speed knob | Changed in rev C | An RK097N 10 kΩ pot on the perfboard, its shaft through the electronics cover. Its wiper and low end go straight into the GPIO4 and GPIO3 strips, and the firmware drives GPIO3 low as its ground. The pod's knob hole is unused. |
-| Control pod | Changed | `N20_Control_Pod` has a holder for the J3 header inside; print it from this drive's folder. Unchanged in rev C. |
+| Control pod | Changed | `N20_Control_Pod`; print it from this drive's folder. From Fusion version 30 its J3 header holder is gone; the switch hole in its front panel is left empty. |
 | Bushings, dowel gauges, shims | Yes | Print them from [`drives/mg90s/cad/stl`](../mg90s/cad/stl/README.md). |
 | Dowel adapters, clamp bodies and caps | No | Same dowel sockets and grip screws, but a 3 mm D-shaft bore through the base in place of the servo spline pocket and horn screw, with an M3 set screw onto the shaft's flat. The clamps take M3 socket cap screws in flat-bottomed counterbores. `N20_Adapter_*` and `N20_Clamp_*` in [cad/stl](cad/stl/README.md). |
 | Mount | Changed | `N20_Mount`: same walls, flange, pod face and XIAO pocket; the PD board sits on a 3.5 mm pad on the outside of the wall. The motor snaps into a printed cartridge (`N20_Cartridge`), which latches up into a socket in the base, on the dowel axis; a printed key (`N20_Latch_Key`) releases it. The base and the N20 plate are joined solid (no open slot between them for supports to get trapped in). The DRV8833 sits in a pocket on the underside of the base, with the diode in a channel beside it. Both boards' pockets have a 2.5 mm relief under their pin rows for wire ends and solder. Rev C adds the perfboard's supports to the −Y face: two posts from the flange, two gusseted bosses and a rail past the face's +X edge. The flange ear is unchanged. The rev B pockets stay, but the supports block the XIAO's USB-C port. |
@@ -31,7 +31,6 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 |---|---|---|---|
 | M1 | 1 | N20 gearmotor, **6 V, 100:1**, no encoder | Chosen for speed (see Decisions). Other ratios fit the same cartridge. Typical 6 V no-load speeds are about 300 rpm at 100:1, 100 rpm at 298:1 and 30 rpm at 1000:1; at 5 V expect about 80% of that. 298:1 is closest to the MG90S's top speed (about 100 rpm) with more torque. |
 | U3 | 1 | DRV8833 dual motor driver module, 12-pin (two rows of six 0.1" pins: IN4 IN3 GND VCC IN2 IN1 / EEP OUT1–OUT4 ULT), sold in 5-packs (e.g. "EC Buying") | Channel B (IN3/IN4 → OUT3/OUT4) is used. Motor supply 2.7–10.8 V, about 1.5 A per channel. Leave the J1 jumper open. |
-| J3 | 1 | JST-PH 2.0 mm 6-pin: B6B-PH-K-S header, PHR-6 housing, 6 crimp contacts (or a pre-crimped PH pigtail) | Makes the control panel detachable. |
 | — | 2 | **M1.6 × 4** pan-head screws + **M1.6 split lock washers** (optional) | Not needed since the snap fit; the holes are still there as a fallback. Motor into the cartridge. The grip under the head is 2 mm (1.5 mm plate + 0.5 mm washer), so 4 mm leaves 2 mm in the gearbox face; don't go longer, the holes are shallow. |
 | — | 2 | **M3 × 8** socket cap screws (ISO 4762), thread-forming or plain (optional) | Not needed since the snap fit; a fallback if the cartridge latch is loose. Cartridge to the mount, from below. |
 | — | 1 per adapter | **M3 × 5** set screw (grub screw, ISO 4029 cup point), 1.5 mm hex key | Presses on the motor shaft's flat, in every adapter and clamp. |
@@ -47,7 +46,7 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 | — | 3 | **M2 × 20** pan-head screws | Rev C. Cover and perfboard to the supports on the −Y face. |
 | — | 2 | Double-sided foam pads, 3 mm thick, about 10 × 4 mm | Rev C. Hold the PD board on the perfboard. |
 | — | — | 30 AWG stranded hook-up wire in red, black, green, blue, white and yellow | Rev C. Every wire in the drive except the motor's own leads (W14, W15), including the underside links; see the [cut list](docs/wiring.md#cut-list). |
-| — | — | Hot glue or CA | A dab to hold D1 in its channel and the J3 header in its holder. |
+| — | — | Hot glue or CA | A dab to hold D1 in its channel. |
 
 ## Wiring plan
 
@@ -63,11 +62,11 @@ Rev C, on the perfboard with the ESP32-C6 Super Mini (rev B, with a XIAO, is in 
 | GPIO19 | DRV8833 EEP (nSLEEP) | Keeps the driver asleep until the firmware is running, so the motor can't twitch at power-up. Leave the module's J1 jumper open: bridging it ties EEP high. |
 | DRV8833 OUT3, OUT4 | J4 → N20 terminals | Swap the two pins in J4's housing if forward runs backwards |
 | 3V3, GPIO4, GPIO3 (driven low) | RV1 (on the perfboard) | Speed knob |
-| GPIO1, GPIO2, GPIO0, GND | J3 → button, switch | Four wires through the 6-pin JST-PH, so the pod unplugs |
+| GPIO1, GND | Button S1 | Two wires straight from the button (W6, W11); the pod no longer unplugs |
 
 IN1, IN2, OUT1, OUT2 and ULT (the fault output) stay unconnected.
 
-The hole map is in [docs/perfboard.md](docs/perfboard.md); the full wire list, J3 pinout, schematic and cut list are in [docs/wiring.md](docs/wiring.md).
+The hole map is in [docs/perfboard.md](docs/perfboard.md); the full wire list, button wiring, schematic and cut list are in [docs/wiring.md](docs/wiring.md).
 
 ## Firmware
 
@@ -145,7 +144,7 @@ From the change request after the first build attempt:
 Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and room for a hand at each step.
 
 1. **Bench: check the motor fits.** Push the N20 into `N20_Cartridge` from below until its gearbox face meets the top plate and the arms click over the end cap; spread the arms and take it out again.
-2. **Bench: wiring.** Build the perfboard as in [docs/perfboard.md](docs/perfboard.md#build-order), one wire at a time with the [step-by-step wiring guide](docs/wiring-steps.md), and wire C1 and the PD board as in [docs/wiring.md](docs/wiring.md). Solder C2 across the motor's tabs, cut the motor's own leads (W14, W15) to length and crimp them into J4's housing, and crimp the J3 housing onto its harness.
+2. **Bench: wiring.** Build the perfboard as in [docs/perfboard.md](docs/perfboard.md#build-order), one wire at a time with the [step-by-step wiring guide](docs/wiring-steps.md), and wire C1 and the PD board as in [docs/wiring.md](docs/wiring.md). Solder C2 across the motor's tabs, cut the motor's own leads (W14, W15) to length and crimp them into J4's housing.
 3. **Bushing in** through the mount's open end, flange up into the flange recess (as on the MG90S drive).
 4. **Mount on the box wall** with the #14 screws through the flange ears.
 5. **Dowel through** the bushing.
@@ -153,7 +152,7 @@ Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and ro
 7. **Cartridge in, empty.** From below, push `N20_Cartridge` up into the socket in the base until both latches click and the flange sits flat under the base.
 8. **Motor in.** Push the wired motor up into the cartridge so the D-shaft enters the adapter's bore (turn the dowel to line up the flat), until the arms click over the end cap. W14 and W15 run down the motor's open side, between the arms. Put a zip tie round both arms between their ribs, head on the side away from the wires, and pull it tight; W14 and W15 stay inside it, held against the motor. Then tie W14 and W15 to the wire clamp below the +Y arm (rev C; see [the clamp](docs/wiring.md#j4-and-the-motor-wire-clamp)).
 9. **Set screw.** Turn the dowel until the set screw faces an open end of the mount, just above the face plate, and tighten it onto the shaft's flat with a 1.5 mm hex key: firm, not forced, or it strips the plastic. To take the drive apart, loosen it, cut the arms' zip tie, spread the arms and pull the motor down. The cartridge can stay in the mount. If it has to come out, slide the dowel out and take the adapter off, push `N20_Latch_Key` down into the two slots beside the cartridge's top plate, and pull the cartridge out by its flange.
-10. **Control panel.** Plug J3 into the header in the pod, then screw the pod on (four M3 screws, as before). Reverse this to take it off.
+10. **Control panel.** Screw the pod on (four M3 screws, as before), with the button's two wires (W6, W11) running back through the base tunnel to the perfboard. The pod doesn't unplug any more: to take it off, unsolder W6 and W11 at the board.
 11. **Perfboard and cover (rev C).**
     1. Push the panel wires through their holes from the underside and solder them, W11 at A4 first, then stand C1 on the board over it (see [docs/perfboard.md](docs/perfboard.md#build-order)).
     2. Lay the perfboard on the four supports on the −Y face, components out, row 17 (both USB-C ports) toward +X.

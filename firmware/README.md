@@ -152,7 +152,7 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 | `range_us` | 400 | Pulse offset at ±100 % speed. MG90S only. |
 | `slew` | 150 | Maximum change in speed, in % per second (smoothing). |
 | `idle_release_ms` | 1500 | Stop sending pulses after this long at zero, so the servo doesn't creep or hum. On the N20 the driver sleeps instead. 0 = never. |
-| `knob_enabled`, `switch_installed` | true | Whether the panel controls are fitted. |
+| `knob_enabled`, `switch_installed` | true; `switch_installed` is false on the Super Mini | Whether the panel controls are fitted. Without the direction switch both direction pins read as its centre (stop) position, so leave `switch_installed` off: direction is then always forward. The N20 rev C build has no switch, so the Super Mini build defaults it to off. |
 | `autoplay`, `autoplay_story` | false, "" | Gallery mode: play this story when powered on. |
 | `rest_every`, `rest_ms` | 0, 5000 | Pause for `rest_ms` after every N loops. |
 | `ap_ssid`, `ap_pass` | "" | The box's own network. Blank name = CamBox-XXXX; a password under 8 characters = open network. |

@@ -45,6 +45,8 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 
 **Updated 2026-10-27 (version 20): wiring only, print files unchanged.** The zip ties at anchors A1 and A2 are now modelled in place, and W14 and W15 are routed through A2, so they're cut 55 and 65 mm (were 50 and 60).
 
+**Updated 2026-11-02 (version 30): `N20_Control_Pod` and `N20_Mount_Fit_Coupon_Pod`.** The direction switch and the J3 panel connector are gone, so the pod has no JST header holder; the button's wires run straight to the perfboard. The holder was what needed tree supports in the pod: slice it and check before you turn supports off. Skip `N20_Mount_Fit_Coupon_Pod` now: it only checked the holder.
+
 **Updated 2026-11-02 (version 29): `N20_Mount`, `N20_Electronics_Cover` and `N20_Mount_Fit_Coupon_Wall`.** C1 now stands on the perfboard, so the capacitor seat in the mount's −Y wall is gone (filled in), and the cover has a 9 mm hole for the can's top. The wall coupon is cut from the mount, so it lost the seat too; ignore the capacitor checks below.
 
 **Updated 2026-11-01: `N20_Cartridge` only.** The wire clamp is sized for the motor's own leads (assumed 26 AWG, about 1.0 mm) instead of 30 AWG: the bar between its two zip-tie slots is 2.4 mm (was 1.4 mm), and the plate is 1 mm longer so the lower slot keeps a 1 mm edge. Reprint the cartridge.
@@ -109,7 +111,7 @@ Three pieces cut from the real mount and pod in Fusion (boxes intersected with t
 |---|---|---|
 | Wall piece | The capacitor snaps into its seat. The XIAO drops into its pocket, with its soldered wire ends in the 2.5 mm relief under each pin row. The PD board drops into its seat on the pad and rests on the 1 mm ledge, its bottom-side parts clear of the recess floor. Your zip ties go through the XIAO's and the PD board's slots, and round the bar in anchor A1 at the bottom of the wall. | Capacitor: `c1_seat_dia`. Boards: `board_clear` (0.3 mm), `solder_relief_d` (2.5 mm), `pd_relief_d` (3.5 mm). |
 | Base piece | The motor cartridge slides through the socket (here only the 4 mm base) and its flange sits flat on the base; the M3 pilots line up with the flange holes (their depth is tested on the PETG coupon). The DRV8833 drops into its pocket with its wire ends in the relief. The diode lies in its channel with its lead in the slot to the DRV8833 pocket. A zip tie goes round the bar in anchors A1 and A2. | Cartridge: `n20_clear`, `cart_m3_pilot`. DRV8833: `board_clear`, `solder_relief_d`. |
-| Pod piece | The JST-PH header slides into its holder from the open back and stops against the two small ledges. | Tell me how far off it is. |
+| Pod piece | Nothing from version 30: it only checked the JST-PH header holder, which is gone. | Skip it. |
 
 ### 4. `Panel_Fit_Coupon` and the dowel gauges (from the MG90S folder)
 
@@ -130,7 +132,7 @@ Only once steps 1, 2, 3 and 5 fit. The fit coupon has already checked the fits b
 - the DRV8833 pocket and the 2.5 mm relief slots under its pin rows (and under the XIAO's) are clean;
 - the PD board drops into its seat in the pad and rests on the 1 mm ledge round its edges.
 
-In the pod, check that the JST-PH header slides into its holder from the open back and stops against the two small ledges.
+In the pod, check that the button fits its hole. (Up to version 29 the pod also had a holder for the J3 header; it's gone.)
 
 ### What to send back
 
@@ -165,5 +167,5 @@ The full order, with the tool for each step, is in the drive's [assembly order](
 - **DRV8833 module:** solder its wires first, then stick it into the pocket on the underside of the base with a square of double-sided foam tape, component side out. Leave its **J1** jumper open.
 - **Diode:** lay it in its channel under the base with the banded end toward the wall, bend the cathode lead round the edge and up to the XIAO's 5V pad, and run the anode lead along its slot to the DRV8833's VCC pin. A dab of glue holds it.
 - **Capacitor:** from version 29, C1 stands on the perfboard (see [perfboard.md](../../docs/perfboard.md#placement)); the mount has no seat for it.
-- **Control panel connector (J3):** slide the JST-PH header into its holder in the pod from the open back, pins toward the front panel, and fix it with a drop of glue. The mount harness ends in the PHR-6 housing that plugs into it.
+- **Control panel connector (J3):** gone from version 30. The button's two wires run straight to the perfboard (see [wiring.md](../../docs/wiring.md#the-button-s1)).
 - **Zip ties:** one through anchor A1 round the two power wires under the wall, one through A2 round the two motor wires under the base, and one round the cartridge's motor arms between their ribs.

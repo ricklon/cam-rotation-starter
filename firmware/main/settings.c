@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "settings.h"
+#include "board.h"
 #include "nvs_flash.h"
 #include "nvs.h"
 #include "esp_log.h"
@@ -16,7 +17,7 @@ static void defaults(settings_t *s)
     s->slew = 150;
     s->idle_release_ms = 1500;
     s->knob_enabled = true;
-    s->switch_installed = true;
+    s->switch_installed = SWITCH_INSTALLED_DEFAULT;
     s->autoplay = false;
     s->rest_every = 0;
     s->rest_ms = 5000;

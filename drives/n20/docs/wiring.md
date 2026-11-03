@@ -6,14 +6,15 @@ From rev C all of this is on one ElectroCookie perfboard: the PD board, the Supe
 
 - C1 stands on the board, its top through a 9 mm hole in the cover. Its seat in the mount and the wires L1 and L2 are gone.
 - The motor unplugs at J4.
-- The button and the direction switch stay in the pod and unplug at J3, as before.
+- The button stays in its mount in the pod, and its two wires (W6, W11) run straight to the perfboard. There's no panel connector any more, so **the pod no longer unplugs** from the drive.
+- There's no direction switch (it never arrived): the motor runs forward.
 - Both USB-C ports, the PD board's for power and the Super Mini's for programming, are at the +X end of the drive.
 
 ## Schematic
 
-[Open the schematic full size](images/schematic.svg) (SVG, rev C.3).
+[Open the schematic full size](images/schematic.svg) (SVG, rev C.4).
 
-![Schematic, rev C.3. PD board 5 V goes to the DRV8833 VCC pin and, through diode D1, to the Super Mini's 5V pin; a 470 µF capacitor C1 sits across 5 V, and a second 470 µF capacitor C3 sits from D1's cathode to ground. Super Mini GPIO18, GPIO20 and GPIO19 go to DRV8833 IN3, IN4 and EEP. DRV8833 OUT3 and OUT4 go through the 2-pin plug J4 to the N20 motor M1, with a 0.1 µF capacitor C2 across it. The 12 mm button S1 runs from GPIO1 to ground. The 10 kΩ knob RV1 sits between 3.3 V and GPIO3, which the firmware drives low, with its wiper on GPIO4. Switch SW1 has its common to ground and its throws to GPIO2 and GPIO0. The button and switch wires pass through connector J3. U1, U2, U3, D1, C1 and C3 are outlined as the perfboard.](images/schematic.svg)
+![Schematic, rev C.4. PD board 5 V goes to the DRV8833 VCC pin and, through diode D1, to the Super Mini's 5V pin; a 470 µF capacitor C1 sits across 5 V, and a second 470 µF capacitor C3 sits from D1's cathode to ground. Super Mini GPIO18, GPIO20 and GPIO19 go to DRV8833 IN3, IN4 and EEP. DRV8833 OUT3 and OUT4 go through the 2-pin plug J4 to the N20 motor M1, with a 0.1 µF capacitor C2 across it. The 12 mm button S1 runs from GPIO1 to ground. The 10 kΩ knob RV1 sits between 3.3 V and GPIO3, which the firmware drives low, with its wiper on GPIO4. There's no direction switch: GPIO2 and GPIO0 are unused. U1, U2, U3, D1, C1 and C3 are outlined as the perfboard.](images/schematic.svg)
 
 ## Connections
 
@@ -33,7 +34,7 @@ From rev C all of this is on one ElectroCookie perfboard: the PD board, the Supe
 | U2 3V3 | RV1 pin 1 | +3V3 |
 | U2 GPIO3, driven low by the firmware | RV1 pin 3 | KNOB_LO, the knob's ground |
 | RV1 wiper | U2 GPIO4 | SPEED |
-| U2 GPIO1, GPIO2, GPIO0, GND | J3 → the control pod | BTN, DIR_FWD, DIR_REV, GND |
+| U2 GPIO1, GND | S1, the button in the pod (W6, W11) | BTN, GND |
 
 ## Parts
 
@@ -48,9 +49,8 @@ From rev C all of this is on one ElectroCookie perfboard: the PD board, the Supe
 | C3 | Electrolytic, 470 µF, ≥ 6.3 V (10 V preferred), at most **8 mm across and 11.5 mm long** | The Super Mini's hold-up capacitor. Lying on its side on the perfboard over columns I–J, rows 5–8, its end past the board's edge inside the cover; + lead in I7, − lead (stripe side) in I8. See [placement](perfboard.md#placement). Not to be confused with hole C3 on the board. |
 | C1 | Electrolytic, 470 µF, ≥ 10 V, **8 × 13 mm** | Standing on the perfboard over columns A–C, rows 4–7, between D1 and W1/W2, 1.5 mm off the board; its top comes through a 9 mm hole in the cover. + lead (long leg) to C7, − lead (stripe side) to B4, both **sleeved** with heat-shrink because they cross the IN3/IN4 pads. See [placement](perfboard.md#placement). |
 | RV1 | RK097N 10 kΩ linear pot, 6 mm knurled shaft | On the perfboard, J10–J12, its wiper and low end straight into the GPIO4 and GPIO3 strips; shaft out through the cover's 7 mm hole (sideways, −Y); supplied knob cap |
-| J3 | JST-PH 2.0 mm, 6 pins: B6B-PH-K-S header + PHR-6 housing | Header held in the pod; the mount harness ends in the housing. Pins 4 and 5 are unused from rev C. |
 | J4 | JST-PH 2.0 mm, 2 pins, side entry: S2B-PH-K-S header + PHR-2 housing | Header on the perfboard at J2/J3, mouth toward the cover's bottom notch; the motor wires end in the housing |
-| S1, SW1 | Button, direction switch | As on the MG90S drive, wired to J3 |
+| S1 | 12 mm push button, pre-wired leads | In its mount in the pod, as on the MG90S drive; wired straight to the perfboard by W6 and W11 |
 
 The MG90S drive's R1 is not used. The pod's knob hole is left empty: RV1 moved to the perfboard.
 
@@ -70,22 +70,17 @@ Bold pins are used. On the perfboard, component side up, these rows land in colu
 
 ![The whole drive from the electronics side with the cover on: the gray printed cover forms the mount's outer wall, with the knob's cap and the top of C1 standing out of it and a notch at its bottom edge where the motor pair comes out. The pair runs under the base to the motor, which hangs in its cartridge.](images/perfboard_cover.png)
 
-![Straight-on view of the electronics side with the cover off and the perfboard see-through. C1 stands near the top-left corner, its sleeved leads bent out to the board. The wires behind the board are visible: the panel harness coming up from the base tunnel, and the underside links. The PD board's jumpers and J4 sit on the front, and the motor pair drops from J4 to the cartridge below.](images/wiring_electronics.png)
+![Straight-on view of the electronics side with the cover off and the perfboard see-through. C1 stands near the top-left corner, its sleeved leads bent out to the board. The wires behind the board are visible: the button's two wires coming up from the base tunnel, and the underside links. The PD board's jumpers and J4 sit on the front, and the motor pair drops from J4 to the cartridge below.](images/wiring_electronics.png)
 
-## J3: the control panel connector
+## The button (S1)
 
-The pod holds a 6-pin JST-PH header (B6B-PH-K-S) in a printed holder against its left wall, open toward the back. The mount-side harness ends in a PHR-6 housing that plugs into it from behind. To take the panel off, undo the four pod screws, pull the pod back about 15 mm and unplug J3.
+The controls are the knob RV1, on the perfboard, and the 12 mm button S1 in its mount in the pod. The direction switch SW1 never arrived, so it, the 6-pin panel connector J3 and its holder in the pod are gone (Fusion version 30). The motor runs forward.
 
-| J3 pin | Signal | Mount side (from the perfboard) | Pod side |
-|---|---|---|---|
-| 1 | DIR_REV | W10 from I15 (GPIO0) | W10p to SW1 lug B |
-| 2 | GND | W11 from A4 | W11p to SW1 centre lug |
-| 3 | DIR_FWD | W9 from I13 (GPIO2) | W9p to SW1 lug A |
-| 4 | — | unused (was SPEED) | — |
-| 5 | — | unused (was +3V3) | — |
-| 6 | BTN | W6 from I14 (GPIO1) | button S1 lead A, trimmed |
+Two wires run straight from the button's leads to the perfboard, with no connector: **W6** (white) from lead A to I14 (GPIO1), and **W11** (black) from lead B to A4 (GND). Each goes back through the pod where J3 used to be, along the base tunnel to the mount's −Y face, behind the perfboard, and up through its hole from the underside, to be soldered on the component side.
 
-Pin 1 is the end nearest the pod's floor. Crimp the mount-side wires into the PHR-6 housing (or use a pre-crimped PH pigtail and solder it to the harness), and solder the pod-side wires to the header tails.
+Use the button's own pre-wired leads if they reach: W6 needs **200 mm** and W11 **170 mm**, measured from the button. If they're shorter, cut them to about 30 mm and splice 30 AWG on inside the pod (white to one lead, black to the other: the leads are interchangeable), with the two joints staggered and each under heat-shrink.
+
+The pod no longer unplugs from the drive. To take it off, unsolder W6 and W11 at the board (or cut them and splice them back).
 
 ## J4 and the motor wire clamp
 
@@ -113,7 +108,7 @@ The exception is the motor pair, **W14 and W15**: they are the N20's own factory
 - **Keep the underside links flat** against the board, and press each one down along its lane before soldering the next.
 - **Current is fine.** 30 AWG is about 0.34 Ω per metre: about 30 mV drop on a 100 mm run at 1 A. The wires that carry motor current are W14 and W15 (the motor's own, thicker leads), and on the 5 V and ground paths W1, W2, W16 and W18; W17 carries only the Super Mini's own current). Check your N20's stall current on its datasheet. The DRV8833 limits a channel to about 1.5 A, and 30 AWG handles a 1 A stall for the moment it lasts. If your motor stalls above 1 A, double up W1, W2, W16 and W18.
 
-Follow this table one wire at a time and tick each off. The [step-by-step wiring guide](wiring-steps.md) takes the perfboard one wire at a time, with a picture and a check for each. The colours match the 3D model. The links on the perfboard's underside are listed in [perfboard.md](perfboard.md#links-underside), and their cut lengths are in the cut list below. Wires that come from the mount (W6, W9, W10, W11) go into the perfboard **from the underside** and are soldered on the component side.
+Follow this table one wire at a time and tick each off. The [step-by-step wiring guide](wiring-steps.md) takes the perfboard one wire at a time, with a picture and a check for each. The colours match the 3D model. The links on the perfboard's underside are listed in [perfboard.md](perfboard.md#links-underside), and their cut lengths are in the cut list below. The button's wires (W6, W11) come from the mount and go into the perfboard **from the underside** and are soldered on the component side.
 
 | Wire | Colour | From | To | Notes |
 |---|---|---|---|---|
@@ -124,17 +119,9 @@ Follow this table one wire at a time and tick each off. The [step-by-step wiring
 | W14 | red (factory) | J4 pin 1 (OUT3) | M1 terminal (either) | Out of the cover's bottom notch, under the base's −Y edge, down the motor's open side inside the arms' zip tie, then the clamp. If the motor runs backwards, swap the two pins in the PHR-2 housing. |
 | W15 | black (factory) | J4 pin 2 (OUT4) | M1 other terminal | Beside W14, then along the clamp's tie bar and behind the end cap, inside the snap hooks, to the far terminal. |
 | C2 | — | M1 terminal | M1 other terminal | Solder its legs to the terminals with the wires. |
-| **Control harness, mount side: perfboard (from behind) → −Y face → base tunnel → J3 housing** | | | | |
-| W6 | white | perfboard I14 (GPIO1) | J3 pin 6 | |
-| W9 | green | perfboard I13 (GPIO2) | J3 pin 3 | |
-| W10 | blue | perfboard I15 (GPIO0) | J3 pin 1 | |
-| W11 | black | perfboard A4 (GND) | J3 pin 2 | |
-| **Pod side** | | | | |
-| W10p | blue | J3 pin 1 | SW1 lug B (reverse) | |
-| W11p | black | J3 pin 2 | SW1 centre lug | Ground for the whole pod. |
-| W9p | green | J3 pin 3 | SW1 lug A (forward) | |
-| W6p | button lead | J3 pin 6 | S1 lead A | The button's own pre-wired lead, trimmed. |
-| J1 | button lead | S1 lead B | SW1 centre lug | The button's other lead, trimmed. Button leads are interchangeable. |
+| **The button: S1 in the pod → base tunnel → −Y face → perfboard (from behind)** | | | | |
+| W6 | white | S1 lead A | perfboard I14 (GPIO1) | The button's own lead if it reaches, otherwise spliced in the pod. |
+| W11 | black | S1 lead B | perfboard A4 (GND) | Beside W6. The button's leads are interchangeable. |
 
 Gone in rev C:
 
@@ -162,16 +149,14 @@ When you're done, every terminal should hold exactly this many wires.
 | Strips 7, 8 right (C3 + / −) | W22 · C3 + lead / W23 · C3 − lead | 2 each |
 | Strip 10 right (RV1 3V3 end) | W21 · RV1 pin 1 | 2 |
 | Strips 11, 12 right (GPIO4, GPIO3) | RV1 pin 2 (wiper), RV1 pin 3 | 1 each |
-| Strips 13, 14, 15 right (GPIO2, 1, 0) | W9, W6, W10 | 1 each |
+| Strip 14 right (GPIO1) | W6 | 1 |
 | Strips 2, 3 right (OUT4, OUT3) | J4 pins | 1 each |
-| J3 pins 1, 2, 3, 6 | one mount-side and one pod-side wire each | 1 + 1 |
-| J3 pins 4, 5 | none | 0 |
-| SW1 A / centre / B | W9p / W11p + J1 / W10p | 1 / 2 / 1 |
+| S1 leads A / B | W6 / W11 (or their splices) | 1 each |
 | M1 terminals | W14 + C2 leg / W15 + C2 leg | 2 each |
 
 ## Cut list
 
-Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm per end for stripping, rounded up to 5 mm. The mount-side control wires include the 101 mm trunk from the mount's −Y face to J3. Also in [`cut-list.csv`](cut-list.csv).
+Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm per end for stripping, rounded up to 5 mm. W6 and W11 are measured all the way from the button, through the pod and the base tunnel. Also in [`cut-list.csv`](cut-list.csv).
 
 | Wire | Colour | Gauge | Routed | **Cut** |
 |---|---|---|---|---|
@@ -179,10 +164,8 @@ Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm p
 | W2 | black | 30 AWG stranded | 8 mm | **20** |
 | W14 | red | motor's lead, ~26 AWG (assumed) | 62 mm | **85**, from the end cap |
 | W15 | black | motor's lead, ~26 AWG (assumed) | 74 mm | **95**, from the end cap |
-| W6 | white | 30 AWG stranded | 130 mm | **160** |
-| W9 | green | 30 AWG stranded | 127 mm | **160** |
-| W10 | blue | 30 AWG stranded | 133 mm | **165** |
-| W11 | black | 30 AWG stranded | 121 mm | **150** |
+| W6 | white | 30 AWG stranded, or the button's own lead | 165 mm | **200**, from the button |
+| W11 | black | 30 AWG stranded, or the button's own lead | 137 mm | **170**, from the button |
 | W4 | black | 30 AWG stranded | 22 mm | **40** |
 | W5 | green | 30 AWG stranded | 18 mm | **35** |
 | W12 | blue | 30 AWG stranded | 21 mm | **35** |
@@ -193,11 +176,6 @@ Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm p
 | W21 | yellow | 30 AWG stranded | 37 mm | **55** |
 | W22 | red | 30 AWG stranded | 35 mm | **50** |
 | W23 | black | 30 AWG stranded | 46 mm | **65** |
-| W6p | button lead | pre-wired | 30 mm | **trim to 45** |
-| W9p | green | 30 AWG stranded | 27 mm | **45** |
-| W10p | blue | 30 AWG stranded | 29 mm | **45** |
-| W11p | black | 30 AWG stranded | 28 mm | **45** |
-| J1 | button lead | pre-wired | 21 mm | **trim to 35** |
 
 ## Why it's wired this way
 
@@ -213,12 +191,13 @@ Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm p
 - GPIO4 is an ADC1 pin and a strapping pin (MTMS). That's safe here: on the ESP32-C6 it only selects the JTAG source at reset, and only if the JTAG_SEL_ENABLE eFuse is burned, which it isn't by default. Otherwise its level at reset is ignored, so the knob's position at power-up doesn't matter.
 - The pot's clockwise end is on GPIO3, so the firmware inverts the reading (`KNOB_REVERSED` in `firmware/main/board.h`): clockwise is still faster, and the web app's virtual knob still reads 0–100.
 - The motor plugs in at J4 and its wires are clamped at the cartridge, because the solder joints on the motor's tabs were getting stressed in transit when the wires could pull on them.
-- J3 carries only the four low-current panel signals, so a small 2.0 mm JST-PH is enough.
+- **No direction switch.** Without one, both direction pins read high, which the firmware takes as the switch's centre (stop) position, unless "Direction switch is wired" is off in Settings: then it runs forward. The Super Mini build defaults it to off.
 
 ## Bring-up
 
 1. Set the PD board to 5 V and measure its + to − pads with a meter before wiring anything.
 2. Before applying power, check each row of the terminal check table for continuity, that C3's stripe (−) is in I8, and that C1's stripe (−) faces B4. Confirm that +5V, +3V3 and GND aren't connected to each other.
 3. Flash the N20 build of the firmware for the Super Mini (see [Board](../../../firmware/README.md#board)). The XIAO build drives the wrong pins on a Super Mini, and the MG90S build leaves EEP low, so the motor never runs.
-4. Plug in J3 and J4. Turn the knob up slowly with the switch on forward. If the motor turns the wrong way, swap the two pins in J4's housing. If the knob works backwards, set `KNOB_REVERSED` to 0 in `firmware/main/board.h` and reflash: the pot's pins are soldered straight into the strips.
-5. Check the controls: the button should start and pause a story, the knob should change speed, and the switch should run forward, stop in the centre, and reverse.
+4. In the web app's **Settings**, make sure **Direction switch is wired** is unticked. It's off by default on the Super Mini build, but a board that already saved its settings keeps the old value, and with it ticked the motor sits still.
+5. Plug in J4. Turn the knob up slowly. If the motor turns the wrong way, swap the two pins in J4's housing. If the knob works backwards, set `KNOB_REVERSED` to 0 in `firmware/main/board.h` and reflash: the pot's pins are soldered straight into the strips.
+6. Check the controls: the button should start and pause a story, and the knob should change speed.

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 474" role="img" aria-label="The perfboard on the drive, seen edge-on. The mount is at the bottom; its -Y face holds the board on supports, with a gap between them. The board's underside faces the mount and its component side faces out, where you solder. The panel harness comes from J3 through the base tunnel, runs up the mount's face in the gap behind the board, and each wire comes up through its own hole to be soldered on top. C1 stands on the board and its top comes through the cover. Nothing wraps round the board's edge.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 474" role="img" aria-label="The perfboard on the drive, seen edge-on. The mount is at the bottom; its -Y face holds the board on supports, with a gap between them. The board's underside faces the mount and its component side faces out, where you solder. The button's two wires come from the pod through the base tunnel, run up the mount's face in the gap behind the board, and each comes up through its own hole to be soldered on top. C1 stands on the board and its top comes through the cover. Nothing wraps round the board's edge.">
 <rect width="600" height="474" fill="#ffffff"/>
 <text x="24" y="34" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="20" font-weight="700" fill="#1c2729">The board on the drive, seen edge-on</text>
 <text x="24" y="60" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#4f5b5e">Not to scale: the board and the gap behind it are drawn bigger.</text>
@@ -16,14 +16,10 @@
 <text x="94" y="270" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#4f5b5e">underside faces the mount</text>
 <polyline points="24.0,348.0 282.0,348.0 300.0,256.0 300.0,226.0" fill="none" stroke="#1b1b1b" stroke-width="7" stroke-linejoin="round"/><polyline points="24.0,348.0 282.0,348.0 300.0,256.0 300.0,226.0" fill="none" stroke="#1b1b1b" stroke-width="4.5" stroke-linejoin="round"/>
 <path d="M 291 236 Q 300 224 309 236 Z" fill="#c0c0c8" stroke="#6d6d75"/>
-<polyline points="24.0,340.0 402.0,340.0 420.0,256.0 420.0,226.0" fill="none" stroke="#1b1b1b" stroke-width="7" stroke-linejoin="round"/><polyline points="24.0,340.0 402.0,340.0 420.0,256.0 420.0,226.0" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linejoin="round"/>
-<path d="M 411 236 Q 420 224 429 236 Z" fill="#c0c0c8" stroke="#6d6d75"/>
-<polyline points="24.0,332.0 432.0,332.0 450.0,256.0 450.0,226.0" fill="none" stroke="#1b1b1b" stroke-width="7" stroke-linejoin="round"/><polyline points="24.0,332.0 432.0,332.0 450.0,256.0 450.0,226.0" fill="none" stroke="#1f9a3c" stroke-width="4.5" stroke-linejoin="round"/>
+<polyline points="24.0,340.0 432.0,340.0 450.0,256.0 450.0,226.0" fill="none" stroke="#1b1b1b" stroke-width="7" stroke-linejoin="round"/><polyline points="24.0,340.0 432.0,340.0 450.0,256.0 450.0,226.0" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linejoin="round"/>
 <path d="M 441 236 Q 450 224 459 236 Z" fill="#c0c0c8" stroke="#6d6d75"/>
-<polyline points="24.0,324.0 462.0,324.0 480.0,256.0 480.0,226.0" fill="none" stroke="#1b1b1b" stroke-width="7" stroke-linejoin="round"/><polyline points="24.0,324.0 462.0,324.0 480.0,256.0 480.0,226.0" fill="none" stroke="#2f66d8" stroke-width="4.5" stroke-linejoin="round"/>
-<path d="M 471 236 Q 480 224 489 236 Z" fill="#c0c0c8" stroke="#6d6d75"/>
-<text x="94" y="296" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" font-weight="600" fill="#1c2729">panel harness from J3,</text>
+<text x="94" y="296" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" font-weight="600" fill="#1c2729">the button's two wires,</text>
 <text x="94" y="314" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" font-weight="600" fill="#1c2729">through the base tunnel →</text>
-<text x="24" y="432" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="17" font-weight="700" fill="#1c2729">Nothing wraps round the edge: each panel wire runs</text>
+<text x="24" y="432" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="17" font-weight="700" fill="#1c2729">Nothing wraps round the edge: each button wire runs</text>
 <text x="24" y="456" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="17" font-weight="700" fill="#1c2729">behind the board and comes up through its own hole.</text>
 </svg>

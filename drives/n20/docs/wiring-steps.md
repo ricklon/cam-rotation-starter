@@ -384,30 +384,30 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **What it does:** U1's ground, from its − (GND) pad, down to the GND bus (row 8 left). On our board − is the outer pad; go by the marking on yours.
 - **Check:** Before soldering, make sure this is the pad marked − (or GND). After: U1's − pad connects to B8 and the Super Mini's GND. U1 + must not connect to U1 −.
 
-## On the drive: W11, C1 and the control harness
+## On the drive: W11, C1 and W6 (the button)
 
-With the board on the drive. The four panel wires come from behind the board: push each **up from the underside** and solder it on the component side. W11 goes first, because C1 stands over its hole.
+With the board on the drive and the button in its pod mount. The button's two wires (W11, W6) run straight from it, through the base tunnel and behind the board: push each **up from the underside** and solder it on the component side. There's no direction switch and no panel connector, so the pod stays wired to the board. W11 goes first, because C1 stands over its hole.
 
-![The perfboard on the drive, seen edge-on. The mount is at the bottom; its -Y face holds the board on supports, with a gap between them. The board's underside faces the mount and its component side faces out, where you solder. The panel harness comes from J3 through the base tunnel, runs up the mount's face in the gap behind the board, and each wire comes up through its own hole to be soldered on top. C1 stands on the board and its top comes through the cover. Nothing wraps round the board's edge.](images/steps-wiring/on-the-drive.svg)
+![The perfboard on the drive, seen edge-on. The mount is at the bottom; its -Y face holds the board on supports, with a gap between them. The board's underside faces the mount and its component side faces out, where you solder. The button's two wires come from the pod through the base tunnel, run up the mount's face in the gap behind the board, and each comes up through its own hole to be soldered on top. C1 stands on the board and its top comes through the cover. Nothing wraps round the board's edge.](images/steps-wiring/on-the-drive.svg)
 
-### Step 20: W11, black, A4 → J3 pin 2
+### Step 20: W11, black, button lead B → A4
 
-![Step 20: The perfboard seen from the component side, column A on the left, with the 19 earlier steps drawn in grey. Hole A4 (printed J4 on the underside) is marked with a dot in a ring where W11, black, comes up from below; a dashed line shows it running behind the board to the left edge, on to J3 pin 2. Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-20-W11.svg)
+![Step 20: The perfboard seen from the component side, column A on the left, with the 19 earlier steps drawn in grey. Hole A4 (printed J4 on the underside) is marked with a dot in a ring where W11, black, comes up from below; a dashed line shows it running behind the board to the left edge, on to the button (lead B). Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-20-W11.svg)
 
 **Do this:**
 
-1. Start at J3 pin 2: crimp or solder the end there (see [J3](wiring.md#j3-the-control-panel-connector)).
+1. Start at the button (lead B): the button's own lead, or 30 AWG spliced to it in the pod (see [the button](wiring.md#the-button-s1)).
 2. Run the wire behind the board, between the board and the mount.
 3. Push the other end up through the hole printed **J4** on the underside (top A4).
 4. Turn to the top and solder it at **A4**. Trim the stub.
 5. Check, as below.
 
-- **Wire:** W11, black, 30 AWG stranded
-- **Cut:** 150 mm
-- **From → to:** A4 → J3 pin 2 (push it in at printed J4 on the underside)
+- **Wire:** W11, black, 30 AWG stranded (or the button's own lead)
+- **Cut:** 170 mm
+- **From → to:** button lead B → A4 (push it in at printed J4 on the underside)
 - **Side:** in from the underside, soldered on the component side
-- **What it does:** Ground for the whole control pod, through J3 pin 2. Solder it before C1: C1 stands over A4.
-- **Check:** J3 pin 2 connects to B8. It must not connect to J3 pins 1, 3 or 6. Keep the joint at A4 low and neat: C1 stands just above it.
+- **What it does:** The button's ground side, straight from the button to GND (strip 4 left). Solder it before C1: C1 stands over A4.
+- **Check:** The button's lead B connects to B8. It must not connect to I14. Keep the joint at A4 low and neat: C1 stands just above it.
 
 ### Step 21: C1, the 470 µF bulk capacitor, standing
 
@@ -429,103 +429,65 @@ With the board on the drive. The four panel wires come from behind the board: pu
 - **How:** **+ is the long leg, − is the striped side** (see the sketch). Slip heat-shrink over both leads: they cross the pads of rows 5 and 6 (IN3, IN4) on the way out. Stand the can 1.5 mm off the board over A4–C6, stripe toward row 4, bend the + lead out to C7 and the − lead to B4, and solder them from the underside.
 - **Check:** The stripe faces row 4. C7 connects to A7, B4 connects to B8, and C7 must not connect to B4 (on resistance it shows the capacitor charging, then open). Neither lead touches the pads of rows 5 or 6: A5 and A6 must not connect to A7 or B8.
 
-### Step 22: W6, white, I14 → J3 pin 6
+### Step 22: W6, white, button lead A → I14
 
-![Step 22: The perfboard seen from the component side, column A on the left, with the 21 earlier steps drawn in grey. Hole I14 (printed B14 on the underside) is marked with a dot in a ring where W6, white, comes up from below; a dashed line shows it running behind the board to the right edge, on to J3 pin 6. Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-22-W6.svg)
+![Step 22: The perfboard seen from the component side, column A on the left, with the 21 earlier steps drawn in grey. Hole I14 (printed B14 on the underside) is marked with a dot in a ring where W6, white, comes up from below; a dashed line shows it running behind the board to the right edge, on to the button (lead A). Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-22-W6.svg)
 
 **Do this:**
 
-1. Start at J3 pin 6: crimp or solder the end there (see [J3](wiring.md#j3-the-control-panel-connector)).
+1. Start at the button (lead A): the button's own lead, or 30 AWG spliced to it in the pod (see [the button](wiring.md#the-button-s1)).
 2. Run the wire behind the board, between the board and the mount.
 3. Push the other end up through the hole printed **B14** on the underside (top I14).
 4. Turn to the top and solder it at **I14**. Trim the stub.
 5. Check, as below.
 
-- **Wire:** W6, white, 30 AWG stranded
-- **Cut:** 160 mm
-- **From → to:** I14 → J3 pin 6 (push it in at printed B14 on the underside)
+- **Wire:** W6, white, 30 AWG stranded (or the button's own lead)
+- **Cut:** 200 mm
+- **From → to:** button lead A → I14 (push it in at printed B14 on the underside)
 - **Side:** in from the underside, soldered on the component side
-- **What it does:** BTN: GPIO1 to the button, through J3 pin 6.
-- **Check:** J3 pin 6 connects to H14 (GPIO1). It must not connect to I13 or I15.
-
-### Step 23: W9, green, I13 → J3 pin 3
-
-![Step 23: The perfboard seen from the component side, column A on the left, with the 22 earlier steps drawn in grey. Hole I13 (printed B13 on the underside) is marked with a dot in a ring where W9, green, comes up from below; a dashed line shows it running behind the board to the right edge, on to J3 pin 3. Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-23-W9.svg)
-
-**Do this:**
-
-1. Start at J3 pin 3: crimp or solder the end there (see [J3](wiring.md#j3-the-control-panel-connector)).
-2. Run the wire behind the board, between the board and the mount.
-3. Push the other end up through the hole printed **B13** on the underside (top I13).
-4. Turn to the top and solder it at **I13**. Trim the stub.
-5. Check, as below.
-
-- **Wire:** W9, green, 30 AWG stranded
-- **Cut:** 160 mm
-- **From → to:** I13 → J3 pin 3 (push it in at printed B13 on the underside)
-- **Side:** in from the underside, soldered on the component side
-- **What it does:** DIR_FWD: GPIO2 to the direction switch's forward side, through J3 pin 3.
-- **Check:** J3 pin 3 connects to H13 (GPIO2). It must not connect to I12 or I14.
-
-### Step 24: W10, blue, I15 → J3 pin 1
-
-![Step 24: The perfboard seen from the component side, column A on the left, with the 23 earlier steps drawn in grey. Hole I15 (printed B15 on the underside) is marked with a dot in a ring where W10, blue, comes up from below; a dashed line shows it running behind the board to the right edge, on to J3 pin 1. Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-24-W10.svg)
-
-**Do this:**
-
-1. Start at J3 pin 1: crimp or solder the end there (see [J3](wiring.md#j3-the-control-panel-connector)).
-2. Run the wire behind the board, between the board and the mount.
-3. Push the other end up through the hole printed **B15** on the underside (top I15).
-4. Turn to the top and solder it at **I15**. Trim the stub.
-5. Check, as below.
-
-- **Wire:** W10, blue, 30 AWG stranded
-- **Cut:** 165 mm
-- **From → to:** I15 → J3 pin 1 (push it in at printed B15 on the underside)
-- **Side:** in from the underside, soldered on the component side
-- **What it does:** DIR_REV: GPIO0 to the direction switch's reverse side, through J3 pin 1.
-- **Check:** J3 pin 1 connects to H15 (GPIO0). It must not connect to I14.
+- **What it does:** BTN: the button's other lead, straight to GPIO1 (strip 14 right). Pressing the button joins GPIO1 to ground.
+- **Check:** The button's lead A connects to H14 (GPIO1), and to B8 only while you hold the button down. I14 must not connect to I13 or I15.
 
 ## The motor leads
 
-W14 and W15 are the N20's own factory leads, red and black, left soldered to its tabs (assumed about 26 AWG, unconfirmed). Solder C2 across the tabs first if it isn't on yet. Measure each lead from the motor's end cap, cut it, strip 2 mm and crimp a JST-PH contact on, then push the contact into a PHR-2 housing. Routing and the wire clamp are in [wiring.md](wiring.md#j4-and-the-motor-wire-clamp). Red and black here don't mean +5 V and GND: this pair only runs from the motor to J4.
+W14 and W15 are the N20's own factory leads, red and black, left soldered to its tabs (assumed about 26 AWG, unconfirmed). Solder C2 across the tabs first if it isn't on yet. Measure each lead from the motor's end cap, cut it, strip 2 mm and crimp a JST-PH contact on, then push the contact into the PHR-2 housing of the motor plug (J4). Routing and the wire clamp are in [wiring.md](wiring.md#j4-and-the-motor-wire-clamp). Red and black here don't mean +5 V and GND: this pair only runs from the motor to the motor plug (J4).
 
-### Step 25: W14, red, motor tab → J4 pin 1
+### Step 23: W14, red, motor tab → motor plug pin 1
 
-![Step 25: The perfboard seen from the component side, column A on the left, with the 24 earlier steps drawn in grey. W14, red, drawn bold from J4's mouth off the right-hand edge; J4 pin 1 is hole J3.](images/steps-wiring/step-25-W14.svg)
+![Step 23: The perfboard seen from the component side, column A on the left, with the 22 earlier steps drawn in grey. W14, red, drawn bold from the motor plug's mouth off the right-hand edge; the motor plug (J4) pin 1 is hole J3.](images/steps-wiring/step-23-W14.svg)
 
 **Do this:**
 
 1. Measure the motor's red lead 85 mm from the end cap, cut it there and strip 2 mm.
 2. Crimp a JST-PH contact on.
-3. Push the contact into pin 1 of the PHR-2 housing until it clicks.
+3. Push the contact into pin 1 of the motor plug's PHR-2 housing until it clicks.
 4. Leave the housing unplugged until W15 is in it too.
 5. Check, as below.
 
 - **Wire:** W14, red, the motor's own lead
 - **Cut:** 85 mm, measured from the motor's end cap
-- **From → to:** motor tab → J4 pin 1
-- **Side:** off the board: crimped into J4's housing
-- **What it does:** The motor's own red lead, to the driver's OUT3 through J4 pin 1.
-- **Check:** With the plug in, J4's housing pin 1 connects to the motor tab its lead comes from, and to H3.
+- **From → to:** motor tab → motor plug pin 1
+- **Side:** off the board: crimped into the motor plug's (J4's) housing
+- **What it does:** The motor's own red lead, to the driver's OUT3 through pin 1 of the motor plug (J4).
+- **Check:** With the plug in, the motor plug's housing pin 1 connects to the motor tab its lead comes from, and to H3.
 
-### Step 26: W15, black, motor tab → J4 pin 2
+### Step 24: W15, black, motor tab → motor plug pin 2
 
-![Step 26: The perfboard seen from the component side, column A on the left, with the 25 earlier steps drawn in grey. W15, black, drawn bold from J4's mouth off the right-hand edge; J4 pin 2 is hole J2.](images/steps-wiring/step-26-W15.svg)
+![Step 24: The perfboard seen from the component side, column A on the left, with the 23 earlier steps drawn in grey. W15, black, drawn bold from the motor plug's mouth off the right-hand edge; the motor plug (J4) pin 2 is hole J2.](images/steps-wiring/step-24-W15.svg)
 
 **Do this:**
 
 1. Measure the motor's black lead 95 mm from the end cap, cut it there and strip 2 mm.
 2. Crimp a JST-PH contact on.
-3. Push the contact into pin 2 of the PHR-2 housing until it clicks.
-4. Plug the housing into J4: pin 1 goes to hole J3, pin 2 to hole J2.
+3. Push the contact into pin 2 of the motor plug's PHR-2 housing until it clicks.
+4. Plug the housing into the motor plug (J4) on the board.
 5. Check, as below.
 
 - **Wire:** W15, black, the motor's own lead
 - **Cut:** 95 mm, measured from the motor's end cap
-- **From → to:** motor tab → J4 pin 2
-- **Side:** off the board: crimped into J4's housing
-- **What it does:** The motor's own black lead, to the driver's OUT4 through J4 pin 2.
+- **From → to:** motor tab → motor plug pin 2
+- **Side:** off the board: crimped into the motor plug's (J4's) housing
+- **What it does:** The motor's own black lead, to the driver's OUT4 through pin 2 of the motor plug (J4).
 - **Check:** With the plug in, pin 2 connects to the other motor tab and to H2. On resistance, J3 to J2 reads the winding of the motor, a few ohms or more: 0 Ω means the leads or C2 are shorted.
 
 ## Last checks
@@ -534,6 +496,6 @@ W14 and W15 are the N20's own factory leads, red and black, left soldered to its
 2. **+5V, +3V3 and GND must not connect to each other**, or to the strip next door. Check B7 to B8, A15 to A16, and C17 to C16.
 3. Then follow [bring-up](wiring.md#bring-up) before the first power-on.
 
-The pod side of J3 (W6p, W9p, W10p, W11p, J1) is wired in the pod, as described in [wiring.md](wiring.md#j3-the-control-panel-connector).
+The button's wires are covered in [wiring.md](wiring.md#the-button-s1): use its own leads if they reach, or splice in the pod. The pod no longer unplugs from the drive.
 
 _Generated by [make_steps.mjs](images/steps-wiring/make_steps.mjs) from the same hole map as [perfboard.svg](images/perfboard.svg); the wire IDs, colours and cut lengths are checked against [cut-list.csv](cut-list.csv) when it runs._

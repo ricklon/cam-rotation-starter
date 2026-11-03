@@ -1,5 +1,5 @@
 """Cam Rotation N20 - point-to-point wiring, rev C (matches drives/n20/docs/wiring.md and docs/perfboard.md:
-W1, W2, W4-W6, W9-W18, W21-W23, W6p, W9p-W11p, J1, C2, D1, C1 and C3 leads).
+W1, W2, W4-W6, W11-W18, W21-W23, C2, and the D1, C1 and C3 leads).
 Rebuilds everything inside the Wiring component. Coordinates in mm, world frame.
 Perfboard (component Perfboard): on four supports on the mount's -Y face, parallel to it, rows along +X, column A at the top
   (toward the box wall), component side facing -Y. Board-local u (columns), v (rows), d (height off the component side) map to
@@ -16,8 +16,9 @@ U1, the PD board, sits over columns A-C, rows 9-17, on two 3 mm foam pads, USB-C
 J4 (side-entry JST-PH 2) at J3/J2 opens toward -Z; the motor pair leaves through the notch in the cover's bottom wall and runs
   under the base's -Y edge to the motor's +x side, inside the arms' zip tie, then into the cartridge's wire clamp
   (the tie plate on the +y arm, inner face y 5.3, tie bar z -27.6 to -30.0) and back along it to the tabs at x +/-3.1.
-Control panel: JST-PH 6-pin header in the pod (pins at x -6.75, z 17.9..27.9, tails end at y 38.1); the mount harness ends in the plug
-  at y 22.9 and runs through the base tunnel to the -Y face, then behind the perfboard to its holes.
+Controls: the knob RV1 is on the perfboard and the 12 mm button S1 is in the pod (no direction switch, no panel connector). Two wires run
+  straight from the button's leads, back through the pod where the J3 connector used to be, along the base tunnel to the -Y face, then
+  behind the perfboard and up through their holes: W6 (lead A to I14, GPIO1) and W11 (lead B to A4, GND). The pod no longer unplugs.
 """
 import adsk.core, adsk.fusion, math, traceback
 
@@ -29,12 +30,15 @@ COLORS = {
 
 # name, color, diameter mm, waypoints (mm). All wire is 30 AWG stranded, about 0.6 mm over the insulation, except the motor's
 # factory leads W14/W15 (assumed 26 AWG, 1.0 mm).
-BUNDLE_TRUNK = ('Control harness to J3 (4 x 30 AWG)', 'gray', 1.4, 'raw', [
+# the route the button pair shares, from where the J3 plug was (y 22.9) through the base tunnel to the -Y face; each wire runs
+# 0.35 mm to one side of it in x and y, so they lie side by side wherever it turns
+TRUNK = [
     (-6.75, 22.9, 23.0), (-6.75, 22.0, 21.6), (-6.9, 21.8, 18.0), (-7.0, 21.8, 4.0), (-7.6, 21.8, 0.0), (-10.0, 21.8, -2.2),
     (-11.3, 20.7, -2.6), (-11.5, 19.4, -4.2), (-11.6, 19.4, -6.4),
     (-11.8, 19.3, -8.4), (-12.0, 18.0, -9.35), (-12.0, 5.0, -9.35), (-12.0, -15.0, -9.35), (-12.0, -18.2, -9.3),
     (-11.9, -19.2, -8.2), (-11.6, -19.2, -6.0), (-11.2, -19.2, 2.0), (-11.0, -19.2, 9.0), (-11.0, -20.4, 11.2),
-    (-10.4, -21.9, 12.6), (-8.0, -22.3, 13.1), (-6.0, -22.3, 13.2)])
+    (-10.4, -21.9, 12.6), (-8.0, -22.3, 13.1), (-6.0, -22.3, 13.2)]
+def trunk(dx): return [(x + dx, y + dx, z) for x, y, z in TRUNK[:-1]]
 
 # perfboard helpers
 COLS = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 7, 'G': 8, 'H': 9, 'I': 10, 'J': 11}
@@ -79,12 +83,12 @@ WIRES = [
     ('W15 J4 pin 2 (OUT4) to motor - (factory lead)', 'black', 1.0, [W(26.4, rv(2), 2.4), W(29.6, rv(2), 2.4), (-11.3, -29.6, -15.8), (-2.8, -22.0, -15.9),
         (9.8, -13.6, -15.9), (10.0, -6.4, -16.0), (9.0, -0.4, -16.6), (6.7, 2.6, -17.8), (6.7, 2.6, -24.0), (7.6, 3.0, -25.8), (7.6, 3.4, -28.6), (6.2, 4.6, -29.4),
         (-2.6, 4.6, -29.4), (-3.1, 2.2, -28.6), (-3.1, 0.4, -26.8)]),
-    # --- control harness, mount side: trunk end on the -Y face, behind the perfboard, in from the underside
-    ('W10 GPIO0 (I15) to J3 pin 1 (rev)', 'blue', 0.6, [(-6.0, -21.9, 13.5), (-3.0, -22.0, 13.4), (8.0, -22.6, 9.8), (17.0, -23.6, 5.4), (19.4, -24.6, 4.2), back('I', 15, -1.0), hole('I', 15, 0.4)]),
-    ('W9 GPIO2 (I13) to J3 pin 3 (fwd)', 'green', 0.6, [(-6.0, -22.1, 13.9), (-3.0, -22.6, 13.0), (4.0, -23.4, 9.0), (10.0, -24.4, 5.6), (14.3, -25.1, 4.2), back('I', 13, -1.0), hole('I', 13, 0.4)]),
-    ('W6 GPIO1 (I14) to J3 pin 6 (button)', 'white', 0.6, [(-6.0, -22.7, 13.6), (-3.0, -23.2, 12.6), (6.0, -23.8, 8.4), (14.6, -24.0, 5.0), (16.9, -25.0, 4.2), back('I', 14, -1.0), hole('I', 14, 0.4)]),
-    ('W11 GND (A4) to J3 pin 2', 'black', 0.6, [(-6.0, -23.0, 13.2), (-6.8, -24.9, 13.6), (-6.6, -25.0, 27.4),
-        back('A', 4, -1.0), hole('A', 4, 0.4)]),
+    # --- the button pair: S1's leads -> back through the pod -> base tunnel -> -Y face -> behind the perfboard, in from the underside
+    ('W6 button lead A to GPIO1 (I14)', 'white', 0.6, [(11.0, 32.75, 16.3), (11.0, 32.75, 22.0), (8.0, 33.6, 28.0), (-1.0, 36.0, 28.8),
+        (-5.0, 33.0, 27.0), (-6.4, 26.0, 24.0)] + trunk(0.35) + [(-6.0, -22.7, 13.6), (-3.0, -23.2, 12.6), (6.0, -23.8, 8.4), (14.6, -24.0, 5.0),
+        (16.9, -25.0, 4.2), back('I', 14, -1.0), hole('I', 14, 0.4)]),
+    ('W11 button lead B to GND (A4)', 'black', 0.6, [(3.0, 32.75, 15.6), (3.0, 32.5, 17.6), (1.0, 31.0, 21.0), (-4.0, 28.0, 23.0),
+        (-7.0, 25.5, 23.0)] + trunk(-0.35) + [(-6.0, -23.0, 13.2), (-6.8, -24.9, 13.6), (-6.6, -25.0, 27.4), back('A', 4, -1.0), hole('A', 4, 0.4)]),
 ]
 
 # underside links on the perfboard (docs/perfboard.md); lanes match the hole map
@@ -101,28 +105,6 @@ LINKS = [
     ('W21 3V3 (A15) to RV1 3V3 end (I10)', 'yellow', 0.6, link([('A', 15), (lane('A', 0.7), 14.5), (lane('A', 0.7), 10.6), (lane('I', -0.6), 10.6), ('I', 10)], 1)),
 ]
 
-# pod side: from the JST-PH header tails (x -6.75, y 38.1; pin 1 at z 17.9 .. pin 6 at z 27.9) to the controls.
-# Pin order: 1 REV (W10), 2 GND (W11), 3 FWD (W9), 4 and 5 unused (rev C: RV1 is on the perfboard), 6 BTN (W6).
-def tail(n): return (-6.75, 38.1, 17.9 + 2.0 * (n - 1))
-def sw1_run(n, ylane, xlane, zrun, zlug):
-    """pin tail -> drop behind the header at y ylane -> sidestep to lane x xlane -> forward over SW1 at height zrun -> down in front of the lugs"""
-    z0 = 17.9 + 2.0 * (n - 1)
-    pts = [tail(n), (-6.75, ylane, z0 - 1.0), (-6.75, ylane, zrun + 1.9), (xlane, ylane - 0.4, zrun + 0.5), (xlane, ylane - 3.8, zrun),
-           (xlane, 30.0, zrun), (xlane, 27.0, zrun - 1.0)]
-    if zlug < 8:
-        pts += [(xlane, 27.0, zlug + 2.4), (-4.6, 27.0, zlug + 0.6)]
-    else:
-        pts += [(-4.4, 27.2, zlug + 0.6)]
-    return pts + [(-4.0, 28.2, zlug)]
-POD = [
-    ('W10p J3 pin 1 to SW1 B (rev)', 'blue', 0.6, sw1_run(1, 38.6, -7.9, 12.4, 1.0)),
-    ('W11p J3 pin 2 to SW1 center', 'black', 0.6, sw1_run(2, 39.8, -5.9, 13.1, 5.0)),
-    ('W9p J3 pin 3 to SW1 A (fwd)', 'green', 0.6, sw1_run(3, 40.9, -5.1, 13.8, 9.0)),
-    # 12 mm stainless button S1: its own pre-wired lead A goes to JST pin 6 over the pod's empty knob hole
-    ('W6p button lead A to J3 pin 6', 'white', 0.6, [tail(6), (-6.75, 39.4, 27.9), (-5.0, 39.2, 28.8), (-1.0, 36.0, 28.8), (8.0, 33.6, 28.0), (11.0, 32.75, 22.0), (11.0, 32.75, 16.3)]),
-    ('J1 button lead B to SW1 center', 'black', 0.6, [(3.0, 32.75, 15.6), (3.0, 32.5, 17.6), (0.6, 27.8, 17.4), (-1.4, 25.6, 13.0),
-        (-2.2, 25.8, 8.0), (-3.4, 27.2, 5.4), (-4.0, 28.2, 5.0)]),
-]
 
 app = adsk.core.Application.get()
 d = adsk.fusion.Design.cast(app.activeProduct)
@@ -200,7 +182,7 @@ def run(context):
             b.deleteMe()
         n = 0
         for group, label in ((
-            [BUNDLE_TRUNK], 'Trunks'), (WIRES, 'Mount side'), (LINKS, 'Perfboard links'), (POD, 'Pod side')):
+            WIRES, 'Mount side'), (LINKS, 'Perfboard links')):
             sk = comp.sketches.add(comp.xYConstructionPlane)
             sk.name = 'Wire paths - ' + label
             for w in group:
