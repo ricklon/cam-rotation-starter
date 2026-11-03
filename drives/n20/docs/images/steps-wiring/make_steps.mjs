@@ -321,7 +321,10 @@ function drawItem(s, mode, viewSide) {
   if (s.kind === 'off') {
     const p = offPath(s.id), [x, y] = p[0];
     if (mode === 'done') return `<circle cx="${x}" cy="${y}" r="${mm(0.9)}" fill="none" stroke="${DONE}" stroke-width="3"/>` + wire(p.slice(0, 2).map((q, i) => i ? [(q[0] + x) / 2, (q[1] + y) / 2] : q), s.colour, 'done', true);
-    return wire(p, s.colour, 'now', false);
+    // the wire runs behind the board (dashed, lighter) and comes up through its hole (a dot in a ring): it never crosses the top
+    const c = s.colour === 'white' ? '#8f8f88' : WIRE[s.colour];
+    return `<polyline points="${pts(p)}" fill="none" stroke="${c}" stroke-opacity="0.7" stroke-width="4" stroke-dasharray="9 6" stroke-linecap="round" stroke-linejoin="round"/>` +
+      `<circle cx="${x}" cy="${y}" r="8" fill="#ffffff" stroke="#1b1b1b" stroke-width="2"/><circle cx="${x}" cy="${y}" r="6" fill="none" stroke="${c}" stroke-width="2.5"/><circle cx="${x}" cy="${y}" r="3" fill="${s.colour === 'white' ? '#444' : c}"/>`;
   }
   if (s.kind === 'motor') {
     const p = motorPath(s.pin);
@@ -336,6 +339,60 @@ function endsOf(s) {
   if (s.kind === 'jumper') { const p = ROUTE[s.id](); return [{ hole: s.from.replace(' ', ' '), role: 'pad', xy: p[0], pad: true }, { hole: s.to, role: s.toRole, xy: hole(s.to) }]; }
   if (s.kind === 'off') { const h = OFF[s.id].hole; return [{ hole: h, role: s.toRole, xy: hole(h), off: s.offText }]; }
   if (s.kind === 'motor') { const h = s.pin === 1 ? 'J3' : 'J2'; return [{ hole: h, role: `J4 pin ${s.pin}`, xy: hole(h), motor: true }]; }
+}
+
+// the board seen edge-on, for a wire that comes from the mount: along the gap behind the board, up through its hole,
+// soldered on the component side. Not to scale: the 1.6 mm board and the 5.8 mm gap are drawn bigger.
+function sideView(s, y0) {
+  const h = OFF[s.id].hole, c = WIRE[s.colour], o = [];
+  const bt = y0 + 70, bb = bt + 12, mt = bb + 64, hx0 = 340;
+  o.push(`<text x="24" y="${y0 + 18}" ${FONT} font-size="17" font-weight="700" fill="${INK}">Seen from the side (edge-on):</text>`);
+  o.push(`<text x="${hx0}" y="${y0 + 44}" text-anchor="middle" ${FONT} font-size="16" font-weight="700" fill="#0e4a52">component side: you solder here</text>`);
+  o.push(`<rect x="70" y="${bt}" width="460" height="${bb - bt}" fill="#c6d3e2" stroke="#7d91a8" stroke-width="1.5"/>`);
+  o.push(`<rect x="${hx0 - 5}" y="${bt}" width="10" height="${bb - bt}" fill="#ffffff"/>`);
+  o.push(`<text x="76" y="${bt - 8}" ${FONT} font-size="16" font-weight="600" fill="${MUTE}">perfboard</text>`);
+  o.push(`<rect x="24" y="${mt}" width="${VW - 48}" height="34" fill="#5f9e5f"/>`);
+  o.push(`<text x="${VW / 2}" y="${mt + 23}" text-anchor="middle" ${FONT} font-size="16" font-weight="700" fill="#ffffff">mount (its −Y face)</text>`);
+  o.push(`<text x="536" y="${bb + 24}" text-anchor="end" ${FONT} font-size="16" fill="${MUTE}">underside, facing the mount</text>`);
+  // the wire: along the gap from the left, up through the hole, a solder fillet and a short trimmed stub on top
+  const p = [[24, mt - 14], [hx0 - 40, mt - 14], [hx0, bb + 14], [hx0, bt - 14]];
+  o.push(`<polyline points="${pts(p)}" fill="none" stroke="#1b1b1b" stroke-width="9" stroke-linejoin="round"/>`);
+  o.push(`<polyline points="${pts(p)}" fill="none" stroke="${c}" stroke-width="6" stroke-linejoin="round"/>`);
+  o.push(`<path d="M ${hx0 - 13} ${bt} Q ${hx0} ${bt - 16} ${hx0 + 13} ${bt} Z" fill="#c0c0c8" stroke="#6d6d75" stroke-width="1.5"/>`);
+  o.push(`<text x="${hx0 + 22}" y="${bt - 10}" ${FONT} font-size="16" font-weight="600" fill="${INK}">solder, trim the stub</text>`);
+  o.push(`<text x="${hx0 - 22}" y="${bt - 10}" text-anchor="end" ${MONO} font-size="18" font-weight="700" fill="${RING}">${h}</text>`);
+  o.push(`<text x="28" y="${bb + 24}" ${FONT} font-size="16" font-weight="600" fill="${INK}">from ${esc(s.offText)} →</text>`);
+  return { svg: o.join('\n'), h: mt + 34 - y0 };
+}
+
+// one orientation picture for the start of the "on the drive" steps
+function onDriveSvg() {
+  const alt = 'The perfboard on the drive, seen edge-on. The mount is at the bottom; its -Y face holds the board on supports, with a gap between them. The board\'s underside faces the mount and its component side faces out, where you solder. The panel harness comes from J3 through the base tunnel, runs up the mount\'s face in the gap behind the board, and each wire comes up through its own hole to be soldered on top. C1 stands on the board and its top comes through the cover. Nothing wraps round the board\'s edge.';
+  const o = [], bt = 236, bb = 248, mt = 360;
+  o.push(`<text x="24" y="34" ${FONT} font-size="20" font-weight="700" fill="${INK}">The board on the drive, seen edge-on</text>`);
+  o.push(`<text x="24" y="60" ${FONT} font-size="16" fill="${MUTE}">Not to scale: the board and the gap behind it are drawn bigger.</text>`);
+  // cover over everything, with C1 through its hole
+  o.push(`<polyline points="64,${bt} 64,150 536,150 536,${bt}" fill="none" stroke="#8a8a8a" stroke-width="2.5" stroke-dasharray="8 6"/>`);
+  o.push(`<text x="530" y="142" text-anchor="end" ${FONT} font-size="16" font-weight="600" fill="${MUTE}">cover (goes on last)</text>`);
+  o.push(`<rect x="100" y="112" width="44" height="${bt - 112 - 6}" rx="5" fill="#1e3c8c"/><text x="122" y="104" text-anchor="middle" ${FONT} font-size="16" font-weight="700" fill="${INK}">C1</text>`);
+  o.push(`<rect x="180" y="200" width="150" height="30" fill="#2b2b2b" fill-opacity="0.75"/><rect x="350" y="196" width="150" height="34" fill="#2b2b2b" fill-opacity="0.75"/>`);
+  o.push(`<text x="340" y="186" text-anchor="middle" ${FONT} font-size="16" font-weight="700" fill="#0e4a52">component side: faces out, you solder here</text>`);
+  o.push(`<rect x="64" y="${bt}" width="472" height="${bb - bt}" fill="#c6d3e2" stroke="#7d91a8" stroke-width="1.5"/>`);
+  for (const x of [64, 516]) o.push(`<rect x="${x}" y="${bb}" width="20" height="${mt - bb}" fill="#5f9e5f"/>`);
+  o.push(`<rect x="24" y="${mt}" width="${VW - 48}" height="40" fill="#5f9e5f"/>`);
+  o.push(`<text x="${VW / 2}" y="${mt + 26}" text-anchor="middle" ${FONT} font-size="17" font-weight="700" fill="#ffffff">mount (its −Y face), with the supports</text>`);
+  o.push(`<text x="94" y="${bb + 22}" ${FONT} font-size="16" fill="${MUTE}">underside faces the mount</text>`);
+  // the four panel wires: along the gap from the base tunnel, each up through its own hole
+  [['black', 300], ['white', 420], ['green', 450], ['blue', 480]].forEach(([col, x], i) => {
+    const yy = mt - 12 - i * 8, p = [[24, yy], [x - 18, yy], [x, bb + 8], [x, bt - 10]];
+    o.push(`<polyline points="${pts(p)}" fill="none" stroke="#1b1b1b" stroke-width="7" stroke-linejoin="round"/><polyline points="${pts(p)}" fill="none" stroke="${WIRE[col]}" stroke-width="4.5" stroke-linejoin="round"/>`);
+    o.push(`<path d="M ${x - 9} ${bt} Q ${x} ${bt - 12} ${x + 9} ${bt} Z" fill="#c0c0c8" stroke="#6d6d75"/>`);
+  });
+  o.push(`<text x="94" y="${mt - 64}" ${FONT} font-size="16" font-weight="600" fill="${INK}">panel harness from J3,</text>`);
+  o.push(`<text x="94" y="${mt - 46}" ${FONT} font-size="16" font-weight="600" fill="${INK}">through the base tunnel →</text>`);
+  o.push(`<text x="24" y="${mt + 72}" ${FONT} font-size="17" font-weight="700" fill="${INK}">Nothing wraps round the edge: each panel wire runs</text>`);
+  o.push(`<text x="24" y="${mt + 96}" ${FONT} font-size="17" font-weight="700" fill="${INK}">behind the board and comes up through its own hole.</text>`);
+  return { alt, svg: sketch(mt + 114, alt, o.join('\n')) };
 }
 
 function svgFor(n, s) {
@@ -416,10 +473,10 @@ function svgFor(n, s) {
   // off-board ends
   for (const e of ends) {
     if (e.off) {
-      const o2 = OFF[s.id], left = o2.side === 'L', x = left ? OX - 38 : OX + mm(W) + 38, y = hy(o2.ly);
+      const o2 = OFF[s.id], left = o2.side === 'L', x = left ? OX - 38 : OX + mm(W) + 30, y = hy(o2.ly);
       o.push(`<text x="${x}" y="${y - 6}" text-anchor="${left ? 'end' : 'start'}" ${MONO} font-size="20" font-weight="700" fill="${RING}">${e.hole}</text>`);
-      o.push(`<text x="${x}" y="${y + 16}" text-anchor="${left ? 'end' : 'start'}" ${FONT} font-size="14" font-weight="600" fill="${INK}">to ${esc(e.off)}</text>`);
-      o.push(`<text x="${x}" y="${y + 34}" text-anchor="${left ? 'end' : 'start'}" ${FONT} font-size="14" font-weight="600" fill="${RING}">under: ${under(e.hole)}</text>`);
+      o.push(`<text x="${x}" y="${y + 16}" text-anchor="${left ? 'end' : 'start'}" ${FONT} font-size="14" font-weight="600" fill="${INK}">behind board</text>`);
+      o.push(`<text x="${x}" y="${y + 34}" text-anchor="${left ? 'end' : 'start'}" ${FONT} font-size="14" font-weight="600" fill="${INK}">→ ${esc(e.off)}</text>`);
     }
     if (e.motor) {
       const x = OX + mm(W) + 38, y = e.xy[1];
@@ -427,8 +484,28 @@ function svgFor(n, s) {
       o.push(`<text x="${x}" y="${y + 12}" ${FONT} font-size="14" font-weight="600" fill="${INK}">to the motor</text>`);
     }
   }
-  // check
+  // through-board wires: a key for the top view, then the board seen edge-on
   let y = OY + mm(H) + 52;
+  if (s.kind === 'off') {
+    const h = OFF[s.id].hole, c = s.colour === 'white' ? '#8f8f88' : WIRE[s.colour];
+    let ky = OY + mm(H) + 36;
+    const key = [
+      [yc => `<circle cx="36" cy="${yc}" r="8" fill="#fff" stroke="#1b1b1b" stroke-width="2"/><circle cx="36" cy="${yc}" r="3" fill="${s.colour === 'white' ? '#444' : c}"/>`,
+        `${h}: the wire comes up through here from below (printed ${under(h)} underneath).`],
+      [yc => `<line x1="22" y1="${yc}" x2="50" y2="${yc}" stroke="${c}" stroke-width="4" stroke-dasharray="9 6"/>`,
+        `Dashed: behind the board, between it and the mount, to ${s.offText} (the panel).`],
+    ];
+    for (const [icon, text] of key) {
+      const lines = wrap(text, 56);
+      o.push(icon(ky - 5));
+      lines.forEach((t, i) => o.push(`<text x="60" y="${ky + i * 21}" ${FONT} font-size="16" fill="${INK}">${esc(t)}</text>`));
+      ky += lines.length * 21 + 8;
+    }
+    const sv = sideView(s, ky + 4);
+    o.push(sv.svg);
+    y = ky + 4 + sv.h + 40;
+  }
+  // check
   const chk = wrap('Check: ' + s.check, 58);
   o.push(`<rect x="16" y="${y - 26}" width="${VW - 32}" height="${chk.length * 22 + 18}" rx="8" fill="#f4f6f7" stroke="#d5dddc"/>`);
   chk.forEach((t, i) => o.push(`<text x="28" y="${y + i * 22}" ${FONT} font-size="16" fill="${INK}">${i === 0 ? `<tspan font-weight="700">Check:</tspan>${esc(t.slice(6))}` : esc(t)}</text>`));
@@ -442,7 +519,7 @@ function altFor(n, s, viewSide) {
   const prev = n === 2 ? ', with the earlier step drawn in grey' : n > 2 ? `, with the ${n - 1} earlier steps drawn in grey` : '';
   let now;
   if (s.kind === 'part') now = `${s.title.split(',')[0]} drawn in colour, ${s.fromTo}${s.ends.length ? ', its holes circled' : ''}`;
-  else if (s.kind === 'off') now = `${s.id}, ${s.colour}, drawn bold from hole ${OFF[s.id].hole} (printed ${under(OFF[s.id].hole)} on the underside) off the board's ${OFF[s.id].side === 'L' ? 'left' : 'right'} edge, labelled ${s.offText}`;
+  else if (s.kind === 'off') now = `Hole ${OFF[s.id].hole} (printed ${under(OFF[s.id].hole)} on the underside) is marked with a dot in a ring where ${s.id}, ${s.colour}, comes up from below; a dashed line shows it running behind the board to the ${OFF[s.id].side === 'L' ? 'left' : 'right'} edge, on to ${s.offText}. Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed`;
   else if (s.kind === 'motor') now = `${s.id}, ${s.colour}, drawn bold from J4's mouth off the right-hand edge; J4 pin ${s.pin} is hole ${s.pin === 1 ? 'J3' : 'J2'}`;
   else if (viewSide === 'under') now = `${s.id}, ${s.colour}, drawn bold from ${s.from} to ${s.to} (printed ${under(s.from)} and ${under(s.to)} on the underside), both ends circled and labelled with both names`;
   else now = `${s.id}, ${s.colour}, drawn bold from ${s.from} to ${s.to}, both ends circled`;
@@ -561,6 +638,7 @@ STEPS.forEach((s, i) => {
   const n = i + 1;
   if (sections[n]) md.push(sections[n] + '\n');
   if (intro[n]) md.push(intro[n] + '\n');
+  if (n === 20) md.push(`![${onDriveSvg().alt}](images/steps-wiring/on-the-drive.svg)\n`);
   const side = s.kind === 'link' ? 'underside (link)' : s.kind === 'off' ? 'in from the underside, soldered on the component side' : s.kind === 'motor' ? 'off the board: crimped into J4\'s housing' : 'component side';
   if (s.kind === 'part') {
     md.push(`### Step ${n}: ${s.title}\n`);
@@ -595,5 +673,6 @@ _Generated by [make_steps.mjs](images/steps-wiring/make_steps.mjs) from the same
 
 STEPS.forEach((s, i) => writeFileSync(join(HERE, file(i + 1, s)), svgFor(i + 1, s)));
 for (const p of Object.values(POLARITY)) writeFileSync(join(HERE, p.file), p.svg());
+writeFileSync(join(HERE, 'on-the-drive.svg'), onDriveSvg().svg);
 writeFileSync(join(DOCS, 'wiring-steps.md'), md.join('\n'));
 console.log(`${STEPS.length} steps written`);

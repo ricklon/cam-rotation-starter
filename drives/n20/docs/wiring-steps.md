@@ -243,9 +243,11 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 With the board on the drive. The four panel wires come from behind the board: push each **up from the underside** and solder it on the component side. W11 goes first, because C1 stands over its hole.
 
+![The perfboard on the drive, seen edge-on. The mount is at the bottom; its -Y face holds the board on supports, with a gap between them. The board's underside faces the mount and its component side faces out, where you solder. The panel harness comes from J3 through the base tunnel, runs up the mount's face in the gap behind the board, and each wire comes up through its own hole to be soldered on top. C1 stands on the board and its top comes through the cover. Nothing wraps round the board's edge.](images/steps-wiring/on-the-drive.svg)
+
 ### Step 20: W11, black, A4 → J3 pin 2
 
-![Step 20: The perfboard seen from the component side, column A on the left, with the 19 earlier steps drawn in grey. W11, black, drawn bold from hole A4 (printed J4 on the underside) off the board's left edge, labelled J3 pin 2.](images/steps-wiring/step-20-W11.svg)
+![Step 20: The perfboard seen from the component side, column A on the left, with the 19 earlier steps drawn in grey. Hole A4 (printed J4 on the underside) is marked with a dot in a ring where W11, black, comes up from below; a dashed line shows it running behind the board to the left edge, on to J3 pin 2. Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-20-W11.svg)
 
 - **Wire:** W11, black, 30 AWG stranded
 - **Cut:** 150 mm
@@ -269,7 +271,7 @@ With the board on the drive. The four panel wires come from behind the board: pu
 
 ### Step 22: W6, white, I14 → J3 pin 6
 
-![Step 22: The perfboard seen from the component side, column A on the left, with the 21 earlier steps drawn in grey. W6, white, drawn bold from hole I14 (printed B14 on the underside) off the board's right edge, labelled J3 pin 6.](images/steps-wiring/step-22-W6.svg)
+![Step 22: The perfboard seen from the component side, column A on the left, with the 21 earlier steps drawn in grey. Hole I14 (printed B14 on the underside) is marked with a dot in a ring where W6, white, comes up from below; a dashed line shows it running behind the board to the right edge, on to J3 pin 6. Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-22-W6.svg)
 
 - **Wire:** W6, white, 30 AWG stranded
 - **Cut:** 160 mm
@@ -280,7 +282,7 @@ With the board on the drive. The four panel wires come from behind the board: pu
 
 ### Step 23: W9, green, I13 → J3 pin 3
 
-![Step 23: The perfboard seen from the component side, column A on the left, with the 22 earlier steps drawn in grey. W9, green, drawn bold from hole I13 (printed B13 on the underside) off the board's right edge, labelled J3 pin 3.](images/steps-wiring/step-23-W9.svg)
+![Step 23: The perfboard seen from the component side, column A on the left, with the 22 earlier steps drawn in grey. Hole I13 (printed B13 on the underside) is marked with a dot in a ring where W9, green, comes up from below; a dashed line shows it running behind the board to the right edge, on to J3 pin 3. Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-23-W9.svg)
 
 - **Wire:** W9, green, 30 AWG stranded
 - **Cut:** 160 mm
@@ -291,7 +293,7 @@ With the board on the drive. The four panel wires come from behind the board: pu
 
 ### Step 24: W10, blue, I15 → J3 pin 1
 
-![Step 24: The perfboard seen from the component side, column A on the left, with the 23 earlier steps drawn in grey. W10, blue, drawn bold from hole I15 (printed B15 on the underside) off the board's right edge, labelled J3 pin 1.](images/steps-wiring/step-24-W10.svg)
+![Step 24: The perfboard seen from the component side, column A on the left, with the 23 earlier steps drawn in grey. Hole I15 (printed B15 on the underside) is marked with a dot in a ring where W10, blue, comes up from below; a dashed line shows it running behind the board to the right edge, on to J3 pin 1. Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-24-W10.svg)
 
 - **Wire:** W10, blue, 30 AWG stranded
 - **Cut:** 165 mm

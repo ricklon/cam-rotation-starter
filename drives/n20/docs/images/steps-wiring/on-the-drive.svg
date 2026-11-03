@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 474" role="img" aria-label="The perfboard on the drive, seen edge-on. The mount is at the bottom; its -Y face holds the board on supports, with a gap between them. The board's underside faces the mount and its component side faces out, where you solder. The panel harness comes from J3 through the base tunnel, runs up the mount's face in the gap behind the board, and each wire comes up through its own hole to be soldered on top. C1 stands on the board and its top comes through the cover. Nothing wraps round the board's edge.">
+<rect width="600" height="474" fill="#ffffff"/>
+<text x="24" y="34" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="20" font-weight="700" fill="#1c2729">The board on the drive, seen edge-on</text>
+<text x="24" y="60" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#4f5b5e">Not to scale: the board and the gap behind it are drawn bigger.</text>
+<polyline points="64,236 64,150 536,150 536,236" fill="none" stroke="#8a8a8a" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="530" y="142" text-anchor="end" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" font-weight="600" fill="#4f5b5e">cover (goes on last)</text>
+<rect x="100" y="112" width="44" height="118" rx="5" fill="#1e3c8c"/><text x="122" y="104" text-anchor="middle" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" font-weight="700" fill="#1c2729">C1</text>
+<rect x="180" y="200" width="150" height="30" fill="#2b2b2b" fill-opacity="0.75"/><rect x="350" y="196" width="150" height="34" fill="#2b2b2b" fill-opacity="0.75"/>
+<text x="340" y="186" text-anchor="middle" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" font-weight="700" fill="#0e4a52">component side: faces out, you solder here</text>
+<rect x="64" y="236" width="472" height="12" fill="#c6d3e2" stroke="#7d91a8" stroke-width="1.5"/>
+<rect x="64" y="248" width="20" height="112" fill="#5f9e5f"/>
+<rect x="516" y="248" width="20" height="112" fill="#5f9e5f"/>
+<rect x="24" y="360" width="552" height="40" fill="#5f9e5f"/>
+<text x="300" y="386" text-anchor="middle" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="17" font-weight="700" fill="#ffffff">mount (its −Y face), with the supports</text>
+<text x="94" y="270" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#4f5b5e">underside faces the mount</text>
+<polyline points="24.0,348.0 282.0,348.0 300.0,256.0 300.0,226.0" fill="none" stroke="#1b1b1b" stroke-width="7" stroke-linejoin="round"/><polyline points="24.0,348.0 282.0,348.0 300.0,256.0 300.0,226.0" fill="none" stroke="#1b1b1b" stroke-width="4.5" stroke-linejoin="round"/>
+<path d="M 291 236 Q 300 224 309 236 Z" fill="#c0c0c8" stroke="#6d6d75"/>
+<polyline points="24.0,340.0 402.0,340.0 420.0,256.0 420.0,226.0" fill="none" stroke="#1b1b1b" stroke-width="7" stroke-linejoin="round"/><polyline points="24.0,340.0 402.0,340.0 420.0,256.0 420.0,226.0" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linejoin="round"/>
+<path d="M 411 236 Q 420 224 429 236 Z" fill="#c0c0c8" stroke="#6d6d75"/>
+<polyline points="24.0,332.0 432.0,332.0 450.0,256.0 450.0,226.0" fill="none" stroke="#1b1b1b" stroke-width="7" stroke-linejoin="round"/><polyline points="24.0,332.0 432.0,332.0 450.0,256.0 450.0,226.0" fill="none" stroke="#1f9a3c" stroke-width="4.5" stroke-linejoin="round"/>
+<path d="M 441 236 Q 450 224 459 236 Z" fill="#c0c0c8" stroke="#6d6d75"/>
+<polyline points="24.0,324.0 462.0,324.0 480.0,256.0 480.0,226.0" fill="none" stroke="#1b1b1b" stroke-width="7" stroke-linejoin="round"/><polyline points="24.0,324.0 462.0,324.0 480.0,256.0 480.0,226.0" fill="none" stroke="#2f66d8" stroke-width="4.5" stroke-linejoin="round"/>
+<path d="M 471 236 Q 480 224 489 236 Z" fill="#c0c0c8" stroke="#6d6d75"/>
+<text x="94" y="296" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" font-weight="600" fill="#1c2729">panel harness from J3,</text>
+<text x="94" y="314" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" font-weight="600" fill="#1c2729">through the base tunnel →</text>
+<text x="24" y="432" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="17" font-weight="700" fill="#1c2729">Nothing wraps round the edge: each panel wire runs</text>
+<text x="24" y="456" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="17" font-weight="700" fill="#1c2729">behind the board and comes up through its own hole.</text>
+</svg>
