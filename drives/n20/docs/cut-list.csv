@@ -1,10 +1,10 @@
 wire,colour,gauge,from,to,routed_mm,cut_mm,notes
 W1,red,30 AWG stranded,U1 + pad,perfboard A7 (5V bus),10,25,jumper on the component side; U1's screw terminal removed
 W2,black,30 AWG stranded,U1 - pad,perfboard A8 (GND bus),8,20,jumper on the component side
-W14,red,motor factory lead, about 26 AWG (assumed),J4 pin 1 (DRV8833 OUT3),N20 terminal +,62,85,the motor's own lead; measure from the end cap and cut; crimp a PH contact into the PHR-2 housing at J4; out of the cover's bottom notch and under the base's -Y edge; tie at the cartridge's wire clamp
-W15,black,motor factory lead, about 26 AWG (assumed),J4 pin 2 (DRV8833 OUT4),N20 terminal -,74,95,the motor's own lead; measure from the end cap and cut; beside W14; along the clamp's tie bar and behind the end cap to the far terminal
-W6,white,30 AWG stranded (or the button's own lead),S1 lead A (button),perfboard I14 (GPIO1),165,200,measured from the button: back through the pod / base tunnel / -Y face; in from the underside; splice in the pod if the button's lead is short
-W11,black,30 AWG stranded (or the button's own lead),S1 lead B (button),perfboard A4 (GND),137,170,measured from the button; beside W6; in from the underside
+W14,red,motor factory lead, about 26 AWG (assumed),J4 pin 1 (DRV8833 OUT3),N20 terminal +,57,80,the motor's own lead; measure from the end cap and cut; crimp a PH contact into the PHR-2 housing at J4; out of the cover's bottom notch and under the base's -Y edge; tie at the cartridge's wire clamp
+W15,black,motor factory lead, about 26 AWG (assumed),J4 pin 2 (DRV8833 OUT4),N20 terminal -,68,90,the motor's own lead; measure from the end cap and cut; beside W14; along the clamp's tie bar and behind the end cap to the far terminal
+W6,white,30 AWG stranded (or the button's own lead),S1 lead A (button),perfboard I14 (GPIO1),149,185,measured from the button: back through the pod / base tunnel / -Y face; in from the underside; splice in the pod if the button's lead is short
+W11,black,30 AWG stranded (or the button's own lead),S1 lead B (button),perfboard A4 (GND),150,185,measured from the button; beside W6; in from the underside
 W4,black,30 AWG stranded,perfboard C8 (GND bus),C16 (Super Mini GND),22,40,underside link
 W5,green,30 AWG stranded,perfboard C12 (GPIO18),C5 (DRV IN3),18,35,underside link
 W12,blue,30 AWG stranded,perfboard C14 (GPIO20),C6 (DRV IN4),21,35,underside link

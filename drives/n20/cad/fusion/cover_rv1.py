@@ -9,7 +9,7 @@ cover_*): change one in Fusion (Modify > Change Parameters), then re-run this sc
     shaft height, the motor-wire notch in that wall, a notch in the top plate for RV1's body and a hole for C3's top.
 
 Run inside Fusion (or via the Fusion MCP server with exec(open(...).read()); then run(None)). Board frame as in wires.py:
-u across the columns, v along the rows, d up from the component side; world = (5.3 + v, -28.1 - d, 15 - u) in mm.
+u across the columns, v along the rows, d up from the component side; world = (5.3 - v, -28.1 - d, 15 - u) in mm (row 1 toward +X, row 17 and the USB-C ports toward -X).
 """
 import adsk.core, adsk.fusion, math
 
@@ -45,7 +45,7 @@ tm = adsk.fusion.TemporaryBRepManager.get()
 
 
 def P(u, v, dd):
-    return adsk.core.Point3D.create((5.3 + v) / 10, (-28.1 - dd) / 10, (15 - u) / 10)
+    return adsk.core.Point3D.create((5.3 - v) / 10, (-28.1 - dd) / 10, (15 - u) / 10)
 
 
 def box(u0, u1, v0, v1, d0, d1):
@@ -92,7 +92,7 @@ def to_comp(body, c):
 
 
 def to_perfboard(body):
-    """world -> the Perfboard component's own frame (x = 46 + u, y = -v, z = 23.6 - d, in mm). Its occurrence is nested, so
+    """world -> the Perfboard component's own frame (x = 46 + u, y = v, z = 23.6 - d, in mm). Its occurrence is nested, so
     transform2 (relative to the parent) can't be inverted for this."""
     m = adsk.core.Matrix3D.create()
     m.setWithArray([0, 0, -1, 6.1,  -1, 0, 0, 0.53,  0, 1, 0, 5.17,  0, 0, 0, 1])
@@ -126,6 +126,7 @@ def rebuild_parts(g):
         nb.name = name
         if appearance: nb.appearance = appearance
     bf.finishEdit()
+    d.timeline.moveToEnd()      # editing a base feature leaves the marker rolled back to it
 
 
 def rebuild_cover(g):
