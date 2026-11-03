@@ -13,24 +13,28 @@ u across the columns, v along the rows, d up from the component side; world = (5
 """
 import adsk.core, adsk.fusion, math
 
-PARAMS = [  # name, default, comment. Values marked 'assumed' are datasheet or photo estimates until measured.
-    ('rv1_face_past_edge', '0 mm', 'RV1 body front face (bushing side) past the board J edge; assumed, measure'),
-    ('rv1_axis_h', '6.5 mm', 'RV1 shaft centre above the board top; assumed (RK09K-style datasheet), measure'),
+PARAMS = [  # name, value, comment. 'measured' values came from the built board (2026-11-03); 'assumed' ones are still estimates.
+    ('rv1_axis_h', '5 mm', 'RV1 shaft centre above the board top; measured'),
+    ('rv1_bush_past_edge', '5 mm', 'RV1 threaded bushing past the board J edge; measured'),
+    ('rv1_bush_len', '5 mm', 'RV1 M7 threaded bushing length from the body face; assumed (sets where the body face is drawn)'),
     ('rv1_body_w', '10 mm', 'RV1 body width along the board edge; assumed, measure'),
     ('rv1_body_d', '6.5 mm', 'RV1 body depth from its face back over the board; assumed, measure'),
     ('rv1_body_h', '12.5 mm', 'RV1 body height above the board top; assumed, measure'),
-    ('rv1_bush_len', '5 mm', 'RV1 M7 threaded bushing length from the body face; assumed, measure'),
     ('rv1_shaft_len', '15 mm', 'RV1 shaft length from the body face; assumed, measure'),
     ('rv1_nut_t', '2.5 mm', 'RV1 M7 nut plus washer thickness; assumed'),
     ('rv1_panel_hole', '7.2 mm', 'Knob hole in the cover wall for the M7 bushing'),
-    ('rv1_face_gap', '0.3 mm', 'Gap between RV1 face and the cover wall'),
-    ('cover_knob_wall', '2 mm', 'Cover J-edge wall thickness (the nut clamps it)'),
-    ('c3_u', '11.43 mm', 'C3 centre across the columns (11.43 = column I); assumed from the photo, measure'),
-    ('c3_v', '-3.81 mm', 'C3 centre along the rows (-3.81 = between rows 7 and 8); assumed, measure'),
-    ('c3_dia', '10 mm', 'C3 can diameter; assumed from the photo, measure'),
-    ('c3_h', '16.5 mm', 'C3 height above the board top; assumed from the photo, measure'),
+    ('rv1_face_gap', '0.3 mm', 'Gap from the board edge (or RV1 face, if further out) to the cover wall'),
+    ('cover_knob_wall', '2 mm', 'Cover J-edge wall thickness'),
+    ('cover_nut_recess_dia', '11.5 mm', 'Recess round the knob hole on the outside of the wall, for the nut and washer'),
+    ('cover_nut_recess', '0.8 mm', 'Recess depth: the wall is cover_knob_wall minus this at the nut, so the nut gets more thread'),
+    ('c3_u', '14.4 mm', 'C3 centre across the columns; assumed: leads in I7/I8 bent about 3 mm toward the J edge, clear of the modules'),
+    ('c3_v', '-4.0 mm', 'C3 centre along the rows; assumed (between rows 7 and 8)'),
+    ('c3_dia', '8 mm', 'C3 can diameter; measured (same part as C1)'),
+    ('c3_h', '13 mm', 'C3 can height; measured (same part as C1)'),
+    ('c3_standoff', '1.5 mm', 'C3 can bottom above the board top; assumed, as C1'),
     ('cover_part_clear', '0.5 mm', 'Clearance round parts that pass through the cover top'),
 ]
+RETIRED = ('rv1_face_past_edge',)   # replaced by the measured rv1_bush_past_edge
 TOP_IN, TOP_OUT, WALL_BOT, HALF_V = 9.0, 11.0, -1.5, 27.6      # cover plate d 9..11, walls down to d -1.5, outline v +/-27.6
 BOARD_EDGE_J, RV1_V, J_U = 19.05, 5.08, 13.97                   # board J edge u, RV1 centre (J11) v, column J u
 NOTCH_V = (-20.0, -13.0)                                        # motor-wire notch (J4 region, rows 1-4)
@@ -68,6 +72,9 @@ def ensure_params():
     for name, val, note in PARAMS:
         if not d.userParameters.itemByName(name):
             d.userParameters.add(name, adsk.core.ValueInput.createByString(val), 'mm', note)
+    for name in RETIRED:
+        p = d.userParameters.itemByName(name)
+        if p: p.deleteMe()
 
 
 def comp(name):
@@ -108,9 +115,9 @@ def rebuild_parts(g):
         ('RV1 body (standing, shaft parallel to the board)', look('RV1 RK097N base', 'RV1 body (standing, shaft parallel to the board)'), box(face - g['body_d'], face, RV1_V - g['body_w'] / 2, RV1_V + g['body_w'] / 2, 0.0, g['body_h'])),
         ('RV1 bushing M7', metal, cyl_u(face, face + g['bush_len'], RV1_V, ax, 3.5)),
         ('RV1 shaft', look('RV1 shaft') or metal, cyl_u(face + g['bush_len'], face + g['shaft_len'], RV1_V, ax, 3.0)),
-        ('RV1 nut and washer', look('RV1 nut', 'RV1 nut and washer') or metal, cyl_u(g['wall_out'], g['wall_out'] + g['nut_t'], RV1_V, ax, 5.2)),
-        ('RV1 knob cap', look('RV1 knob cap'), cyl_u(g['wall_out'] + g['nut_t'] + 1.0, g['wall_out'] + g['nut_t'] + 18.0, RV1_V, ax, 7.8)),
-        ('C3 470uF hold-up (standing)', look('C3 470uF hold-up (lying)', 'C3 470uF hold-up (standing)'), cyl_d(g['c3_u'], g['c3_v'], 0.5, 0.5 + g['c3_h'], g['c3_dia'] / 2)),
+        ('RV1 nut and washer', look('RV1 nut', 'RV1 nut and washer') or metal, cyl_u(g['nut_at'], g['nut_at'] + g['nut_t'], RV1_V, ax, 5.2)),
+        ('RV1 knob cap', look('RV1 knob cap'), cyl_u(g['nut_at'] + g['nut_t'] + 1.0, g['nut_at'] + g['nut_t'] + 18.0, RV1_V, ax, 7.8)),
+        ('C3 470uF hold-up (standing)', look('C3 470uF hold-up (lying)', 'C3 470uF hold-up (standing)'), cyl_d(g['c3_u'], g['c3_v'], g['c3_off'], g['c3_off'] + g['c3_h'], g['c3_dia'] / 2)),
     ]
     for r, row in enumerate((10, 11, 12)):
         parts.append(('RV1 pin %d' % (r + 1), metal, cyl_d(J_U, (row - 9) * 2.54, -2.5, 0.0, 0.4)))
@@ -135,6 +142,7 @@ def rebuild_cover(g):
          [box(win, wout, -HALF_V, HALF_V, WALL_BOT, TOP_OUT)]),
         ('RVC knob hole, motor notch, RV1 and C3 openings', adsk.fusion.FeatureOperations.CutFeatureOperation,
          [cyl_u(win - 1.0, wout + 1.0, RV1_V, g['axis_h'], g['panel_hole'] / 2),
+          cyl_u(g['nut_at'], wout + 1.0, RV1_V, g['axis_h'], g['recess_dia'] / 2),
           box(win - 1.0, wout + 1.0, NOTCH_V[0], NOTCH_V[1], -3.4, 11.6),
           box(g['face'] - g['body_d'] - clr, win + 0.01, RV1_V - g['body_w'] / 2 - clr, RV1_V + g['body_w'] / 2 + clr, TOP_IN - 1.0, TOP_OUT + 1.0),
           cyl_d(g['c3_u'], g['c3_v'], TOP_IN - 1.0, TOP_OUT + 1.0, g['c3_dia'] / 2 + clr)]),
@@ -155,15 +163,19 @@ def rebuild_cover(g):
 
 def run(_context):
     ensure_params()
-    g = dict(face=BOARD_EDGE_J + mm('rv1_face_past_edge'), axis_h=mm('rv1_axis_h'), body_w=mm('rv1_body_w'),
+    tip = BOARD_EDGE_J + mm('rv1_bush_past_edge')                # end of the threaded bushing (measured)
+    g = dict(face=tip - mm('rv1_bush_len'), axis_h=mm('rv1_axis_h'), body_w=mm('rv1_body_w'),
              body_d=mm('rv1_body_d'), body_h=mm('rv1_body_h'), bush_len=mm('rv1_bush_len'), shaft_len=mm('rv1_shaft_len'),
              nut_t=mm('rv1_nut_t'), panel_hole=mm('rv1_panel_hole'), gap=mm('rv1_face_gap'), wall=mm('cover_knob_wall'),
-             c3_u=mm('c3_u'), c3_v=mm('c3_v'), c3_dia=mm('c3_dia'), c3_h=mm('c3_h'), clear=mm('cover_part_clear'))
-    g['win'] = g['face'] + g['gap']
+             c3_u=mm('c3_u'), c3_v=mm('c3_v'), c3_dia=mm('c3_dia'), c3_h=mm('c3_h'), c3_off=mm('c3_standoff'),
+             clear=mm('cover_part_clear'), recess_dia=mm('cover_nut_recess_dia'), recess=mm('cover_nut_recess'))
+    g['win'] = max(BOARD_EDGE_J, g['face']) + g['gap']         # never over the board
     g['wall_out'] = g['win'] + g['wall']
-    spare = g['bush_len'] - g['gap'] - g['wall'] - g['nut_t']
+    g['nut_at'] = g['wall_out'] - g['recess']                  # the nut seats in the recess round the hole
+    thread = tip - g['nut_at']
+    spare = thread - g['nut_t']
     rebuild_parts(g)
     rebuild_cover(g)
-    print('RV1 face u %.2f, wall u %.2f..%.2f, shaft axis d %.2f; thread left for nut+washer %.2f mm%s' % (
-        g['face'], g['win'], g['wall_out'], g['axis_h'], g['bush_len'] - g['gap'] - g['wall'],
-        '' if spare >= 0 else '  ** too short: the nut won\'t fit; thin the wall or check rv1_bush_len'))
+    print('RV1 face u %.2f, bushing tip u %.2f, wall u %.2f..%.2f (%.2f at the nut), shaft axis d %.2f; thread past the wall %.2f mm for a %.2f mm nut and washer%s' % (
+        g['face'], tip, g['win'], g['wall_out'], g['wall'] - g['recess'], g['axis_h'], thread, g['nut_t'],
+        '' if spare >= 0 else "  ** too short: the nut won't get a full thread"))

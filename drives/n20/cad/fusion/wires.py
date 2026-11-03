@@ -71,9 +71,10 @@ WIRES = [
     # --- D1 standing at A3 (anode down), band up; its cathode lead bends over and down into A2
     ('D1 anode lead to A3', 'tin', 0.6, [hole('A', 3, 1.0), hole('A', 3, -0.8)]),
     ('D1 cathode lead to A2', 'tin', 0.6, [hole('A', 3, 6.2), hole('A', 3, 7.0), W(cu('A'), rv(2.5), 7.0), hole('A', 2, 6.0), hole('A', 2, -0.8)]),
-    # --- C3 standing over I7 / I8 as built (cover_rv1.py places the can from c3_u / c3_v; 5 mm lead pitch, 0.5 mm off the board)
-    ('C3 + lead to I7', 'tin', 0.6, [W(cu('I'), rv(7.5) - 2.5, 0.6), W(cu('I'), rv(7), 0.0), hole('I', 7, -0.8)]),
-    ('C3 - lead to I8', 'tin', 0.6, [W(cu('I'), rv(7.5) + 2.5, 0.6), W(cu('I'), rv(8), 0.0), hole('I', 8, -0.8)]),
+    # --- C3 standing over I7 / I8 as built: an 8 x 13 mm can like C1, 1.5 mm off the board, its centre (cover_rv1.py's c3_u / c3_v,
+    #     assumed 14.4 / -4.0) about 3 mm toward the J edge, so its leads bend back to the holes; stripe (-) toward I8
+    ('C3 + lead to I7', 'tin', 0.6, [W(14.4, -5.75, 2.0), W(13.0, -5.5, 1.0), W(cu('I'), rv(7), 0.8), hole('I', 7, -0.8)]),
+    ('C3 - lead to I8', 'tin', 0.6, [W(14.4, -2.25, 2.0), W(13.0, -2.4, 1.0), W(cu('I'), rv(8), 0.8), hole('I', 8, -0.8)]),
     # --- motor pair: J4 (side entry, mouth toward -Z) -> notch in the cover's bottom wall -> under the base's -Y edge
     #     -> the motor's +x side inside the arms' zip tie -> the wire clamp -> the tabs
     # the motor's own factory leads (assumed 26 AWG, about 1.0 mm over the insulation), cut to length and crimped into J4's housing

@@ -10,7 +10,7 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 | N20_Bushing_0625 | flange down | 34.0 × 29.0 × 6.0 | 574 |
 | N20_Bushing_025 | flange down | 34.0 × 29.0 × 6.0 | 765 |
 | N20_Cartridge | on its side (-x face down), arms flat along the bed | 35.3 × 29.0 × 15.0 | 281 |
-| N20_Electronics_Cover | top plate down, walls and posts up | 42.0 × 55.2 × 12.5 | 2001 |
+| N20_Electronics_Cover | top plate down, walls and posts up | 42.0 × 55.2 × 12.5 | 2031 |
 | N20_Socket_Coupon | socket coupon: plate top down, as the mount | 20.5 × 27.0 × 12.4 | 318 |
 | N20_Latch_Key | flat on its side, the U on the bed | 12.2 × 16.7 × 7.0 | 109 |
 | N20_Control_Pod | front panel down, open back up | 39.2 × 38.0 × 24.0 | 955 |
@@ -47,6 +47,8 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 **Fixed 2026-10-27 (version 19): the base-plate slot fill.** From version 13 to 18 the fill started at the bottom of the base instead of its top, so it filled in everything already cut into the base: the DRV8833 pocket and the relief under its pins, the diode channel and its lead slot, and the wire channel under the base on the pod side. It also reached 1.3 mm into the side walls and closed the end of one control pod screw pilot. Now it fills only the slot, from the top of the base to the N20 plate, between the walls. Reprint `N20_Mount`, and `N20_Mount_Fit_Coupon_Base` if you test the board fits with it. A mount printed from version 13–18 files has no DRV8833 pocket or diode channel. `N20_Socket_Coupon` and `N20_Mount_Fit_Coupon_Wall` changed slightly at their edges; ones you've printed still test the same fits. Sliced on an A1 with build-plate supports: none in the slot, the DRV8833 pocket or the diode channel.
 
 **Updated 2026-10-27 (version 20): wiring only, print files unchanged.** The zip ties at anchors A1 and A2 are now modelled in place, and W14 and W15 are routed through A2, so they're cut 55 and 65 mm (were 50 and 60).
+
+**Updated 2026-11-03 (version 34): `N20_Electronics_Cover` again, with the measured sizes.** RV1's shaft is 5 mm above the board and its bushing reaches 5 mm past the board edge, so the knob hole moved down and an Ø11.5 × 0.8 mm recess round it on the outside gives the M7 nut and washer 3.5 mm of thread. C3 is an 8 × 13 mm can like C1, through a 9 mm hole. Reprint the cover from this version.
 
 **Updated 2026-11-03 (version 33): `N20_Electronics_Cover` only.** Fitted to the board as built: RV1 stands with its shaft parallel to the board, pointing off the J edge, and C3 stands. The cover's J-edge wall moved in to just past RV1's face and carries the Ø7.2 mm knob hole; the top has a notch for RV1's body and a hole for C3's top; the C1 hole, the USB-C opening, the posts and the motor notch stay. It still prints top plate down with no supports (the knob hole is a horizontal Ø7.2 mm hole in a wall). RV1 and C3 sizes are assumed until measured: see `cad/fusion/cover_rv1.py`.
 
