@@ -20,7 +20,7 @@ FLIP = [np.eye(3), rx(180)]
 SIDE = [rx(90), rx(-90)]
 PLAN = {
     'N20_Mount':              (FLIP, 'flange (wall face) down'),
-    # N20-only bushings (Fusion version 31): bigger than the MG90S ones, so the assembled 5/8 clamp passes the mount's bore
+    # bushings (Fusion version 31): the same design as the MG90S drive's from 2026-11-03; the assembled 5/8 clamp passes the bore
     'N20_Bushing_075':        (FLIP, 'flange down'),
     'N20_Bushing_0625':       (FLIP, 'flange down'),
     'N20_Bushing_025':        (FLIP, 'flange down'),

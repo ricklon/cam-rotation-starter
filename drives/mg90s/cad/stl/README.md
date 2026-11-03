@@ -5,31 +5,15 @@ Exported from Fusion and oriented for printing (z = 0 is the bed) by [`../fusion
 <!-- parts -->
 | Part | Orientation | Size on bed (mm) | Bed contact (mm²) |
 |---|---|---|---|
-| Servo_Mount | flange (wall face) down | 109.0 × 41.3 × 48.6 | 3858 |
-| Control_Pod | front panel down, open back up | 39.2 × 38.0 × 24.0 | 955 |
-| Adapter_075 | spline end down, socket up | 25.4 × 25.4 × 24.0 | 447 |
-| Adapter_0625 | spline end down, socket up | 22.2 × 22.2 × 24.0 | 332 |
-| Adapter_025 | spline end down, socket up | 12.6 × 12.6 × 24.0 | 84 |
-| Bushing_075 | flange down | 28.5 × 28.5 × 6.0 | 267 |
-| Bushing_0625 | flange down | 28.5 × 28.5 × 6.0 | 362 |
-| Bushing_025 | flange down | 28.5 × 28.5 × 6.0 | 554 |
-| Fit_Test_Coupon | flat side down | 80.0 × 45.0 × 6.0 | 2598 |
-| Adapter_Clamp_0625 | 5/8 clamp, spline end down | 26.5 × 24.3 × 24.0 | 332 |
-| Clamp_0625_cap | 5/8 clamp cap, split face down | 26.5 × 17.5 × 12.5 | 163 |
-| Adapter_Clamp_025 | 1/4 clamp, spline end down | 19.9 × 16.3 × 24.0 | 130 |
-| Clamp_025_cap | 1/4 clamp cap, split face down | 19.9 × 17.5 × 9.2 | 218 |
-| Adapter_075_Sleeved | 3/4 sleeved, spline end down | 26.5 × 26.5 × 24.0 | 492 |
-| Panel_Fit_Coupon | front panel down, like the pod | 27.0 × 38.0 × 20.7 | 955 |
-| Dowel_Gauge_075 | 3/4 dowel gauge strip, flat | 151.5 × 28.8 × 4.0 | 2584 |
-| Dowel_Gauge_0625 | 5/8 dowel gauge strip, flat | 132.4 × 25.6 × 4.0 | 2148 |
-| Dowel_Gauge_025 | 1/4 dowel gauge strip, flat | 75.3 × 16.1 × 4.0 | 997 |
-| Shim_075_for_19p0mm | shim for 19.0 mm dowel, on end | 21.5 × 21.5 × 17.5 | 73 |
-| Shim_075_for_18p5mm | shim for 18.5 mm dowel, on end | 21.5 × 21.5 × 17.5 | 88 |
-| Shim_075_for_18p0mm | shim for 18.0 mm dowel, on end | 21.5 × 21.5 × 17.5 | 102 |
-| Shim_075_for_17p5mm | shim for 17.5 mm dowel, on end | 21.5 × 21.5 × 17.5 | 115 |
+| Servo_Mount | flange (wall face) down | 109.0 × 41.3 × 48.6 | 3631 |
+| Bushing_075 | flange down | 34.0 × 29.0 × 6.0 | 478 |
+| Bushing_0625 | flange down | 34.0 × 29.0 × 6.0 | 574 |
+| Bushing_025 | flange down | 34.0 × 29.0 × 6.0 | 765 |
 <!-- /parts -->
 
 All files were checked: watertight, no non-manifold edges, and volumes match Fusion. `print_orientation_preview.png` shows how each sits on the bed. `raw/` holds the same parts in the model's coordinates, if you'd rather orient them yourself.
+
+**Updated 2026-11-03 (Fusion *Cam Rotation Starter* version 50): `Servo_Mount` and the three bushings.** The mount's top-plate bore is now Ø29.2 mm (was Ø23.75), so the assembled 5/8 clamp drops through from above, and the bushings are Ø29.0 mm with a Ø34 mm double-D flange (flats 28.8 mm apart, parallel to the side walls), retained from below as before; the flange recess is double-D too, so the side walls aren't undercut. Dowel bores unchanged. Reprint `Servo_Mount` and the bushings together: old bushings don't fit the new bore, and new ones don't fit an old mount. The N20 drive has the same bore and bushings (a shared part, per `AGENTS.md`). Box wall hole: Ø20 mm is enough if the dowel and clamp go through the mount before it's screwed to the box; to push them in from inside the box with the drive mounted, it needs ≥ Ø29.2 mm.
 
 ## Print order for a fit test
 
