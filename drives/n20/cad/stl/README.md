@@ -5,7 +5,10 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 <!-- parts -->
 | Part | Orientation | Size on bed (mm) | Bed contact (mm²) |
 |---|---|---|---|
-| N20_Mount | flange (wall face) down | 109.0 × 47.2 × 48.6 | 3931 |
+| N20_Mount | flange (wall face) down | 109.0 × 47.2 × 48.6 | 3705 |
+| N20_Bushing_075 | flange down | 34.0 × 29.0 × 6.0 | 478 |
+| N20_Bushing_0625 | flange down | 34.0 × 29.0 × 6.0 | 574 |
+| N20_Bushing_025 | flange down | 34.0 × 29.0 × 6.0 | 765 |
 | N20_Cartridge | on its side (-x face down), arms flat along the bed | 35.3 × 29.0 × 15.0 | 281 |
 | N20_Electronics_Cover | top plate down, walls and posts up | 48.3 × 55.2 × 12.5 | 2481 |
 | N20_Socket_Coupon | socket coupon: plate top down, as the mount | 20.5 × 27.0 × 12.4 | 318 |
@@ -44,6 +47,8 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 **Fixed 2026-10-27 (version 19): the base-plate slot fill.** From version 13 to 18 the fill started at the bottom of the base instead of its top, so it filled in everything already cut into the base: the DRV8833 pocket and the relief under its pins, the diode channel and its lead slot, and the wire channel under the base on the pod side. It also reached 1.3 mm into the side walls and closed the end of one control pod screw pilot. Now it fills only the slot, from the top of the base to the N20 plate, between the walls. Reprint `N20_Mount`, and `N20_Mount_Fit_Coupon_Base` if you test the board fits with it. A mount printed from version 13–18 files has no DRV8833 pocket or diode channel. `N20_Socket_Coupon` and `N20_Mount_Fit_Coupon_Wall` changed slightly at their edges; ones you've printed still test the same fits. Sliced on an A1 with build-plate supports: none in the slot, the DRV8833 pocket or the diode channel.
 
 **Updated 2026-10-27 (version 20): wiring only, print files unchanged.** The zip ties at anchors A1 and A2 are now modelled in place, and W14 and W15 are routed through A2, so they're cut 55 and 65 mm (were 50 and 60).
+
+**Updated 2026-11-02 (version 31): `N20_Mount` and the new `N20_Bushing_075`, `_0625`, `_025`.** **N20-only bushings (version 31):** the mount's top-plate bore is Ø29.2 mm so the assembled 5/8 clamp, with its M3 cap heads (14.3 mm swept), drops through from above. The N20 bushings are Ø29.0 mm outside with a Ø34 mm double-D flange (flats 28.8 mm apart, parallel to the side walls), retained from below. They **differ from the MG90S bushings on purpose: don't sync them back.** Dowel bores unchanged. Box wall hole: Ø20 mm is enough if the dowel and clamp go through the mount before it's screwed to the box; to push them in from inside the box with the drive already mounted, the box hole needs ≥ Ø29.2 mm (a 30 mm bit). Print the N20 bushings from this folder, not the MG90S ones.
 
 **Updated 2026-11-02 (version 30): `N20_Control_Pod` and `N20_Mount_Fit_Coupon_Pod`.** The direction switch and the J3 panel connector are gone, so the pod has no JST header holder; the button's wires run straight to the perfboard. The holder was what needed tree supports in the pod: slice it and check before you turn supports off. Skip `N20_Mount_Fit_Coupon_Pod` now: it only checked the holder.
 

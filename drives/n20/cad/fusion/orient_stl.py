@@ -20,6 +20,10 @@ FLIP = [np.eye(3), rx(180)]
 SIDE = [rx(90), rx(-90)]
 PLAN = {
     'N20_Mount':              (FLIP, 'flange (wall face) down'),
+    # N20-only bushings (Fusion version 31): bigger than the MG90S ones, so the assembled 5/8 clamp passes the mount's bore
+    'N20_Bushing_075':        (FLIP, 'flange down'),
+    'N20_Bushing_0625':       (FLIP, 'flange down'),
+    'N20_Bushing_025':        (FLIP, 'flange down'),
     # on its -x face, so the latch tongues stand on the bed and the snap arms and tongues bend along their layers
     'N20_Cartridge':          ([ry(-90)], 'on its side (-x face down), arms flat along the bed'),
     'N20_Electronics_Cover':  (FLIP, 'top plate down, walls and posts up'),
