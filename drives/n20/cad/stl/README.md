@@ -5,8 +5,12 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 <!-- parts -->
 | Part | Orientation | Size on bed (mm) | Bed contact (mm²) |
 |---|---|---|---|
-| N20_Mount | flange (wall face) down | 109.0 × 44.8 × 48.6 | 3858 |
-| N20_Cartridge | on its side (-x face down), arms flat along the bed | 28.8 × 29.0 × 15.0 | 271 |
+| N20_Mount | flange (wall face) down | 109.0 × 47.2 × 48.6 | 3705 |
+| N20_Bushing_075 | flange down | 34.0 × 29.0 × 6.0 | 478 |
+| N20_Bushing_0625 | flange down | 34.0 × 29.0 × 6.0 | 574 |
+| N20_Bushing_025 | flange down | 34.0 × 29.0 × 6.0 | 765 |
+| N20_Cartridge | on its side (-x face down), arms flat along the bed | 35.3 × 29.0 × 15.0 | 281 |
+| N20_Electronics_Cover | top plate down, walls and posts up | 42.0 × 55.2 × 12.5 | 2031 |
 | N20_Socket_Coupon | socket coupon: plate top down, as the mount | 20.5 × 27.0 × 12.4 | 318 |
 | N20_Latch_Key | flat on its side, the U on the bed | 12.2 × 16.7 × 7.0 | 109 |
 | N20_Control_Pod | front panel down, open back up | 39.2 × 38.0 × 24.0 | 955 |
@@ -43,6 +47,26 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 **Fixed 2026-10-27 (version 19): the base-plate slot fill.** From version 13 to 18 the fill started at the bottom of the base instead of its top, so it filled in everything already cut into the base: the DRV8833 pocket and the relief under its pins, the diode channel and its lead slot, and the wire channel under the base on the pod side. It also reached 1.3 mm into the side walls and closed the end of one control pod screw pilot. Now it fills only the slot, from the top of the base to the N20 plate, between the walls. Reprint `N20_Mount`, and `N20_Mount_Fit_Coupon_Base` if you test the board fits with it. A mount printed from version 13–18 files has no DRV8833 pocket or diode channel. `N20_Socket_Coupon` and `N20_Mount_Fit_Coupon_Wall` changed slightly at their edges; ones you've printed still test the same fits. Sliced on an A1 with build-plate supports: none in the slot, the DRV8833 pocket or the diode channel.
 
 **Updated 2026-10-27 (version 20): wiring only, print files unchanged.** The zip ties at anchors A1 and A2 are now modelled in place, and W14 and W15 are routed through A2, so they're cut 55 and 65 mm (were 50 and 60).
+
+**Updated 2026-11-03 (version 34): `N20_Electronics_Cover` again, with the measured sizes.** RV1's shaft is 5 mm above the board and its bushing reaches 5 mm past the board edge, so the knob hole moved down and an Ø11.5 × 0.8 mm recess round it on the outside gives the M7 nut and washer 3.5 mm of thread. C3 is an 8 × 13 mm can like C1, through a 9 mm hole. Reprint the cover from this version.
+
+**Updated 2026-11-03 (version 33): `N20_Electronics_Cover` only.** Fitted to the board as built: RV1 stands with its shaft parallel to the board, pointing off the J edge, and C3 stands. The cover's J-edge wall moved in to just past RV1's face and carries the Ø7.2 mm knob hole; the top has a notch for RV1's body and a hole for C3's top; the C1 hole, the USB-C opening, the posts and the motor notch stay. It still prints top plate down with no supports (the knob hole is a horizontal Ø7.2 mm hole in a wall). RV1 and C3 sizes are assumed until measured: see `cad/fusion/cover_rv1.py`.
+
+**Updated 2026-11-02 (version 31): `N20_Mount` and the new `N20_Bushing_075`, `_0625`, `_025`.** the mount's top-plate bore is Ø29.2 mm so the assembled 5/8 clamp, with its M3 cap heads (14.3 mm swept), drops through from above. The N20 bushings are Ø29.0 mm outside with a Ø34 mm double-D flange (flats 28.8 mm apart, parallel to the side walls), retained from below. (From 2026-11-03 the MG90S drive has the same bore and bushings, so they're a shared part again; `N20_Bushing_*` here and the MG90S `Bushing_*` are the same.) Dowel bores unchanged. Box wall hole: Ø20 mm is enough if the dowel and clamp go through the mount before it's screwed to the box; to push them in from inside the box with the drive already mounted, the box hole needs ≥ Ø29.2 mm (a 30 mm bit). Print the bushings from either folder.
+
+**Updated 2026-11-02 (version 30): `N20_Control_Pod` and `N20_Mount_Fit_Coupon_Pod`.** The direction switch and the J3 panel connector are gone, so the pod has no JST header holder; the button's wires run straight to the perfboard. The holder was what needed tree supports in the pod: slice it and check before you turn supports off. Skip `N20_Mount_Fit_Coupon_Pod` now: it only checked the holder.
+
+**Updated 2026-11-02 (version 29): `N20_Mount`, `N20_Electronics_Cover` and `N20_Mount_Fit_Coupon_Wall`.** C1 now stands on the perfboard, so the capacitor seat in the mount's −Y wall is gone (filled in), and the cover has a 9 mm hole for the can's top. The wall coupon is cut from the mount, so it lost the seat too; ignore the capacitor checks below.
+
+**Updated 2026-11-01: `N20_Cartridge` only.** The wire clamp is sized for the motor's own leads (assumed 26 AWG, about 1.0 mm) instead of 30 AWG: the bar between its two zip-tie slots is 2.4 mm (was 1.4 mm), and the plate is 1 mm longer so the lower slot keeps a 1 mm edge. Reprint the cartridge.
+
+**Updated 2026-10-31 (version 25): rev C.** Reprint `N20_Mount` and `N20_Cartridge`, and print the new `N20_Electronics_Cover`. The socket and mount fit coupons didn't change.
+
+- **`N20_Mount`:** supports for the perfboard on the −Y face: two posts from the flange, two bosses with 45° gussets, and a rail past the face's +X edge, all with M2 pilots. The flange ear is unchanged.
+- **`N20_Cartridge`:** a wire clamp plate below the +Y snap arm, with two slots for a 2.5 mm zip tie.
+- **`N20_Electronics_Cover`:** goes over the perfboard as the mount's outer −Y wall, open at the +X end for both USB-C plugs, and carries the speed knob.
+
+The supports print up from the flange without supports of their own. See [What changed on 2026-10-31](../../README.md#what-changed-on-2026-10-31-rev-c).
 
 ## Test prints, in order
 
@@ -96,7 +120,7 @@ Three pieces cut from the real mount and pod in Fusion (boxes intersected with t
 |---|---|---|
 | Wall piece | The capacitor snaps into its seat. The XIAO drops into its pocket, with its soldered wire ends in the 2.5 mm relief under each pin row. The PD board drops into its seat on the pad and rests on the 1 mm ledge, its bottom-side parts clear of the recess floor. Your zip ties go through the XIAO's and the PD board's slots, and round the bar in anchor A1 at the bottom of the wall. | Capacitor: `c1_seat_dia`. Boards: `board_clear` (0.3 mm), `solder_relief_d` (2.5 mm), `pd_relief_d` (3.5 mm). |
 | Base piece | The motor cartridge slides through the socket (here only the 4 mm base) and its flange sits flat on the base; the M3 pilots line up with the flange holes (their depth is tested on the PETG coupon). The DRV8833 drops into its pocket with its wire ends in the relief. The diode lies in its channel with its lead in the slot to the DRV8833 pocket. A zip tie goes round the bar in anchors A1 and A2. | Cartridge: `n20_clear`, `cart_m3_pilot`. DRV8833: `board_clear`, `solder_relief_d`. |
-| Pod piece | The JST-PH header slides into its holder from the open back and stops against the two small ledges. | Tell me how far off it is. |
+| Pod piece | Nothing from version 30: it only checked the JST-PH header holder, which is gone. | Skip it. |
 
 ### 4. `Panel_Fit_Coupon` and the dowel gauges (from the MG90S folder)
 
@@ -117,7 +141,7 @@ Only once steps 1, 2, 3 and 5 fit. The fit coupon has already checked the fits b
 - the DRV8833 pocket and the 2.5 mm relief slots under its pin rows (and under the XIAO's) are clean;
 - the PD board drops into its seat in the pad and rests on the 1 mm ledge round its edges.
 
-In the pod, check that the JST-PH header slides into its holder from the open back and stops against the two small ledges.
+In the pod, check that the button fits its hole. (Up to version 29 the pod also had a holder for the J3 header; it's gone.)
 
 ### What to send back
 
@@ -135,7 +159,8 @@ Tell me which hole fitted in each row of the PETG coupon, how the cartridge snap
 | N20_Mount_Fit_Coupon_Pod | PETG | 0.2 mm | 3 | 20% | **tree supports, allowed on the model**, as for the pod |
 | Adapters, clamps, caps | PETG | 0.12–0.16 mm | 4 | 40% | none |
 | N20_Control_Pod | PETG | 0.2 mm | 3 | 20% | **tree supports, allowed on the model** (not build plate only): printed front panel down, the JST holder starts in mid-air above the front panel's inside face |
-| N20_Mount | PETG | 0.2 mm | 3 | 25% | **yes**, build plate only: under the face plate (through the bushing hole) and the PD pad |
+| N20_Mount | PETG | 0.2 mm | 3 | 25% | **yes**, build plate only: under the face plate (through the bushing hole) and the PD pad. The ear bosses print upright from the flange and need none. |
+| N20_Electronics_Cover | PETG | 0.2 mm | 3 | 20% | none: printed top plate down, as the file loads |
 
 PETG notes: print a little slower and hotter than PLA, turn off ironing, and use a glue stick or textured sheet on smooth PEI (PETG can bond too well). Holes usually come out slightly smaller than in PLA, which is what the coupon is for.
 
@@ -150,6 +175,6 @@ The full order, with the tool for each step, is in the drive's [assembly order](
 - **Clamps:** two **M3 × 8** socket cap screws per clamp, heads in the flat counterbores on the cap. Turn the cap toward an open end of the mount to reach them with a 2.5 mm hex key. With the screws tight, the 5/8 clamp sweeps 14.3 mm from the axis, inside the 0.6 mm relief in both side walls (15.3 mm). Don't use M3 × 10: on the 5/8 clamp the tip would come out of the side.
 - **DRV8833 module:** solder its wires first, then stick it into the pocket on the underside of the base with a square of double-sided foam tape, component side out. Leave its **J1** jumper open.
 - **Diode:** lay it in its channel under the base with the banded end toward the wall, bend the cathode lead round the edge and up to the XIAO's 5V pad, and run the anode lead along its slot to the DRV8833's VCC pin. A dab of glue holds it.
-- **Capacitor:** press it into its seat, legs down; the seat's 7.8 mm mouth holds the 8 mm can.
-- **Control panel connector (J3):** slide the JST-PH header into its holder in the pod from the open back, pins toward the front panel, and fix it with a drop of glue. The mount harness ends in the PHR-6 housing that plugs into it.
+- **Capacitor:** from version 29, C1 stands on the perfboard (see [perfboard.md](../../docs/perfboard.md#placement)); the mount has no seat for it.
+- **Control panel connector (J3):** gone from version 30. The button's two wires run straight to the perfboard (see [wiring.md](../../docs/wiring.md#the-button-s1)).
 - **Zip ties:** one through anchor A1 round the two power wires under the wall, one through A2 round the two motor wires under the base, and one round the cartridge's motor arms between their ribs.

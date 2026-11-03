@@ -80,3 +80,8 @@ label.check input { width: 22px; height: 22px; accent-color: var(--green); }
 
 .toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: 14px; max-width: calc(100% - 32px); }
 @media (prefers-reduced-motion: no-preference) { .gauge .fill { transition: left .15s, width .15s; } }
+
+/* Virtual direction switch */
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.seg .btn[aria-pressed=true] { background: var(--green); border-color: var(--green); color: var(--green-ink); }
+.seg .btn:disabled { opacity: .45; }

@@ -13,14 +13,14 @@ The drive comes in more than one version. They share the brain, the controls, th
 | Drive | Motor | Status | Start here |
 |---|---|---|---|
 | **MG90S** | MG90S continuous-rotation micro servo | Design complete; first build in progress. Tagged [`v1.0-mg90s`](https://github.com/ricklon/cam-rotation-starter/releases/tag/v1.0-mg90s). | [drives/mg90s](drives/mg90s/README.md) |
-| **N20** | 6 V N20 metal gearmotor (no encoder) with a DRV8833 driver | Planning: parts and wiring plan written, mount not designed yet. | [drives/n20](drives/n20/README.md) |
+| **N20** | 6 V N20 metal gearmotor (no encoder) with a DRV8833 driver | Rev C designed: perfboard electronics with an ESP32-C6 Super Mini, motor wire clamp. Earlier revs fit-tested in PETG. | [drives/n20](drives/n20/README.md) |
 
-Both run from any USB-C charger through a PD trigger board set to 5 V, on a Seeed XIAO ESP32-C6.
+Both run from any USB-C charger through a PD trigger board set to 5 V, on a Seeed XIAO ESP32-C6. From rev C the N20 drive uses an ESP32-C6 Super Mini on a perfboard instead; the firmware builds for either board.
 
 ## What every version has
 
 - **Mount:** a 3D-printed bracket that screws to the outside of a box wall. The camshaft (a 3/4", 5/8" or 1/4" wooden dowel) passes through the wall into a printed adapter on the motor, so nothing has to be reached from inside the box.
-- **Brain:** a Seeed XIAO ESP32-C6 running ESP-IDF firmware. It makes its own Wi-Fi network and serves a web app for live control, story editing (including record-by-performing) and gallery mode.
+- **Brain:** an ESP32-C6 (a Seeed XIAO ESP32-C6, or an ESP32-C6 Super Mini) running ESP-IDF firmware. It makes its own Wi-Fi network and serves a web app for live control, story editing (including record-by-performing) and gallery mode.
 - **Controls:** a 12 mm stainless button (play, pause, next), a speed knob, and a forward / stop / reverse switch.
 
 ## Shared parts of the repository

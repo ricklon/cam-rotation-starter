@@ -33,6 +33,9 @@ static int     s_rest_left = 0;
 static float   s_story_speed = 0;    // keyframe speed before master/direction
 static float   s_manual = 0;         // -100..100
 static int     s_master = 100;       // %
+static char    s_pl_name[32] = "";   // active playlist ("" = none)
+static char    s_pl[PLAYLIST_MAX][32];
+static int     s_pl_n = 0, s_pl_i = 0;
 
 static float clampf(float v, float lo, float hi) { return v < lo ? lo : (v > hi ? hi : v); }
 
@@ -74,12 +77,14 @@ static esp_err_t load_story(const char *name)
     cJSON *j = cJSON_Parse(txt);
     free(txt);
     char err[80];
-    story_t tmp;
-    bool ok = story_from_json(j, &tmp, err, sizeof err);
+    story_t *tmp = malloc(sizeof *tmp);   // ~3 KB: too big for the player task's stack
+    if (!tmp) { cJSON_Delete(j); return ESP_ERR_NO_MEM; }
+    bool ok = story_from_json(j, tmp, err, sizeof err);
     cJSON_Delete(j);
-    if (!ok) { ESP_LOGW(TAG, "%s: %s", name, err); return ESP_ERR_INVALID_ARG; }
-    strncpy(tmp.name, name, sizeof(tmp.name) - 1);
-    s_story = tmp;
+    if (!ok) { ESP_LOGW(TAG, "%s: %s", name, err); free(tmp); return ESP_ERR_INVALID_ARG; }
+    strncpy(tmp->name, name, sizeof(tmp->name) - 1);
+    s_story = *tmp;
+    free(tmp);
     s_loaded = true;
     return ESP_OK;
 }
@@ -91,9 +96,8 @@ static void start_step(int i)
     s_step_from = s_story_speed;
 }
 
-esp_err_t player_play(const char *name)
+static esp_err_t play_locked(const char *name)
 {
-    xSemaphoreTake(s_lock, portMAX_DELAY);
     esp_err_t err = ESP_OK;
     if (name && name[0] && (!s_loaded || strcmp(name, s_story.name) != 0)) err = load_story(name);
     if (err == ESP_OK && s_loaded) {
@@ -104,6 +108,60 @@ esp_err_t player_play(const char *name)
     } else if (err == ESP_OK) {
         err = ESP_ERR_NOT_FOUND;
     }
+    return err;
+}
+
+esp_err_t player_play(const char *name)
+{
+    xSemaphoreTake(s_lock, portMAX_DELAY);
+    s_pl_n = 0;
+    s_pl_name[0] = 0;
+    esp_err_t err = play_locked(name);
+    xSemaphoreGive(s_lock);
+    return err;
+}
+
+// Move to the next story in the active playlist, skipping any that no longer load. Keeps the current
+// speed so the motor doesn't stop between stories. Returns false (and stops) if none can be played.
+static bool playlist_advance_locked(void)
+{
+    float keep = s_story_speed;
+    for (int tries = 0; tries < s_pl_n; tries++) {
+        s_pl_i = (s_pl_i + 1) % s_pl_n;
+        if (play_locked(s_pl[s_pl_i]) == ESP_OK) { s_story_speed = keep; s_step_from = keep; return true; }
+    }
+    s_pl_n = 0;
+    s_pl_name[0] = 0;
+    s_mode = MODE_MANUAL;
+    s_manual = 0;
+    s_story_speed = 0;
+    return false;
+}
+
+esp_err_t player_play_playlist(const char *name)
+{
+    char *txt = storage_read_playlist(name);
+    if (!txt) return ESP_ERR_NOT_FOUND;
+    cJSON *j = cJSON_Parse(txt);
+    free(txt);
+    const cJSON *arr = cJSON_GetObjectItemCaseSensitive(j, "stories");
+    char list[PLAYLIST_MAX][32];
+    int n = 0;
+    const cJSON *it;
+    cJSON_ArrayForEach(it, arr) {
+        if (n >= PLAYLIST_MAX) break;
+        if (cJSON_IsString(it) && storage_valid_name(it->valuestring)) strcpy(list[n++], it->valuestring);
+    }
+    cJSON_Delete(j);
+    if (n == 0) return ESP_ERR_INVALID_ARG;
+    xSemaphoreTake(s_lock, portMAX_DELAY);
+    memcpy(s_pl, list, sizeof s_pl);
+    s_pl_n = n;
+    s_pl_i = n - 1;                       // advance lands on the first story
+    strncpy(s_pl_name, name, sizeof s_pl_name - 1);
+    s_pl_name[sizeof s_pl_name - 1] = 0;
+    s_mode = MODE_MANUAL;                 // start from the top even if a story was paused
+    esp_err_t err = playlist_advance_locked() ? ESP_OK : ESP_ERR_NOT_FOUND;
     xSemaphoreGive(s_lock);
     return err;
 }
@@ -135,11 +193,16 @@ void player_stop(void)
     s_resting = false;
     s_manual = 0;
     s_story_speed = 0;
+    s_pl_n = 0;
+    s_pl_name[0] = 0;
     xSemaphoreGive(s_lock);
 }
 
 void player_next(void)
 {
+    xSemaphoreTake(s_lock, portMAX_DELAY);
+    if (s_pl_n > 0) { playlist_advance_locked(); xSemaphoreGive(s_lock); return; }
+    xSemaphoreGive(s_lock);
     cJSON *list = storage_list_stories();
     int n = cJSON_GetArraySize(list), idx = -1;
     for (int i = 0; i < n && s_loaded; i++) {
@@ -199,6 +262,7 @@ static void advance_story(int dt)
     }
     if (s_step_elapsed >= st->ramp_ms + st->ms) {
         if (s_step + 1 < s_story.count) { start_step(s_step + 1); return; }
+        if (s_pl_n > 0) { playlist_advance_locked(); return; }   // playlists play each story once
         s_loops++;
         if (!s_story.loop) { s_mode = MODE_MANUAL; s_manual = 0; s_story_speed = 0; ESP_LOGI(TAG, "story finished"); return; }
         if (g_settings.rest_every > 0 && s_loops % g_settings.rest_every == 0 && g_settings.rest_ms > 0) {
@@ -242,10 +306,14 @@ cJSON *player_status(void)
     cJSON_AddNumberToObject(j, "steps", s_loaded ? s_story.count : 0);
     cJSON_AddStringToObject(j, "step_label", (s_loaded && s_step < s_story.count) ? s_story.steps[s_step].label : "");
     cJSON_AddNumberToObject(j, "loops", s_loops);
+    cJSON_AddStringToObject(j, "playlist", s_pl_name);
+    cJSON_AddNumberToObject(j, "pl_pos", s_pl_n ? s_pl_i + 1 : 0);
+    cJSON_AddNumberToObject(j, "pl_n", s_pl_n);
     cJSON_AddNumberToObject(j, "manual", s_manual);
     cJSON_AddNumberToObject(j, "master", s_master);
     xSemaphoreGive(s_lock);
     cJSON_AddNumberToObject(j, "dir", controls_dir());
+    cJSON_AddBoolToObject(j, "switch_installed", g_settings.switch_installed);
     cJSON_AddNumberToObject(j, "knob", controls_knob());
     cJSON_AddNumberToObject(j, "speed", roundf(servo_get_speed() * 10) / 10);
     cJSON_AddNumberToObject(j, "target", roundf(servo_get_target() * 10) / 10);
@@ -258,7 +326,7 @@ cJSON *player_status(void)
 void player_init(void)
 {
     s_lock = xSemaphoreCreateMutex();
-    xTaskCreate(player_task, "player", 4096, NULL, 9, NULL);
+    xTaskCreate(player_task, "player", 6144, NULL, 9, NULL);
     if (g_settings.autoplay && g_settings.autoplay_story[0]) {
         if (player_play(g_settings.autoplay_story) == ESP_OK) ESP_LOGI(TAG, "gallery mode: autoplay %s", g_settings.autoplay_story);
         else ESP_LOGW(TAG, "autoplay story \"%s\" not found", g_settings.autoplay_story);

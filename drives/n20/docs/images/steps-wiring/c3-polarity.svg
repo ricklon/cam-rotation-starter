@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 306" role="img" aria-label="Which lead of C3 is which. The 470 µF capacitor is a blue can with a light stripe printed down one side, marked with minus signs. The lead on the stripe side is minus and goes to I8; the other lead, usually the longer one, is plus and goes to I7. Lying on the board, the stripe faces row 8.">
+<rect width="600" height="306" fill="#ffffff"/>
+<text x="24" y="34" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="20" fill="#1c2729" font-weight="700">C3 · 470 µF: which lead is which</text>
+<rect x="250" y="80" width="280" height="110" rx="16" fill="#1e3c8c"/>
+<rect x="250" y="152" width="280" height="38" fill="#c8c8cd"/><rect x="250" y="152" width="280" height="38" rx="0" fill="none"/>
+<text x="290" y="180" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="26" fill="#1c2729" font-weight="700" text-anchor="middle">−</text>
+<text x="350" y="180" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="26" fill="#1c2729" font-weight="700" text-anchor="middle">−</text>
+<text x="410" y="180" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="26" fill="#1c2729" font-weight="700" text-anchor="middle">−</text>
+<text x="470" y="180" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="26" fill="#1c2729" font-weight="700" text-anchor="middle">−</text>
+<line x1="250" y1="110" x2="70" y2="110" stroke="#8d8d96" stroke-width="5"/>
+<line x1="250" y1="170" x2="120" y2="170" stroke="#8d8d96" stroke-width="5"/>
+<text x="70" y="98" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="20" fill="#1c2729" font-weight="700">+ → I7</text>
+<text x="70" y="140" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="15" fill="#1c2729" >usually the longer lead</text>
+<text x="120" y="204" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="20"  font-weight="700" fill="#1c2729">− → I8</text>
+<line x1="505" y1="192" x2="505" y2="204" stroke="#d4147a" stroke-width="2.5"/>
+<text x="560" y="220" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="18"  font-weight="700" text-anchor="end" fill="#d4147a">stripe = −</text>
+<text x="24" y="260" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729" >Go by the stripe, not the lead length: the leads may be cut.</text>
+<text x="24" y="284" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729" font-weight="700">Lying on the board, the stripe faces row 8.</text>
+</svg>

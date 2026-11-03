@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 560" role="img" aria-label="Which end of the 1N5817 is which. Its body is black with a grey band at one end. The band end is the cathode, minus, and goes to A2; the plain end is the anode, plus, and goes to A3. In the schematic symbol, a triangle pointing at a bar, the bar is the band. Standing on the board, seen from the side: the body stands in A3 with the band at the top, and the top lead bends over and down into A2.">
+<rect width="600" height="560" fill="#ffffff"/>
+<text x="24" y="34" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="20" fill="#1c2729" font-weight="700">D1 · 1N5817: which end is which</text>
+<line x1="40" y1="110" x2="560" y2="110" stroke="#8d8d96" stroke-width="5"/>
+<rect x="200" y="84" width="200" height="52" rx="8" fill="#151515"/>
+<rect x="356" y="84" width="26" height="52" fill="#c9c9cf"/>
+<text x="40" y="74" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="18" fill="#1c2729" font-weight="700">anode (+)</text>
+<text x="40" y="158" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729" >plain end → A3</text>
+<text x="560" y="74" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="18" fill="#1c2729" font-weight="700" text-anchor="end">cathode (−)</text>
+<text x="560" y="158" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729" text-anchor="end">band end → A2</text>
+<line x1="369" y1="140" x2="369" y2="168" stroke="#d4147a" stroke-width="2.5"/>
+<text x="369" y="188" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="17"  font-weight="700" text-anchor="middle" fill="#d4147a">band</text>
+<line x1="150" y1="250" x2="270" y2="250" stroke="#1c2729" stroke-width="3"/><polygon points="270,226 270,274 312,250" fill="#1c2729"/><line x1="314" y1="224" x2="314" y2="276" stroke="#1c2729" stroke-width="5"/><line x1="314" y1="250" x2="450" y2="250" stroke="#1c2729" stroke-width="3"/>
+<text x="140" y="256" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="18" fill="#1c2729" font-weight="700" text-anchor="end">A3  +</text>
+<text x="460" y="256" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="18" fill="#1c2729" font-weight="700">−  A2</text>
+<line x1="314" y1="280" x2="314" y2="294" stroke="#d4147a" stroke-width="2.5"/>
+<text x="314" y="314" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="17"  font-weight="700" text-anchor="middle" fill="#d4147a">the bar is the band</text>
+<text x="24" y="348" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="17" fill="#1c2729" font-weight="700">On the board, seen from the side:</text>
+<rect x="150" y="500" width="300" height="12" fill="#c6d3e2"/>
+<line x1="260" y1="512" x2="260" y2="480" stroke="#8d8d96" stroke-width="5"/>
+<rect x="243" y="400" width="34" height="80" rx="6" fill="#151515"/><rect x="243" y="400" width="34" height="14" fill="#c9c9cf"/>
+<path d="M 260 400 L 260 388 Q 260 376 272 376 L 318 376 Q 330 376 330 388 L 330 512" fill="none" stroke="#8d8d96" stroke-width="5"/>
+<text x="260" y="540" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="18" fill="#1c2729" font-weight="700" text-anchor="middle">A3</text>
+<text x="330" y="540" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="18" fill="#1c2729" font-weight="700" text-anchor="middle">A2</text>
+<line x1="238" y1="407" x2="200" y2="407" stroke="#d4147a" stroke-width="2.5"/>
+<text x="194" y="413" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16"  font-weight="700" text-anchor="end" fill="#d4147a">band at the top</text>
+</svg>

@@ -19,24 +19,34 @@ static ctl_cb_t s_cb;
 static adc_oneshot_unit_handle_t s_adc;
 static adc_channel_t s_knob_ch;
 static volatile int s_knob = 0, s_dir_raw = 0;
+static volatile int s_virt_dir = 1;   // web "virtual switch", used only while no physical switch is wired; not saved
 
 bool controls_button_down(void) { return gpio_get_level(PIN_BTN) == 0; }
 
 int controls_dir(void)
 {
-    if (!g_settings.switch_installed) return 1;
+    if (!g_settings.switch_installed) return s_virt_dir;
     return s_dir_raw;
+}
+
+bool controls_set_virtual_dir(int d)
+{
+    if (g_settings.switch_installed) return false;   // a wired switch is the safety override
+    s_virt_dir = d < 0 ? -1 : (d > 0 ? 1 : 0);
+    return true;
 }
 
 int controls_knob(void) { return s_knob; }
 
 static int read_dir_pins(void)
 {
+#if BOARD_HAS_DIR_SWITCH
     bool fwd = gpio_get_level(PIN_DIR_FWD) == 0;
     bool rev = gpio_get_level(PIN_DIR_REV) == 0;
     if (fwd && !rev) return 1;
     if (rev && !fwd) return -1;
-    return 0;   // center (both open) or a wiring fault (both closed)
+#endif
+    return 0;   // center (both open), a wiring fault (both closed), or no switch on this board
 }
 
 static int read_knob_pct(void)
@@ -46,6 +56,9 @@ static int read_knob_pct(void)
         if (adc_oneshot_read(s_adc, s_knob_ch, &raw) == ESP_OK) sum += raw;
     }
     int pct = (sum / 8) * 100 / 4095;
+#if KNOB_REVERSED
+    pct = 100 - pct;
+#endif
     // small dead zones at both ends so "off" and "full" are easy to hit
     if (pct < 2) pct = 0;
     if (pct > 98) pct = 100;
@@ -116,8 +129,18 @@ static void controls_task(void *arg)
 void controls_init(ctl_cb_t cb)
 {
     s_cb = cb;
+#ifdef PIN_KNOB_GND
+    // the pot's low end is a GPIO: drive it low before the first knob reading
+    gpio_config_t gnd = { .pin_bit_mask = 1ULL << PIN_KNOB_GND, .mode = GPIO_MODE_OUTPUT };
+    ESP_ERROR_CHECK(gpio_config(&gnd));
+    gpio_set_level(PIN_KNOB_GND, 0);
+#endif
     gpio_config_t io = {
+#if BOARD_HAS_DIR_SWITCH
         .pin_bit_mask = (1ULL << PIN_BTN) | (1ULL << PIN_DIR_FWD) | (1ULL << PIN_DIR_REV),
+#else
+        .pin_bit_mask = 1ULL << PIN_BTN,   // no direction switch: GPIO2/GPIO0 left alone
+#endif
         .mode = GPIO_MODE_INPUT,
         .pull_up_en = GPIO_PULLUP_ENABLE,
         .pull_down_en = GPIO_PULLDOWN_DISABLE,
@@ -133,5 +156,11 @@ void controls_init(ctl_cb_t cb)
     ESP_ERROR_CHECK(adc_oneshot_config_channel(s_adc, s_knob_ch, &ccfg));
 
     xTaskCreate(controls_task, "controls", 3072, NULL, 8, NULL);
-    ESP_LOGI(TAG, "button D1, knob D2 (ADC ch %d), switch D3/D4", (int)s_knob_ch);
+#if BOARD_HAS_DIR_SWITCH
+    ESP_LOGI(TAG, "button GPIO%d, knob GPIO%d (ADC ch %d), switch GPIO%d/GPIO%d",
+             PIN_BTN, PIN_KNOB, (int)s_knob_ch, PIN_DIR_FWD, PIN_DIR_REV);
+#else
+    ESP_LOGI(TAG, "button GPIO%d, knob GPIO%d (ADC ch %d), no direction switch",
+             PIN_BTN, PIN_KNOB, (int)s_knob_ch);
+#endif
 }

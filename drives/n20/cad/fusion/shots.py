@@ -8,10 +8,11 @@ exec(open(os.path.join(REPO, 'drives', 'mg90s', 'cad', 'fusion', 'photo.py')).re
 ALWAYS_OFF = ('Box_Wall', 'Dowel_075', 'Dowel_025', 'Dowel_0625', 'Fit_Test_Coupon', 'N20_Fit_Coupon', 'PETG_Fit_Coupon',
               'Panel_Fit_Coupon', 'Dowel_Fit_Gauge')
 CART = ('N20_Cartridge', 'N20 DC MOTOR', 'HW_Arm_Zip_Tie')
-POD = ('Control_Pod', 'SW1_Dir_Switch', 'RV1_Speed_Pot', 'S1_12mm_Button', 'J3_JST_PH6')
+POD = ('Control_Pod', 'S1_12mm_Button')   # rev C: RV1 is on the perfboard; no direction switch, no J3
+ELEC = ('Servo_Mount', 'Perfboard', 'N20_Electronics_Cover', 'C1_470uF_10V', 'Wiring')   # rev C: the PD board is on the perfboard
 SHOTS = {
-    'wiring_electronics': dict(hide=ALWAYS_OFF, opacity={'Servo_Mount': 0.7}, eye=(5, -400, 2), target=(5, -20, 2), ortho=True, extent=64),
-    'wiring_under_base': dict(hide=ALWAYS_OFF + ('Control_Pod',), eye=(70, -90, -320), target=(4, -2, -12), up=(0, 1, 0), ortho=True, extent=66),
+    'wiring_electronics': dict(hide=ALWAYS_OFF + ('N20_Electronics_Cover',), opacity={'Perfboard': 0.3}, eye=(5, -400, 12), target=(5, -25, 12), ortho=True, extent=72),
+    'wiring_under_base': dict(hide=ALWAYS_OFF + ('Control_Pod',), eye=(60, -140, -300), target=(0, -14, -12), up=(0, 1, 0), ortho=True, extent=80),
     'cartridge_exploded': dict(hide=ALWAYS_OFF + ('Wiring', 'Control_Pod', 'HW_N20_Screws') + POD, opacity={'Servo_Mount': 0.35},
         move={'N20_Cartridge': (0, 0, -32), 'N20 DC MOTOR': (0, 0, -32), 'HW_Arm_Zip_Tie': (0, 0, -32)},
         eye=(170, -220, -40), target=(0, 0, -12), ortho=True, extent=130),
@@ -19,7 +20,11 @@ SHOTS = {
     'latch_key': dict(show=('N20_Socket_Coupon', 'N20_Cartridge', 'N20_Latch_Key'), move={'N20_Latch_Key': (0, 0, 14)},
         eye=(-260, -70, 150), target=(-3, 0, 1), ortho=True, extent=44),
     'clamp_0625_caphead': dict(show=('Adapter_Clamp_0625', 'HW_Clamp0625_Screws'), eye=(80, 220, 90), target=(0, 3, 17), ortho=True, extent=42),
-    'pod_jst': dict(show=POD + ('Wiring',), wires=('p J3 pin', 'p button', 'J1 ', 'J2 '), opacity={'Control_Pod': 0.45}, eye=(-90, -160, 70), target=(1, 32, 13), ortho=True, extent=46),
+    'pod_button': dict(show=POD + ('Wiring',), wires=('W6 ', 'W11 '), opacity={'Control_Pod': 0.45}, eye=(-90, -160, 70), target=(1, 32, 13), ortho=True, extent=46),
+    'perfboard': dict(show=ELEC, hide=('N20_Electronics_Cover',), wires=('W1 ', 'W2 ', 'W14 ', 'W15 ', 'D1 '),
+        eye=(130, -300, 110), target=(5, -30, 14), ortho=True, extent=72),
+    'perfboard_cover': dict(show=ELEC + CART + POD + ('Adapter_075', 'Bushing_075'), eye=(240, -260, -90), target=(5, -12, 6), ortho=True, extent=120),
+    'motor_clamp': dict(show=CART + ('Wiring',), wires=('W14 ', 'W15 ', 'C2'), eye=(90, 200, -120), target=(2, 3, -25), ortho=True, extent=30),
     'petg_fit_coupon': dict(show=('PETG_Fit_Coupon',), eye=(200, 0, 300), target=(200, 0, -7), up=(0, 1, 0), ortho=True, extent=108),
 }
 

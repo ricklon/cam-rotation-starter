@@ -78,7 +78,7 @@ static esp_err_t h_settings_post(httpd_req_t *req)
     free(b);
     if (!j) return send_err(req, "400 Bad Request", "invalid JSON");
     bool net_changed = cJSON_HasObjectItem(j, "ap_ssid") || cJSON_HasObjectItem(j, "ap_pass") ||
-                       cJSON_HasObjectItem(j, "sta_ssid") || cJSON_HasObjectItem(j, "sta_pass") ||
+                       cJSON_HasObjectItem(j, "networks") || cJSON_HasObjectItem(j, "sta_ssid") || cJSON_HasObjectItem(j, "sta_pass") ||
                        cJSON_HasObjectItem(j, "hostname");
     settings_apply_json(j);
     cJSON_Delete(j);
@@ -86,6 +86,26 @@ static esp_err_t h_settings_post(httpd_req_t *req)
     if (settings_save() != ESP_OK) return send_err(req, "500 Internal Server Error", "could not save settings");
     cJSON *out = settings_to_json(false);
     cJSON_AddBoolToObject(out, "restart_needed", net_changed);
+    return send_json(req, out);
+}
+
+// {"ssid": "..."}: make that saved network the first choice and rejoin it now (net_use).
+static esp_err_t h_wifi_use(httpd_req_t *req)
+{
+    char *b = read_body(req, 256);
+    if (!b) return send_err(req, "400 Bad Request", "body missing or too large");
+    cJSON *j = cJSON_Parse(b);
+    free(b);
+    const cJSON *ss = cJSON_GetObjectItemCaseSensitive(j, "ssid");
+    int idx = -1;
+    if (cJSON_IsString(ss))
+        for (int i = 0; i < g_settings.net_count; i++) if (!strcmp(g_settings.nets[i].ssid, ss->valuestring)) idx = i;
+    cJSON_Delete(j);
+    if (idx < 0) return send_err(req, "404 Not Found", "no saved network with that name");
+    esp_err_t err = net_use(idx);
+    if (err != ESP_OK && err != ESP_ERR_INVALID_STATE) return send_err(req, "500 Internal Server Error", "could not switch network");
+    cJSON *out = settings_to_json(false);
+    cJSON_AddBoolToObject(out, "restart_needed", err == ESP_ERR_INVALID_STATE);
     return send_json(req, out);
 }
 
@@ -99,9 +119,9 @@ static esp_err_t h_restart(httpd_req_t *req)
 
 static esp_err_t h_stories_list(httpd_req_t *req) { return send_json(req, storage_list_stories()); }
 
-static const char *story_name_from_uri(httpd_req_t *req)
+static const char *name_from_uri(httpd_req_t *req, const char *prefix)
 {
-    const char *p = req->uri + strlen("/api/stories/");
+    const char *p = req->uri + strlen(prefix);
     static char name[40];
     size_t n = strcspn(p, "?");
     if (n >= sizeof name) return NULL;
@@ -109,6 +129,9 @@ static const char *story_name_from_uri(httpd_req_t *req)
     name[n] = 0;
     return storage_valid_name(name) ? name : NULL;
 }
+
+static const char *story_name_from_uri(httpd_req_t *req) { return name_from_uri(req, "/api/stories/"); }
+static const char *playlist_name_from_uri(httpd_req_t *req) { return name_from_uri(req, "/api/playlists/"); }
 
 static esp_err_t h_story_get(httpd_req_t *req)
 {
@@ -154,15 +177,72 @@ static esp_err_t h_story_delete(httpd_req_t *req)
     return send_json(req, cJSON_CreateObject());
 }
 
+static esp_err_t h_playlists_list(httpd_req_t *req) { return send_json(req, storage_list_playlists()); }
+
+static esp_err_t h_playlist_get(httpd_req_t *req)
+{
+    const char *name = playlist_name_from_uri(req);
+    if (!name) return send_err(req, "400 Bad Request", "playlist names use letters, digits, - and _");
+    char *txt = storage_read_playlist(name);
+    if (!txt) return send_err(req, "404 Not Found", "no such playlist");
+    httpd_resp_set_type(req, "application/json");
+    esp_err_t r = httpd_resp_sendstr(req, txt);
+    free(txt);
+    return r;
+}
+
+static esp_err_t h_playlist_put(httpd_req_t *req)
+{
+    const char *name = playlist_name_from_uri(req);
+    if (!name) return send_err(req, "400 Bad Request", "playlist names use letters, digits, - and _");
+    char nm[40];
+    strcpy(nm, name);
+    char *b = read_body(req, 2048);
+    if (!b) return send_err(req, "400 Bad Request", "body missing or too large");
+    cJSON *j = cJSON_Parse(b);
+    free(b);
+    const cJSON *arr = cJSON_GetObjectItemCaseSensitive(j, "stories");
+    int n = cJSON_IsArray(arr) ? cJSON_GetArraySize(arr) : 0;
+    if (n < 1 || n > PLAYLIST_MAX) { cJSON_Delete(j); return send_err(req, "400 Bad Request", "a playlist needs 1 to 16 stories"); }
+    cJSON *out = cJSON_CreateObject(), *list = cJSON_AddArrayToObject(out, "stories");
+    cJSON_AddStringToObject(out, "name", nm);
+    const cJSON *it;
+    cJSON_ArrayForEach(it, arr) {
+        if (!cJSON_IsString(it) || !storage_valid_name(it->valuestring)) {
+            cJSON_Delete(j); cJSON_Delete(out);
+            return send_err(req, "400 Bad Request", "story names use letters, digits, - and _");
+        }
+        cJSON_AddItemToArray(list, cJSON_CreateString(it->valuestring));
+    }
+    cJSON_Delete(j);
+    char *s = cJSON_Print(out);
+    cJSON_Delete(out);
+    esp_err_t e = s ? storage_write_playlist(nm, s, strlen(s)) : ESP_ERR_NO_MEM;
+    free(s);
+    if (e != ESP_OK) return send_err(req, "500 Internal Server Error", "could not save playlist");
+    cJSON *ok = cJSON_CreateObject();
+    cJSON_AddStringToObject(ok, "saved", nm);
+    return send_json(req, ok);
+}
+
+static esp_err_t h_playlist_delete(httpd_req_t *req)
+{
+    const char *name = playlist_name_from_uri(req);
+    if (!name || storage_delete_playlist(name) != ESP_OK) return send_err(req, "404 Not Found", "no such playlist");
+    return send_json(req, cJSON_CreateObject());
+}
+
 static esp_err_t h_play(httpd_req_t *req)
 {
     char *b = read_body(req, 256);
     cJSON *j = b ? cJSON_Parse(b) : NULL;
     free(b);
     const cJSON *n = cJSON_GetObjectItemCaseSensitive(j, "name");
-    esp_err_t e = player_play(cJSON_IsString(n) ? n->valuestring : "");
+    const cJSON *pl = cJSON_GetObjectItemCaseSensitive(j, "playlist");
+    esp_err_t e = cJSON_IsString(pl) ? player_play_playlist(pl->valuestring)
+                                      : player_play(cJSON_IsString(n) ? n->valuestring : "");
     cJSON_Delete(j);
-    if (e != ESP_OK) return send_err(req, "404 Not Found", "story not found or invalid");
+    if (e != ESP_OK) return send_err(req, "404 Not Found", "story or playlist not found or invalid");
     return send_json(req, full_status());
 }
 
@@ -172,6 +252,8 @@ static esp_err_t h_next(httpd_req_t *req)  { player_next();         return send_
 
 // ---------- WebSocket: live control + status stream ----------
 // client -> device: {"t":"speed","v":-100..100} | {"t":"stop"} | {"t":"master","v":0..100} | {"t":"trim","v":us} | {"t":"trim_end"}
+//   virtual panel:   {"t":"btn","v":"short"|"double"|"long"} | {"t":"dir","v":-1|0|1} | {"t":"knob","v":0..100}
+//   "dir" is ignored while a physical switch is wired; "knob" ignores the knob_enabled setting.
 // device -> client: status object every 200 ms
 
 static esp_err_t h_ws(httpd_req_t *req)
@@ -192,6 +274,18 @@ static esp_err_t h_ws(httpd_req_t *req)
         else if (!strcmp(t->valuestring, "master") && cJSON_IsNumber(v)) player_set_master(v->valueint);
         else if (!strcmp(t->valuestring, "trim") && cJSON_IsNumber(v)) { player_stop(); servo_preview_trim(v->valueint); }
         else if (!strcmp(t->valuestring, "trim_end")) servo_preview_trim(0);
+        else if (!strcmp(t->valuestring, "btn") && cJSON_IsString(v)) {
+            if (!strcmp(v->valuestring, "short")) player_on_control(CTL_BTN_SHORT, 0);
+            else if (!strcmp(v->valuestring, "double")) player_on_control(CTL_BTN_DOUBLE, 0);
+            else if (!strcmp(v->valuestring, "long")) player_on_control(CTL_BTN_LONG, 0);
+        }
+        else if (!strcmp(t->valuestring, "dir") && cJSON_IsNumber(v)) {
+            if (controls_set_virtual_dir(v->valueint)) player_on_control(CTL_DIR, controls_dir());
+        }
+        else if (!strcmp(t->valuestring, "knob") && cJSON_IsNumber(v)) {
+            int k = v->valueint;
+            player_on_control(CTL_KNOB, k < 0 ? 0 : (k > 100 ? 100 : k));
+        }
     }
     cJSON_Delete(j);
     return ESP_OK;
@@ -299,10 +393,15 @@ void web_start(void)
     reg("/api/settings", HTTP_GET, h_settings_get);
     reg("/api/settings", HTTP_POST, h_settings_post);
     reg("/api/restart", HTTP_POST, h_restart);
+    reg("/api/wifi/use", HTTP_POST, h_wifi_use);
     reg("/api/stories", HTTP_GET, h_stories_list);
     reg("/api/stories/*", HTTP_GET, h_story_get);
     reg("/api/stories/*", HTTP_PUT, h_story_put);
     reg("/api/stories/*", HTTP_DELETE, h_story_delete);
+    reg("/api/playlists", HTTP_GET, h_playlists_list);
+    reg("/api/playlists/*", HTTP_GET, h_playlist_get);
+    reg("/api/playlists/*", HTTP_PUT, h_playlist_put);
+    reg("/api/playlists/*", HTTP_DELETE, h_playlist_delete);
     reg("/api/play", HTTP_POST, h_play);
     reg("/api/pause", HTTP_POST, h_pause);
     reg("/api/stop", HTTP_POST, h_stop);

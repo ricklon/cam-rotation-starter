@@ -24,6 +24,7 @@ esp_err_t storage_mount(void)
         return err;
     }
     mkdir(STORIES_DIR, 0775);
+    mkdir(PLAYLISTS_DIR, 0775);
     size_t total = 0, used = 0;
     esp_littlefs_info(conf.partition_label, &total, &used);
     ESP_LOGI(TAG, "LittleFS %u / %u bytes used", (unsigned)used, (unsigned)total);
@@ -41,15 +42,15 @@ bool storage_valid_name(const char *name)
     return true;
 }
 
-static void story_path(char *out, size_t n, const char *name)
+static void file_path(char *out, size_t n, const char *dir, const char *name)
 {
-    snprintf(out, n, STORIES_DIR "/%s.json", name);
+    snprintf(out, n, "%s/%s.json", dir, name);
 }
 
-cJSON *storage_list_stories(void)
+static cJSON *list_dir(const char *dir)
 {
     cJSON *arr = cJSON_CreateArray();
-    DIR *d = opendir(STORIES_DIR);
+    DIR *d = opendir(dir);
     if (!d) return arr;
     struct dirent *e;
     while ((e = readdir(d)) != NULL) {
@@ -64,11 +65,11 @@ cJSON *storage_list_stories(void)
     return arr;
 }
 
-char *storage_read_story(const char *name)
+static char *read_file(const char *dir, const char *name)
 {
     if (!storage_valid_name(name)) return NULL;
-    char path[80];
-    story_path(path, sizeof path, name);
+    char path[96];
+    file_path(path, sizeof path, dir, name);
     FILE *f = fopen(path, "r");
     if (!f) return NULL;
     fseek(f, 0, SEEK_END);
@@ -81,11 +82,11 @@ char *storage_read_story(const char *name)
     return buf;
 }
 
-esp_err_t storage_write_story(const char *name, const char *json, size_t len)
+static esp_err_t write_file(const char *dir, const char *name, const char *json, size_t len)
 {
     if (!storage_valid_name(name)) return ESP_ERR_INVALID_ARG;
-    char path[80], tmp[84];
-    story_path(path, sizeof path, name);
+    char path[96], tmp[100];
+    file_path(path, sizeof path, dir, name);
     snprintf(tmp, sizeof tmp, "%s.tmp", path);
     FILE *f = fopen(tmp, "w");
     if (!f) return ESP_FAIL;
@@ -96,10 +97,20 @@ esp_err_t storage_write_story(const char *name, const char *json, size_t len)
     return rename(tmp, path) == 0 ? ESP_OK : ESP_FAIL;
 }
 
-esp_err_t storage_delete_story(const char *name)
+static esp_err_t delete_file(const char *dir, const char *name)
 {
     if (!storage_valid_name(name)) return ESP_ERR_INVALID_ARG;
-    char path[80];
-    story_path(path, sizeof path, name);
+    char path[96];
+    file_path(path, sizeof path, dir, name);
     return remove(path) == 0 ? ESP_OK : ESP_ERR_NOT_FOUND;
 }
+
+cJSON *storage_list_stories(void) { return list_dir(STORIES_DIR); }
+char *storage_read_story(const char *name) { return read_file(STORIES_DIR, name); }
+esp_err_t storage_write_story(const char *name, const char *json, size_t len) { return write_file(STORIES_DIR, name, json, len); }
+esp_err_t storage_delete_story(const char *name) { return delete_file(STORIES_DIR, name); }
+
+cJSON *storage_list_playlists(void) { return list_dir(PLAYLISTS_DIR); }
+char *storage_read_playlist(const char *name) { return read_file(PLAYLISTS_DIR, name); }
+esp_err_t storage_write_playlist(const char *name, const char *json, size_t len) { return write_file(PLAYLISTS_DIR, name, json, len); }
+esp_err_t storage_delete_playlist(const char *name) { return delete_file(PLAYLISTS_DIR, name); }
