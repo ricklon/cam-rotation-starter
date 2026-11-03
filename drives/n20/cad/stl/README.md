@@ -7,7 +7,7 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 |---|---|---|---|
 | N20_Mount | flange (wall face) down | 109.0 × 47.2 × 48.6 | 3931 |
 | N20_Cartridge | on its side (-x face down), arms flat along the bed | 35.3 × 29.0 × 15.0 | 281 |
-| N20_Electronics_Cover | top plate down, walls and posts up | 48.3 × 55.2 × 12.5 | 2512 |
+| N20_Electronics_Cover | top plate down, walls and posts up | 48.3 × 55.2 × 12.5 | 2481 |
 | N20_Socket_Coupon | socket coupon: plate top down, as the mount | 20.5 × 27.0 × 12.4 | 318 |
 | N20_Latch_Key | flat on its side, the U on the bed | 12.2 × 16.7 × 7.0 | 109 |
 | N20_Control_Pod | front panel down, open back up | 39.2 × 38.0 × 24.0 | 955 |
@@ -44,6 +44,8 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 **Fixed 2026-10-27 (version 19): the base-plate slot fill.** From version 13 to 18 the fill started at the bottom of the base instead of its top, so it filled in everything already cut into the base: the DRV8833 pocket and the relief under its pins, the diode channel and its lead slot, and the wire channel under the base on the pod side. It also reached 1.3 mm into the side walls and closed the end of one control pod screw pilot. Now it fills only the slot, from the top of the base to the N20 plate, between the walls. Reprint `N20_Mount`, and `N20_Mount_Fit_Coupon_Base` if you test the board fits with it. A mount printed from version 13–18 files has no DRV8833 pocket or diode channel. `N20_Socket_Coupon` and `N20_Mount_Fit_Coupon_Wall` changed slightly at their edges; ones you've printed still test the same fits. Sliced on an A1 with build-plate supports: none in the slot, the DRV8833 pocket or the diode channel.
 
 **Updated 2026-10-27 (version 20): wiring only, print files unchanged.** The zip ties at anchors A1 and A2 are now modelled in place, and W14 and W15 are routed through A2, so they're cut 55 and 65 mm (were 50 and 60).
+
+**Updated 2026-11-02 (version 29): `N20_Mount`, `N20_Electronics_Cover` and `N20_Mount_Fit_Coupon_Wall`.** C1 now stands on the perfboard, so the capacitor seat in the mount's −Y wall is gone (filled in), and the cover has a 9 mm hole for the can's top. The wall coupon is cut from the mount, so it lost the seat too; ignore the capacitor checks below.
 
 **Updated 2026-11-01: `N20_Cartridge` only.** The wire clamp is sized for the motor's own leads (assumed 26 AWG, about 1.0 mm) instead of 30 AWG: the bar between its two zip-tie slots is 2.4 mm (was 1.4 mm), and the plate is 1 mm longer so the lower slot keeps a 1 mm edge. Reprint the cartridge.
 
@@ -162,6 +164,6 @@ The full order, with the tool for each step, is in the drive's [assembly order](
 - **Clamps:** two **M3 × 8** socket cap screws per clamp, heads in the flat counterbores on the cap. Turn the cap toward an open end of the mount to reach them with a 2.5 mm hex key. With the screws tight, the 5/8 clamp sweeps 14.3 mm from the axis, inside the 0.6 mm relief in both side walls (15.3 mm). Don't use M3 × 10: on the 5/8 clamp the tip would come out of the side.
 - **DRV8833 module:** solder its wires first, then stick it into the pocket on the underside of the base with a square of double-sided foam tape, component side out. Leave its **J1** jumper open.
 - **Diode:** lay it in its channel under the base with the banded end toward the wall, bend the cathode lead round the edge and up to the XIAO's 5V pad, and run the anode lead along its slot to the DRV8833's VCC pin. A dab of glue holds it.
-- **Capacitor:** press it into its seat, legs down; the seat's 7.8 mm mouth holds the 8 mm can.
+- **Capacitor:** from version 29, C1 stands on the perfboard (see [perfboard.md](../../docs/perfboard.md#placement)); the mount has no seat for it.
 - **Control panel connector (J3):** slide the JST-PH header into its holder in the pod from the open back, pins toward the front panel, and fix it with a drop of glue. The mount harness ends in the PHR-6 housing that plugs into it.
 - **Zip ties:** one through anchor A1 round the two power wires under the wall, one through A2 round the two motor wires under the base, and one round the cartridge's motor arms between their ribs.

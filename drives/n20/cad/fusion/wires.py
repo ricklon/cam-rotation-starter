@@ -1,11 +1,13 @@
 """Cam Rotation N20 - point-to-point wiring, rev C (matches drives/n20/docs/wiring.md and docs/perfboard.md:
-W1, W2, W4-W6, W9-W18, W21-W23, W6p, W9p-W11p, L1, L2, J1, C2, D1 leads).
+W1, W2, W4-W6, W9-W18, W21-W23, W6p, W9p-W11p, J1, C2, D1, C1 and C3 leads).
 Rebuilds everything inside the Wiring component. Coordinates in mm, world frame.
 Perfboard (component Perfboard): on four supports on the mount's -Y face, parallel to it, rows along +X, column A at the top
   (toward the box wall), component side facing -Y. Board-local u (columns), v (rows), d (height off the component side) map to
   the world as x = 5.3 + v, y = -28.1 - d, z = 15 - u, with u = (index(c) - 5.5) * 2.54 (A..E = 0..4, F..J = 7..11) and
   v = (row - 9) * 2.54. The underside (solder side, toward the mount) is at y -26.5; links run there, on two layers.
-  Wires from the mount (L1, L2, the panel harness) go in from the underside and are soldered on the component side.
+  Wires from the mount (the panel harness) go in from the underside and are soldered on the component side.
+C1, the 470 uF bulk capacitor on the 5 V bus, stands on the board over columns A-C, rows 4-7 (between D1 and W1/W2), its top through
+  a 9 mm hole in the cover; sleeved leads to C7 (+) and B4 (-). It stands over A4, so W11 is soldered there before C1 goes on.
 C3, the 470 uF hold-up capacitor for the Super Mini, lies on its side over columns I-J, rows 5-8, its end past the board's edge
   inside the cover; its + lead goes into I7 (strip fed from D1's cathode by W22 at H7) and its - lead into I8 (GND, W23 at H8).
 U1, the PD board, sits over columns A-C, rows 9-17, on two 3 mm foam pads, USB-C at the +X end; its screw terminal is removed
@@ -54,14 +56,14 @@ def L4(a, u, b, layer=0):
 PD_P, PD_N = W(-11.0, 0.3, 4.7), W(-16.5, 0.3, 4.7)       # U1's + (inner, channel side) and - (outer, column A side) pads
 
 WIRES = [
-    # --- power: U1's pads down to the buses (5V row 7, GND row 8); C1 from its seat in behind to C7 / B4
+    # --- power: U1's pads down to the buses (5V row 7, GND row 8)
     # W2 runs from the outer - pad straight to A8; W1 from the inner + pad passes between A8 and B8 to A7, so they don't cross
     ('W1 U1 + to 5V bus (A7)', 'red', 0.6, [PD_P, W(-11.4, -1.6, 5.2), W(-12.4, -3.4, 3.4), W(-13.3, -4.6, 1.8), hole('A', 7, 0.9), hole('A', 7, -0.8)]),
     ('W2 U1 GND to GND bus (A8)', 'black', 0.6, [PD_N, W(-16.0, -1.2, 5.2), W(-15.0, -2.4, 2.6), hole('A', 8, 0.9), hole('A', 8, -0.8)]),
-    ('L1 C1 + to 5V bus (C7)', 'red', 0.6, [(-2.75, -19.78, -3.1), (-2.75, -21.6, -3.15), (-2.4, -23.6, -3.6), (0.22, -24.8, -1.0),
-        (0.22, -24.8, 22.3), back('C', 7, -1.0), hole('C', 7, 0.4)]),
-    ('L2 C1 - to GND (B4)', 'black', 0.6, [(-6.25, -19.78, -3.1), (-6.3, -21.6, -3.2), (-6.6, -23.6, -3.8), (-8.4, -24.8, -1.0),
-        (-8.4, -24.8, 24.8), back('B', 4, -1.0), hole('B', 4, 0.4)]),
+    # --- C1 standing on the board (axis at u -13.5, v -9.6, base 1.5 mm up, top through the cover's 9 mm hole); its leads are
+    # sleeved and bent out to C7 (+5V bus) and B4 (GND), crossing the IN3/IN4 strips' pads in rows 5-6
+    ('C1 + lead to C7 (sleeved)', 'tin', 0.6, [W(-11.75, -9.6, 2.4), W(-10.4, -7.4, 1.6), W(cu('C'), rv(7), 1.6), hole('C', 7, -0.8)]),
+    ('C1 - lead to B4 (sleeved)', 'tin', 0.6, [W(-15.25, -9.6, 2.4), W(-13.4, -11.4, 1.6), W(cu('B'), rv(4), 1.6), hole('B', 4, -0.8)]),
     # --- D1 standing at A3 (anode down), band up; its cathode lead bends over and down into A2
     ('D1 anode lead to A3', 'tin', 0.6, [hole('A', 3, 1.0), hole('A', 3, -0.8)]),
     ('D1 cathode lead to A2', 'tin', 0.6, [hole('A', 3, 6.2), hole('A', 3, 7.0), W(cu('A'), rv(2.5), 7.0), hole('A', 2, 6.0), hole('A', 2, -0.8)]),

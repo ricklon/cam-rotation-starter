@@ -14,7 +14,7 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 |---|---|---|
 | USB-C PD trigger board (5 V), 1N5817 diode | Yes | Same power path: PD 5 V feeds the motor side; the board gets 5 V through the diode. From rev C both are on the perfboard, and the PD board's screw terminal is removed. |
 | XIAO ESP32-C6 | Replaced in rev C | By an ESP32-C6 Super Mini on the perfboard. The mount keeps the XIAO pocket, so a rev B build with a XIAO still fits; the firmware builds for either board. |
-| 470 µF capacitor | Yes, 8 × 13 mm | The seat is 14 mm tall for the 13 mm can. |
+| 470 µF capacitor | Yes, 8 × 13 mm | From Fusion version 29 it stands on the perfboard, its top through a 9 mm hole in the cover; the mount's seat for it is gone. |
 | 12 mm button, direction switch | Yes | In the pod, through a 6-pin JST-PH connector (J3). On the Super Mini they use GPIO1, GPIO2 and GPIO0. |
 | Speed knob | Changed in rev C | An RK097N 10 kΩ pot on the perfboard, its shaft through the electronics cover. Its wiper and low end go straight into the GPIO4 and GPIO3 strips, and the firmware drives GPIO3 low as its ground. The pod's knob hole is unused. |
 | Control pod | Changed | `N20_Control_Pod` has a holder for the J3 header inside; print it from this drive's folder. Unchanged in rev C. |
@@ -100,7 +100,7 @@ After the first units were built:
 | 4 | Speed knob | An **RK097N** pot on the perfboard, its shaft through a 7 mm hole in the cover, which its nut clamps. The cover's inside face is 9.0 mm off the board, the height of the pot's base. Its pins go straight into the GPIO4 and GPIO3 strips: GPIO4 reads the wiper and GPIO3, driven low, is its ground. The firmware inverts the reading so clockwise is still faster, and the 0–100 scaling is unchanged, so the web app's virtual knob behaves as before. |
 | 5 | Wiring | W4, W5, W12 and W13 are underside links, joined by W16, W17, W18 and W21–W23. C3, a 470 µF hold-up capacitor after D1, keeps the Super Mini running through motor starts and stalls. W7, W8, W7p, W8p and J2 are gone, and J3 pins 4 and 5 are unused. W1 and W2 are short jumpers from the PD board's pads. Wires from the mount go into the board from the underside. The motor pair runs from the cover's bottom notch under the base to the motor. Cut list rebuilt from the model. |
 
-![The perfboard on the mount's -Y face with the cover off: the PD board over its top-right corner, the Super Mini below it, the DRV8833 at the left with D1 standing above it, J4, the hold-up capacitor C3 lying on its side and the speed pot along the bottom edge, and the motor pair leaving J4 downward.](docs/images/perfboard.png)
+![The perfboard on the mount's -Y face with the cover off: the PD board over its top-right corner, the Super Mini below it, the DRV8833 at the left with D1 and the capacitor C1 standing above it, J4, the hold-up capacitor C3 lying on its side and the speed pot along the bottom edge, and the motor pair leaving J4 downward.](docs/images/perfboard.png)
 
 ## Snap-fit motor (2026-10-27)
 
@@ -121,7 +121,7 @@ From the change request after the first build attempt:
 
 | # | Change | What it is now |
 |---|---|---|
-| 1 | Capacitor seat | Press fit for the 8 × 13 mm can: 8.0 mm across, 4.9 mm deep so its 7.8 mm mouth holds the can, and 14 mm tall (13 mm + 1 mm for the leads). It sits 1.6 mm lower than before so the control wires clear its top. |
+| 1 | Capacitor seat (removed in version 29: C1 now stands on the perfboard) | Press fit for the 8 × 13 mm can: 8.0 mm across, 4.9 mm deep so its 7.8 mm mouth holds the can, and 14 mm tall (13 mm + 1 mm for the leads). It sits 1.6 mm lower than before so the control wires clear its top. |
 | 2 | Diode | Out of the wall: in a channel under the base, in line with the XIAO's 5V pad and the DRV8833's VCC pin, reachable from below with fingers and an iron. Its own leads make both joints, so W3 and L3 are gone. |
 | 3 | Layout and wiring | The driver signals moved to the XIAO's bottom row (D10, D9, D8) and the module's channel B, right under them, so W4, W5 and W12 are about 20 mm long instead of 45–66 mm. Power runs in two lanes under the electronics-side wall. Firmware pins changed to match (`firmware/main/board.h`). |
 | 4 | Dowel clamps | Flat-bottomed 6.0 mm counterbores for M3 socket cap heads, 2.0 mm above the split. The 5/8 clamp's screws moved out to 10.6 mm (1/4 clamp: 5.9 mm) to thicken the wall beside the bore; pilots are 6.5 mm deep for M3 × 8. The 5/8 clamp with its screws sweeps 14.3 mm at most, inside the 15.3 mm wall relief, and clears the case all the way round. |
@@ -154,10 +154,10 @@ Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and ro
 8. **Motor in.** Push the wired motor up into the cartridge so the D-shaft enters the adapter's bore (turn the dowel to line up the flat), until the arms click over the end cap. W14 and W15 run down the motor's open side, between the arms. Put a zip tie round both arms between their ribs, head on the side away from the wires, and pull it tight; W14 and W15 stay inside it, held against the motor. Then tie W14 and W15 to the wire clamp below the +Y arm (rev C; see [the clamp](docs/wiring.md#j4-and-the-motor-wire-clamp)).
 9. **Set screw.** Turn the dowel until the set screw faces an open end of the mount, just above the face plate, and tighten it onto the shaft's flat with a 1.5 mm hex key: firm, not forced, or it strips the plastic. To take the drive apart, loosen it, cut the arms' zip tie, spread the arms and pull the motor down. The cartridge can stay in the mount. If it has to come out, slide the dowel out and take the adapter off, push `N20_Latch_Key` down into the two slots beside the cartridge's top plate, and pull the cartridge out by its flange.
 10. **Control panel.** Plug J3 into the header in the pod, then screw the pod on (four M3 screws, as before). Reverse this to take it off.
-11. **Perfboard and cover (rev C).** With C1 in its seat:
-    1. Push L1, L2 and the panel wires through their holes from the underside and solder them (see [docs/perfboard.md](docs/perfboard.md#build-order)).
+11. **Perfboard and cover (rev C).**
+    1. Push the panel wires through their holes from the underside and solder them, W11 at A4 first, then stand C1 on the board over it (see [docs/perfboard.md](docs/perfboard.md#build-order)).
     2. Lay the perfboard on the four supports on the −Y face, components out, row 17 (both USB-C ports) toward +X.
-    3. Put the cover over it, with RV1's bushing through the 7 mm hole. Drive the three M2 × 20 screws through the cover posts and the board into the supports.
+    3. Put the cover over it, with RV1's bushing through the 7 mm hole and C1's top through the 9 mm hole. Drive the three M2 × 20 screws through the cover posts and the board into the supports.
     4. Fit RV1's washer, nut and knob cap.
     5. Plug the motor into J4 through the cover's bottom notch.
 
@@ -192,7 +192,7 @@ Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and ro
 | `clamp_cb_y`, `clamp_cbore` | 2.0, 6.0 mm | Flat counterbore floor for the M3 cap heads, above the clamp split, and its diameter |
 | `clamp_x_mid`, `clamp_x_small` | 10.6, 5.9 mm | Clamp screw offsets (5/8, 1/4) |
 | `clamp_pilot_depth` | 6.5 mm | M3 pilots in the clamp bodies |
-| `c1_seat_dia`, `c1_seat_depth`, `c1_seat_h`, `c1_seat_z0` | 8.0, 4.9, 14, −1.3 mm | Capacitor seat |
+| `c1_seat_dia`, `c1_seat_depth`, `c1_seat_h`, `c1_seat_z0` | 8.0, 4.9, 14, −1.3 mm | Capacitor seat; unused since version 29, when the seat was removed |
 | `d1_x`, `d1_axis_z`, `d1_y0`, `d1_len`, `d1_seat_dia`, `d1_lead_slot` | 19.42, −10.6, −19, 6.4, 2.9, 1.1 mm | Diode channel and lead slot under the base |
 
 Rev C added no user parameters; its features use sketch numbers. They are:

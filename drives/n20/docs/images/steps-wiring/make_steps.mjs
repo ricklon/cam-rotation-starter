@@ -94,6 +94,16 @@ const PART = {
       `<circle cx="${ux(u + 6.75)}" cy="${hy(11)}" r="${mm(3)}" fill="${g ? '#f1f3f4' : '#c9c9cf'}" stroke="${g ? DONE : '#555'}" stroke-width="1.5"/>` +
       [10, 11, 12].map(r => `<line x1="${hx('J')}" y1="${hy(r)}" x2="${ux(u + 2)}" y2="${hy(r)}" stroke="${g ? DONE : '#8d8d96'}" stroke-width="3"/><rect x="${hx('J') - mm(0.6)}" y="${hy(r) - mm(0.6)}" width="${mm(1.2)}" height="${mm(1.2)}" fill="${g ? DONE : '#111'}"/>`).join('');
   },
+  C1(mode) {
+    // standing can seen from above: axis at u -13.5, v -9.6, stripe on the row 4 (-v) side; sleeved leads out to C7 and B4
+    const g = mode === 'done', cx = ux(-13.5), cy = vy(-9.6), r = mm(4), cyc = cy - mm(2.6), hw = Math.sqrt(r * r - mm(2.6) ** 2);
+    return [[[-11.75, -9.6], 'C7'], [[-15.25, -9.6], 'B4']].map(([[u, v], h]) =>
+      `<polyline points="${pts([[ux(u), vy(v)], hole(h)])}" fill="none" stroke="${g ? DONE : '#2b2b2b'}" stroke-width="${g ? 3 : 5}" stroke-linecap="round"/>`).join('') +
+      `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${g ? '#e6e9eb' : '#1e3c8c'}" fill-opacity="${g ? 0.9 : 0.9}" stroke="${g ? DONE : '#1b1b1b'}" stroke-width="2"/>` +
+      `<path d="M ${cx - hw} ${cyc} A ${r} ${r} 0 0 1 ${cx + hw} ${cyc} Z" fill="${g ? '#f1f3f4' : '#c8c8cd'}"/>` +
+      `<text x="${cx}" y="${cy + 8}" text-anchor="middle" ${FONT} font-size="${g ? 15 : 17}" font-weight="700" fill="${g ? MUTE : '#fff'}">C1</text>` +
+      (g ? '' : `<text x="${cx}" y="${cyc - 3}" text-anchor="middle" ${FONT} font-size="15" font-weight="700" fill="${INK}">−</text>`);
+  },
   C3(mode) {
     const g = mode === 'done';
     return rectU(12.6, 24.1, -9, -1, `rx="6" fill="${g ? '#e6e9eb' : '#1e3c8c'}" stroke="${g ? DONE : '#1b1b1b'}" stroke-width="2"`) +
@@ -133,7 +143,7 @@ function module(mode, vc, w, h, name, pins, vText) {
 
 // wires that come in from behind the board: a hole and a stub in the done state
 const OFF = {
-  L1: { hole: 'C7', side: 'L', ly: 5.6 }, L2: { hole: 'B4', side: 'L', ly: 4.4 }, W11: { hole: 'A4', side: 'L', ly: 3.2 },
+  W11: { hole: 'A4', side: 'L', ly: 3.2 },
   W9: { hole: 'I13', side: 'R', ly: 13.75 }, W6: { hole: 'I14', side: 'R', ly: 14.65 }, W10: { hole: 'I15', side: 'R', ly: 15.55 },
 };
 function offPath(id) {
@@ -218,12 +228,15 @@ const STEPS = [
     what: 'U1\'s ground, from its − (GND) pad, down to the GND bus (row 8 left). On our board − is the outer pad; go by the marking on yours.',
     check: 'Before soldering, make sure this is the pad marked − (or GND). After: U1\'s − pad connects to B8 and the Super Mini\'s GND. U1 + must not connect to U1 −.' },
 
-  { id: 'L1', kind: 'off', colour: 'red', from: 'C1 + (long leg)', to: 'C7', toRole: '5V bus', offText: 'C1 + long leg',
-    what: 'C1, the 470 µF capacitor in its seat on the mount, to the +5V bus.',
-    check: 'C1\'s + leg connects to A7. Its long leg (+) is the one on C7.' },
-  { id: 'L2', kind: 'off', colour: 'black', from: 'C1 − (stripe side)', to: 'B4', toRole: 'GND', offText: 'C1 − stripe',
-    what: 'C1\'s − leg to ground (strip 4 left). Reversed polarity damages the capacitor.',
-    check: 'C1\'s − leg connects to B8. C1 + must not connect to C1 −.' },
+  // W11 comes first on the drive: C1 stands over A4, so W11's joint there has to be made before C1 goes on
+  { id: 'W11', kind: 'off', colour: 'black', from: 'A4', to: 'J3 pin 2', toRole: 'GND', offText: 'J3 pin 2',
+    what: 'Ground for the whole control pod, through J3 pin 2. Solder it before C1: C1 stands over A4.',
+    check: 'J3 pin 2 connects to B8. It must not connect to J3 pins 1, 3 or 6. Keep the joint at A4 low and neat: C1 stands just above it.' },
+  { id: 'C1', kind: 'part', side: 'top', title: 'C1, the 470 µF bulk capacitor, standing', colour: 'blue', fromTo: '+ C7, − B4',
+    what: 'Steadies the 5 V bus when the motor starts. It stands over columns A–C, rows 4–7, between D1 and W1/W2, and its top comes through the cover\'s 9 mm hole.',
+    how: '**+ is the long leg, − is the striped side** (see the sketch). Slip heat-shrink over both leads: they cross the pads of rows 5 and 6 (IN3, IN4) on the way out. Stand the can 1.5 mm off the board over A4–C6, stripe toward row 4, bend the + lead out to C7 and the − lead to B4, and solder them from the underside.',
+    check: 'The stripe faces row 4. C7 connects to A7, B4 connects to B8, and C7 must not connect to B4 (on resistance it shows the capacitor charging, then open). Neither lead touches the pads of rows 5 or 6: A5 and A6 must not connect to A7 or B8.',
+    ends: [{ hole: 'C7', role: '+ long' }, { hole: 'B4', role: '− stripe' }], strips: ['C7', 'B4'] },
   { id: 'W6', kind: 'off', colour: 'white', from: 'I14', to: 'J3 pin 6', toRole: 'GPIO1', offText: 'J3 pin 6',
     what: 'BTN: GPIO1 to the button, through J3 pin 6.',
     check: 'J3 pin 6 connects to H14 (GPIO1). It must not connect to I13 or I15.' },
@@ -233,9 +246,6 @@ const STEPS = [
   { id: 'W10', kind: 'off', colour: 'blue', from: 'I15', to: 'J3 pin 1', toRole: 'GPIO0', offText: 'J3 pin 1',
     what: 'DIR_REV: GPIO0 to the direction switch\'s reverse side, through J3 pin 1.',
     check: 'J3 pin 1 connects to H15 (GPIO0). It must not connect to I14.' },
-  { id: 'W11', kind: 'off', colour: 'black', from: 'A4', to: 'J3 pin 2', toRole: 'GND', offText: 'J3 pin 2',
-    what: 'Ground for the whole control pod, through J3 pin 2.',
-    check: 'J3 pin 2 connects to B8. It must not connect to J3 pins 1, 3 or 6.' },
 
   { id: 'W14', kind: 'motor', colour: 'red', from: 'motor tab', to: 'J4 pin 1', toRole: 'J4 pin 1 (hole J3, OUT3)', pin: 1,
     what: 'The motor\'s own red lead, to the driver\'s OUT3 through J4 pin 1.',
@@ -473,6 +483,27 @@ const POLARITY = {
       return sketch(by + 60, this.alt, o.join('\n'));
     },
   },
+  C1: {
+    file: 'c1-polarity.svg',
+    alt: 'Which leg of C1 is which, and how it stands. The 470 µF can is blue with a light stripe down one side, marked with minus signs. The leg on the stripe side is minus and goes to B4; the other leg is plus, the longer one on a new part, and goes to C7. Seen from the side, the can stands 1.5 mm off the board with both legs sleeved and bent out to their holes.',
+    svg() {
+      const o = [];
+      o.push(T(24, 34, 'C1 · 470 µF: which leg is which', 20, 'font-weight="700"'));
+      // standing can, front view: stripe on the left
+      const x0 = 230, y0 = 70, w = 120, h = 190, by = y0 + h;
+      o.push(`<rect x="${x0}" y="${y0}" width="${w}" height="${h}" rx="12" fill="#1e3c8c"/>`);
+      o.push(`<rect x="${x0}" y="${y0}" width="38" height="${h}" fill="#c8c8cd"/>`);
+      for (let y = y0 + 40; y < by - 10; y += 46) o.push(T(x0 + 19, y, '−', 26, 'font-weight="700" text-anchor="middle"'));
+      o.push(`<line x1="${x0 + 30}" y1="${by}" x2="${x0 + 30}" y2="${by + 50}" stroke="#8d8d96" stroke-width="5"/>`);
+      o.push(`<line x1="${x0 + 90}" y1="${by}" x2="${x0 + 90}" y2="${by + 80}" stroke="#8d8d96" stroke-width="5"/>`);
+      o.push(T(x0 - 14, by + 44, '− → B4', 20, 'font-weight="700" text-anchor="end"'), T(x0 - 14, by + 66, 'stripe side', 15, 'text-anchor="end"'));
+      o.push(T(x0 + 104, by + 62, '+ → C7', 20, 'font-weight="700"'), T(x0 + 104, by + 84, 'the long leg', 15));
+      o.push(`<line x1="${x0 - 4}" y1="${y0 + 90}" x2="${x0 - 30}" y2="${y0 + 90}" stroke="${RING}" stroke-width="2.5"/>`, T(x0 - 36, y0 + 96, 'stripe = −', 18, `font-weight="700" text-anchor="end" fill="${RING}"`));
+      o.push(T(24, by + 128, 'Go by the stripe, not the leg length: the legs may be cut.', 16));
+      o.push(T(24, by + 152, 'Sleeve both legs; stand it 1.5 mm up, stripe toward row 4.', 16, 'font-weight="700"'));
+      return sketch(by + 174, this.alt, o.join('\n'));
+    },
+  },
   C3: {
     file: 'c3-polarity.svg',
     alt: 'Which lead of C3 is which. The 470 µF capacitor is a blue can with a light stripe printed down one side, marked with minus signs. The lead on the stripe side is minus and goes to I8; the other lead, usually the longer one, is plus and goes to I7. Lying on the board, the stripe faces row 8.',
@@ -520,11 +551,11 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **Laying a link:** solder one end, press the wire flat along its lane and pinch the corners square with tweezers, hold the corners down with Kapton tape, then solder the far end. Keep it off the holes it crosses, and don't anchor wires through spare holes: every hole is part of a strip. Once the step's check passes, a dab of hot glue can hold it for good.
 - **Prepare the modules** (build step 1): desolder U1's screw terminal and set its switches to 5 V. Pull the unused pins out of the header strips: the DRV8833 keeps D3–D6 and H2, H3, H6; the Super Mini keeps D12–D17 and H11–H15 (H10, GPIO5, stays out). Fit the strips to the modules with the perfboard as a jig, and solder them **to the modules only**.
 `);
-const sections = { 1: '## On the bench: D1 and the links', 12: '## On the bench: J4, RV1 and C3', 15: '## On the bench: the modules and U1', 20: '## On the drive: C1 and the control harness', 26: '## The motor leads' };
+const sections = { 1: '## On the bench: D1 and the links', 12: '## On the bench: J4, RV1 and C3', 15: '## On the bench: the modules and U1', 20: '## On the drive: W11, C1 and the control harness', 25: '## The motor leads' };
 const intro = {
   2: '**The ten links** go on the underside, shortest first. Turn the board over: from here to step 11 the pictures show the underside as you see it, with the mirrored letters printed there; each hole is given by both names.',
-  20: 'With C1 already in its seat on the mount. These six wires come from behind the board: push each **up from the underside** and solder it on the component side.',
-  26: 'W14 and W15 are the N20\'s own factory leads, red and black, left soldered to its tabs (assumed about 26 AWG, unconfirmed). Solder C2 across the tabs first if it isn\'t on yet. Measure each lead from the motor\'s end cap, cut it, strip 2 mm and crimp a JST-PH contact on, then push the contact into a PHR-2 housing. Routing and the wire clamp are in [wiring.md](wiring.md#j4-and-the-motor-wire-clamp). Red and black here don\'t mean +5 V and GND: this pair only runs from the motor to J4.',
+  20: 'With the board on the drive. The four panel wires come from behind the board: push each **up from the underside** and solder it on the component side. W11 goes first, because C1 stands over its hole.',
+  25: 'W14 and W15 are the N20\'s own factory leads, red and black, left soldered to its tabs (assumed about 26 AWG, unconfirmed). Solder C2 across the tabs first if it isn\'t on yet. Measure each lead from the motor\'s end cap, cut it, strip 2 mm and crimp a JST-PH contact on, then push the contact into a PHR-2 housing. Routing and the wire clamp are in [wiring.md](wiring.md#j4-and-the-motor-wire-clamp). Red and black here don\'t mean +5 V and GND: this pair only runs from the motor to J4.',
 };
 STEPS.forEach((s, i) => {
   const n = i + 1;

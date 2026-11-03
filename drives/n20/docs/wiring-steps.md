@@ -239,31 +239,33 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **What it does:** U1's ground, from its − (GND) pad, down to the GND bus (row 8 left). On our board − is the outer pad; go by the marking on yours.
 - **Check:** Before soldering, make sure this is the pad marked − (or GND). After: U1's − pad connects to B8 and the Super Mini's GND. U1 + must not connect to U1 −.
 
-## On the drive: C1 and the control harness
+## On the drive: W11, C1 and the control harness
 
-With C1 already in its seat on the mount. These six wires come from behind the board: push each **up from the underside** and solder it on the component side.
+With the board on the drive. The four panel wires come from behind the board: push each **up from the underside** and solder it on the component side. W11 goes first, because C1 stands over its hole.
 
-### Step 20: L1, red, C1 + (long leg) → C7
+### Step 20: W11, black, A4 → J3 pin 2
 
-![Step 20: The perfboard seen from the component side, column A on the left, with the 19 earlier steps drawn in grey. L1, red, drawn bold from hole C7 (printed H7 on the underside) off the board's left edge, labelled C1 + long leg.](images/steps-wiring/step-20-L1.svg)
+![Step 20: The perfboard seen from the component side, column A on the left, with the 19 earlier steps drawn in grey. W11, black, drawn bold from hole A4 (printed J4 on the underside) off the board's left edge, labelled J3 pin 2.](images/steps-wiring/step-20-W11.svg)
 
-- **Wire:** L1, red, 30 AWG stranded
-- **Cut:** 50 mm
-- **From → to:** C1 + (long leg) → C7 (push it in at printed H7 on the underside)
+- **Wire:** W11, black, 30 AWG stranded
+- **Cut:** 150 mm
+- **From → to:** A4 → J3 pin 2 (push it in at printed J4 on the underside)
 - **Side:** in from the underside, soldered on the component side
-- **What it does:** C1, the 470 µF capacitor in its seat on the mount, to the +5V bus.
-- **Check:** C1's + leg connects to A7. Its long leg (+) is the one on C7.
+- **What it does:** Ground for the whole control pod, through J3 pin 2. Solder it before C1: C1 stands over A4.
+- **Check:** J3 pin 2 connects to B8. It must not connect to J3 pins 1, 3 or 6. Keep the joint at A4 low and neat: C1 stands just above it.
 
-### Step 21: L2, black, C1 − (stripe side) → B4
+### Step 21: C1, the 470 µF bulk capacitor, standing
 
-![Step 21: The perfboard seen from the component side, column A on the left, with the 20 earlier steps drawn in grey. L2, black, drawn bold from hole B4 (printed I4 on the underside) off the board's left edge, labelled C1 − stripe.](images/steps-wiring/step-21-L2.svg)
+![Step 21: The perfboard seen from the component side, column A on the left, with the 20 earlier steps drawn in grey. C1 drawn in colour, + C7, − B4, its holes circled.](images/steps-wiring/step-21-C1.svg)
 
-- **Wire:** L2, black, 30 AWG stranded
-- **Cut:** 55 mm
-- **From → to:** C1 − (stripe side) → B4 (push it in at printed I4 on the underside)
-- **Side:** in from the underside, soldered on the component side
-- **What it does:** C1's − leg to ground (strip 4 left). Reversed polarity damages the capacitor.
-- **Check:** C1's − leg connects to B8. C1 + must not connect to C1 −.
+![Which leg of C1 is which, and how it stands. The 470 µF can is blue with a light stripe down one side, marked with minus signs. The leg on the stripe side is minus and goes to B4; the other leg is plus, the longer one on a new part, and goes to C7. Seen from the side, the can stands 1.5 mm off the board with both legs sleeved and bent out to their holes.](images/steps-wiring/c1-polarity.svg)
+
+- **Part:** C1
+- **Holes:** + C7, − B4
+- **Side:** component side
+- **What it does:** Steadies the 5 V bus when the motor starts. It stands over columns A–C, rows 4–7, between D1 and W1/W2, and its top comes through the cover's 9 mm hole.
+- **How:** **+ is the long leg, − is the striped side** (see the sketch). Slip heat-shrink over both leads: they cross the pads of rows 5 and 6 (IN3, IN4) on the way out. Stand the can 1.5 mm off the board over A4–C6, stripe toward row 4, bend the + lead out to C7 and the − lead to B4, and solder them from the underside.
+- **Check:** The stripe faces row 4. C7 connects to A7, B4 connects to B8, and C7 must not connect to B4 (on resistance it shows the capacitor charging, then open). Neither lead touches the pads of rows 5 or 6: A5 and A6 must not connect to A7 or B8.
 
 ### Step 22: W6, white, I14 → J3 pin 6
 
@@ -298,24 +300,13 @@ With C1 already in its seat on the mount. These six wires come from behind the b
 - **What it does:** DIR_REV: GPIO0 to the direction switch's reverse side, through J3 pin 1.
 - **Check:** J3 pin 1 connects to H15 (GPIO0). It must not connect to I14.
 
-### Step 25: W11, black, A4 → J3 pin 2
-
-![Step 25: The perfboard seen from the component side, column A on the left, with the 24 earlier steps drawn in grey. W11, black, drawn bold from hole A4 (printed J4 on the underside) off the board's left edge, labelled J3 pin 2.](images/steps-wiring/step-25-W11.svg)
-
-- **Wire:** W11, black, 30 AWG stranded
-- **Cut:** 150 mm
-- **From → to:** A4 → J3 pin 2 (push it in at printed J4 on the underside)
-- **Side:** in from the underside, soldered on the component side
-- **What it does:** Ground for the whole control pod, through J3 pin 2.
-- **Check:** J3 pin 2 connects to B8. It must not connect to J3 pins 1, 3 or 6.
-
 ## The motor leads
 
 W14 and W15 are the N20's own factory leads, red and black, left soldered to its tabs (assumed about 26 AWG, unconfirmed). Solder C2 across the tabs first if it isn't on yet. Measure each lead from the motor's end cap, cut it, strip 2 mm and crimp a JST-PH contact on, then push the contact into a PHR-2 housing. Routing and the wire clamp are in [wiring.md](wiring.md#j4-and-the-motor-wire-clamp). Red and black here don't mean +5 V and GND: this pair only runs from the motor to J4.
 
-### Step 26: W14, red, motor tab → J4 pin 1
+### Step 25: W14, red, motor tab → J4 pin 1
 
-![Step 26: The perfboard seen from the component side, column A on the left, with the 25 earlier steps drawn in grey. W14, red, drawn bold from J4's mouth off the right-hand edge; J4 pin 1 is hole J3.](images/steps-wiring/step-26-W14.svg)
+![Step 25: The perfboard seen from the component side, column A on the left, with the 24 earlier steps drawn in grey. W14, red, drawn bold from J4's mouth off the right-hand edge; J4 pin 1 is hole J3.](images/steps-wiring/step-25-W14.svg)
 
 - **Wire:** W14, red, the motor's own lead
 - **Cut:** 85 mm, measured from the motor's end cap
@@ -324,9 +315,9 @@ W14 and W15 are the N20's own factory leads, red and black, left soldered to its
 - **What it does:** The motor's own red lead, to the driver's OUT3 through J4 pin 1.
 - **Check:** With the plug in, J4's housing pin 1 connects to the motor tab its lead comes from, and to H3.
 
-### Step 27: W15, black, motor tab → J4 pin 2
+### Step 26: W15, black, motor tab → J4 pin 2
 
-![Step 27: The perfboard seen from the component side, column A on the left, with the 26 earlier steps drawn in grey. W15, black, drawn bold from J4's mouth off the right-hand edge; J4 pin 2 is hole J2.](images/steps-wiring/step-27-W15.svg)
+![Step 26: The perfboard seen from the component side, column A on the left, with the 25 earlier steps drawn in grey. W15, black, drawn bold from J4's mouth off the right-hand edge; J4 pin 2 is hole J2.](images/steps-wiring/step-26-W15.svg)
 
 - **Wire:** W15, black, the motor's own lead
 - **Cut:** 95 mm, measured from the motor's end cap

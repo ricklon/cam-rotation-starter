@@ -6,13 +6,14 @@ From rev C the electronics are soldered onto an **ElectroCookie mini solderable 
 - the ESP32-C6 Super Mini (U2)
 - the DRV8833 module (U3)
 - the diode D1
+- C1, the 470 µF bulk capacitor on the 5 V bus, standing
 - C3, a 470 µF hold-up capacitor for the Super Mini
 - the speed knob RV1, an RK097N pot that now sits here rather than in the pod
 - the motor plug J4.
 
-Only C1 stays in its seat on the mount, wired to the board. The motor plugs into J4, and the button and switch in the pod connect through J3 as before. The board sits on the mount's electronics-side (−Y) face under a printed cover that forms the mount's outer wall, and the knob comes out of the cover sideways (see [Where it goes](#where-it-goes)). The schematic and the full wire list are in [wiring.md](wiring.md).
+Everything is on the board: C1 stands on it, and its top comes through a 9 mm hole in the cover. The motor plugs into J4, and the button and switch in the pod connect through J3 as before. The board sits on the mount's electronics-side (−Y) face under a printed cover that forms the mount's outer wall, and the knob comes out of the cover sideways (see [Where it goes](#where-it-goes)). The schematic and the full wire list are in [wiring.md](wiring.md).
 
-![Hole map of the perfboard, seen from the component side with row 1 at the top and column A at the left. The DRV8833 straddles the centre channel in rows 1 to 6, with the J4 motor header beside it at J2 and J3, and D1 stands at A3 with its cathode lead in A2. The Super Mini straddles the channel in rows 12 to 17, with its USB-C port past row 17. The PD trigger board U1 lies over columns A to C, rows 9 to 17, its USB-C port also past row 17, with short jumpers from its pads to the 5 V bus (row 7) and the ground bus (row 8). The speed pot RV1 has its pins at J10 to J12, in the strips of 3V3, GPIO4 and GPIO3, and its body overhangs the right-hand edge. C3 lies on its side over columns I and J, rows 5 to 8, with its leads in I7 and I8. Links on the underside join the buses, the driver signals, the pot's 3V3 end and C3.](images/perfboard.svg)
+![Hole map of the perfboard, seen from the component side with row 1 at the top and column A at the left. The DRV8833 straddles the centre channel in rows 1 to 6, with the J4 motor header beside it at J2 and J3, and D1 stands at A3 with its cathode lead in A2. The Super Mini straddles the channel in rows 12 to 17, with its USB-C port past row 17. The PD trigger board U1 lies over columns A to C, rows 9 to 17, its USB-C port also past row 17, with short jumpers from its pads to the 5 V bus (row 7) and the ground bus (row 8). The speed pot RV1 has its pins at J10 to J12, in the strips of 3V3, GPIO4 and GPIO3, and its body overhangs the right-hand edge. C3 lies on its side over columns I and J, rows 5 to 8, with its leads in I7 and I8. C1 stands over columns A to C, rows 4 to 7, between D1 and the PD board, with its leads bent out to C7 (+) and B4 (−). Links on the underside join the buses, the driver signals, the pot's 3V3 end and C3.](images/perfboard.svg)
 
 ## The board
 
@@ -39,6 +40,7 @@ Both modules straddle the channel with their two pin rows in columns **D** and *
 | D1 1N5817, standing | Anode lead in A3, body upright, banded end at the top; the cathode lead bends over and down into A2 | Its own leads |
 | J4 JST-PH 2-pin header, **side entry** (S2B-PH-K-S) | J3 (pin 1, OUT3) and J2 (pin 2, OUT4), mouth toward the right-hand edge (down, on the drive). A top-entry plug would stand too tall for the cover. | The PH pins are 2.0 mm apart. Splay them 0.27 mm each to reach the 2.54 mm holes; they go in with a light push. |
 | C3 470 µF electrolytic, lying on its side | Over columns I–J, rows 5–8, axis across the columns: its lead end sits just past column I and its far end about 5 mm past the right-hand edge, inside the cover, between J4 and RV1. Lay it on the board. | **+ lead in I7**, − lead (stripe side) in I8: bend both down 90° about 1 mm from the can. Any can up to 8 mm across and 11.5 mm long fits. Not to be confused with hole C3. |
+| C1 470 µF electrolytic, 8 × 13 mm, **standing** | Over columns A–C, rows 4–7: between D1 (A2/A3) and W1/W2 (A7/A8), clear of the DRV8833. Its base stands 1.5 mm off the board, over A4, so **W11 must be soldered at A4 first**. Its top comes through a 9 mm hole in the cover. | **+ lead (long leg) in C7, − lead (stripe side) in B4.** Bend the leads out from under the can and slip heat-shrink over both: they cross the pads of rows 5 and 6 (IN3, IN4). Stripe toward row 4. |
 | RV1 RK097N 10 kΩ linear pot, shaft up | Pins in J10 (pin 1, 3V3 end), J11 (pin 2, wiper, in the GPIO4 strip), J12 (pin 3, low end, in the GPIO3 strip); the body points off the right-hand edge (down, on the drive) | The pins are 2.5 mm apart, which goes straight into the 2.54 mm holes. Snip off the two mounting tabs if yours has them: they're wider than the 1 mm holes. The panel nut holds the pot instead. |
 
 With the DRV8833 held component side up, the pin rows read, top to bottom: **IN1, IN2, VCC, GND, IN3, IN4** in column D and **ULT, OUT4, OUT3, OUT2, OUT1, EEP** in column H. That is the label order printed on the back, upside down. **Check it against the labels on your module before soldering**: if yours differs, keep the same nets and move the header pins and links to suit.
@@ -55,10 +57,10 @@ With the DRV8833 held component side up, the pin rows read, top to bottom: **IN1
 |---|---|---|
 | 2 left | D1 cathode | A2 D1 cathode lead · B2 link to C17 · C2 link to H7 |
 | 3 left | +5V (DRV VCC) | D3 pin · A3 D1 anode · C3 link from the 5V bus |
-| 4 left | GND (DRV GND) | D4 pin · A4 **W11** to J3 pin 2 · B4 **L2** from C1 − · C4 link from the GND bus |
+| 4 left | GND (DRV GND) | D4 pin · A4 **W11** to J3 pin 2 · B4 C1 − lead · C4 link from the GND bus |
 | 5 left | MOT_IN1 (IN3) | D5 pin · C5 link from GPIO18 |
 | 6 left | MOT_IN2 (IN4) | D6 pin · C6 link from GPIO20 |
-| **7 left** | **+5V bus** | A7 **W1** from U1 + · B7 link to C3 · C7 **L1** from C1 + |
+| **7 left** | **+5V bus** | A7 **W1** from U1 + · B7 link to C3 · C7 C1 + lead |
 | **8 left** | **GND bus** | A8 **W2** from U1 − · B8 link to C4 · C8 link to C16 |
 | 12 left | GPIO18 | D12 pin · C12 link to C5 |
 | 13 left | GPIO19 | D13 pin · C13 link to J6 |
@@ -80,7 +82,7 @@ With the DRV8833 held component side up, the pin rows read, top to bottom: **IN1
 
 Under U1, rows 9–17 in columns A–C are used only from the underside: the link ends at A15, A16, C12–C17 and nothing on top. Strips 1 left and right, 4, 5 and 9 right, 9–11 left and 16–17 right are unused. Keep the corner holes A1, J1, A17 and J17 empty: the M2 screw heads and supports cover their pads.
 
-**Wires from the mount go in from the underside.** The board faces away from the mount, so L1, L2 and the panel wires W6, W9, W10 and W11 come from behind it. Push each one through its hole from the underside and solder it on the component side. Only W1, W2 and the parts are soldered from the component side in the usual way.
+**Wires from the mount go in from the underside.** The board faces away from the mount, so the panel wires W6, W9, W10 and W11 come from behind it. Push each one through its hole from the underside and solder it on the component side. Only W1, W2 and the parts are soldered from the component side in the usual way.
 
 ## Links (underside)
 
@@ -107,7 +109,7 @@ The cut lengths come from the routes in the 3D model, worked out the same way as
 
 The perfboard mounts on the mount's **electronics-side (−Y) face**, parallel to it, components facing out. Its rows run along X, with row 17 (the USB-C end) toward +X, and column A toward the box wall. The pot's body hangs off the bottom edge, away from the wall.
 
-- **Supports:** the board's underside sits 5.8 mm off the mount's face, clear of C1 and the old PD board's pad.
+- **Supports:** the board's underside sits 5.8 mm off the mount's face, clear of the old PD board's pad.
   - **Top corners:** two 5 × 5.8 mm posts that rise from the flange plane.
   - **Bottom corners:** two bosses with 45° gussets above them, so the mount still prints flange down without supports there.
   - **+X side:** the face ends at x 22.4, so a 3.3 mm deep rail joined to the flange and the base carries those supports.
@@ -130,7 +132,8 @@ Everything else on the board is under 9 mm tall:
 - D1 standing: about 7 mm with its lead
 - the DRV8833: about 5.1 mm
 - J4: 4.8 mm
-- C3 lying on its side: 8.1 mm for an 8 mm can.
+- C3 lying on its side: 8.1 mm for an 8 mm can
+- C1 standing: 14.5 mm, through a **9 mm hole** in the cover's top, so its top stands about 3.5 mm proud of the cover (the knob stands about 19 mm).
 
 ## Build order
 
@@ -142,5 +145,6 @@ For one wire at a time, with a picture and a continuity check for each, follow t
 4. Solder J4, RV1 and C3. Lay C3 flat on the board with its + lead in I7 and its stripe toward I8.
 5. Solder both modules onto the perfboard.
 6. Stick U1 down on its two foam pads, USB-C past row 17 beside the Super Mini's, then solder W1 and W2 from its pads to A7 and A8.
-7. On the drive, with C1 already in its seat: push L1, L2, W6, W9, W10 and W11 through their holes from the underside, and solder them on the component side.
-8. Before power: check every row of the [terminal check](wiring.md#terminal-check) for continuity. Check that +5V, +3V3 and GND are not shorted to each other or to the strip next door.
+7. On the drive: push W11, W6, W9 and W10 through their holes from the underside, and solder them on the component side. Solder **W11 at A4 first**: C1 stands over it.
+8. Stand C1 over columns A–C, rows 4–7, 1.5 mm off the board, its leads sleeved: + (long leg) in C7, − (stripe) in B4. Its top goes through the cover's 9 mm hole.
+9. Before power: check every row of the [terminal check](wiring.md#terminal-check) for continuity. Check that +5V, +3V3 and GND are not shorted to each other or to the strip next door.
