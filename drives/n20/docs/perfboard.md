@@ -26,7 +26,7 @@ Everything is on the board: C1 stands on it, and its top comes through a 9 mm ho
 
 **The underside print is mirrored.** On this board the letters printed on the underside run A–J left to right when you turn it over like a page, so each hole's underside letter is the mirror of its component-side one: A↔J, B↔I, C↔H, D↔G, E↔F, with the same row number. A2 on top is printed J2 underneath. To check your own board, push a wire into top A2, turn the board over, and read the hole it comes out of. This page and the [wiring guide](wiring-steps.md) name holes by the **component side**; the guide gives the printed underside name in brackets wherever you work from underneath.
 
-In this page the board is drawn component side up, row 1 at the top and column A at the left. On the drive, row 1 points to −X and column A toward the box wall, so the hole map's right-hand edge is the board's bottom edge on the drive. Hole positions from the board's centre are u = (column index − 5.5) × 2.54 mm across the columns (A = 0 … E = 4, F = 7 … J = 11) and v = (row − 9) × 2.54 mm along the rows.
+In this page the board is drawn component side up, row 1 at the top and column A at the left. On the drive, row 1 points to +X and column A toward the box wall, so the hole map's right-hand edge is the board's bottom edge on the drive, and the USB-C end (row 17) is at −X. (Before 2026-11-03 the model and this page had row 1 at −X, which is the mirror image of a real board: a cover printed from those files fits only the pot and C3.) Hole positions from the board's centre are u = (column index − 5.5) × 2.54 mm across the columns (A = 0 … E = 4, F = 7 … J = 11) and v = (row − 9) × 2.54 mm along the rows.
 
 ## Placement
 
@@ -45,7 +45,7 @@ Both modules straddle the channel with their two pin rows in columns **D** and *
 
 With the DRV8833 held component side up, the pin rows read, top to bottom: **IN1, IN2, VCC, GND, IN3, IN4** in column D and **ULT, OUT4, OUT3, OUT2, OUT1, EEP** in column H. That is the label order printed on the back, upside down. **Check it against the labels on your module before soldering**: if yours differs, keep the same nets and move the header pins and links to suit.
 
-**Both USB-C ports** face the same end, past row 17. The Super Mini's port ends about 3 mm inside the board edge, and U1's about 1.4 mm outside it. Both plugs go in from that end of the drive (+X), through the open end of the cover.
+**Both USB-C ports** face the same end, past row 17. The Super Mini's port ends about 3 mm inside the board edge, and U1's about 1.4 mm outside it. Both plugs go in from that end of the drive (−X), through the open end of the cover.
 
 **The knob's direction:** seen from the shaft end with the pins facing you, turning clockwise moves the wiper toward pin 3. Pin 3 is on GPIO3, the low end, so the firmware inverts the reading (`KNOB_REVERSED` in `firmware/main/board.h`) and clockwise is faster, as on the old pod knob. If yours runs the other way, set `KNOB_REVERSED` to 0.
 
@@ -105,7 +105,7 @@ The cut lengths come from the routes in the 3D model, worked out the same way as
 
 ## Where it goes
 
-The perfboard mounts on the mount's **electronics-side (−Y) face**, parallel to it, components facing out. Its rows run along X, with row 17 (the USB-C end) toward +X, and column A toward the box wall. The pot's shaft points off the bottom edge, away from the wall.
+The perfboard mounts on the mount's **electronics-side (−Y) face**, parallel to it, components facing out. Its rows run along X, with row 17 (the USB-C end) toward −X, and column A toward the box wall. The pot's shaft points off the bottom edge, away from the wall.
 
 - **Supports:** the board's underside sits 5.8 mm off the mount's face, clear of the old PD board's pad.
   - **Top corners:** two 5 × 5.8 mm posts that rise from the flange plane.
@@ -116,9 +116,9 @@ The perfboard mounts on the mount's **electronics-side (−Y) face**, parallel t
   - Its 2 mm top sits **9.0 mm** off the board's component side. RV1's body and C3 stand taller: they come through a notch and a hole in the top, as C1 does through its 9 mm hole.
   - Three 9.0 mm posts stack between the cover and the board. The fourth corner is under U1, so it has neither a post nor a screw.
   - Its walls stop at the board's underside plane. The side toward the box wall is open.
-- **Screws:** three **M2 × 20** pan-head screws go through the cover posts and the board into the support pilots, about 7 mm deep. The fourth corner (A17, under U1) rests on its support without a screw.
+- **Screws:** three **M2 × 20** pan-head screws go through the cover posts and the board into the support pilots, about 7 mm deep. The fourth corner (A17, under U1, at −X by the box wall) rests on its support without a screw. All four supports have pilots, so the mount is the same whichever corner that is.
 - **Openings:**
-  - The +X end is open over both USB-C ports, so both plugs and their overmoulds clear the cover.
+  - The −X end is open over both USB-C ports, so both plugs and their overmoulds clear the cover.
   - A 7 mm notch in the bottom (J-edge) wall lets the motor pair out at J4 (on the built board the motor is soldered straight to J2/J3; its wires use the same notch).
 - **J-edge wall and knob (2026-11-03, measured):** RV1's shaft centre is 5 mm above the board, and its threaded bushing sticks out 5 mm past the board's J edge. The cover's bottom wall sits 0.3 mm past the board edge and is 2 mm thick (`cover_knob_wall`), with a **Ø7.2 mm** hole at the shaft height. Round the hole, an **Ø11.5 × 0.8 mm recess** on the outside thins the wall to 1.2 mm, so the M7 nut and washer (about 2.5 mm together) get **3.5 mm** of thread. Without the recess there would be 2.7 mm.
 - **Shaft:** it points off the J edge, parallel to the board; the supplied cap (15.6 × 17 mm) pushes on outside the nut.

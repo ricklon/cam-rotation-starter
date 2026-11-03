@@ -403,7 +403,7 @@ With the board on the drive and the button in its pod mount. The button's two wi
 5. Check, as below.
 
 - **Wire:** W11, black, 30 AWG stranded (or the button's own lead)
-- **Cut:** 170 mm
+- **Cut:** 185 mm
 - **From → to:** button lead B → A4 (push it in at printed J4 on the underside)
 - **Side:** in from the underside, soldered on the component side
 - **What it does:** The button's ground side, straight from the button to GND (strip 4 left). Solder it before C1: C1 stands over A4.
@@ -422,7 +422,7 @@ With the board on the drive and the button in its pod mount. The button's two wi
 5. Check, as below.
 
 - **Wire:** W6, white, 30 AWG stranded (or the button's own lead)
-- **Cut:** 200 mm
+- **Cut:** 185 mm
 - **From → to:** button lead A → I14 (push it in at printed B14 on the underside)
 - **Side:** in from the underside, soldered on the component side
 - **What it does:** BTN: the button's other lead, straight to GPIO1 (strip 14 right). Pressing the button joins GPIO1 to ground.
@@ -458,14 +458,14 @@ W14 and W15 are the N20's own factory leads, red and black, left soldered to its
 
 **Do this:**
 
-1. Measure the motor's red lead 85 mm from the end cap, cut it there and strip 2 mm.
+1. Measure the motor's red lead 80 mm from the end cap, cut it there and strip 2 mm.
 2. Crimp a JST-PH contact on.
 3. Push the contact into pin 1 of the motor plug's PHR-2 housing until it clicks.
 4. Leave the housing unplugged until W15 is in it too.
 5. Check, as below.
 
 - **Wire:** W14, red, the motor's own lead
-- **Cut:** 85 mm, measured from the motor's end cap
+- **Cut:** 80 mm, measured from the motor's end cap
 - **From → to:** motor tab → motor plug pin 1
 - **Side:** off the board: crimped into the motor plug's (J4's) housing
 - **What it does:** The motor's own red lead, to the driver's OUT3 through pin 1 of the motor plug (J4).
@@ -477,14 +477,14 @@ W14 and W15 are the N20's own factory leads, red and black, left soldered to its
 
 **Do this:**
 
-1. Measure the motor's black lead 95 mm from the end cap, cut it there and strip 2 mm.
+1. Measure the motor's black lead 90 mm from the end cap, cut it there and strip 2 mm.
 2. Crimp a JST-PH contact on.
 3. Push the contact into pin 2 of the motor plug's PHR-2 housing until it clicks.
 4. Plug the housing into the motor plug (J4) on the board.
 5. Check, as below.
 
 - **Wire:** W15, black, the motor's own lead
-- **Cut:** 95 mm, measured from the motor's end cap
+- **Cut:** 90 mm, measured from the motor's end cap
 - **From → to:** motor tab → motor plug pin 2
 - **Side:** off the board: crimped into the motor plug's (J4's) housing
 - **What it does:** The motor's own black lead, to the driver's OUT4 through pin 2 of the motor plug (J4).

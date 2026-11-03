@@ -1,16 +1,16 @@
 """Cam Rotation N20 - point-to-point wiring, rev C (matches drives/n20/docs/wiring.md and docs/perfboard.md:
 W1, W2, W4-W6, W11-W18, W21-W23, C2, and the D1, C1 and C3 leads).
 Rebuilds everything inside the Wiring component. Coordinates in mm, world frame.
-Perfboard (component Perfboard): on four supports on the mount's -Y face, parallel to it, rows along +X, column A at the top
+Perfboard (component Perfboard): on four supports on the mount's -Y face, parallel to it, rows along -X (row 1 at +X), column A at the top
   (toward the box wall), component side facing -Y. Board-local u (columns), v (rows), d (height off the component side) map to
-  the world as x = 5.3 + v, y = -28.1 - d, z = 15 - u, with u = (index(c) - 5.5) * 2.54 (A..E = 0..4, F..J = 7..11) and
+  the world as x = 5.3 - v, y = -28.1 - d, z = 15 - u, with u = (index(c) - 5.5) * 2.54 (A..E = 0..4, F..J = 7..11) and
   v = (row - 9) * 2.54. The underside (solder side, toward the mount) is at y -26.5; links run there, on two layers.
   Wires from the mount (the panel harness) go in from the underside and are soldered on the component side.
 C1, the 470 uF bulk capacitor on the 5 V bus, stands on the board over columns A-C, rows 4-7 (between D1 and W1/W2), its top through
   a 9 mm hole in the cover; sleeved leads to C7 (+) and B4 (-). It stands over A4, so W11 is soldered there before C1 goes on.
 C3, the 470 uF hold-up capacitor for the Super Mini, stands upright over I7/I8 as built (cover_rv1.py sizes and places it);
   its + lead goes into I7 (strip fed from D1's cathode by W22 at H7) and its - lead into I8 (GND, W23 at H8).
-U1, the PD board, sits over columns A-C, rows 9-17, on two 3 mm foam pads, USB-C at the +X end; its screw terminal is removed
+U1, the PD board, sits over columns A-C, rows 9-17, on two 3 mm foam pads, USB-C at the -X end; its screw terminal is removed
   and its + / - pads take W1 / W2 down to the 5V (row 7) and GND (row 8) buses. The - pad is the outer one (column A side),
   the + pad the inner one (channel side), as on the owner's board; other PD boards may differ, so go by the board's own marking.
 J4 (side-entry JST-PH 2) at J3/J2 opens toward -Z; the motor pair leaves through the notch in the cover's bottom wall and runs
@@ -44,7 +44,7 @@ def trunk(dx): return [(x + dx, y + dx, z) for x, y, z in TRUNK[:-1]]
 COLS = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 7, 'G': 8, 'H': 9, 'I': 10, 'J': 11}
 def cu(c, du=0.0): return (COLS[c] - 5.5) * 2.54 + du     # column -> u
 def rv(r): return (r - 9) * 2.54                         # row -> v
-def W(u, v, d): return (5.3 + v, -28.1 - d, 15.0 - u)     # board-local -> world
+def W(u, v, d): return (5.3 - v, -28.1 - d, 15.0 - u)     # board-local -> world
 def hole(c, r, d=0.0): return W(cu(c), rv(r), d)          # component-side joint
 def back(c, r, d=-2.4): return W(cu(c), rv(r), d)         # just behind the underside, for wires going in from the back
 def link(pts, layer=0):
@@ -78,18 +78,18 @@ WIRES = [
     # --- motor pair: J4 (side entry, mouth toward -Z) -> notch in the cover's bottom wall -> under the base's -Y edge
     #     -> the motor's +x side inside the arms' zip tie -> the wire clamp -> the tabs
     # the motor's own factory leads (assumed 26 AWG, about 1.0 mm over the insulation), cut to length and crimped into J4's housing
-    ('W14 J4 pin 1 (OUT3) to motor + (factory lead)', 'red', 1.0, [W(26.4, rv(3), 2.4), W(29.0, rv(3), 2.4), (-9.9, -29.0, -15.0), (-2.0, -22.0, -15.0),
+    ('W14 J4 pin 1 (OUT3) to motor + (factory lead)', 'red', 1.0, [W(26.4, rv(3), 2.4), W(29.0, rv(3), 2.4), (19.0, -29.0, -15.0), (13.0, -21.0, -15.0),
         (8.8, -14.0, -15.0), (9.0, -7.0, -15.2), (8.2, -1.0, -15.8), (6.7, 1.2, -17.0), (6.7, 1.2, -24.0), (6.7, 2.6, -26.6), (6.4, 4.65, -28.1),
         (3.6, 4.65, -28.1), (3.1, 1.8, -27.4), (3.1, 0.4, -26.8)]),
-    ('W15 J4 pin 2 (OUT4) to motor - (factory lead)', 'black', 1.0, [W(26.4, rv(2), 2.4), W(29.6, rv(2), 2.4), (-11.3, -29.6, -15.8), (-2.8, -22.0, -15.9),
+    ('W15 J4 pin 2 (OUT4) to motor - (factory lead)', 'black', 1.0, [W(26.4, rv(2), 2.4), W(29.6, rv(2), 2.4), (21.4, -29.6, -15.8), (14.2, -21.5, -15.9),
         (9.8, -13.6, -15.9), (10.0, -6.4, -16.0), (9.0, -0.4, -16.6), (6.7, 2.6, -17.8), (6.7, 2.6, -24.0), (7.6, 3.0, -25.8), (7.6, 3.4, -28.6), (6.2, 4.6, -29.4),
         (-2.6, 4.6, -29.4), (-3.1, 2.2, -28.6), (-3.1, 0.4, -26.8)]),
     # --- the button pair: S1's leads -> back through the pod -> base tunnel -> -Y face -> behind the perfboard, in from the underside
     ('W6 button lead A to GPIO1 (I14)', 'white', 0.6, [(11.0, 32.75, 16.3), (11.0, 32.75, 22.0), (8.0, 33.6, 28.0), (-1.0, 36.0, 28.8),
-        (-5.0, 33.0, 27.0), (-6.4, 26.0, 24.0)] + trunk(0.35) + [(-6.0, -22.7, 13.6), (-3.0, -23.2, 12.6), (6.0, -23.8, 8.4), (14.6, -24.0, 5.0),
-        (16.9, -25.0, 4.2), back('I', 14, -1.0), hole('I', 14, 0.4)]),
+        (-5.0, 33.0, 27.0), (-6.4, 26.0, 24.0)] + trunk(0.35) + [(-6.0, -22.7, 13.6), (-6.6, -23.6, 9.0), (-7.2, -24.4, 6.0),
+        back('I', 14, -1.0), hole('I', 14, 0.4)]),
     ('W11 button lead B to GND (A4)', 'black', 0.6, [(3.0, 32.75, 15.6), (3.0, 32.5, 17.6), (1.0, 31.0, 21.0), (-4.0, 28.0, 23.0),
-        (-7.0, 25.5, 23.0)] + trunk(-0.35) + [(-6.0, -23.0, 13.2), (-6.8, -24.9, 13.6), (-6.6, -25.0, 27.4), back('A', 4, -1.0), hole('A', 4, 0.4)]),
+        (-7.0, 25.5, 23.0)] + trunk(-0.35) + [(-6.0, -23.0, 13.2), (-4.0, -24.6, 14.4), (14.0, -24.8, 24.0), (17.0, -25.0, 27.4), back('A', 4, -1.0), hole('A', 4, 0.4)]),
 ]
 
 # underside links on the perfboard (docs/perfboard.md); lanes match the hole map

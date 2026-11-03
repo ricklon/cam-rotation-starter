@@ -8,7 +8,7 @@ From rev C all of this is on one ElectroCookie perfboard: the PD board, the Supe
 - The motor unplugs at J4.
 - The button stays in its mount in the pod, and its two wires (W6, W11) run straight to the perfboard. There's no panel connector any more, so **the pod no longer unplugs** from the drive.
 - There's no direction switch (it never arrived): the motor runs forward.
-- Both USB-C ports, the PD board's for power and the Super Mini's for programming, are at the +X end of the drive.
+- Both USB-C ports, the PD board's for power and the Super Mini's for programming, are at the −X end of the drive.
 
 ## Schematic
 
@@ -40,8 +40,8 @@ From rev C all of this is on one ElectroCookie perfboard: the PD board, the Supe
 
 | Ref | Part | Note |
 |---|---|---|
-| U1 | USB-C PD trigger board, set to 5 V | On the perfboard over columns A–C, on two 3 mm foam pads, USB-C at the +X end. **Desolder its screw terminal**: its pads take W1 and W2 instead, and with the terminal it's too tall for the cover. |
-| U2 | ESP32-C6 Super Mini, 26 × 18 mm | On the perfboard, rows 12–17 (pins), USB-C at the +X end beside U1's. Build the firmware for the Super Mini (see [Board](../../../firmware/README.md#board)). |
+| U1 | USB-C PD trigger board, set to 5 V | On the perfboard over columns A–C, on two 3 mm foam pads, USB-C at the −X end. **Desolder its screw terminal**: its pads take W1 and W2 instead, and with the terminal it's too tall for the cover. |
+| U2 | ESP32-C6 Super Mini, 26 × 18 mm | On the perfboard, rows 12–17 (pins), USB-C at the −X end beside U1's. Build the firmware for the Super Mini (see [Board](../../../firmware/README.md#board)). |
 | U3 | DRV8833 module, 12-pin, 18.5 × 16 mm | On the perfboard, rows 1–6, component side out. Leave the **J1** jumper open. Channel B (IN3/IN4 → OUT3/OUT4) is used. |
 | M1 | N20 gearmotor, 6 V, 100:1 | In the printed cartridge under the base, terminals pointing away from the base |
 | C2 | Ceramic capacitor, 0.1 µF (104) | Soldered straight across the motor terminals |
@@ -66,11 +66,11 @@ The module has two rows of six pins. Seen from the back, where the labels are pr
 
 Bold pins are used. On the perfboard, component side up, these rows land in columns D and H, read the other way round: [perfboard.md](perfboard.md#placement) has the hole for each pin. Check against the labels on your module before soldering.
 
-![The electronics side of the drive with the cover off: the perfboard stands on its supports on the mount's -Y face. The PD board lies over the top-right corner of the perfboard with short red and black jumpers down to the buses, and its USB-C port and the Super Mini's both face right. The DRV8833 is at the left with D1 and the capacitor C1 standing above it, and J4, the blue hold-up capacitor C3 standing, and the speed pot RV1 are along the bottom edge: the pot stands on the board with its shaft and black knob cap pointing down, off the edge. The red and black motor pair leaves J4 downward.](images/perfboard.png)
+![The electronics side of the drive with the cover off: the perfboard stands on its supports on the mount's -Y face. The PD board lies over the top-left corner of the perfboard with short red and black jumpers down to the buses, and its USB-C port and the Super Mini's both face left. The DRV8833 is at the right with D1 and the capacitor C1 standing above it, and the speed pot RV1, the hold-up capacitor C3 standing, and J4 are along the bottom edge, left to right: the pot stands on the board with its shaft and black knob cap pointing down, off the edge. The red and black motor pair leaves J4 downward.](images/perfboard.png)
 
 ![The whole drive from the electronics side with the cover on: the gray printed cover forms the mount's outer wall, with the knob's cap and the top of C1 standing out of it and a notch at its bottom edge where the motor pair comes out. The pair runs under the base to the motor, which hangs in its cartridge.](images/perfboard_cover.png)
 
-![Straight-on view of the electronics side with the cover off and the perfboard see-through. C1 stands near the top-left corner, its sleeved leads bent out to the board. The wires behind the board are visible: the button's two wires coming up from the base tunnel, and the underside links. The PD board's jumpers and J4 sit on the front, and the motor pair drops from J4 to the cartridge below.](images/wiring_electronics.png)
+![Straight-on view of the electronics side with the cover off and the perfboard see-through. C1 stands near the top-right corner, its sleeved leads bent out to the board. The wires behind the board are visible: the button's two wires coming up from the base tunnel, and the underside links. The PD board's jumpers and J4 sit on the front, and the motor pair drops from J4 to the cartridge below.](images/wiring_electronics.png)
 
 ## The button (S1)
 
@@ -78,7 +78,7 @@ The controls are the knob RV1, on the perfboard, and the 12 mm button S1 in its 
 
 Two wires run straight from the button's leads to the perfboard, with no connector: **W6** (white) from lead A to I14 (GPIO1), and **W11** (black) from lead B to A4 (GND). Each goes back through the pod where J3 used to be, along the base tunnel to the mount's −Y face, behind the perfboard, and up through its hole from the underside, to be soldered on the component side.
 
-Use the button's own pre-wired leads if they reach: W6 needs **200 mm** and W11 **170 mm**, measured from the button. If they're shorter, cut them to about 30 mm and splice 30 AWG on inside the pod (white to one lead, black to the other: the leads are interchangeable), with the two joints staggered and each under heat-shrink.
+Use the button's own pre-wired leads if they reach: W6 and W11 each need **185 mm**, measured from the button. If they're shorter, cut them to about 30 mm and splice 30 AWG on inside the pod (white to one lead, black to the other: the leads are interchangeable), with the two joints staggered and each under heat-shrink.
 
 The pod no longer unplugs from the drive. To take it off, unsolder W6 and W11 at the board (or cut them and splice them back).
 
@@ -162,10 +162,10 @@ Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm p
 |---|---|---|---|---|
 | W1 | red | 30 AWG stranded | 10 mm | **25** |
 | W2 | black | 30 AWG stranded | 8 mm | **20** |
-| W14 | red | motor's lead, ~26 AWG (assumed) | 62 mm | **85**, from the end cap |
-| W15 | black | motor's lead, ~26 AWG (assumed) | 74 mm | **95**, from the end cap |
-| W6 | white | 30 AWG stranded, or the button's own lead | 165 mm | **200**, from the button |
-| W11 | black | 30 AWG stranded, or the button's own lead | 137 mm | **170**, from the button |
+| W14 | red | motor's lead, ~26 AWG (assumed) | 57 mm | **80**, from the end cap |
+| W15 | black | motor's lead, ~26 AWG (assumed) | 68 mm | **90**, from the end cap |
+| W6 | white | 30 AWG stranded, or the button's own lead | 149 mm | **185**, from the button |
+| W11 | black | 30 AWG stranded, or the button's own lead | 150 mm | **185**, from the button |
 | W4 | black | 30 AWG stranded | 22 mm | **40** |
 | W5 | green | 30 AWG stranded | 18 mm | **35** |
 | W12 | blue | 30 AWG stranded | 21 mm | **35** |
