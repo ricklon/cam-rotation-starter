@@ -43,7 +43,33 @@ LED: steady while a story plays, a short blink every 2 s when ready.
 
 1. Power the box. Join the Wi-Fi network **CamBox-XXXX** (open by default; the last four characters come from the board's MAC address).
 2. Your phone should open the app automatically (captive portal). If it doesn't, go to `http://192.168.4.1` or `http://cambox.local`.
-3. Optional: in Settings → Wi-Fi, enter your own network so the box joins it too. Then use `http://cambox.local` from that network.
+3. Optional: in Settings → Wi-Fi, enter your own network so the box joins it too. Then use `http://cambox.local` from that network. Or do it over USB with the serial console (below).
+
+## Serial console
+
+The board's USB-C port carries the log and a command prompt (`cambox>`), so Wi-Fi and diagnostics work from a computer without the web app. Open the port at 115200 baud with any serial terminal, for example:
+
+```sh
+uvx --from pyserial pyserial-miniterm --eol CRLF COM3 115200    # or idf.py -p PORT monitor
+```
+
+| Command | What it does |
+|---|---|
+| `status` | Board, drive, uptime, free heap, access point, home network (IP, signal), knob, button, direction, motor speed and duty, player |
+| `wifi` | Show the saved home network (the password only as set / none) |
+| `wifi scan` | List the networks the board can hear. It's 2.4 GHz only, so a 5 GHz-only network won't appear. |
+| `wifi join <name> [password]` | Save a home network. Quote names with spaces: `wifi join "Dog Den" secret`. Then `restart`. |
+| `wifi forget` | Clear the home network. Then `restart`. |
+| `ap <name> [password]`, `ap default` | Rename the CamBox access point or give it a password (8+ characters). Then `restart`. |
+| `get`, `get <name>` | Show settings (the same fields as `/api/settings`, no passwords) |
+| `set <name> <value>` | Change and save one setting, clamped like the web app: `set slew 200`, `set knob_enabled false` |
+| `motor <-100..100>`, `stop` | Run the motor by hand, or stop it and any story |
+| `play <story>` | Play a story |
+| `log none\|error\|warn\|info\|debug` | Log level until the next restart. `log warn` keeps the prompt quiet while you type. |
+| `restart` | Restart (applies network changes) |
+| `reset-network` | All Wi-Fi settings back to defaults, like holding the button at power-up |
+
+Network changes are saved at once and take effect after `restart`; everything else takes effect immediately.
 
 ## Build and flash
 
@@ -173,6 +199,7 @@ main/          firmware (C, ESP-IDF)
   settings.c   NVS JSON blob
   net.c        AP (+ optional STA), mDNS; dns_server.c = captive DNS
   web.c        REST, WebSocket, static files (prefers .gz)
+  console.c    serial commands on the USB-C port (esp_console REPL)
 web/           Vite app (vanilla JS, no framework)
 tools/pack_web.mjs   gzip web/dist → data/www
 data/          LittleFS image contents: www/ and stories/

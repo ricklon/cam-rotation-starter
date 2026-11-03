@@ -17,6 +17,7 @@ Read README.md first. It covers the pins, panel behaviour, the API and the story
 - **Settings live in NVS as one JSON blob** (namespace `cambox`, key `cfg`). `settings_apply_json()` clamps every field. Add new fields in `settings.h`, in the defaults, and in both `settings_to_json` and `settings_apply_json`. Never return passwords from the API; only `*_pass_set` flags.
 - **Story names** match `^[A-Za-z0-9_-]{1,31}$`. This is enforced in both `storage.c` and the UI. Stories are capped at 64 steps (`STORY_MAX_STEPS`) and 32 KB.
 - **Static files:** `web.c` serves `<path>.gz` with `Content-Encoding: gzip` when it exists, otherwise `<path>`. Unknown paths fall back to `index.html`, which also catches captive-portal probes. Files under `/assets/` get immutable caching (Vite hashes their names).
+- **The serial console** (`console.c`) runs on the USB Serial/JTAG port, which is also the primary log console (`CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG` in `sdkconfig.defaults`). Commands go through the same `settings_apply_json()` clamps as the web API and never print passwords. Keep its commands and the README table in step.
 - **No service worker:** the box serves plain HTTP. Don't add one.
 - **UI must not use `alert/confirm/prompt`:** delete uses a two-tap confirm. Keep controls large enough to use one-handed on a phone.
 

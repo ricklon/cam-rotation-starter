@@ -7,6 +7,7 @@
 #include "player.h"
 #include "net.h"
 #include "web.h"
+#include "console.h"
 #include "nvs_flash.h"
 #include "driver/gpio.h"
 #include "freertos/FreeRTOS.h"
@@ -83,5 +84,6 @@ void app_main(void)
     net_start();
     web_start();
     xTaskCreate(led_task, "led", 2560, NULL, 2, NULL);
+    console_start();                     // serial commands on the USB-C port (type help)
     ESP_LOGI(TAG, "ready (%s drive, %s board)", DRIVE_NAME, BOARD_NAME);
 }
