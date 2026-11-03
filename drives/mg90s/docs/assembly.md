@@ -6,9 +6,9 @@ The images show the 3/4" dowel setup. The 5/8" and 1/4" setups are the same with
 
 ## Under the hood
 
-![X-ray from the control-pod side: see-through mount and pod showing the yellow adapter on the servo, the bushing under the flange, and the controls inside the pod.](images/xray_plusY.png)
+![X-ray from the control-pod side: see-through mount and pod showing the yellow adapter on the servo, the bushing in the flange's wall face above it, and the controls inside the pod.](images/xray_plusY.png)
 
-**Control side.** The yellow adapter sits on the servo's output spline, with the bushing directly above it in the flange. The controls sit inside the pod, clear of the spinning adapter.
+**Control side.** The yellow adapter sits on the servo's output spline, with the bushing directly above it, its flange in a recess in the mount's wall face. The controls sit inside the pod, clear of the spinning adapter.
 
 ![X-ray from the electronics side: the USB-C PD board and XIAO in their wall pockets, the capacitor in its seat beside the XIAO, the wiring, and the servo below.](images/xray_minusY.png)
 
@@ -16,7 +16,7 @@ The images show the 3/4" dowel setup. The 5/8" and 1/4" setups are the same with
 
 ![Exploded view of every part pulled out along the direction it goes in.](images/exploded_full.png)
 
-**Exploded view.** The servo comes up from below, the adapter and bushing slide in through the mount's open ends, the boards go onto the side walls, and the pod's controls come out of the pod.
+**Exploded view.** The servo comes up from below, the adapter slides in through an open end, the bushing drops into the bore from the wall face, the boards go onto the side walls, and the pod's controls come out of the pod.
 
 ![See-through view: the grey control bundle leaves the pod, runs through a tunnel behind it, across a channel under the base, and up a groove on the far wall; the brown servo cable comes up into the same groove.](images/wire_route_side.png)
 
@@ -64,16 +64,14 @@ Full list with sources: [parts.md](parts.md) and [hardware/README.md](../../../h
 
 ## Build it
 
-### 1. Seat the bushing in the flange
+### 1. Check the bushing in the wall face
 
-![The bushing beside the open end of the mount, about to slide in under the flange.](images/step1_bushing.png)
+![The mount with its flat wall face up and the bushing above it, flange up, about to drop into the bore and its double-D recess.](images/step1_bushing.png)
 
 *Parts:* `Servo_Mount`, the bushing that matches your dowel.
 
-1. Hold the mount flange-up. Slide the bushing in through an open end of the mount, with its flange toward the underside of the mount's flange.
-2. Push it up into the round recess until its top sits flush with the flange's flat wall face.
-
-> Do this first. Once the servo and adapter are in, there's no room to get the bushing past them. The bushing is a slip fit, so a strip of tape across its face holds it until the shaft goes in.
+1. Hold the mount wall face up. Drop the bushing into the bore from the wall face, flange up, and turn it until the flats on its flange line up with the flats of the recess. The flange sits in the recess, just below the face.
+2. Take it out again and keep it with the shaft. It goes in for good in step 6, from the wall side, and the box wall holds it in once the unit is screwed on. Nothing goes in under the flange through the open ends.
 
 ### 2. Install the servo
 
@@ -132,8 +130,9 @@ Full list with sources: [parts.md](parts.md) and [hardware/README.md](../../../h
 ![The box wall with its shaft sticking out, and the finished drive unit below, about to slide onto the shaft.](images/step6_slide_on.png)
 
 1. The shaft should stick out **28 mm** from the outside of the wall. That puts its end at the bottom of the adapter's socket. Trim it if it's longer.
-2. Slide the unit onto the shaft so the shaft passes through the bushing and into the adapter socket.
-3. Seat the flange flat against the wall.
+2. **Shaft already through the wall:** slide the bushing onto the shaft, flange toward the wall, and push it back against the wall. Slide the unit onto the shaft so the shaft passes through the bore and into the adapter socket. Just before the flange meets the wall, push the bushing into the bore and turn it so its flats line up with the recess.
+3. **Dowel not in the box yet:** push the dowel's end through the empty bore from the wall face and into the adapter socket. Slide the bushing down the dowel into the bore, flange into the recess, flats lined up. Then feed the dowel's other end through the hole in the box wall. The dowel's box end must be bare at this point, with no cams on it yet, because the bushing and the box wall both go over it.
+4. Seat the flange flat against the wall. The bushing's flange is now trapped between the mount and the wall.
 
 ### 7. Screw it down and lock the shaft
 
