@@ -384,9 +384,9 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **What it does:** U1's ground, from its − (GND) pad, down to the GND bus (row 8 left). On our board − is the outer pad; go by the marking on yours.
 - **Check:** Before soldering, make sure this is the pad marked − (or GND). After: U1's − pad connects to B8 and the Super Mini's GND. U1 + must not connect to U1 −.
 
-## On the drive: W11, C1 and W6 (the button)
+## On the drive: the button wires (W11, W6), then C1
 
-With the board on the drive and the button in its pod mount. The button's two wires (W11, W6) run straight from it, through the base tunnel and behind the board: push each **up from the underside** and solder it on the component side. There's no direction switch and no panel connector, so the pod stays wired to the board. W11 goes first, because C1 stands over its hole.
+With the board on the drive and the button in its pod mount. The button's two wires (W11, W6) run straight from it, through the base tunnel and behind the board: push each **up from the underside** and solder it on the component side. There's no direction switch and no panel connector, so the pod stays wired to the board. Both go in before C1: it stands over A4, the hole W11 uses.
 
 ![The perfboard on the drive, seen edge-on. The mount is at the bottom; its -Y face holds the board on supports, with a gap between them. The board's underside faces the mount and its component side faces out, where you solder. The button's two wires come from the pod through the base tunnel, run up the mount's face in the gap behind the board, and each comes up through its own hole to be soldered on top. C1 stands on the board and its top comes through the cover. Nothing wraps round the board's edge.](images/steps-wiring/on-the-drive.svg)
 
@@ -409,9 +409,28 @@ With the board on the drive and the button in its pod mount. The button's two wi
 - **What it does:** The button's ground side, straight from the button to GND (strip 4 left). Solder it before C1: C1 stands over A4.
 - **Check:** The button's lead B connects to B8. It must not connect to I14. Keep the joint at A4 low and neat: C1 stands just above it.
 
-### Step 21: C1, the 470 µF bulk capacitor, standing
+### Step 21: W6, white, button lead A → I14
 
-![Step 21: The perfboard seen from the component side, column A on the left, with the 20 earlier steps drawn in grey. C1 drawn in colour, + C7, − B4, its holes circled.](images/steps-wiring/step-21-C1.svg)
+![Step 21: The perfboard seen from the component side, column A on the left, with the 20 earlier steps drawn in grey. Hole I14 (printed B14 on the underside) is marked with a dot in a ring where W6, white, comes up from below; a dashed line shows it running behind the board to the right edge, on to the button (lead A). Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-21-W6.svg)
+
+**Do this:**
+
+1. Start at the button (lead A): the button's own lead, or 30 AWG spliced to it in the pod (see [the button](wiring.md#the-button-s1)).
+2. Run the wire behind the board, between the board and the mount.
+3. Push the other end up through the hole printed **B14** on the underside (top I14).
+4. Turn to the top and solder it at **I14**. Trim the stub.
+5. Check, as below.
+
+- **Wire:** W6, white, 30 AWG stranded (or the button's own lead)
+- **Cut:** 200 mm
+- **From → to:** button lead A → I14 (push it in at printed B14 on the underside)
+- **Side:** in from the underside, soldered on the component side
+- **What it does:** BTN: the button's other lead, straight to GPIO1 (strip 14 right). Pressing the button joins GPIO1 to ground.
+- **Check:** The button's lead A connects to H14 (GPIO1), and to B8 only while you hold the button down. I14 must not connect to I13 or I15.
+
+### Step 22: C1, the 470 µF bulk capacitor, standing
+
+![Step 22: The perfboard seen from the component side, column A on the left, with the 21 earlier steps drawn in grey. C1 drawn in colour, + C7, − B4, its holes circled.](images/steps-wiring/step-22-C1.svg)
 
 ![Which leg of C1 is which, and how it stands. The 470 µF can is blue with a light stripe down one side, marked with minus signs. The leg on the stripe side is minus and goes to B4; the other leg is plus, the longer one on a new part, and goes to C7. Seen from the side, the can stands 1.5 mm off the board with both legs sleeved and bent out to their holes.](images/steps-wiring/c1-polarity.svg)
 
@@ -428,25 +447,6 @@ With the board on the drive and the button in its pod mount. The button's two wi
 - **What it does:** Steadies the 5 V bus when the motor starts. It stands over columns A–C, rows 4–7, between D1 and W1/W2, and its top comes through the cover's 9 mm hole.
 - **How:** **+ is the long leg, − is the striped side** (see the sketch). Slip heat-shrink over both leads: they cross the pads of rows 5 and 6 (IN3, IN4) on the way out. Stand the can 1.5 mm off the board over A4–C6, stripe toward row 4, bend the + lead out to C7 and the − lead to B4, and solder them from the underside.
 - **Check:** The stripe faces row 4. C7 connects to A7, B4 connects to B8, and C7 must not connect to B4 (on resistance it shows the capacitor charging, then open). Neither lead touches the pads of rows 5 or 6: A5 and A6 must not connect to A7 or B8.
-
-### Step 22: W6, white, button lead A → I14
-
-![Step 22: The perfboard seen from the component side, column A on the left, with the 21 earlier steps drawn in grey. Hole I14 (printed B14 on the underside) is marked with a dot in a ring where W6, white, comes up from below; a dashed line shows it running behind the board to the right edge, on to the button (lead A). Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-22-W6.svg)
-
-**Do this:**
-
-1. Start at the button (lead A): the button's own lead, or 30 AWG spliced to it in the pod (see [the button](wiring.md#the-button-s1)).
-2. Run the wire behind the board, between the board and the mount.
-3. Push the other end up through the hole printed **B14** on the underside (top I14).
-4. Turn to the top and solder it at **I14**. Trim the stub.
-5. Check, as below.
-
-- **Wire:** W6, white, 30 AWG stranded (or the button's own lead)
-- **Cut:** 200 mm
-- **From → to:** button lead A → I14 (push it in at printed B14 on the underside)
-- **Side:** in from the underside, soldered on the component side
-- **What it does:** BTN: the button's other lead, straight to GPIO1 (strip 14 right). Pressing the button joins GPIO1 to ground.
-- **Check:** The button's lead A connects to H14 (GPIO1), and to B8 only while you hold the button down. I14 must not connect to I13 or I15.
 
 ## The motor leads
 

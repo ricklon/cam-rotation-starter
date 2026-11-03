@@ -232,15 +232,15 @@ const STEPS = [
   { id: 'W11', kind: 'off', colour: 'black', from: 'button lead B', to: 'A4', toRole: 'GND', offText: 'the button (lead B)',
     what: 'The button\'s ground side, straight from the button to GND (strip 4 left). Solder it before C1: C1 stands over A4.',
     check: 'The button\'s lead B connects to B8. It must not connect to I14. Keep the joint at A4 low and neat: C1 stands just above it.' },
+  { id: 'W6', kind: 'off', colour: 'white', from: 'button lead A', to: 'I14', toRole: 'GPIO1', offText: 'the button (lead A)',
+    what: 'BTN: the button\'s other lead, straight to GPIO1 (strip 14 right). Pressing the button joins GPIO1 to ground.',
+    check: 'The button\'s lead A connects to H14 (GPIO1), and to B8 only while you hold the button down. I14 must not connect to I13 or I15.' },
+
   { id: 'C1', kind: 'part', side: 'top', title: 'C1, the 470 µF bulk capacitor, standing', colour: 'blue', fromTo: '+ C7, − B4',
     what: 'Steadies the 5 V bus when the motor starts. It stands over columns A–C, rows 4–7, between D1 and W1/W2, and its top comes through the cover\'s 9 mm hole.',
     how: '**+ is the long leg, − is the striped side** (see the sketch). Slip heat-shrink over both leads: they cross the pads of rows 5 and 6 (IN3, IN4) on the way out. Stand the can 1.5 mm off the board over A4–C6, stripe toward row 4, bend the + lead out to C7 and the − lead to B4, and solder them from the underside.',
     check: 'The stripe faces row 4. C7 connects to A7, B4 connects to B8, and C7 must not connect to B4 (on resistance it shows the capacitor charging, then open). Neither lead touches the pads of rows 5 or 6: A5 and A6 must not connect to A7 or B8.',
     ends: [{ hole: 'C7', role: '+ long' }, { hole: 'B4', role: '− stripe' }], strips: ['C7', 'B4'] },
-  { id: 'W6', kind: 'off', colour: 'white', from: 'button lead A', to: 'I14', toRole: 'GPIO1', offText: 'the button (lead A)',
-    what: 'BTN: the button\'s other lead, straight to GPIO1 (strip 14 right). Pressing the button joins GPIO1 to ground.',
-    check: 'The button\'s lead A connects to H14 (GPIO1), and to B8 only while you hold the button down. I14 must not connect to I13 or I15.' },
-
   { id: 'W14', kind: 'motor', colour: 'red', from: 'motor tab', to: 'motor plug pin 1', toRole: 'motor plug (J4) pin 1 (hole J3, OUT3)', pin: 1,
     what: 'The motor\'s own red lead, to the driver\'s OUT3 through pin 1 of the motor plug (J4).',
     check: 'With the plug in, the motor plug\'s housing pin 1 connects to the motor tab its lead comes from, and to H3.' },
@@ -672,10 +672,10 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **Laying a link:** solder one end, press the wire flat along its lane and pinch the corners square with tweezers, hold the corners down with Kapton tape, then solder the far end. Keep it off the holes it crosses, and don't anchor wires through spare holes: every hole is part of a strip. Once the step's check passes, a dab of hot glue can hold it for good.
 - **Prepare the modules** (build step 1): desolder U1's screw terminal and set its switches to 5 V. Pull the unused pins out of the header strips: the DRV8833 keeps D3–D6 and H2, H3, H6; the Super Mini keeps D12–D17 and H11–H15 (H10, GPIO5, stays out). Fit the strips to the modules with the perfboard as a jig, and solder them **to the modules only**.
 `);
-const sections = { 1: '## On the bench: D1 and the links', 12: '## On the bench: J4, RV1 and C3', 15: '## On the bench: the modules and U1', 20: '## On the drive: W11, C1 and W6 (the button)', 23: '## The motor leads' };
+const sections = { 1: '## On the bench: D1 and the links', 12: '## On the bench: J4, RV1 and C3', 15: '## On the bench: the modules and U1', 20: '## On the drive: the button wires (W11, W6), then C1', 23: '## The motor leads' };
 const intro = {
   2: '**The ten links** go on the underside, shortest first. Turn the board over: from here to step 11 the pictures show the underside as you see it, with the mirrored letters printed there; each hole is given by both names.',
-  20: 'With the board on the drive and the button in its pod mount. The button\'s two wires (W11, W6) run straight from it, through the base tunnel and behind the board: push each **up from the underside** and solder it on the component side. There\'s no direction switch and no panel connector, so the pod stays wired to the board. W11 goes first, because C1 stands over its hole.',
+  20: 'With the board on the drive and the button in its pod mount. The button\'s two wires (W11, W6) run straight from it, through the base tunnel and behind the board: push each **up from the underside** and solder it on the component side. There\'s no direction switch and no panel connector, so the pod stays wired to the board. Both go in before C1: it stands over A4, the hole W11 uses.',
   23: 'W14 and W15 are the N20\'s own factory leads, red and black, left soldered to its tabs (assumed about 26 AWG, unconfirmed). Solder C2 across the tabs first if it isn\'t on yet. Measure each lead from the motor\'s end cap, cut it, strip 2 mm and crimp a JST-PH contact on, then push the contact into the PHR-2 housing of the motor plug (J4). Routing and the wire clamp are in [wiring.md](wiring.md#j4-and-the-motor-wire-clamp). Red and black here don\'t mean +5 V and GND: this pair only runs from the motor to the motor plug (J4).',
 };
 STEPS.forEach((s, i) => {
