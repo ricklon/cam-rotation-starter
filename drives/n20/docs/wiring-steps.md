@@ -26,6 +26,13 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 ![Which end of the 1N5817 is which. Its body is black with a grey band at one end. The band end is the cathode, minus, and goes to A2; the plain end is the anode, plus, and goes to A3. In the schematic symbol, a triangle pointing at a bar, the bar is the band. Standing on the board, seen from the side: the body stands in A3 with the band at the top, and the top lead bends over and down into A2.](images/steps-wiring/d1-polarity.svg)
 
+**Do this:**
+
+1. The banded end is the cathode (−); the plain end is the anode (+). See the sketch.
+2. On top: stand the anode lead in **A3** (printed J3 underneath), band at the top, and bend the top lead over and down into **A2** (printed J2 underneath).
+3. Turn the board over (underside up) and solder each lead at printed **J3** (top A3), printed **J2** (top A2). Trim the leads.
+4. Check, as below.
+
 - **Part:** D1
 - **Holes:** anode A3, cathode A2
 - **Side:** component side
@@ -39,6 +46,14 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 ![Step 2: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the earlier step drawn in grey. W16, red, drawn bold from B7 to C3 (printed I7 and H3 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-02-W16.svg)
 
+**Do this:**
+
+1. Turn the board over (underside up).
+2. Start at hole printed **I7** (top B7): push the tinned end in and solder it.
+3. Lay the wire flat along the drawn path, between the existing joints; pinch the corners and hold them with Kapton tape.
+4. End at hole printed **H3** (top C3): push it in and solder it.
+5. Check, as below.
+
 - **Wire:** W16, red, 30 AWG stranded
 - **Cut:** 25 mm
 - **From → to:** B7 → C3 (printed I7 → H3 on the underside)
@@ -49,6 +64,14 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 ### Step 3: W18, black, B8 → C4
 
 ![Step 3: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 2 earlier steps drawn in grey. W18, black, drawn bold from B8 to C4 (printed I8 and H4 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-03-W18.svg)
+
+**Do this:**
+
+1. Turn the board over (underside up).
+2. Start at hole printed **I8** (top B8): push the tinned end in and solder it.
+3. Lay the wire flat along the drawn path, between the existing joints; pinch the corners and hold them with Kapton tape.
+4. End at hole printed **H4** (top C4): push it in and solder it.
+5. Check, as below.
 
 - **Wire:** W18, black, 30 AWG stranded
 - **Cut:** 25 mm
@@ -61,6 +84,14 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 ![Step 4: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 3 earlier steps drawn in grey. W5, green, drawn bold from C12 to C5 (printed H12 and H5 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-04-W5.svg)
 
+**Do this:**
+
+1. Turn the board over (underside up).
+2. Start at hole printed **H12** (top C12): push the tinned end in and solder it.
+3. Lay the wire flat along the drawn path, between the existing joints; pinch the corners and hold them with Kapton tape.
+4. End at hole printed **H5** (top C5): push it in and solder it.
+5. Check, as below.
+
 - **Wire:** W5, green, 30 AWG stranded
 - **Cut:** 35 mm
 - **From → to:** C12 → C5 (printed H12 → H5 on the underside)
@@ -71,6 +102,14 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 ### Step 5: W12, blue, C14 → C6
 
 ![Step 5: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 4 earlier steps drawn in grey. W12, blue, drawn bold from C14 to C6 (printed H14 and H6 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-05-W12.svg)
+
+**Do this:**
+
+1. Turn the board over (underside up).
+2. Start at hole printed **H14** (top C14): push the tinned end in and solder it.
+3. Lay the wire flat along the drawn path, between the existing joints; pinch the corners and hold them with Kapton tape.
+4. End at hole printed **H6** (top C6): push it in and solder it.
+5. Check, as below.
 
 - **Wire:** W12, blue, 30 AWG stranded
 - **Cut:** 35 mm
@@ -83,6 +122,14 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 ![Step 6: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 5 earlier steps drawn in grey. W4, black, drawn bold from C8 to C16 (printed H8 and H16 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-06-W4.svg)
 
+**Do this:**
+
+1. Turn the board over (underside up).
+2. Start at hole printed **H8** (top C8): push the tinned end in and solder it.
+3. Lay the wire flat along the drawn path, between the existing joints; pinch the corners and hold them with Kapton tape.
+4. End at hole printed **H16** (top C16): push it in and solder it.
+5. Check, as below.
+
 - **Wire:** W4, black, 30 AWG stranded
 - **Cut:** 40 mm
 - **From → to:** C8 → C16 (printed H8 → H16 on the underside)
@@ -93,6 +140,14 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 ### Step 7: W22, red, C2 → H7
 
 ![Step 7: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 6 earlier steps drawn in grey. W22, red, drawn bold from C2 to H7 (printed H2 and C7 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-07-W22.svg)
+
+**Do this:**
+
+1. Turn the board over (underside up).
+2. Start at hole printed **H2** (top C2): push the tinned end in and solder it.
+3. Lay the wire flat along the drawn path, between the existing joints; pinch the corners and hold them with Kapton tape.
+4. End at hole printed **C7** (top H7): push it in and solder it.
+5. Check, as below.
 
 - **Wire:** W22, red, 30 AWG stranded
 - **Cut:** 50 mm
@@ -105,6 +160,14 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 ![Step 8: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 7 earlier steps drawn in grey. W21, yellow, drawn bold from A15 to I10 (printed J15 and B10 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-08-W21.svg)
 
+**Do this:**
+
+1. Turn the board over (underside up).
+2. Start at hole printed **J15** (top A15): push the tinned end in and solder it.
+3. Lay the wire flat along the drawn path, between the existing joints; pinch the corners and hold them with Kapton tape.
+4. End at hole printed **B10** (top I10): push it in and solder it.
+5. Check, as below.
+
 - **Wire:** W21, yellow, 30 AWG stranded
 - **Cut:** 55 mm
 - **From → to:** A15 → I10 (printed J15 → B10 on the underside)
@@ -115,6 +178,14 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 ### Step 9: W13, white, C13 → J6
 
 ![Step 9: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 8 earlier steps drawn in grey. W13, white, drawn bold from C13 to J6 (printed H13 and A6 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-09-W13.svg)
+
+**Do this:**
+
+1. Turn the board over (underside up).
+2. Start at hole printed **H13** (top C13): push the tinned end in and solder it.
+3. Lay the wire flat along the drawn path, between the existing joints; pinch the corners and hold them with Kapton tape.
+4. End at hole printed **A6** (top J6): push it in and solder it.
+5. Check, as below.
 
 - **Wire:** W13, white, 30 AWG stranded
 - **Cut:** 55 mm
@@ -127,6 +198,14 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 ![Step 10: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 9 earlier steps drawn in grey. W17, red, drawn bold from B2 to C17 (printed I2 and H17 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-10-W17.svg)
 
+**Do this:**
+
+1. Turn the board over (underside up).
+2. Start at hole printed **I2** (top B2): push the tinned end in and solder it.
+3. Lay the wire flat along the drawn path, between the existing joints; pinch the corners and hold them with Kapton tape.
+4. End at hole printed **H17** (top C17): push it in and solder it.
+5. Check, as below.
+
 - **Wire:** W17, red, 30 AWG stranded
 - **Cut:** 60 mm
 - **From → to:** B2 → C17 (printed I2 → H17 on the underside)
@@ -137,6 +216,14 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 ### Step 11: W23, black, A16 → H8
 
 ![Step 11: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 10 earlier steps drawn in grey. W23, black, drawn bold from A16 to H8 (printed J16 and C8 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-11-W23.svg)
+
+**Do this:**
+
+1. Turn the board over (underside up).
+2. Start at hole printed **J16** (top A16): push the tinned end in and solder it.
+3. Lay the wire flat along the drawn path, between the existing joints; pinch the corners and hold them with Kapton tape.
+4. End at hole printed **C8** (top H8): push it in and solder it.
+5. Check, as below.
 
 - **Wire:** W23, black, 30 AWG stranded
 - **Cut:** 65 mm
@@ -151,6 +238,13 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 ![Step 12: The perfboard seen from the component side, column A on the left, with the 11 earlier steps drawn in grey. J4 drawn in colour, pin 1 in J3, pin 2 in J2, its holes circled.](images/steps-wiring/step-12-J4.svg)
 
+**Do this:**
+
+1. Its mouth faces the right-hand edge, off the board. Splay the 2 mm-pitch pins a little so they reach the holes.
+2. On top: pin 1 in **J3** (printed A3 underneath), pin 2 in **J2** (printed A2 underneath).
+3. Turn the board over (underside up) and solder each lead at printed **A3** (top J3), printed **A2** (top J2). Trim the leads.
+4. Check, as below.
+
 - **Part:** J4
 - **Holes:** pin 1 in J3, pin 2 in J2
 - **Side:** component side
@@ -161,6 +255,13 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 ### Step 13: RV1, the 10 kΩ speed knob
 
 ![Step 13: The perfboard seen from the component side, column A on the left, with the 12 earlier steps drawn in grey. RV1 drawn in colour, pins J10, J11, J12, its holes circled.](images/steps-wiring/step-13-RV1.svg)
+
+**Do this:**
+
+1. Snip off its two mounting tabs if it has them. Shaft up, body off the right-hand edge.
+2. On top: its three pins in **J10** (printed A10 underneath), **J11** (printed A11 underneath) and **J12** (printed A12 underneath).
+3. Turn the board over (underside up) and solder each lead at printed **A10** (top J10), printed **A11** (top J11), printed **A12** (top J12). Trim the leads.
+4. Check, as below.
 
 - **Part:** RV1
 - **Holes:** pins J10, J11, J12
@@ -175,6 +276,13 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 ![Which lead of C3 is which. The 470 µF capacitor is a blue can with a light stripe printed down one side, marked with minus signs. The lead on the stripe side is minus and goes to I8; the other lead, usually the longer one, is plus and goes to I7. Lying on the board, the stripe faces row 8.](images/steps-wiring/c3-polarity.svg)
 
+**Do this:**
+
+1. The striped side is −; the other lead is +. See the sketch.
+2. Bend both leads down 90° about 1 mm from the can. On top: + in **I7** (printed B7 underneath), − (stripe) in **I8** (printed B8 underneath); lay it flat, its end past the right-hand edge.
+3. Turn the board over (underside up) and solder each lead at printed **B7** (top I7), printed **B8** (top I8). Trim the leads.
+4. Check, as below.
+
 - **Part:** C3
 - **Holes:** + I7, − I8
 - **Side:** component side
@@ -188,6 +296,13 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 ![Step 15: The perfboard seen from the component side, column A on the left, with the 14 earlier steps drawn in grey. U3 drawn in colour, pins D3–D6, H2, H3, H6.](images/steps-wiring/step-15-U3.svg)
 
+**Do this:**
+
+1. Component side up. Check the labels on your module: VCC, GND, IN3, IN4 down one row; OUT4, OUT3, EEP on the other (see perfboard.md).
+2. On top: its pins in **D3–D6** (printed G3–G6 underneath) and **H2, H3, H6** (printed C2, C3, C6 underneath).
+3. Turn the board over (underside up) and solder each pin at printed **G3–G6** (top D3–D6) and **C2, C3, C6** (top H2, H3, H6).
+4. Check, as below.
+
 - **Part:** U3
 - **Holes:** pins D3–D6, H2, H3, H6
 - **Side:** component side
@@ -198,6 +313,13 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 ### Step 16: U2, the ESP32-C6 Super Mini
 
 ![Step 16: The perfboard seen from the component side, column A on the left, with the 15 earlier steps drawn in grey. U2 drawn in colour, pins D12–D17, H11–H15.](images/steps-wiring/step-16-U2.svg)
+
+**Do this:**
+
+1. Component side up, USB-C past row 17.
+2. On top: its pins in **D12–D17** (printed G12–G17 underneath) and **H11–H15** (printed C11–C15 underneath). H10 stays empty.
+3. Turn the board over (underside up) and solder each pin at printed **G12–G17** (top D12–D17) and **C11–C15** (top H11–H15).
+4. Check, as below.
 
 - **Part:** U2
 - **Holes:** pins D12–D17, H11–H15
@@ -210,6 +332,13 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 ![Step 17: The perfboard seen from the component side, column A on the left, with the 16 earlier steps drawn in grey. U1 drawn in colour, over A–C, rows 9–17.](images/steps-wiring/step-17-U1.svg)
 
+**Do this:**
+
+1. Its screw terminal is off and its switches are set to 5 V (Before you start).
+2. On top: stick it down on its two foam pads over columns A–C, rows 9–17, USB-C past row 17 beside the Super Mini's, output pads toward row 8. Nothing goes into holes.
+3. Find + and − by the marking printed on your PD board, then measure them with a charger plugged in (the check).
+4. Check, as below.
+
 - **Part:** U1
 - **Holes:** over A–C, rows 9–17
 - **Side:** component side
@@ -221,6 +350,14 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 ![Step 18: The perfboard seen from the component side, column A on the left, with the 17 earlier steps drawn in grey. W1, red, drawn bold from U1 + to A7, both ends circled.](images/steps-wiring/step-18-W1.svg)
 
+**Do this:**
+
+1. Component side up; this one stays on top.
+2. Start at U1's + (VBUS) pad, found by the marking on your board: solder the end to it.
+3. Run the wire between A8 and B8, clear of W2.
+4. End at hole **A7**: push it in and solder it on top.
+5. Check, as below.
+
 - **Wire:** W1, red, 30 AWG stranded
 - **Cut:** 25 mm
 - **From → to:** U1 + → A7
@@ -231,6 +368,14 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 ### Step 19: W2, black, U1 − → A8
 
 ![Step 19: The perfboard seen from the component side, column A on the left, with the 18 earlier steps drawn in grey. W2, black, drawn bold from U1 − to A8, both ends circled.](images/steps-wiring/step-19-W2.svg)
+
+**Do this:**
+
+1. Component side up; this one stays on top.
+2. Start at U1's − (GND) pad, found by the marking on your board: solder the end to it.
+3. Run the wire straight to A8.
+4. End at hole **A8**: push it in and solder it on top.
+5. Check, as below.
 
 - **Wire:** W2, black, 30 AWG stranded
 - **Cut:** 20 mm
@@ -249,6 +394,14 @@ With the board on the drive. The four panel wires come from behind the board: pu
 
 ![Step 20: The perfboard seen from the component side, column A on the left, with the 19 earlier steps drawn in grey. Hole A4 (printed J4 on the underside) is marked with a dot in a ring where W11, black, comes up from below; a dashed line shows it running behind the board to the left edge, on to J3 pin 2. Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-20-W11.svg)
 
+**Do this:**
+
+1. Start at J3 pin 2: crimp or solder the end there (see [J3](wiring.md#j3-the-control-panel-connector)).
+2. Run the wire behind the board, between the board and the mount.
+3. Push the other end up through the hole printed **J4** on the underside (top A4).
+4. Turn to the top and solder it at **A4**. Trim the stub.
+5. Check, as below.
+
 - **Wire:** W11, black, 30 AWG stranded
 - **Cut:** 150 mm
 - **From → to:** A4 → J3 pin 2 (push it in at printed J4 on the underside)
@@ -262,6 +415,13 @@ With the board on the drive. The four panel wires come from behind the board: pu
 
 ![Which leg of C1 is which, and how it stands. The 470 µF can is blue with a light stripe down one side, marked with minus signs. The leg on the stripe side is minus and goes to B4; the other leg is plus, the longer one on a new part, and goes to C7. Seen from the side, the can stands 1.5 mm off the board with both legs sleeved and bent out to their holes.](images/steps-wiring/c1-polarity.svg)
 
+**Do this:**
+
+1. The striped side is −; the long leg is +. See the sketch. Slip heat-shrink over both legs.
+2. On top: stand it 1.5 mm up over A4–C6, stripe toward row 4; bend the + leg out to **C7** (printed H7 underneath) and the − leg to **B4** (printed I4 underneath).
+3. Turn the board over (underside up) and solder each lead at printed **H7** (top C7), printed **I4** (top B4). Trim the leads.
+4. Check, as below.
+
 - **Part:** C1
 - **Holes:** + C7, − B4
 - **Side:** component side
@@ -272,6 +432,14 @@ With the board on the drive. The four panel wires come from behind the board: pu
 ### Step 22: W6, white, I14 → J3 pin 6
 
 ![Step 22: The perfboard seen from the component side, column A on the left, with the 21 earlier steps drawn in grey. Hole I14 (printed B14 on the underside) is marked with a dot in a ring where W6, white, comes up from below; a dashed line shows it running behind the board to the right edge, on to J3 pin 6. Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-22-W6.svg)
+
+**Do this:**
+
+1. Start at J3 pin 6: crimp or solder the end there (see [J3](wiring.md#j3-the-control-panel-connector)).
+2. Run the wire behind the board, between the board and the mount.
+3. Push the other end up through the hole printed **B14** on the underside (top I14).
+4. Turn to the top and solder it at **I14**. Trim the stub.
+5. Check, as below.
 
 - **Wire:** W6, white, 30 AWG stranded
 - **Cut:** 160 mm
@@ -284,6 +452,14 @@ With the board on the drive. The four panel wires come from behind the board: pu
 
 ![Step 23: The perfboard seen from the component side, column A on the left, with the 22 earlier steps drawn in grey. Hole I13 (printed B13 on the underside) is marked with a dot in a ring where W9, green, comes up from below; a dashed line shows it running behind the board to the right edge, on to J3 pin 3. Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-23-W9.svg)
 
+**Do this:**
+
+1. Start at J3 pin 3: crimp or solder the end there (see [J3](wiring.md#j3-the-control-panel-connector)).
+2. Run the wire behind the board, between the board and the mount.
+3. Push the other end up through the hole printed **B13** on the underside (top I13).
+4. Turn to the top and solder it at **I13**. Trim the stub.
+5. Check, as below.
+
 - **Wire:** W9, green, 30 AWG stranded
 - **Cut:** 160 mm
 - **From → to:** I13 → J3 pin 3 (push it in at printed B13 on the underside)
@@ -294,6 +470,14 @@ With the board on the drive. The four panel wires come from behind the board: pu
 ### Step 24: W10, blue, I15 → J3 pin 1
 
 ![Step 24: The perfboard seen from the component side, column A on the left, with the 23 earlier steps drawn in grey. Hole I15 (printed B15 on the underside) is marked with a dot in a ring where W10, blue, comes up from below; a dashed line shows it running behind the board to the right edge, on to J3 pin 1. Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed.](images/steps-wiring/step-24-W10.svg)
+
+**Do this:**
+
+1. Start at J3 pin 1: crimp or solder the end there (see [J3](wiring.md#j3-the-control-panel-connector)).
+2. Run the wire behind the board, between the board and the mount.
+3. Push the other end up through the hole printed **B15** on the underside (top I15).
+4. Turn to the top and solder it at **I15**. Trim the stub.
+5. Check, as below.
 
 - **Wire:** W10, blue, 30 AWG stranded
 - **Cut:** 165 mm
@@ -310,6 +494,14 @@ W14 and W15 are the N20's own factory leads, red and black, left soldered to its
 
 ![Step 25: The perfboard seen from the component side, column A on the left, with the 24 earlier steps drawn in grey. W14, red, drawn bold from J4's mouth off the right-hand edge; J4 pin 1 is hole J3.](images/steps-wiring/step-25-W14.svg)
 
+**Do this:**
+
+1. Measure the motor's red lead 85 mm from the end cap, cut it there and strip 2 mm.
+2. Crimp a JST-PH contact on.
+3. Push the contact into pin 1 of the PHR-2 housing until it clicks.
+4. Leave the housing unplugged until W15 is in it too.
+5. Check, as below.
+
 - **Wire:** W14, red, the motor's own lead
 - **Cut:** 85 mm, measured from the motor's end cap
 - **From → to:** motor tab → J4 pin 1
@@ -320,6 +512,14 @@ W14 and W15 are the N20's own factory leads, red and black, left soldered to its
 ### Step 26: W15, black, motor tab → J4 pin 2
 
 ![Step 26: The perfboard seen from the component side, column A on the left, with the 25 earlier steps drawn in grey. W15, black, drawn bold from J4's mouth off the right-hand edge; J4 pin 2 is hole J2.](images/steps-wiring/step-26-W15.svg)
+
+**Do this:**
+
+1. Measure the motor's black lead 95 mm from the end cap, cut it there and strip 2 mm.
+2. Crimp a JST-PH contact on.
+3. Push the contact into pin 2 of the PHR-2 housing until it clicks.
+4. Plug the housing into J4: pin 1 goes to hole J3, pin 2 to hole J2.
+5. Check, as below.
 
 - **Wire:** W15, black, the motor's own lead
 - **Cut:** 95 mm, measured from the motor's end cap

@@ -604,6 +604,56 @@ const POLARITY = {
   },
 };
 
+// ---- "Do this": the step as plain actions, each hole by the name printed on the side being worked ----
+const atUnder = h => `printed **${under(h)}** (top ${h})`;          // working on the underside
+const atTop = h => `**${h}** (printed ${under(h)} underneath)`;      // working on the component side
+const solderUnder = hs => `Turn the board over (underside up) and solder ${hs.length > 1 ? 'each lead' : 'it'} at ${hs.map(atUnder).join(', ')}. Trim the leads.`;
+const DO = {
+  D1: () => ['The banded end is the cathode (−); the plain end is the anode (+). See the sketch.',
+    `On top: stand the anode lead in ${atTop('A3')}, band at the top, and bend the top lead over and down into ${atTop('A2')}.`, solderUnder(['A3', 'A2'])],
+  J4: () => ['Its mouth faces the right-hand edge, off the board. Splay the 2 mm-pitch pins a little so they reach the holes.',
+    `On top: pin 1 in ${atTop('J3')}, pin 2 in ${atTop('J2')}.`, solderUnder(['J3', 'J2'])],
+  RV1: () => ['Snip off its two mounting tabs if it has them. Shaft up, body off the right-hand edge.',
+    `On top: its three pins in ${atTop('J10')}, ${atTop('J11')} and ${atTop('J12')}.`, solderUnder(['J10', 'J11', 'J12'])],
+  C3: () => ['The striped side is −; the other lead is +. See the sketch.',
+    `Bend both leads down 90° about 1 mm from the can. On top: + in ${atTop('I7')}, − (stripe) in ${atTop('I8')}; lay it flat, its end past the right-hand edge.`, solderUnder(['I7', 'I8'])],
+  U3: () => ['Component side up. Check the labels on your module: VCC, GND, IN3, IN4 down one row; OUT4, OUT3, EEP on the other (see perfboard.md).',
+    'On top: its pins in **D3–D6** (printed G3–G6 underneath) and **H2, H3, H6** (printed C2, C3, C6 underneath).',
+    'Turn the board over (underside up) and solder each pin at printed **G3–G6** (top D3–D6) and **C2, C3, C6** (top H2, H3, H6).'],
+  U2: () => ['Component side up, USB-C past row 17.',
+    'On top: its pins in **D12–D17** (printed G12–G17 underneath) and **H11–H15** (printed C11–C15 underneath). H10 stays empty.',
+    'Turn the board over (underside up) and solder each pin at printed **G12–G17** (top D12–D17) and **C11–C15** (top H11–H15).'],
+  U1: () => ['Its screw terminal is off and its switches are set to 5 V (Before you start).',
+    'On top: stick it down on its two foam pads over columns A–C, rows 9–17, USB-C past row 17 beside the Super Mini\'s, output pads toward row 8. Nothing goes into holes.',
+    'Find + and − by the marking printed on your PD board, then measure them with a charger plugged in (the check).'],
+  C1: () => ['The striped side is −; the long leg is +. See the sketch. Slip heat-shrink over both legs.',
+    `On top: stand it 1.5 mm up over A4–C6, stripe toward row 4; bend the + leg out to ${atTop('C7')} and the − leg to ${atTop('B4')}.`, solderUnder(['C7', 'B4'])],
+};
+function doThis(s) {
+  let a;
+  if (s.kind === 'part') a = DO[s.id]();
+  else if (s.kind === 'link') a = ['Turn the board over (underside up).',
+    `Start at hole ${atUnder(s.from)}: push the tinned end in and solder it.`,
+    'Lay the wire flat along the drawn path, between the existing joints; pinch the corners and hold them with Kapton tape.',
+    `End at hole ${atUnder(s.to)}: push it in and solder it.`];
+  else if (s.kind === 'jumper') a = ['Component side up; this one stays on top.',
+    `Start at U1's ${s.id === 'W1' ? '+ (VBUS)' : '− (GND)'} pad, found by the marking on your board: solder the end to it.`,
+    s.id === 'W1' ? 'Run the wire between A8 and B8, clear of W2.' : 'Run the wire straight to A8.',
+    `End at hole **${s.to}**: push it in and solder it on top.`];
+  else if (s.kind === 'off') {
+    const h = OFF[s.id].hole;
+    a = [`Start at ${s.offText}: crimp or solder the end there (see [J3](wiring.md#j3-the-control-panel-connector)).`,
+      'Run the wire behind the board, between the board and the mount.',
+      `Push the other end up through the hole printed **${under(h)}** on the underside (top ${h}).`,
+      `Turn to the top and solder it at **${h}**. Trim the stub.`];
+  } else if (s.kind === 'motor') a = [`Measure the motor's ${s.colour} lead ${s.cut} mm from the end cap, cut it there and strip 2 mm.`,
+    'Crimp a JST-PH contact on.',
+    `Push the contact into pin ${s.pin} of the PHR-2 housing until it clicks.`,
+    s.pin === 1 ? 'Leave the housing unplugged until W15 is in it too.' : 'Plug the housing into J4: pin 1 goes to hole J3, pin 2 to hole J2.'];
+  a.push('Check, as below.');
+  return '**Do this:**\n\n' + a.map((t, i) => `${i + 1}. ${t}`).join('\n') + '\n';
+}
+
 // ---- markdown ----
 const pad2 = n => String(n).padStart(2, '0');
 const file = (n, s) => `step-${pad2(n)}-${s.id}.svg`;
@@ -644,6 +694,7 @@ STEPS.forEach((s, i) => {
     md.push(`### Step ${n}: ${s.title}\n`);
     md.push(`![${altFor(n, s, 'top')}](images/steps-wiring/${file(n, s)})\n`);
     if (POLARITY[s.id]) md.push(`![${POLARITY[s.id].alt}](images/steps-wiring/${POLARITY[s.id].file})\n`);
+    md.push(doThis(s));
     md.push(`- **Part:** ${s.id}`);
     md.push(`- **Holes:** ${s.fromTo}`);
     md.push(`- **Side:** ${side}`);
@@ -652,6 +703,7 @@ STEPS.forEach((s, i) => {
   } else {
     md.push(`### Step ${n}: ${s.id}, ${s.colour}, ${s.from} → ${s.to}\n`);
     md.push(`![${altFor(n, s, s.kind === 'link' ? 'under' : 'top')}](images/steps-wiring/${file(n, s)})\n`);
+    md.push(doThis(s));
     md.push(`- **Wire:** ${s.id}, ${s.colour}, ${s.kind === 'motor' ? 'the motor\'s own lead' : s.gauge}`);
     md.push(`- **Cut:** ${s.cut} mm${s.kind === 'motor' ? ', measured from the motor\'s end cap' : ''}`);
     md.push(`- **From → to:** ${s.from} → ${s.to}` + (s.kind === 'link' ? ` (printed ${under(s.from)} → ${under(s.to)} on the underside)` : s.kind === 'off' ? ` (push it in at printed ${under(OFF[s.id].hole)} on the underside)` : ''));
