@@ -12,9 +12,9 @@ From rev C all of this is on one ElectroCookie perfboard: the PD board, the Supe
 
 ## Schematic
 
-[Open the schematic full size](images/schematic.svg) (SVG, rev C.4).
+[Open the schematic full size](images/schematic.svg) (SVG, rev C.5).
 
-![Schematic, rev C.4. PD board 5 V goes to the DRV8833 VCC pin and, through diode D1, to the Super Mini's 5V pin; a 470 µF capacitor C1 sits across 5 V, and a second 470 µF capacitor C3 sits from D1's cathode to ground. Super Mini GPIO18, GPIO20 and GPIO19 go to DRV8833 IN3, IN4 and EEP. DRV8833 OUT3 and OUT4 go through the 2-pin plug J4 to the N20 motor M1, with a 0.1 µF capacitor C2 across it. The 12 mm button S1 runs from GPIO1 to ground. The 10 kΩ knob RV1 sits between 3.3 V and GPIO3, which the firmware drives low, with its wiper on GPIO4. There's no direction switch: GPIO2 and GPIO0 are unused. U1, U2, U3, D1, C1 and C3 are outlined as the perfboard.](images/schematic.svg)
+![Schematic, rev C.5. PD board 5 V goes to the DRV8833 VCC pin and, through diode D1, to the Super Mini's 5V pin; a 470 µF capacitor C1 sits across 5 V, and a second 470 µF capacitor C3 sits from D1's cathode to ground. Super Mini GPIO18, GPIO20 and GPIO19 go to DRV8833 IN3, IN4 and EEP. DRV8833 OUT3 and OUT4 go through the 2-pin plug J4 to the N20 motor M1, with a 0.1 µF capacitor C2 across it. The 12 mm button S1 runs from GPIO1 to ground. The 10 kΩ knob RV1 sits between 3.3 V and GPIO3, which the firmware drives low, with its wiper on GPIO4. There's no direction switch: GPIO2 and GPIO0 are unused. U1, U2, U3, D1, C1 and C3 are outlined as the perfboard.](images/schematic.svg)
 
 ## Connections
 
@@ -191,13 +191,12 @@ Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm p
 - GPIO4 is an ADC1 pin and a strapping pin (MTMS). That's safe here: on the ESP32-C6 it only selects the JTAG source at reset, and only if the JTAG_SEL_ENABLE eFuse is burned, which it isn't by default. Otherwise its level at reset is ignored, so the knob's position at power-up doesn't matter.
 - The pot's clockwise end is on GPIO3, so the firmware inverts the reading (`KNOB_REVERSED` in `firmware/main/board.h`): clockwise is still faster, and the web app's virtual knob still reads 0–100.
 - The motor plugs in at J4 and its wires are clamped at the cartridge, because the solder joints on the motor's tabs were getting stressed in transit when the wires could pull on them.
-- **No direction switch.** Without one, both direction pins read high, which the firmware takes as the switch's centre (stop) position, unless "Direction switch is wired" is off in Settings: then it runs forward. The Super Mini build defaults it to off.
+- **No direction switch.** The Super Mini build of the firmware has no direction-switch input (`BOARD_HAS_DIR_SWITCH` 0 in `firmware/main/board.h`): it doesn't set up or read GPIO2 and GPIO0, the motor always runs forward, and the web app hides the "Direction switch is wired" setting.
 
 ## Bring-up
 
 1. Set the PD board to 5 V and measure its + to − pads with a meter before wiring anything.
 2. Before applying power, check each row of the terminal check table for continuity, that C3's stripe (−) is in I8, and that C1's stripe (−) faces B4. Confirm that +5V, +3V3 and GND aren't connected to each other.
 3. Flash the N20 build of the firmware for the Super Mini (see [Board](../../../firmware/README.md#board)). The XIAO build drives the wrong pins on a Super Mini, and the MG90S build leaves EEP low, so the motor never runs.
-4. In the web app's **Settings**, make sure **Direction switch is wired** is unticked. It's off by default on the Super Mini build, but a board that already saved its settings keeps the old value, and with it ticked the motor sits still.
-5. Plug in J4. Turn the knob up slowly. If the motor turns the wrong way, swap the two pins in J4's housing. If the knob works backwards, set `KNOB_REVERSED` to 0 in `firmware/main/board.h` and reflash: the pot's pins are soldered straight into the strips.
-6. Check the controls: the button should start and pause a story, and the knob should change speed.
+4. Plug in J4. Turn the knob up slowly. If the motor turns the wrong way, swap the two pins in J4's housing. If the knob works backwards, set `KNOB_REVERSED` to 0 in `firmware/main/board.h` and reflash: the pot's pins are soldered straight into the strips.
+5. Check the controls: the button should start and pause a story, and the knob should change speed. There's no direction setting to check: the Super Mini build always runs forward.

@@ -208,10 +208,10 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <text class="small" x="350" y="752">Speed knob, RK097N, on the perfboard:</text>
         <text class="small" x="350" y="769">pins straight into the GPIO4 / GPIO3 strips</text>
 
-        <!-- no direction switch (SW1 dropped, C.4): GPIO2 / GPIO0 unused; the firmware runs forward -->
+        <!-- no direction switch (SW1 dropped, C.4; firmware without a switch input, C.5): GPIO2 / GPIO0 unused, forward -->
         <text class="small" x="700" y="640">No direction switch: GPIO2 and GPIO0</text>
         <text class="small" x="700" y="657">are unused, and the motor runs forward</text>
-        <text class="small" x="700" y="674">("Direction switch is wired" off).</text>
+        <text class="small" x="700" y="674">(the Super Mini build has no switch input).</text>
 
         <!-- Title block -->
         <rect class="tb" x="680" y="790" width="480" height="56"/>
@@ -219,7 +219,7 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <text class="tbt" x="692" y="809">TITLE</text>
         <text class="tbv" x="746" y="809">Cam Rotation N20</text>
         <text class="tbt" x="952" y="809">REV</text>
-        <text class="tbv" x="990" y="809">C.4 · 2026-11-02</text>
+        <text class="tbv" x="990" y="809">C.5 · 2026-11-02</text>
         <text class="tbt" x="692" y="837">SUPPLY</text>
         <text class="tbv" x="752" y="837">5 V USB-C PD</text>
         <text class="tbt" x="952" y="837">MCU</text>
