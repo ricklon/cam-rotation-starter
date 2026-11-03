@@ -17,7 +17,7 @@ static void defaults(settings_t *s)
     s->slew = 150;
     s->idle_release_ms = 1500;
     s->knob_enabled = true;
-    s->switch_installed = SWITCH_INSTALLED_DEFAULT;
+    s->switch_installed = BOARD_HAS_DIR_SWITCH;
     s->autoplay = false;
     s->rest_every = 0;
     s->rest_ms = 5000;
@@ -56,6 +56,9 @@ void settings_apply_json(const cJSON *j)
     get_int(&g_settings.idle_release_ms, j, "idle_release_ms", 0, 60000);
     get_bool(&g_settings.knob_enabled, j, "knob_enabled");
     get_bool(&g_settings.switch_installed, j, "switch_installed");
+#if !BOARD_HAS_DIR_SWITCH
+    g_settings.switch_installed = false;   // no switch on this board: ignore a saved or posted true
+#endif
     get_bool(&g_settings.autoplay, j, "autoplay");
     copy_str(g_settings.autoplay_story, sizeof g_settings.autoplay_story, j, "autoplay_story");
     get_int(&g_settings.rest_every, j, "rest_every", 0, 1000);
@@ -78,6 +81,7 @@ cJSON *settings_to_json(bool include_secrets)
     cJSON_AddNumberToObject(j, "idle_release_ms", g_settings.idle_release_ms);
     cJSON_AddBoolToObject(j, "knob_enabled", g_settings.knob_enabled);
     cJSON_AddBoolToObject(j, "switch_installed", g_settings.switch_installed);
+    cJSON_AddBoolToObject(j, "has_dir_switch", BOARD_HAS_DIR_SWITCH);   // read-only: the web app hides the checkbox when false
     cJSON_AddBoolToObject(j, "autoplay", g_settings.autoplay);
     cJSON_AddStringToObject(j, "autoplay_story", g_settings.autoplay_story);
     cJSON_AddNumberToObject(j, "rest_every", g_settings.rest_every);

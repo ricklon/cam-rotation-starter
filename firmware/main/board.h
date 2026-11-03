@@ -34,10 +34,9 @@
 #define KNOB_REVERSED     1            // the pot's clockwise end is on GPIO3, so invert: clockwise is faster
 #define PIN_DIR_FWD       GPIO_NUM_2   // switch outer pin A to GND
 #define PIN_DIR_REV       GPIO_NUM_0   // switch outer pin B to GND
-// The N20 rev C build has no direction switch, so on this board the setting defaults to off (direction forward).
-// Tick "Direction switch is wired" in Settings if you fit one: with the switch absent both pins read high, which is
-// the centre (stop) position.
-#define SWITCH_INSTALLED_DEFAULT 0
+// No direction switch on this board (the N20 rev C build has the knob and the button only): GPIO2/GPIO0 aren't set up
+// or read, switch_installed is always false, and direction is forward.
+#define BOARD_HAS_DIR_SWITCH 0
 
 #define PIN_LED           GPIO_NUM_15  // on-board LED; check the level on the bench (15 is a strapping pin, fine as an output after boot)
 #define LED_ON_LEVEL      1
@@ -58,7 +57,7 @@
 #define KNOB_REVERSED     0
 #define PIN_DIR_FWD       GPIO_NUM_21  // D3  switch outer pin A to GND
 #define PIN_DIR_REV       GPIO_NUM_22  // D4  switch outer pin B to GND
-#define SWITCH_INSTALLED_DEFAULT 1
+#define BOARD_HAS_DIR_SWITCH 1
 
 #define PIN_LED           GPIO_NUM_15  // XIAO ESP32-C6 user LED (active low)
 #define LED_ON_LEVEL      0

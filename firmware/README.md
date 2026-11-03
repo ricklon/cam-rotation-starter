@@ -35,7 +35,7 @@ The full point-to-point wire list for the MG90S drive (W1–W11, L1–L3, J1–J
 | Button, hold 2 s | Stop and go to manual mode. |
 | Button held while powering up (5 s, LED flickers) | Reset the Wi-Fi settings to their defaults. |
 | Knob | Story speed (master %) while a story plays; manual speed otherwise. It can be disabled in Settings. |
-| Switch FWD / centre / REV | Sets direction for everything, including web commands. Centre stops the motor and pauses a story. If the switch isn't fitted, untick "Direction switch is wired" so the box always runs forward. |
+| Switch FWD / centre / REV | Sets direction for everything, including web commands. Centre stops the motor and pauses a story. If the switch isn't fitted, untick "Direction switch is wired" so the box always runs forward. The Super Mini board has no switch at all (`BOARD_HAS_DIR_SWITCH` 0 in `board.h`): it runs forward and the web app hides the setting. |
 
 LED: steady while a story plays, a short blink every 2 s when ready.
 
@@ -152,7 +152,7 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 | `range_us` | 400 | Pulse offset at ±100 % speed. MG90S only. |
 | `slew` | 150 | Maximum change in speed, in % per second (smoothing). |
 | `idle_release_ms` | 1500 | Stop sending pulses after this long at zero, so the servo doesn't creep or hum. On the N20 the driver sleeps instead. 0 = never. |
-| `knob_enabled`, `switch_installed` | true; `switch_installed` is false on the Super Mini | Whether the panel controls are fitted. Without the direction switch both direction pins read as its centre (stop) position, so leave `switch_installed` off: direction is then always forward. The N20 rev C build has no switch, so the Super Mini build defaults it to off. |
+| `knob_enabled`, `switch_installed` | true; `switch_installed` is false on the Super Mini | Whether the panel controls are fitted. On a board without a direction switch (`BOARD_HAS_DIR_SWITCH` 0 in `main/board.h`: the Super Mini, for the N20 rev C build) `switch_installed` is always false, whatever was saved or posted; GPIO2 and GPIO0 aren't set up or read, direction is forward, and `/api/settings` reports `has_dir_switch: false` so the web app hides the checkbox. On the XIAO, untick it if the switch isn't fitted: with the switch absent both pins read as its centre (stop) position. |
 | `autoplay`, `autoplay_story` | false, "" | Gallery mode: play this story when powered on. |
 | `rest_every`, `rest_ms` | 0, 5000 | Pause for `rest_ms` after every N loops. |
 | `ap_ssid`, `ap_pass` | "" | The box's own network. Blank name = CamBox-XXXX; a password under 8 characters = open network. |

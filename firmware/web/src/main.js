@@ -425,7 +425,7 @@ function renderSettings() {
         servo && numField('range_us', 'Full-speed offset (µs)', 50, 900),
         numField('slew', 'Smoothing (% per second)', 10, 2000),
         numField('idle_release_ms', 'Release after stop (s, 0 = never)', 0, 60, 0.1, 1000)),
-      h('div', { class: 'grid2' }, check('knob_enabled', 'Use the speed knob'), check('switch_installed', 'Direction switch is wired')),
+      h('div', { class: 'grid2' }, check('knob_enabled', 'Use the speed knob'), s.has_dir_switch !== false && check('switch_installed', 'Direction switch is wired')),
       h('button', { class: 'btn primary', style: 'justify-self:start', onclick: () => saveSettings(collect([...(servo ? ['range_us'] : []), 'slew', ['idle_release_ms', 1000], 'knob_enabled', 'switch_installed'])) }, 'Save motion')),
 
     h('section', { class: 'card' },

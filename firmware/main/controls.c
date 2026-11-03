@@ -32,11 +32,13 @@ int controls_knob(void) { return s_knob; }
 
 static int read_dir_pins(void)
 {
+#if BOARD_HAS_DIR_SWITCH
     bool fwd = gpio_get_level(PIN_DIR_FWD) == 0;
     bool rev = gpio_get_level(PIN_DIR_REV) == 0;
     if (fwd && !rev) return 1;
     if (rev && !fwd) return -1;
-    return 0;   // center (both open) or a wiring fault (both closed)
+#endif
+    return 0;   // center (both open), a wiring fault (both closed), or no switch on this board
 }
 
 static int read_knob_pct(void)
@@ -126,7 +128,11 @@ void controls_init(ctl_cb_t cb)
     gpio_set_level(PIN_KNOB_GND, 0);
 #endif
     gpio_config_t io = {
+#if BOARD_HAS_DIR_SWITCH
         .pin_bit_mask = (1ULL << PIN_BTN) | (1ULL << PIN_DIR_FWD) | (1ULL << PIN_DIR_REV),
+#else
+        .pin_bit_mask = 1ULL << PIN_BTN,   // no direction switch: GPIO2/GPIO0 left alone
+#endif
         .mode = GPIO_MODE_INPUT,
         .pull_up_en = GPIO_PULLUP_ENABLE,
         .pull_down_en = GPIO_PULLDOWN_DISABLE,
@@ -142,6 +148,11 @@ void controls_init(ctl_cb_t cb)
     ESP_ERROR_CHECK(adc_oneshot_config_channel(s_adc, s_knob_ch, &ccfg));
 
     xTaskCreate(controls_task, "controls", 3072, NULL, 8, NULL);
+#if BOARD_HAS_DIR_SWITCH
     ESP_LOGI(TAG, "button GPIO%d, knob GPIO%d (ADC ch %d), switch GPIO%d/GPIO%d",
              PIN_BTN, PIN_KNOB, (int)s_knob_ch, PIN_DIR_FWD, PIN_DIR_REV);
+#else
+    ESP_LOGI(TAG, "button GPIO%d, knob GPIO%d (ADC ch %d), no direction switch",
+             PIN_BTN, PIN_KNOB, (int)s_knob_ch);
+#endif
 }
