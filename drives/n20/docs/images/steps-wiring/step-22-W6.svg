@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 749" role="img" aria-label="Step 22: The perfboard seen from the component side, column A on the left, with the 21 earlier steps drawn in grey. W6, white, drawn bold from hole I14 off the board's right edge, labelled J3 pin 6.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 749" role="img" aria-label="Step 22: The perfboard seen from the component side, column A on the left, with the 21 earlier steps drawn in grey. W6, white, drawn bold from hole I14 (printed B14 on the underside) off the board's right edge, labelled J3 pin 6.">
 <rect width="600" height="749" fill="#ffffff"/>
 <text x="24" y="34" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="17" font-weight="700" fill="#4f5b5e">STEP 22 OF 27</text>
 <rect x="398" y="14" width="178" height="30" rx="15" fill="#d4eef1"/>
@@ -37,6 +37,7 @@
 <circle cx="391.4" cy="540.8" r="11" fill="none" stroke="#d4147a" stroke-width="4"/>
 <text x="490.4" y="548.008" text-anchor="start" font-family="IBM Plex Mono,ui-monospace,SFMono-Regular,Menlo,monospace" font-size="20" font-weight="700" fill="#d4147a">I14</text>
 <text x="490.4" y="570.008" text-anchor="start" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="14" font-weight="600" fill="#1c2729">to J3 pin 6</text>
+<text x="490.4" y="588.008" text-anchor="start" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="14" font-weight="600" fill="#d4147a">under: B14</text>
 <rect x="16" y="668.4" width="568" height="62" rx="8" fill="#f4f6f7" stroke="#d5dddc"/>
 <text x="28" y="694.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729"><tspan font-weight="700">Check:</tspan> J3 pin 6 connects to H14 (GPIO1). It must not</text>
 <text x="28" y="716.4" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#1c2729">connect to I13 or I15.</text>

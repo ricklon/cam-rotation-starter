@@ -23,6 +23,8 @@ Only C1 stays in its seat on the mount, wired to the board. The motor plugs into
 | Strips | Each row is two strips of five joined holes, **A–E** and **F–J**, either side of a 0.3" centre channel. There are no power rails. |
 | Mounting | Two Ø3.2 mm (M3) holes in the channel at rows 1 and 17, 40.6 mm apart. Four Ø2.2 mm (M2) corner holes at 31.8 × 44.5 mm. The drive uses three of the **M2** holes; the M3 holes end up under the modules. |
 
+**The underside print is mirrored.** On this board the letters printed on the underside run A–J left to right when you turn it over like a page, so each hole's underside letter is the mirror of its component-side one: A↔J, B↔I, C↔H, D↔G, E↔F, with the same row number. A2 on top is printed J2 underneath. To check your own board, push a wire into top A2, turn the board over, and read the hole it comes out of. This page and the [wiring guide](wiring-steps.md) name holes by the **component side**; the guide gives the printed underside name in brackets wherever you work from underneath.
+
 In this page the board is drawn component side up, row 1 at the top and column A at the left. On the drive, row 1 points to −X and column A toward the box wall, so the hole map's right-hand edge is the board's bottom edge on the drive. Hole positions from the board's centre are u = (column index − 5.5) × 2.54 mm across the columns (A = 0 … E = 4, F = 7 … J = 11) and v = (row − 9) × 2.54 mm along the rows.
 
 ## Placement
@@ -97,7 +99,9 @@ Ten links of 30 AWG stranded wire, ends tinned, run on the underside (solder sid
 | W22 | red | C2 (D1 cathode) | H7 (C3 +) | +5V, Super Mini side, to the hold-up capacitor | 50 mm |
 | W23 | black | A16 (GND) | H8 (C3 −) | GND to the hold-up capacitor | 65 mm |
 
-The cut lengths come from the routes in the 3D model, worked out the same way as every wire in the [cut list](cut-list.csv); trim each one to fit on the board. W17, W21, W22 and W23 cross other links. Keep every link flat against the board: stranded wire springs up more than solid. W21 is yellow, not red, because red means 5 V on this board. The knob needs no wiper or ground link: its pins sit in the GPIO4 and GPIO3 strips.
+The cut lengths come from the routes in the 3D model, worked out the same way as every wire in the [cut list](cut-list.csv); trim each one to fit on the board. W17, W21, W22 and W23 cross other links. Keep every link flat against the board: stranded wire springs up more than solid.
+
+**Laying a link:** solder one end, press the wire flat along its lane and pinch the corners square with tweezers, hold the corners down with Kapton tape, then solder the far end. Don't anchor a wire through a spare hole: every hole is part of a strip, so it would join that strip's net. Once the continuity check passes, a dab of hot glue can hold the link for good. W21 is yellow, not red, because red means 5 V on this board. The knob needs no wiper or ground link: its pins sit in the GPIO4 and GPIO3 strips.
 
 ## Where it goes
 

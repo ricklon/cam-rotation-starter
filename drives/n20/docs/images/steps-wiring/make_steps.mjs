@@ -26,6 +26,10 @@ const hy = r => vy(rv(r));
 const mm = v => v * S;
 const lane = (c, d) => hx(c) + sg() * mm(d);
 const hole = h => [hx(h[0]), hy(+h.slice(1))];
+// The ElectroCookie board's underside print is mirrored: a hole named A2 on the component side is printed J2
+// underneath (A↔J, B↔I, C↔H, D↔G, E↔F, same row). The guide names holes by the component side.
+const printedCol = c => COLS[COLS.length - 1 - COLS.indexOf(c)];
+const under = h => (/^[A-J]\d+$/.test(h) ? printedCol(h[0]) + h.slice(1) : h);
 const rectU = (u0, u1, v0, v1, attrs) => {
   const xa = ux(u0), xb = ux(u1);
   return `<rect x="${Math.min(xa, xb).toFixed(1)}" y="${vy(v0).toFixed(1)}" width="${Math.abs(xb - xa).toFixed(1)}" height="${(mm(v1 - v0)).toFixed(1)}" ${attrs}/>`;
@@ -282,7 +286,7 @@ function board(highlightStrips) {
 }
 function axisLabels(skipRows) {
   let o = '';
-  for (const c of COLS) o += `<text x="${hx(c)}" y="${OY - 10}" text-anchor="middle" ${MONO} font-size="18" font-weight="700" fill="${INK}">${c}</text>`;
+  for (const c of COLS) o += `<text x="${hx(c)}" y="${OY - 10}" text-anchor="middle" ${MONO} font-size="18" font-weight="700" fill="${INK}">${mirror ? printedCol(c) : c}</text>`;
   for (let r = 1; r <= 17; r++) for (const side of ['L', 'R']) {
     if (skipRows.has(`${side}${r}`)) continue;
     const x = side === 'L' ? OX - 15 : OX + mm(W) + 15;
@@ -338,17 +342,17 @@ function svgFor(n, s) {
   }
   for (const side of [true, false]) {
     const g = labels.filter(l => l.left === side).sort((a, b) => a.y - b.y);
-    for (let i = 1; i < g.length; i++) if (g[i].y - g[i - 1].y < 24) g[i].y = g[i - 1].y + 24;
+    for (let i = 1; i < g.length; i++) if (g[i].y - g[i - 1].y < (mirror ? 44 : 24)) g[i].y = g[i - 1].y + (mirror ? 44 : 24);
   }
   const skip = new Set();
-  for (const l of labels) for (let r = 1; r <= 17; r++) if (Math.abs(hy(r) - l.y) < 12) skip.add(`${l.left ? 'L' : 'R'}${r}`);
+  for (const l of labels) for (let r = 1; r <= 17; r++) if (hy(r) - l.y > -12 && hy(r) - l.y < (mirror ? 30 : 12)) skip.add(`${l.left ? 'L' : 'R'}${r}`);
   const partExt = ['C3', 'RV1'].filter(id => done.some(d => d.id === id) || s.id === id);
   const ROWS = { C3: [5, 6, 7, 8], RV1: [9, 10, 11, 12, 13] };
   if (viewSide === 'top') for (const id of partExt) for (const r of ROWS[id]) skip.add(`R${r}`);
   // off-board labels: two lines round the leader's row
   for (const e of ends) if (e.off || e.motor) {
     const side = e.off ? OFF[s.id].side : 'R', yl = e.off ? hy(OFF[s.id].ly) : e.xy[1];
-    for (let r = 1; r <= 17; r++) if (Math.abs(hy(r) - yl) < 30) skip.add(`${side}${r}`);
+    for (let r = 1; r <= 17; r++) if (hy(r) - yl > -30 && hy(r) - yl < (e.off ? 44 : 30)) skip.add(`${side}${r}`);
   }
 
   let o = [];
@@ -367,10 +371,11 @@ function svgFor(n, s) {
     o.push(`<circle cx="38" cy="70" r="13" fill="${WIRE[s.colour]}" stroke="#1b1b1b" stroke-width="2"/>`);
     o.push(`<text x="62" y="80" ${FONT} font-size="32" font-weight="700" fill="${INK}">${s.id}</text>`);
     o.push(`<text x="${62 + s.id.length * 22 + 14}" y="80" ${FONT} font-size="24" fill="${INK}">${s.colour} · cut <tspan font-weight="700">${s.cut} mm</tspan>${s.kind === 'motor' ? ' from the end cap' : ''}</text>`);
-    o.push(`<text x="24" y="122" ${MONO} font-size="${(s.from + s.to).length > 22 ? 21 : 26}" font-weight="700" fill="${INK}">${esc(s.from)} → ${esc(s.to)}</text>`);
+    o.push(`<text x="24" y="122" ${MONO} font-size="${(s.from + s.to).length > 22 ? 21 : 26}" font-weight="700" fill="${INK}">${esc(s.from)} → ${esc(s.to)}` +
+      (viewSide === 'under' ? `<tspan ${FONT} font-size="18" font-weight="600" fill="${RING}">  printed ${under(s.from)} → ${under(s.to)} underneath</tspan>` : '') + `</text>`);
     o.push(`<text x="24" y="152" ${FONT} font-size="16" fill="${MUTE}">${esc(s.kind === 'motor' ? 'the motor\'s own lead, about 26 AWG (assumed)' : s.gauge)}</text>`);
   }
-  const orient = viewSide === 'under' ? 'Board turned over: column A is on the RIGHT.' : (s.kind === 'off' ? 'Push it up from the underside, solder on this side.' : 'Column A on the left, row 1 at the top.');
+  const orient = viewSide === 'under' ? 'Underside, as you see it. Letters are as PRINTED here (mirrored).' : (s.kind === 'off' ? 'Push it up from the underside, solder on this side.' : 'Column A on the left, row 1 at the top.');
   o.push(`<text x="24" y="${OY - 40}" ${FONT} font-size="16" font-weight="600" fill="${viewSide === 'under' ? '#7a3e00' : MUTE}">${orient}</text>`);
 
   o.push(board(strips));
@@ -387,8 +392,14 @@ function svgFor(n, s) {
     const xl = l.left ? OX - 32 : Math.max(OX + mm(W) + 32, rightLimit + 8);
     const xe = l.left ? l.xy[0] - 11 : l.xy[0] + 11;
     o.push(`<polyline points="${pts([[xe, l.xy[1]], [l.left ? OX - 4 : rightLimit + 2, l.y], [xl + (l.left ? 4 : -4), l.y]])}" fill="none" stroke="${RING}" stroke-width="2.5"/>`);
-    const name = l.pad ? l.hole : l.hole;
-    o.push(`<text x="${xl}" y="${l.y + 7}" text-anchor="${l.left ? 'end' : 'start'}" ${MONO} font-size="20" font-weight="700" fill="${RING}">${esc(name)}</text>`);
+    const anchor = `text-anchor="${l.left ? 'end' : 'start'}"`;
+    if (mirror) {
+      o.push(`<text x="${xl}" y="${l.y + 7}" ${anchor} ${MONO} font-size="22" font-weight="700" fill="${RING}">${esc(under(l.hole))}</text>`);
+      o.push(`<text x="${xl}" y="${l.y + 27}" ${anchor} ${FONT} font-size="14" font-weight="600" fill="${INK}">top ${esc(l.hole)} · ${esc(l.role)}</text>`);
+      continue;
+    }
+    const name = l.hole;
+    o.push(`<text x="${xl}" y="${l.y + 7}" ${anchor} ${MONO} font-size="20" font-weight="700" fill="${RING}">${esc(name)}</text>`);
     o.push(`<text x="${xl + (l.left ? -name.length * 12.3 - 6 : name.length * 12.3 + 6)}" y="${l.y + 6}" text-anchor="${l.left ? 'end' : 'start'}" ${FONT} font-size="14" font-weight="600" fill="${INK}">${esc(l.pad ? '' : l.role)}</text>`);
   }
   // off-board ends
@@ -397,6 +408,7 @@ function svgFor(n, s) {
       const o2 = OFF[s.id], left = o2.side === 'L', x = left ? OX - 38 : OX + mm(W) + 38, y = hy(o2.ly);
       o.push(`<text x="${x}" y="${y - 6}" text-anchor="${left ? 'end' : 'start'}" ${MONO} font-size="20" font-weight="700" fill="${RING}">${e.hole}</text>`);
       o.push(`<text x="${x}" y="${y + 16}" text-anchor="${left ? 'end' : 'start'}" ${FONT} font-size="14" font-weight="600" fill="${INK}">to ${esc(e.off)}</text>`);
+      o.push(`<text x="${x}" y="${y + 34}" text-anchor="${left ? 'end' : 'start'}" ${FONT} font-size="14" font-weight="600" fill="${RING}">under: ${under(e.hole)}</text>`);
     }
     if (e.motor) {
       const x = OX + mm(W) + 38, y = e.xy[1];
@@ -415,12 +427,13 @@ function svgFor(n, s) {
 }
 
 function altFor(n, s, viewSide) {
-  const view = viewSide === 'under' ? 'The perfboard seen from the underside, turned over so column A is on the right' : 'The perfboard seen from the component side, column A on the left';
+  const view = viewSide === 'under' ? 'The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there' : 'The perfboard seen from the component side, column A on the left';
   const prev = n === 2 ? ', with the earlier step drawn in grey' : n > 2 ? `, with the ${n - 1} earlier steps drawn in grey` : '';
   let now;
   if (s.kind === 'part') now = `${s.title.split(',')[0]} drawn in colour, ${s.fromTo}${s.ends.length ? ', its holes circled' : ''}`;
-  else if (s.kind === 'off') now = `${s.id}, ${s.colour}, drawn bold from hole ${s.kind === 'off' ? OFF[s.id].hole : ''} off the board's ${OFF[s.id].side === 'L' ? 'left' : 'right'} edge, labelled ${s.offText}`;
+  else if (s.kind === 'off') now = `${s.id}, ${s.colour}, drawn bold from hole ${OFF[s.id].hole} (printed ${under(OFF[s.id].hole)} on the underside) off the board's ${OFF[s.id].side === 'L' ? 'left' : 'right'} edge, labelled ${s.offText}`;
   else if (s.kind === 'motor') now = `${s.id}, ${s.colour}, drawn bold from J4's mouth off the right-hand edge; J4 pin ${s.pin} is hole ${s.pin === 1 ? 'J3' : 'J2'}`;
+  else if (viewSide === 'under') now = `${s.id}, ${s.colour}, drawn bold from ${s.from} to ${s.to} (printed ${under(s.from)} and ${under(s.to)} on the underside), both ends circled and labelled with both names`;
   else now = `${s.id}, ${s.colour}, drawn bold from ${s.from} to ${s.to}, both ends circled`;
   return `Step ${n}: ${view}${prev}. ${now}.`;
 }
@@ -494,19 +507,21 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 - Columns **A–E** and **F–J**, rows **1–17**. Every hole in a row's half is joined to the other four in that half: a **strip**. The strips that the current step joins are drawn yellow.
 - **Component side** pictures show the board as in the hole map, column A on the left.
-- **Underside** pictures show the board **turned over**, as you see it while soldering a link: **column A is on the right**. Rows stay top to bottom.
+- **Hole names are the component side's.** This board's underside letters are **mirrored**: the hole called A2 here is printed **J2** underneath (A↔J, B↔I, C↔H, D↔G, E↔F; the row numbers are the same). Wherever you work from the underside, go by the printed underside name given in brackets.
+- **Underside** pictures show the board as you see it turned over, labelled with the letters printed on the underside, so they read A–J left to right just like the board in your hand. Each circled end shows its printed name large and its component-side name small.
+- Checks use the component-side names: probe from the component side, or use the printed names in brackets.
 - A **check** at the end of each step says what should connect and what must not. Test each one on the meter's **continuity setting**: connected means it beeps (or reads near 0 Ω). The few checks that need the diode-test or resistance setting say so.
 
 ## Before you start
 
 - **Wire:** 30 AWG stranded, in red (+5 V), black (GND), green, blue, white and yellow. Only W14 and W15 differ: they're the motor's own leads.
 - **Tin every stripped end** before it goes through a hole, so the strands don't splay.
-- **Links on the underside lie flat.** Press each one down along its lane before soldering the next, and keep them off the holes they cross.
+- **Laying a link:** solder one end, press the wire flat along its lane and pinch the corners square with tweezers, hold the corners down with Kapton tape, then solder the far end. Keep it off the holes it crosses, and don't anchor wires through spare holes: every hole is part of a strip. Once the step's check passes, a dab of hot glue can hold it for good.
 - **Prepare the modules** (build step 1): desolder U1's screw terminal and set its switches to 5 V. Pull the unused pins out of the header strips: the DRV8833 keeps D3–D6 and H2, H3, H6; the Super Mini keeps D12–D17 and H11–H15 (H10, GPIO5, stays out). Fit the strips to the modules with the perfboard as a jig, and solder them **to the modules only**.
 `);
 const sections = { 1: '## On the bench: D1 and the links', 12: '## On the bench: J4, RV1 and C3', 15: '## On the bench: the modules and U1', 20: '## On the drive: C1 and the control harness', 26: '## The motor leads' };
 const intro = {
-  2: '**The ten links** go on the underside, shortest first. Turn the board over: from here to step 11 the pictures show the underside, column A on the right.',
+  2: '**The ten links** go on the underside, shortest first. Turn the board over: from here to step 11 the pictures show the underside as you see it, with the mirrored letters printed there; each hole is given by both names.',
   20: 'With C1 already in its seat on the mount. These six wires come from behind the board: push each **up from the underside** and solder it on the component side.',
   26: 'W14 and W15 are the N20\'s own factory leads, red and black, left soldered to its tabs (assumed about 26 AWG, unconfirmed). Solder C2 across the tabs first if it isn\'t on yet. Measure each lead from the motor\'s end cap, cut it, strip 2 mm and crimp a JST-PH contact on, then push the contact into a PHR-2 housing. Routing and the wire clamp are in [wiring.md](wiring.md#j4-and-the-motor-wire-clamp). Red and black here don\'t mean +5 V and GND: this pair only runs from the motor to J4.',
 };
@@ -529,7 +544,7 @@ STEPS.forEach((s, i) => {
     md.push(`![${altFor(n, s, s.kind === 'link' ? 'under' : 'top')}](images/steps-wiring/${file(n, s)})\n`);
     md.push(`- **Wire:** ${s.id}, ${s.colour}, ${s.kind === 'motor' ? 'the motor\'s own lead' : s.gauge}`);
     md.push(`- **Cut:** ${s.cut} mm${s.kind === 'motor' ? ', measured from the motor\'s end cap' : ''}`);
-    md.push(`- **From → to:** ${s.from} → ${s.to}`);
+    md.push(`- **From → to:** ${s.from} → ${s.to}` + (s.kind === 'link' ? ` (printed ${under(s.from)} → ${under(s.to)} on the underside)` : s.kind === 'off' ? ` (push it in at printed ${under(OFF[s.id].hole)} on the underside)` : ''));
     md.push(`- **Side:** ${side}`);
     md.push(`- **What it does:** ${s.what}`);
   }

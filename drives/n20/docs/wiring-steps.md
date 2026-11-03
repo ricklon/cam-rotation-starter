@@ -6,14 +6,16 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 - Columns **A–E** and **F–J**, rows **1–17**. Every hole in a row's half is joined to the other four in that half: a **strip**. The strips that the current step joins are drawn yellow.
 - **Component side** pictures show the board as in the hole map, column A on the left.
-- **Underside** pictures show the board **turned over**, as you see it while soldering a link: **column A is on the right**. Rows stay top to bottom.
+- **Hole names are the component side's.** This board's underside letters are **mirrored**: the hole called A2 here is printed **J2** underneath (A↔J, B↔I, C↔H, D↔G, E↔F; the row numbers are the same). Wherever you work from the underside, go by the printed underside name given in brackets.
+- **Underside** pictures show the board as you see it turned over, labelled with the letters printed on the underside, so they read A–J left to right just like the board in your hand. Each circled end shows its printed name large and its component-side name small.
+- Checks use the component-side names: probe from the component side, or use the printed names in brackets.
 - A **check** at the end of each step says what should connect and what must not. Test each one on the meter's **continuity setting**: connected means it beeps (or reads near 0 Ω). The few checks that need the diode-test or resistance setting say so.
 
 ## Before you start
 
 - **Wire:** 30 AWG stranded, in red (+5 V), black (GND), green, blue, white and yellow. Only W14 and W15 differ: they're the motor's own leads.
 - **Tin every stripped end** before it goes through a hole, so the strands don't splay.
-- **Links on the underside lie flat.** Press each one down along its lane before soldering the next, and keep them off the holes they cross.
+- **Laying a link:** solder one end, press the wire flat along its lane and pinch the corners square with tweezers, hold the corners down with Kapton tape, then solder the far end. Keep it off the holes it crosses, and don't anchor wires through spare holes: every hole is part of a strip. Once the step's check passes, a dab of hot glue can hold it for good.
 - **Prepare the modules** (build step 1): desolder U1's screw terminal and set its switches to 5 V. Pull the unused pins out of the header strips: the DRV8833 keeps D3–D6 and H2, H3, H6; the Super Mini keeps D12–D17 and H11–H15 (H10, GPIO5, stays out). Fit the strips to the modules with the perfboard as a jig, and solder them **to the modules only**.
 
 ## On the bench: D1 and the links
@@ -31,114 +33,114 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 - **How:** Stand it in A3 with the banded (cathode) end at the top, bend the top lead over and down into A2, and solder both from the underside.
 - **Check:** Diode test, red probe on A3 and black on A2: about 0.2–0.3 V. Reversed: open.
 
-**The ten links** go on the underside, shortest first. Turn the board over: from here to step 11 the pictures show the underside, column A on the right.
+**The ten links** go on the underside, shortest first. Turn the board over: from here to step 11 the pictures show the underside as you see it, with the mirrored letters printed there; each hole is given by both names.
 
 ### Step 2: W16, red, B7 → C3
 
-![Step 2: The perfboard seen from the underside, turned over so column A is on the right, with the earlier step drawn in grey. W16, red, drawn bold from B7 to C3, both ends circled.](images/steps-wiring/step-02-W16.svg)
+![Step 2: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the earlier step drawn in grey. W16, red, drawn bold from B7 to C3 (printed I7 and H3 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-02-W16.svg)
 
 - **Wire:** W16, red, 30 AWG stranded
 - **Cut:** 25 mm
-- **From → to:** B7 → C3
+- **From → to:** B7 → C3 (printed I7 → H3 on the underside)
 - **Side:** underside (link)
 - **What it does:** Takes +5 V from the bus (row 7) to the motor driver's VCC strip and D1's anode.
 - **Check:** B7 connects to A3 (D1's anode). B7 must not connect to B8 (the ground bus).
 
 ### Step 3: W18, black, B8 → C4
 
-![Step 3: The perfboard seen from the underside, turned over so column A is on the right, with the 2 earlier steps drawn in grey. W18, black, drawn bold from B8 to C4, both ends circled.](images/steps-wiring/step-03-W18.svg)
+![Step 3: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 2 earlier steps drawn in grey. W18, black, drawn bold from B8 to C4 (printed I8 and H4 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-03-W18.svg)
 
 - **Wire:** W18, black, 30 AWG stranded
 - **Cut:** 25 mm
-- **From → to:** B8 → C4
+- **From → to:** B8 → C4 (printed I8 → H4 on the underside)
 - **Side:** underside (link)
 - **What it does:** Takes ground from the bus (row 8) to the motor driver's GND strip.
 - **Check:** B8 connects to A4. B8 must not connect to B7, and C4 must not connect to C3.
 
 ### Step 4: W5, green, C12 → C5
 
-![Step 4: The perfboard seen from the underside, turned over so column A is on the right, with the 3 earlier steps drawn in grey. W5, green, drawn bold from C12 to C5, both ends circled.](images/steps-wiring/step-04-W5.svg)
+![Step 4: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 3 earlier steps drawn in grey. W5, green, drawn bold from C12 to C5 (printed H12 and H5 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-04-W5.svg)
 
 - **Wire:** W5, green, 30 AWG stranded
 - **Cut:** 35 mm
-- **From → to:** C12 → C5
+- **From → to:** C12 → C5 (printed H12 → H5 on the underside)
 - **Side:** underside (link)
 - **What it does:** MOT_IN1: the Super Mini's GPIO18 to the driver's IN3, the forward PWM.
 - **Check:** C12 connects to A5. It should not touch C13 or C11 next door.
 
 ### Step 5: W12, blue, C14 → C6
 
-![Step 5: The perfboard seen from the underside, turned over so column A is on the right, with the 4 earlier steps drawn in grey. W12, blue, drawn bold from C14 to C6, both ends circled.](images/steps-wiring/step-05-W12.svg)
+![Step 5: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 4 earlier steps drawn in grey. W12, blue, drawn bold from C14 to C6 (printed H14 and H6 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-05-W12.svg)
 
 - **Wire:** W12, blue, 30 AWG stranded
 - **Cut:** 35 mm
-- **From → to:** C14 → C6
+- **From → to:** C14 → C6 (printed H14 → H6 on the underside)
 - **Side:** underside (link)
 - **What it does:** MOT_IN2: GPIO20 to the driver's IN4, the reverse PWM.
 - **Check:** C14 connects to A6. It should not touch C13, C15 or W5.
 
 ### Step 6: W4, black, C8 → C16
 
-![Step 6: The perfboard seen from the underside, turned over so column A is on the right, with the 5 earlier steps drawn in grey. W4, black, drawn bold from C8 to C16, both ends circled.](images/steps-wiring/step-06-W4.svg)
+![Step 6: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 5 earlier steps drawn in grey. W4, black, drawn bold from C8 to C16 (printed H8 and H16 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-06-W4.svg)
 
 - **Wire:** W4, black, 30 AWG stranded
 - **Cut:** 40 mm
-- **From → to:** C8 → C16
+- **From → to:** C8 → C16 (printed H8 → H16 on the underside)
 - **Side:** underside (link)
 - **What it does:** Ground from the bus to the Super Mini's GND strip.
 - **Check:** C16 connects to B8. C16 must not connect to C15 (3V3) or C17 (5V).
 
 ### Step 7: W22, red, C2 → H7
 
-![Step 7: The perfboard seen from the underside, turned over so column A is on the right, with the 6 earlier steps drawn in grey. W22, red, drawn bold from C2 to H7, both ends circled.](images/steps-wiring/step-07-W22.svg)
+![Step 7: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 6 earlier steps drawn in grey. W22, red, drawn bold from C2 to H7 (printed H2 and C7 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-07-W22.svg)
 
 - **Wire:** W22, red, 30 AWG stranded
 - **Cut:** 50 mm
-- **From → to:** C2 → H7
+- **From → to:** C2 → H7 (printed H2 → C7 on the underside)
 - **Side:** underside (link)
 - **What it does:** The Super Mini's 5 V, after D1, across the channel to the strip where C3's + lead will go.
 - **Check:** H7 connects to A2. H7 must not connect to H8 or H6.
 
 ### Step 8: W21, yellow, A15 → I10
 
-![Step 8: The perfboard seen from the underside, turned over so column A is on the right, with the 7 earlier steps drawn in grey. W21, yellow, drawn bold from A15 to I10, both ends circled.](images/steps-wiring/step-08-W21.svg)
+![Step 8: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 7 earlier steps drawn in grey. W21, yellow, drawn bold from A15 to I10 (printed J15 and B10 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-08-W21.svg)
 
 - **Wire:** W21, yellow, 30 AWG stranded
 - **Cut:** 55 mm
-- **From → to:** A15 → I10
+- **From → to:** A15 → I10 (printed J15 → B10 on the underside)
 - **Side:** underside (link)
 - **What it does:** The Super Mini's 3.3 V to the strip where the knob's pin 1 will go. Yellow, not red: this is 3.3 V only.
 - **Check:** A15 connects to J10. I10 must not connect to I11 (the wiper strip), and A15 must not connect to A16.
 
 ### Step 9: W13, white, C13 → J6
 
-![Step 9: The perfboard seen from the underside, turned over so column A is on the right, with the 8 earlier steps drawn in grey. W13, white, drawn bold from C13 to J6, both ends circled.](images/steps-wiring/step-09-W13.svg)
+![Step 9: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 8 earlier steps drawn in grey. W13, white, drawn bold from C13 to J6 (printed H13 and A6 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-09-W13.svg)
 
 - **Wire:** W13, white, 30 AWG stranded
 - **Cut:** 55 mm
-- **From → to:** C13 → J6
+- **From → to:** C13 → J6 (printed H13 → A6 on the underside)
 - **Side:** underside (link)
 - **What it does:** DRV_SLEEP: GPIO19 to the driver's EEP pin, which wakes it.
 - **Check:** C13 connects to J6. It should not touch C12, C14, or W22 where they cross.
 
 ### Step 10: W17, red, B2 → C17
 
-![Step 10: The perfboard seen from the underside, turned over so column A is on the right, with the 9 earlier steps drawn in grey. W17, red, drawn bold from B2 to C17, both ends circled.](images/steps-wiring/step-10-W17.svg)
+![Step 10: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 9 earlier steps drawn in grey. W17, red, drawn bold from B2 to C17 (printed I2 and H17 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-10-W17.svg)
 
 - **Wire:** W17, red, 30 AWG stranded
 - **Cut:** 60 mm
-- **From → to:** B2 → C17
+- **From → to:** B2 → C17 (printed I2 → H17 on the underside)
 - **Side:** underside (link)
 - **What it does:** The Super Mini's 5 V: from D1's cathode strip down the board to the 5V pin's strip.
 - **Check:** C17 connects to A2 and to H7. C17 must not connect to C16 (GND).
 
 ### Step 11: W23, black, A16 → H8
 
-![Step 11: The perfboard seen from the underside, turned over so column A is on the right, with the 10 earlier steps drawn in grey. W23, black, drawn bold from A16 to H8, both ends circled.](images/steps-wiring/step-11-W23.svg)
+![Step 11: The perfboard seen from the underside, as you see it turned over, its columns labelled with the mirrored letters printed there, with the 10 earlier steps drawn in grey. W23, black, drawn bold from A16 to H8 (printed J16 and C8 on the underside), both ends circled and labelled with both names.](images/steps-wiring/step-11-W23.svg)
 
 - **Wire:** W23, black, 30 AWG stranded
 - **Cut:** 65 mm
-- **From → to:** A16 → H8
+- **From → to:** A16 → H8 (printed J16 → C8 on the underside)
 - **Side:** underside (link)
 - **What it does:** Ground to the strip where C3's − lead will go.
 - **Check:** H8 connects to B8. H8 must not connect to H7 (5 V) or H9.
@@ -243,66 +245,66 @@ With C1 already in its seat on the mount. These six wires come from behind the b
 
 ### Step 20: L1, red, C1 + (long leg) → C7
 
-![Step 20: The perfboard seen from the component side, column A on the left, with the 19 earlier steps drawn in grey. L1, red, drawn bold from hole C7 off the board's left edge, labelled C1 + long leg.](images/steps-wiring/step-20-L1.svg)
+![Step 20: The perfboard seen from the component side, column A on the left, with the 19 earlier steps drawn in grey. L1, red, drawn bold from hole C7 (printed H7 on the underside) off the board's left edge, labelled C1 + long leg.](images/steps-wiring/step-20-L1.svg)
 
 - **Wire:** L1, red, 30 AWG stranded
 - **Cut:** 50 mm
-- **From → to:** C1 + (long leg) → C7
+- **From → to:** C1 + (long leg) → C7 (push it in at printed H7 on the underside)
 - **Side:** in from the underside, soldered on the component side
 - **What it does:** C1, the 470 µF capacitor in its seat on the mount, to the +5V bus.
 - **Check:** C1's + leg connects to A7. Its long leg (+) is the one on C7.
 
 ### Step 21: L2, black, C1 − (stripe side) → B4
 
-![Step 21: The perfboard seen from the component side, column A on the left, with the 20 earlier steps drawn in grey. L2, black, drawn bold from hole B4 off the board's left edge, labelled C1 − stripe.](images/steps-wiring/step-21-L2.svg)
+![Step 21: The perfboard seen from the component side, column A on the left, with the 20 earlier steps drawn in grey. L2, black, drawn bold from hole B4 (printed I4 on the underside) off the board's left edge, labelled C1 − stripe.](images/steps-wiring/step-21-L2.svg)
 
 - **Wire:** L2, black, 30 AWG stranded
 - **Cut:** 55 mm
-- **From → to:** C1 − (stripe side) → B4
+- **From → to:** C1 − (stripe side) → B4 (push it in at printed I4 on the underside)
 - **Side:** in from the underside, soldered on the component side
 - **What it does:** C1's − leg to ground (strip 4 left). Reversed polarity damages the capacitor.
 - **Check:** C1's − leg connects to B8. C1 + must not connect to C1 −.
 
 ### Step 22: W6, white, I14 → J3 pin 6
 
-![Step 22: The perfboard seen from the component side, column A on the left, with the 21 earlier steps drawn in grey. W6, white, drawn bold from hole I14 off the board's right edge, labelled J3 pin 6.](images/steps-wiring/step-22-W6.svg)
+![Step 22: The perfboard seen from the component side, column A on the left, with the 21 earlier steps drawn in grey. W6, white, drawn bold from hole I14 (printed B14 on the underside) off the board's right edge, labelled J3 pin 6.](images/steps-wiring/step-22-W6.svg)
 
 - **Wire:** W6, white, 30 AWG stranded
 - **Cut:** 160 mm
-- **From → to:** I14 → J3 pin 6
+- **From → to:** I14 → J3 pin 6 (push it in at printed B14 on the underside)
 - **Side:** in from the underside, soldered on the component side
 - **What it does:** BTN: GPIO1 to the button, through J3 pin 6.
 - **Check:** J3 pin 6 connects to H14 (GPIO1). It must not connect to I13 or I15.
 
 ### Step 23: W9, green, I13 → J3 pin 3
 
-![Step 23: The perfboard seen from the component side, column A on the left, with the 22 earlier steps drawn in grey. W9, green, drawn bold from hole I13 off the board's right edge, labelled J3 pin 3.](images/steps-wiring/step-23-W9.svg)
+![Step 23: The perfboard seen from the component side, column A on the left, with the 22 earlier steps drawn in grey. W9, green, drawn bold from hole I13 (printed B13 on the underside) off the board's right edge, labelled J3 pin 3.](images/steps-wiring/step-23-W9.svg)
 
 - **Wire:** W9, green, 30 AWG stranded
 - **Cut:** 160 mm
-- **From → to:** I13 → J3 pin 3
+- **From → to:** I13 → J3 pin 3 (push it in at printed B13 on the underside)
 - **Side:** in from the underside, soldered on the component side
 - **What it does:** DIR_FWD: GPIO2 to the direction switch's forward side, through J3 pin 3.
 - **Check:** J3 pin 3 connects to H13 (GPIO2). It must not connect to I12 or I14.
 
 ### Step 24: W10, blue, I15 → J3 pin 1
 
-![Step 24: The perfboard seen from the component side, column A on the left, with the 23 earlier steps drawn in grey. W10, blue, drawn bold from hole I15 off the board's right edge, labelled J3 pin 1.](images/steps-wiring/step-24-W10.svg)
+![Step 24: The perfboard seen from the component side, column A on the left, with the 23 earlier steps drawn in grey. W10, blue, drawn bold from hole I15 (printed B15 on the underside) off the board's right edge, labelled J3 pin 1.](images/steps-wiring/step-24-W10.svg)
 
 - **Wire:** W10, blue, 30 AWG stranded
 - **Cut:** 165 mm
-- **From → to:** I15 → J3 pin 1
+- **From → to:** I15 → J3 pin 1 (push it in at printed B15 on the underside)
 - **Side:** in from the underside, soldered on the component side
 - **What it does:** DIR_REV: GPIO0 to the direction switch's reverse side, through J3 pin 1.
 - **Check:** J3 pin 1 connects to H15 (GPIO0). It must not connect to I14.
 
 ### Step 25: W11, black, A4 → J3 pin 2
 
-![Step 25: The perfboard seen from the component side, column A on the left, with the 24 earlier steps drawn in grey. W11, black, drawn bold from hole A4 off the board's left edge, labelled J3 pin 2.](images/steps-wiring/step-25-W11.svg)
+![Step 25: The perfboard seen from the component side, column A on the left, with the 24 earlier steps drawn in grey. W11, black, drawn bold from hole A4 (printed J4 on the underside) off the board's left edge, labelled J3 pin 2.](images/steps-wiring/step-25-W11.svg)
 
 - **Wire:** W11, black, 30 AWG stranded
 - **Cut:** 150 mm
-- **From → to:** A4 → J3 pin 2
+- **From → to:** A4 → J3 pin 2 (push it in at printed J4 on the underside)
 - **Side:** in from the underside, soldered on the component side
 - **What it does:** Ground for the whole control pod, through J3 pin 2.
 - **Check:** J3 pin 2 connects to B8. It must not connect to J3 pins 1, 3 or 6.
