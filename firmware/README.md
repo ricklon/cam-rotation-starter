@@ -54,8 +54,8 @@ LED: steady while a story plays, a short blink every 2 s when ready.
 ## Connecting
 
 1. Power the box. Join the Wi-Fi network **CamBox-XXXX** (open by default; the last four characters come from the board's MAC address).
-2. Your phone should open the app automatically (captive portal). If it doesn't, go to `http://192.168.4.1` or `http://cambox.local`.
-3. Optional: in Settings → Wi-Fi, add your own network (or several: school, home, a phone hotspot) so the box joins the first one it can reach. Then use `http://cambox.local` from that network. Or do it over USB with the serial console (below).
+2. Your phone should open the app automatically (captive portal). If it doesn't, go to `http://192.168.4.1` or `http://cambox-XXXX.local` (the same four characters as the network name).
+3. Optional: in Settings → Wi-Fi, add your own network (or several: school, home, a phone hotspot) so the box joins the first one it can reach. Then use `http://cambox-XXXX.local` from that network (the box shows its name in Settings, and `status` on the console prints it). Or do it over USB with the serial console (below).
 
 ## Serial console
 
@@ -204,7 +204,7 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 | `rest_every`, `rest_ms` | 0, 5000 | Pause for `rest_ms` after every N loops. |
 | `ap_ssid`, `ap_pass` | "" | The box's own network. Blank name = CamBox-XXXX; a password under 8 characters = open network. |
 | `networks` | [] | Up to 4 networks to join as well, `[{"ssid","pass"}]`, tried in order (3 attempts each). The API never returns passwords, only `pass_set`; an entry sent without `pass` keeps its saved password. A single `sta_ssid` / `sta_pass` from an older save becomes the first entry. |
-| `hostname` | cambox | mDNS name (`cambox.local`). |
+| `hostname` | "" | mDNS name. Blank = `cambox-XXXX` (the last four hex digits of the MAC, matching the access point `CamBox-XXXX`), so boxes on one network never share a name. A saved `cambox` from an older version counts as blank. |
 
 ## Layout
 

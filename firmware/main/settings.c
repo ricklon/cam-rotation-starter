@@ -21,7 +21,7 @@ static void defaults(settings_t *s)
     s->autoplay = false;
     s->rest_every = 0;
     s->rest_ms = 5000;
-    strcpy(s->hostname, "cambox");
+    s->hostname[0] = 0;   // blank = cambox-XXXX from the MAC (net.c)
 }
 
 static int clampi(int v, int lo, int hi) { return v < lo ? lo : (v > hi ? hi : v); }
@@ -104,6 +104,8 @@ void settings_apply_json(const cJSON *j)
         }
     }
     copy_str(g_settings.hostname, sizeof g_settings.hostname, j, "hostname");
+    // "cambox" was the old fixed default; treat it as blank so every box gets its own name.
+    if (!strcmp(g_settings.hostname, "cambox")) g_settings.hostname[0] = 0;
     // WPA2 needs 8+ characters; anything shorter falls back to an open network.
     if (strlen(g_settings.ap_pass) > 0 && strlen(g_settings.ap_pass) < 8) g_settings.ap_pass[0] = 0;
 }
@@ -183,6 +185,6 @@ void settings_reset_network(void)
     g_settings.ap_pass[0] = 0;
     memset(g_settings.nets, 0, sizeof g_settings.nets);
     g_settings.net_count = 0;
-    strcpy(g_settings.hostname, "cambox");
+    g_settings.hostname[0] = 0;
     settings_save();
 }
