@@ -67,6 +67,7 @@ uvx --from pyserial pyserial-miniterm --eol CRLF COM3 115200    # or idf.py -p P
 
 | Command | What it does |
 |---|---|
+| `info` | Name (`cambox-XXXX`), access point, MAC addresses, board and drive, firmware version and build time, IDF version, chip revision |
 | `status` | Board, drive, uptime, free heap, access point, home network (IP, signal), knob, button, direction, motor speed and duty, player |
 | `wifi`, `wifi list` | The saved networks (up to 4), numbered in the order they're tried. `*` marks the one joined now. |
 | `wifi scan` | List the networks the board can hear. It's 2.4 GHz only, so a 5 GHz-only network won't appear. |
