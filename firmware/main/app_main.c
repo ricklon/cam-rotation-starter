@@ -13,6 +13,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
+#include "esp_system.h"
 
 static const char *TAG = "cambox";
 
@@ -51,8 +52,34 @@ static void led_task(void *arg)
     }
 }
 
+#if BOARD_BTN_IS_BOOT
+// The button is the BOOT strapping pin: held low at reset it enters the USB bootloader, so a
+// boot-time hold can't work. Hold it 10 s while running instead (the 2 s long press stops first).
+static void wifi_reset_task(void *arg)
+{
+    int held = 0;
+    for (;;) {
+        vTaskDelay(pdMS_TO_TICKS(100));
+        held = controls_button_down() ? held + 1 : 0;
+        if (held == 100) {
+            settings_reset_network();
+            ESP_LOGW(TAG, "Wi-Fi settings reset (BOOT held 10 s); restarting");
+            for (int i = 0; i < 10; i++) {
+                gpio_set_level(PIN_LED, (i & 1) ? LED_ON_LEVEL : !LED_ON_LEVEL);
+                vTaskDelay(pdMS_TO_TICKS(100));
+            }
+            esp_restart();
+        }
+    }
+}
+#endif
+
 static void check_wifi_reset(void)
 {
+#if BOARD_BTN_IS_BOOT
+    xTaskCreate(wifi_reset_task, "wifireset", 2560, NULL, 2, NULL);
+    return;
+#endif
     // Hold the panel button while powering up for 5 s to reset Wi-Fi settings.
     if (!controls_button_down()) return;
     ESP_LOGW(TAG, "button held at boot: keep holding 5 s to reset Wi-Fi");

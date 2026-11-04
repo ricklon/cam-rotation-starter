@@ -42,7 +42,11 @@
 #define LED_ON_LEVEL      1
 #define HAS_RF_SWITCH     0            // fixed ceramic antenna, no RF switch
 #else
+#if CONFIG_CAM_BOARD_XIAO_C6_BARE
+#define BOARD_NAME        "xiao-c6-bare"
+#else
 #define BOARD_NAME        "xiao-c6"
+#endif
 #if CONFIG_CAM_DRIVE_N20
 // The N20 uses the module's channel B (IN3/IN4 -> OUT3/OUT4): those pins sit right under the
 // XIAO's bottom row, so the three driver wires drop straight down (drives/n20/docs/wiring.md).
@@ -52,12 +56,25 @@
 #else
 #define PIN_SERVO         GPIO_NUM_0   // D0  servo CTRL (through R1)
 #endif
+#if CONFIG_CAM_BOARD_XIAO_C6_BARE
+// Bare XIAO (no panel fitted): the on-board BOOT button (GPIO9) is the panel button, and there is
+// no knob or direction switch; use the web virtual panel for those. GPIO9 is a strapping pin: held
+// low at reset it enters the USB bootloader, so a boot-time hold can't reset Wi-Fi. A 10 s hold while
+// running does instead (BOARD_BTN_IS_BOOT).
+#define PIN_BTN           GPIO_NUM_9   // BOOT button to GND (external pull-up on the board)
+#define BOARD_BTN_IS_BOOT 1
+#define BOARD_HAS_KNOB    0
+#define BOARD_HAS_DIR_SWITCH 0
+#define PIN_KNOB          GPIO_NUM_2   // unused (no knob); kept so the build links
+#define KNOB_REVERSED     0
+#else
 #define PIN_BTN           GPIO_NUM_1   // D1  push button to GND (internal pull-up)
 #define PIN_KNOB          GPIO_NUM_2   // D2  pot wiper (ADC), pot across 3V3/GND
 #define KNOB_REVERSED     0
 #define PIN_DIR_FWD       GPIO_NUM_21  // D3  switch outer pin A to GND
 #define PIN_DIR_REV       GPIO_NUM_22  // D4  switch outer pin B to GND
 #define BOARD_HAS_DIR_SWITCH 1
+#endif
 
 #define PIN_LED           GPIO_NUM_15  // XIAO ESP32-C6 user LED (active low)
 #define LED_ON_LEVEL      0
@@ -66,4 +83,12 @@
 #define HAS_RF_SWITCH     1
 #define PIN_RF_SWITCH_EN  GPIO_NUM_3
 #define PIN_ANT_SELECT    GPIO_NUM_14
+#endif
+
+// Defaults for boards that don't say otherwise.
+#ifndef BOARD_HAS_KNOB
+#define BOARD_HAS_KNOB    1
+#endif
+#ifndef BOARD_BTN_IS_BOOT
+#define BOARD_BTN_IS_BOOT 0
 #endif

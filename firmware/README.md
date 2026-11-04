@@ -33,7 +33,7 @@ The full point-to-point wire list for the MG90S drive (W1–W11, L1–L3, J1–J
 | Button, short press | Play or pause. If nothing is playing it starts the autoplay story, or the first story. |
 | Button, double press | Next story. |
 | Button, hold 2 s | Stop and go to manual mode. |
-| Button held while powering up (5 s, LED flickers) | Reset the Wi-Fi settings to their defaults. |
+| Button held while powering up (5 s, LED flickers) | Reset the Wi-Fi settings to their defaults. (Bare XIAO build: hold BOOT 10 s while running instead.) |
 | Knob | Story speed (master %) while a story plays; manual speed otherwise. It can be disabled in Settings. |
 | Switch FWD / centre / REV | Sets direction for everything, including web commands. Centre stops the motor and pauses a story. If the switch isn't fitted, untick "Direction switch is wired" so the box always runs forward. The Super Mini board has no switch at all (`BOARD_HAS_DIR_SWITCH` 0 in `board.h`): it runs forward and the web app hides the setting. |
 
@@ -127,6 +127,8 @@ The default build is for the Seeed XIAO ESP32-C6. For the ESP32-C6 Super Mini, a
 idf.py -B build/n20-supermini -D SDKCONFIG=build/n20-supermini/sdkconfig -D SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.n20;sdkconfig.supermini" build
 idf.py -B build/n20-supermini -p PORT flash
 ```
+
+A third choice, **XIAO ESP32-C6, bare**, is for a XIAO with nothing wired to it yet (add `sdkconfig.xiao-bare`, which combines with either drive type like the others). The on-board **BOOT** button (GPIO9) is the panel button, and there is no knob or direction switch: the web app hides those settings, and the Play tab's virtual panel stands in for them. Because GPIO9 is a strapping pin, holding it at power-up enters the USB bootloader, so on this build the Wi-Fi reset is **hold BOOT for 10 s while the box is running** (the 2 s hold stops playback first; the LED flickers, then the box restarts).
 
 Only the pin map (`main/board.h`) and the antenna set-up differ. The boot log names both: `ready (n20 drive, supermini-c6 board)`. A build for the wrong board runs, but the motor and the panel controls won't respond.
 

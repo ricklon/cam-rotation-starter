@@ -22,6 +22,8 @@ menu "CamBox"
 
         config CAM_BOARD_XIAO_C6
             bool "Seeed XIAO ESP32-C6"
+        config CAM_BOARD_XIAO_C6_BARE
+            bool "Seeed XIAO ESP32-C6, bare (BOOT button only, no pot or switch)"
         config CAM_BOARD_SUPERMINI_C6
             bool "ESP32-C6 Super Mini (26 x 18 mm, castellated)"
     endchoice
