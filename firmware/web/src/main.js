@@ -189,6 +189,8 @@ function updateLive() {
   if (!s) return;
   const story = s.mode === 'story';
   const set = (id, txt) => { const el = document.getElementById(id); if (el && el.textContent !== txt) el.textContent = txt; };
+  const name = s.net?.hostname;
+  if (name) { set('devName', name); document.title = `${name} · CamBox`; }
   const kind = s.playlist ? `Playlist ${s.playlist} (${s.pl_pos} of ${s.pl_n})` : 'Story';
   set('nowMode', story ? (s.resting ? 'Resting between loops' : s.paused ? `${kind} · paused` : `${kind} · playing`) : 'Manual');
   set('nowTitle', story ? s.story : (Math.abs(s.target) > 0.5 ? `Turning at ${Math.round(s.target)}%` : 'Stopped'));
