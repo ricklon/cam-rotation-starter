@@ -9,7 +9,7 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 | N20_Bushing_075 | flange down | 34.0 × 29.0 × 6.0 | 478 |
 | N20_Bushing_0625 | flange down | 34.0 × 29.0 × 6.0 | 574 |
 | N20_Bushing_025 | flange down | 34.0 × 29.0 × 6.0 | 765 |
-| N20_Cartridge | on its side (-x face down), arms flat along the bed | 35.3 × 29.0 × 15.0 | 278 |
+| N20_Cartridge | on its side (-x face down), arms flat along the bed | 35.3 × 29.0 × 15.0 | 282 |
 | N20_Electronics_Cover | top plate down, walls and posts up | 42.0 × 55.2 × 12.5 | 2031 |
 | N20_Socket_Coupon | socket coupon: plate top down, as the mount | 20.5 × 27.0 × 12.4 | 318 |
 | N20_Latch_Key | flat on its side, the U on the bed | 12.2 × 16.7 × 7.0 | 109 |
@@ -55,6 +55,8 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 **Updated 2026-11-08 (version 38): `N20_Cartridge` only.** Both snap hooks now stop 24.8 mm below the gearbox face, so an N20 with a Hall encoder board on its back (the board's front face is about 25 mm from the gearbox face) fits. The −Y arm stops at the same height, because the encoder board runs under it. The catch is unchanged, but the sloped lead-in under each hook is gone: spread the arms with your fingers as the motor goes in. The plain N20 still fits. See [Encoder motor](../../README.md#encoder-motor-2026-11-08). The wire clamp below the +Y arm stays on the part but isn't used with the encoder motor: its cable plugs into the encoder, so nothing is soldered at the motor.
 
 **Updated 2026-11-08 (version 39): wiring only, print files unchanged.** The encoder motor's cable, the links W30 and W31 and C2 on the perfboard are routed in the model. The cable comes out through the cover's existing 7 mm notch.
+
+**Updated 2026-11-09 (version 41): `N20_Cartridge` only, fingers round the encoder board.** The version 38 print wouldn't clip over the encoder motor: its hooks had to drop into a gap of under 1 mm between the end cap and the board, which sits tilted 25–25.5 mm from the gearbox face. Now the −Y arm has no end-cap hook. Instead, two fingers (1.2 mm wide, split from the arm up to 15 mm below the gearbox face) pass the board's sides, 0.3 mm clear, and catch its back 26.6 mm from the gearbox face, 0.8 mm in, with a sloped lead-in, so they spread as the board goes past. The +x finger's catch is tapered at 45° so it prints without supports. The +Y arm keeps its end-cap hook, now with a 0.5 mm lead-in again (more would hit the board). The fingers flex across the layers, unlike the arms; the strain is under 1 %, but if one snaps, tell me. Clearances: 0.2 mm to the board, 0.3 mm to the magnet cap. With the plain N20 (no board), only the +Y hook holds it.
 
 **Updated 2026-11-03 (version 35): `N20_Mount` only.** The bushing's flange recess has moved from the underside of the top plate to the flat wall face: the bushing drops into the bore from the wall side, its Ø34 mm double-D flange sits in a 1.6 mm deep recess (flange 1.5 mm, so it sits 0.1 mm below the face), and the box wall holds it in once the mount is screwed on. Nothing has to slide in under the plate any more, where the 5/8 clamp left no room. The old recess under the plate is filled. Bore (Ø29.2 mm), bushing and dowel bores are unchanged, so the bushings don't need reprinting; reprint only the mount. The recess is on the bed face: its ceiling is a 2.6 mm ring overhang round the bore, which prints without supports. The box wall hole now only needs to pass the dowel: the dowel and its clamp go through the mount, then the bushing, before the mount goes on the wall (see the [assembly order](../../README.md#assembly-order-and-tool-access)). The MG90S drive has the same change (*Cam Rotation Starter* version 51).
 
@@ -160,7 +162,7 @@ Tell me which hole fitted in each row of the PETG coupon, how the cartridge snap
 | Part | Material | Layer | Walls | Infill | Supports |
 |---|---|---|---|---|---|
 | N20_PETG_Fit_Coupon | PETG | 0.2 mm | 3 | 20% | none |
-| N20_Cartridge | PETG | 0.16 mm | 3 | 40% | none: printed on its side (as the file loads), so the snap arms and latch tongues bend along their layers |
+| N20_Cartridge | PETG | 0.16 mm | 3 | 40% | none: printed on its side (as the file loads), so the snap arms and latch tongues bend along their layers (the encoder fingers bend across them, gently) |
 | N20_Socket_Coupon | PETG | 0.2 mm | 3 | 25% | none (same settings as the mount) |
 | N20_Latch_Key | PETG | 0.16 mm | 3 | 40% | none: printed flat, as the file loads |
 | N20_Mount_Fit_Coupon_Wall, _Base | PETG | 0.2 mm | 3 | 25% | none (same layer, walls and infill as the mount, so its fits come out the same) |
