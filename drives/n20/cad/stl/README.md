@@ -9,7 +9,7 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 | N20_Bushing_075 | flange down | 34.0 × 29.0 × 6.0 | 478 |
 | N20_Bushing_0625 | flange down | 34.0 × 29.0 × 6.0 | 574 |
 | N20_Bushing_025 | flange down | 34.0 × 29.0 × 6.0 | 765 |
-| N20_Cartridge | on its side (-x face down), arms flat along the bed | 35.3 × 29.0 × 15.0 | 281 |
+| N20_Cartridge | on its side (-x face down), arms flat along the bed | 35.3 × 29.0 × 15.0 | 278 |
 | N20_Electronics_Cover | top plate down, walls and posts up | 42.0 × 55.2 × 12.5 | 2031 |
 | N20_Socket_Coupon | socket coupon: plate top down, as the mount | 20.5 × 27.0 × 12.4 | 318 |
 | N20_Latch_Key | flat on its side, the U on the bed | 12.2 × 16.7 × 7.0 | 109 |
@@ -51,6 +51,8 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 **Fixed 2026-11-03 (version 36): `N20_Electronics_Cover` only, mirrored to fit the real board.** The model had the perfboard as its own mirror image (row 1 at +X with column A toward the box wall can't happen on a real board seen from its component side), so covers from versions 33–35 fit RV1 and C3 but had everything else at the wrong end. Now row 17 and both USB-C ports are at −X: the open end, the C1 hole, the posts and the motor notch have moved to match, and the knob hole and C3 hole sit where RV1 and C3 really are. The mount needs no change (all four supports have pilots). Reprint only the cover. W14, W15, W6 and W11 are rerouted, so their cut lengths changed (80, 90, 185 and 185 mm).
 
 **Updated 2026-11-03 (version 34): `N20_Electronics_Cover` again, with the measured sizes.** RV1's shaft is 5 mm above the board and its bushing reaches 5 mm past the board edge, so the knob hole moved down and an Ø11.5 × 0.8 mm recess round it on the outside gives the M7 nut and washer 3.5 mm of thread. C3 is an 8 × 13 mm can like C1, through a 9 mm hole. Reprint the cover from this version.
+
+**Updated 2026-11-08 (version 38): `N20_Cartridge` only.** Both snap hooks now stop 24.8 mm below the gearbox face, so an N20 with a Hall encoder board on its back (the board's front face is about 25 mm from the gearbox face) fits. The −Y arm stops at the same height, because the encoder board runs under it. The catch is unchanged, but the sloped lead-in under each hook is gone: spread the arms with your fingers as the motor goes in. The plain N20 still fits. See [Encoder motor](../../README.md#encoder-motor-2026-11-08).
 
 **Updated 2026-11-03 (version 35): `N20_Mount` only.** The bushing's flange recess has moved from the underside of the top plate to the flat wall face: the bushing drops into the bore from the wall side, its Ø34 mm double-D flange sits in a 1.6 mm deep recess (flange 1.5 mm, so it sits 0.1 mm below the face), and the box wall holds it in once the mount is screwed on. Nothing has to slide in under the plate any more, where the 5/8 clamp left no room. The old recess under the plate is filled. Bore (Ø29.2 mm), bushing and dowel bores are unchanged, so the bushings don't need reprinting; reprint only the mount. The recess is on the bed face: its ceiling is a 2.6 mm ring overhang round the bore, which prints without supports. The box wall hole now only needs to pass the dowel: the dowel and its clamp go through the mount, then the bushing, before the mount goes on the wall (see the [assembly order](../../README.md#assembly-order-and-tool-access)). The MG90S drive has the same change (*Cam Rotation Starter* version 51).
 
