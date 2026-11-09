@@ -102,7 +102,7 @@ Every hole has its size engraved under it. Find the one that fits in each row an
 
 ![The cartridge with the motor in it, from the side: the shaft out of the top plate, a latch tongue cut into the side wall with its bump near the top, the flange, and below it a snap arm along the motor with its hook over the end cap, and a black zip tie round both arms between their ribs.](../../docs/images/cartridge.png)
 
-Print them the way they load, with no supports: the cartridge lies on its side, the socket coupon on its plate face like the mount, the key flat. The coupon is the mount's own socket, cut out of it, so a latch that holds here holds in the mount. The catch face in each slot prints as a short bridge. **Before printing, measure your motor** from the gearbox face to the back of the end cap. The hooks are set for 24.1 mm (`n20_len`), so tell me if yours differs.
+Print them the way they load, with no supports: the cartridge lies on its side, the socket coupon on its plate face like the mount, the key flat. The coupon is the mount's own socket, cut out of it, so a latch that holds here holds in the mount. The catch face in each slot prints as a short bridge. **The cartridge needs no supports; turn them off for it.** Most of its overhang is one flat ceiling, the far wall of the gearbox cavity, which prints as a 10.6 mm bridge across the inside of the tube. Everything else is a short bridge (the zip-tie slots, the 0.5 mm slots beside the encoder fingers) or a 45° slope. Standard (grid) supports fill the motor cavity and the finger slots and are close to impossible to get out. If your bridge sags and you want support under it, use organic (tree) supports from the build plate only, and if your printer has a second material, print the support interface in PLA: PLA doesn't bond to PETG, so it peels off. **Before printing, measure your motor** from the gearbox face to the back of the end cap. The hooks are set for 24.1 mm (`n20_len`), so tell me if yours differs.
 
 | Check | If it's wrong |
 |---|---|
@@ -162,7 +162,7 @@ Tell me which hole fitted in each row of the PETG coupon, how the cartridge snap
 | Part | Material | Layer | Walls | Infill | Supports |
 |---|---|---|---|---|---|
 | N20_PETG_Fit_Coupon | PETG | 0.2 mm | 3 | 20% | none |
-| N20_Cartridge | PETG | 0.16 mm | 3 | 40% | none: printed on its side (as the file loads), so the snap arms and latch tongues bend along their layers (the encoder fingers bend across them, gently) |
+| N20_Cartridge | PETG (not PLA: the arms, fingers and latch tongues flex) | 0.16 mm | 3 | 40% | **none**: printed on its side (as the file loads), so the snap arms and latch tongues bend along their layers (the encoder fingers bend across them, gently). See the cartridge notes in section 2 if your slicer adds supports. |
 | N20_Socket_Coupon | PETG | 0.2 mm | 3 | 25% | none (same settings as the mount) |
 | N20_Latch_Key | PETG | 0.16 mm | 3 | 40% | none: printed flat, as the file loads |
 | N20_Mount_Fit_Coupon_Wall, _Base | PETG | 0.2 mm | 3 | 25% | none (same layer, walls and infill as the mount, so its fits come out the same) |
@@ -172,7 +172,7 @@ Tell me which hole fitted in each row of the PETG coupon, how the cartridge snap
 | N20_Mount | PETG | 0.2 mm | 3 | 25% | **yes**, build plate only: under the face plate (through the bushing hole) and the PD pad. The ear bosses print upright from the flange and need none. |
 | N20_Electronics_Cover | PETG | 0.2 mm | 3 | 20% | none: printed top plate down, as the file loads |
 
-PETG notes: print a little slower and hotter than PLA, turn off ironing, and use a glue stick or textured sheet on smooth PEI (PETG can bond too well). Holes usually come out slightly smaller than in PLA, which is what the coupon is for.
+PETG notes: print a little slower and hotter than PLA, turn off ironing, and use a glue stick or textured sheet on smooth PEI (PETG can bond too well). Where a part needs supports, organic (tree) supports come off far more easily than standard ones, and with a two-material printer a PLA support interface (or all-PLA supports) separates cleanly from PETG. Holes usually come out slightly smaller than in PLA, which is what the coupon is for.
 
 Printed flange down, the mount's face plate is a 29 mm bridge between the side walls, now with the cartridge socket through it. The supports under it stand in the open space the adapter turns in and come out through the open ends; the narrower slot above the plate, under the base, is filled solid so nothing gets trapped there. If yours sags, turn on supports everywhere (not just from the build plate) for that print. The PD board's pad also leaves a 3.5 mm overhang facing the bed; build-plate supports reach it.
 
