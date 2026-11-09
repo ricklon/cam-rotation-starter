@@ -72,6 +72,7 @@ uvx --from pyserial pyserial-miniterm --eol CRLF COM3 115200    # or idf.py -p P
 | `info` | Name (`cambox-XXXX`), access point, MAC addresses, board and drive, firmware version and build time, IDF version, chip revision |
 | `status` | Board, drive, uptime, free heap, access point, home network (IP, signal), knob, button, direction, motor speed and duty, encoder (N20 on the Super Mini), player |
 | `encoder`, `encoder watch`, `encoder zero` | The N20 encoder's count, output-shaft turns, angle and rpm: once, or five times a second for 10 s. `zero` makes the present position count 0. |
+| `teach start`, `teach stop <name> [once]`, `teach cancel` | Record a story by turning the shaft by hand (N20 with encoder): start lets the motor go and records; stop saves the take as story `<name>`, looping unless `once`; cancel drops it. See [Recording a story by turning the shaft](#recording-a-story-by-turning-the-shaft). |
 | `wifi`, `wifi list` | The saved networks (up to 4), numbered in the order they're tried. `*` marks the one joined now. |
 | `wifi scan` | List the networks the board can hear. It's 2.4 GHz only, so a 5 GHz-only network won't appear. |
 | `wifi add <name> [password]` | Save a network at the end of the list, or change the password of one already saved. Quote names with spaces: `wifi add "Dog Den" secret`. |
@@ -169,11 +170,33 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 - `ramp`: ms to glide from the previous speed (default 300).
 - `ms`: ms to hold the speed after the ramp.
 
+### Recording a story by turning the shaft
+
+On the N20 drive with the Hall encoder (the Super Mini build), a story can be recorded by turning the cam shaft by hand. In the story editor, press **Record** under *Record by turning the shaft* (or type `teach start` on the serial console). The motor lets go: the DRV8833 sleeps, so its outputs are open and the gearbox turns freely, though a 1:150 gearbox still takes a firm hand. Turn the shaft the way the story should move, for up to 2 minutes, then press **Finish** (`teach stop <name>`). The still time before the first movement and after the last is trimmed to half a second.
+
+The take becomes a story with a `track`: the shaft's position 25 times a second.
+
+```json
+{
+  "name": "wave",
+  "loop": true,
+  "steps": [ { "label": "Beat 1", "speed": 22, "ms": 675, "ramp": 225 }, … ],
+  "track": { "hz": 25, "cpr": 4200, "d": "0,3,12,40,…" }
+}
+```
+
+- `track.d`: the change in encoder counts from each sample to the next (x4, + is forward), as one comma-separated string. A 2-minute take is about 12 KB.
+- `steps`: beats worked out from the track (at most 64 straight runs, each at its average speed, converted with `max_rpm`). They're what a box without an encoder plays, and what the editor's timeline shows.
+
+**Playback follows the recording.** A story with a track, played on a box with an encoder, doesn't run its beats: the shaft follows the recorded position, closed-loop. Each 20 ms the player compares where the recording is with where the encoder says the shaft is, and sets the duty from the recording's speed (scaled by `max_rpm`) plus `follow_gain` times the error, plus `min_duty` to get past friction. The master speed and the knob slow the whole motion down rather than change its shape. Looping carries on from where the take ended, so a take that ends a turn and a half on keeps winding forward. If the shaft falls more than half a turn behind for 2 s (a stall or a cam too heavy), or gets more than 2 turns off (an encoder counting the wrong way: see `ENC_REVERSED`), the story stops, and the status shows why in `fault`.
+
+Editing a recorded story's beats turns it back into an ordinary beat story: the web app drops the track when the beats change.
+
 ## HTTP API
 
 | Method | Path | Body / result |
 |---|---|---|
-| GET | `/api/status` | Player status plus `net`, `drive` (`"mg90s"` or `"n20"`), `trim_us`, `free_heap`. The motor output is `pulse_us` (servo) or `duty` (N20, −100..100 %). With the N20 encoder (Super Mini build), `enc` has the output shaft's `count` (x4, + is forward), `turns`, `deg` (0–360), `rpm` and `cpr` (counts per turn, 4200); without one, `enc` is left out. |
+| GET | `/api/status` | Player status plus `net`, `drive` (`"mg90s"` or `"n20"`), `trim_us`, `free_heap`. The motor output is `pulse_us` (servo) or `duty` (N20, −100..100 %). `mode` is `"teach"` while recording by hand, with `teach: {ms, max_ms, full}`. While a recorded story plays its track, `follow` is true and `follow_err` is how far the shaft is off the recording, in counts; `fault` says why the last one was stopped. With the N20 encoder (Super Mini build), `enc` has the output shaft's `count` (x4, + is forward), `turns`, `deg` (0–360), `rpm` and `cpr` (counts per turn, 4200); without one, `enc` is left out. |
 | GET | `/api/settings` | Settings. Passwords are not returned; `ap_pass_set` / `sta_pass_set` say whether one is stored. |
 | POST | `/api/settings` | Any subset of the settings fields. Returns the settings plus `restart_needed`. |
 | POST | `/api/wifi/use` | `{"ssid":"school"}`: moves that saved network to the top of `networks` and joins it now. Returns the settings plus `restart_needed` (true if the box started with no network saved). |
@@ -184,6 +207,7 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 | GET / PUT / DELETE | `/api/playlists/<name>` | Playlist JSON: `{"name":"both","stories":["demo","fwd-pause-rev"]}` (1–16 story names) |
 | POST | `/api/play` | `{"name":"demo"}` |
 | POST | `/api/pause`, `/api/stop`, `/api/next` | |
+| POST | `/api/teach` | Record by hand (N20 with encoder; 409 without one). `{"action":"start"}` lets the motor go and starts recording, and returns the status. `{"action":"stop","name":"wave","loop":true}` returns the take as story JSON with `steps` and `track`, unsaved (PUT it to `/api/stories/<name>` to keep it), or 409 if the shaft didn't move. `{"action":"cancel"}` drops it. |
 
 **WebSocket `/ws`:** the box pushes status JSON every 200 ms. Messages the client can send:
 
@@ -202,6 +226,9 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 | `trim_us` | 1500 | Pulse at which this servo stands still. MG90S only. |
 | `range_us` | 400 | Pulse offset at ±100 % speed. MG90S only. |
 | `slew` | 150 | Maximum change in speed, in % per second (smoothing). |
+| `max_rpm` | 80 | N20: output-shaft rpm at 100 % duty on 5 V (the 1:150 encoder motor is about 100 rpm at 6 V). Converts recorded motion into beats, and feeds forward when following a track. |
+| `min_duty` | 12 | N20: % added to any non-zero command while following a track, to get past the gearbox's friction. Raise it if the shaft lags at slow parts of a recording; lower it if it jerks. |
+| `follow_gain` | 10 | N20: % of duty per 100 counts (about 8.6°) the shaft is off the recording. Raise it if playback drifts from the recording; lower it if the shaft hunts or buzzes. |
 | `idle_release_ms` | 1500 | Stop sending pulses after this long at zero, so the servo doesn't creep or hum. On the N20 the driver sleeps instead. 0 = never. |
 | `knob_enabled`, `switch_installed` | true; `switch_installed` is false on the Super Mini | Whether the panel controls are fitted. On a board without a direction switch (`BOARD_HAS_DIR_SWITCH` 0 in `main/board.h`: the Super Mini, for the N20 rev C build) `switch_installed` is always false, whatever was saved or posted; GPIO2 and GPIO0 aren't set up or read, direction is forward, and `/api/settings` reports `has_dir_switch: false` so the web app hides the checkbox. On the XIAO, untick it if the switch isn't fitted: with the switch absent both pins read as its centre (stop) position. |
 | `autoplay`, `autoplay_story` | false, "" | Gallery mode: play this story when powered on. |

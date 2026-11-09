@@ -17,6 +17,7 @@ static const char *TAG = "servo";
 static volatile float s_target = 0, s_speed = 0;
 static volatile int s_pulse = 0;
 static volatile int s_preview_trim = 0;   // 0 = use settings
+static volatile bool s_free = false;      // released for turning by hand: no pulses, targets ignored
 
 static void write_pulse(int us)
 {
@@ -32,6 +33,12 @@ static void servo_task(void *arg)
     int idle_ms = 0;
     for (;;) {
         vTaskDelayUntil(&last, pdMS_TO_TICKS(TICK_MS));
+        if (s_free) {
+            if (s_pulse != 0) write_pulse(0);
+            s_target = s_speed = 0;
+            idle_ms = 0;
+            continue;
+        }
         float step = g_settings.slew * (TICK_MS / 1000.0f);
         float diff = s_target - s_speed;
         if (fabsf(diff) <= step) s_speed = s_target;
@@ -80,6 +87,15 @@ void servo_set_target(float speed)
     if (speed < -100) speed = -100;
     s_target = speed;
 }
+
+void servo_set_immediate(float speed)
+{
+    if (speed > 100) speed = 100;
+    if (speed < -100) speed = -100;
+    s_target = s_speed = speed;
+}
+
+void servo_release(bool free) { s_free = free; }
 
 float servo_get_speed(void)  { return s_speed; }
 float servo_get_target(void) { return s_target; }

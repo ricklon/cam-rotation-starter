@@ -17,6 +17,10 @@ typedef struct {
     int  range_us;         // pulse offset at full speed (default 400 -> 1100..1900)
     int  slew;             // max speed change, % per second (smooth starts/stops)
     int  idle_release_ms;  // stop sending pulses after this long at zero (0 = never)
+    // Hand-recorded stories (N20 with encoder): following the recorded motion
+    int  max_rpm;          // output-shaft rpm at 100 % duty on 5 V: turns recorded speeds into beats, and feeds forward
+    int  min_duty;         // % added to any non-zero follow command to get past the gearbox's friction
+    int  follow_gain;      // % of duty per 100 counts (about 8.6 degrees) the shaft is off the recording
     // Physical controls
     bool knob_enabled;
     bool switch_installed; // false: treat direction as forward when the switch is absent
