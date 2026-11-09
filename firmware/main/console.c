@@ -11,6 +11,7 @@
 #include "controls.h"
 #include "player.h"
 #include "encoder.h"
+#include "storage.h"
 #include "net.h"
 #include "esp_console.h"
 #include "esp_wifi.h"
@@ -105,6 +106,13 @@ static int cmd_status(int argc, char **argv)
     printf("player %s%s%s\n", cJSON_IsString(mode) ? mode->valuestring : "?",
            cJSON_IsString(story) && story->valuestring[0] ? ", story " : "",
            cJSON_IsString(story) ? story->valuestring : "");
+    const cJSON *ferr = cJSON_GetObjectItem(p, "follow_err");
+    if (cJSON_IsNumber(ferr)) printf("following the hand-recorded track, %d counts off\n", ferr->valueint);
+    const cJSON *teach = cJSON_GetObjectItem(p, "teach");
+    if (teach) printf("recording by hand: %.1f s%s\n", cJSON_GetObjectItem(teach, "ms")->valuedouble / 1000,
+                      cJSON_IsTrue(cJSON_GetObjectItem(teach, "full")) ? " (full: teach stop <name>)" : "");
+    const cJSON *fault = cJSON_GetObjectItem(p, "fault");
+    if (cJSON_IsString(fault)) printf("last hand-recorded story stopped: %s\n", fault->valuestring);
     cJSON_Delete(p);
     return 0;
 }
@@ -325,6 +333,38 @@ static int cmd_encoder(int argc, char **argv)
     return 0;
 }
 
+// ---------- teach: record a story by turning the shaft by hand ----------
+
+static int cmd_teach(int argc, char **argv)
+{
+    const char *use = "use: teach start | teach stop <name> [once] | teach cancel\n";
+    if (argc >= 2 && !strcmp(argv[1], "start") && argc == 2) {
+        esp_err_t e = player_teach_start();
+        if (e == ESP_ERR_NOT_SUPPORTED) { printf("no encoder in this build (Super Mini N20 only)\n"); return 1; }
+        if (e != ESP_OK) { printf("could not start: %s\n", esp_err_to_name(e)); return 1; }
+        printf("recording: turn the shaft by hand (up to 120 s), then `teach stop <name>`\n");
+        return 0;
+    }
+    if (argc >= 3 && argc <= 4 && !strcmp(argv[1], "stop")) {
+        if (!storage_valid_name(argv[2])) { printf("names use 1-31 letters, digits, - and _\n"); return 1; }
+        bool loop = !(argc == 4 && !strcmp(argv[3], "once"));
+        char err[80];
+        cJSON *story = player_teach_stop(argv[2], loop, err, sizeof err);
+        if (!story) { printf("nothing saved: %s\n", err); return 1; }
+        int beats = cJSON_GetArraySize(cJSON_GetObjectItem(story, "steps"));
+        char *s = cJSON_Print(story);
+        cJSON_Delete(story);
+        esp_err_t e = s ? storage_write_story(argv[2], s, strlen(s)) : ESP_ERR_NO_MEM;
+        free(s);
+        if (e != ESP_OK) { printf("could not save: %s\n", esp_err_to_name(e)); return 1; }
+        printf("saved %s (%d beats, %s). `play %s` follows the recording.\n", argv[2], beats, loop ? "loops" : "plays once", argv[2]);
+        return 0;
+    }
+    if (argc == 2 && !strcmp(argv[1], "cancel")) { player_teach_cancel(); printf("recording dropped\n"); return 0; }
+    printf("%s", use);
+    return 1;
+}
+
 // ---------- system ----------
 
 static int cmd_log(int argc, char **argv)
@@ -366,7 +406,8 @@ void console_start(void)
         { .command = "stop", .help = "Stop the motor and any story", .func = cmd_stop },
         { .command = "play", .help = "Play a story: play <name>", .func = cmd_play },
         { .command = "encoder", .help = "N20 Hall encoder: encoder | encoder watch | encoder zero", .func = cmd_encoder },
-        { .command = "log",.help = "Log level: log none|error|warn|info|debug", .func = cmd_log },
+        { .command = "teach", .help = "Record a story by turning the shaft by hand: teach start | stop <name> [once] | cancel", .func = cmd_teach },
+        { .command = "log", .help ="Log level: log none|error|warn|info|debug", .func = cmd_log },
         { .command = "restart", .help = "Restart the board (applies network changes)", .func = cmd_restart },
         { .command = "reset-network", .help = "Put all Wi-Fi settings back to defaults", .func = cmd_reset_network },
     };

@@ -50,7 +50,7 @@ const state = {
   status: null,
   stories: [],
   settings: null,
-  editing: null,      // story being edited: {name, loop, steps:[{label,speed,ms,ramp}]}
+  editing: null,      // story being edited: {name, loop, steps:[{label,speed,ms,ramp}], track?, trackSig?}
   isNew: false,
   playlists: [],
   plEditing: null,    // playlist being edited: {name, orig, stories:[]}
@@ -192,20 +192,24 @@ function updateLive() {
   const name = s.net?.hostname;
   if (name) { set('devName', name); document.title = `${name} · CamBox`; }
   const kind = s.playlist ? `Playlist ${s.playlist} (${s.pl_pos} of ${s.pl_n})` : 'Story';
-  set('nowMode', story ? (s.resting ? 'Resting between loops' : s.paused ? `${kind} · paused` : `${kind} · playing`) : 'Manual');
-  set('nowTitle', story ? s.story : (Math.abs(s.target) > 0.5 ? `Turning at ${Math.round(s.target)}%` : 'Stopped'));
+  const follows = story && s.follow ? ' · following the hand recording' : '';
+  set('nowMode', s.mode === 'teach' ? 'Recording by hand' : story ? (s.resting ? 'Resting between loops' : s.paused ? `${kind} · paused` : `${kind} · playing${follows}`) : 'Manual');
+  set('nowTitle', s.mode === 'teach' ? 'Turn the shaft by hand' : story ? s.story : (Math.abs(s.target) > 0.5 ? `Turning at ${Math.round(s.target)}%` : 'Stopped'));
+  set('teachInfo', s.mode === 'teach' ? teachLabel(s) : '');
   set('nowBeat', story && s.steps ? `Beat ${s.step + 1} of ${s.steps}${s.step_label ? ` · ${s.step_label}` : ''} · loop ${s.loops + 1}` : '');
   setGauge(document.getElementById('liveGauge'), s.speed);
   const pills = document.getElementById('pills');
   if (pills) {
-    pills.replaceChildren(
+    // replaceChildren() would print null as text, so the optional pills are filtered out first
+    pills.replaceChildren(...[
       h('span', { class: `pill ${s.dir === 0 ? 'warn' : ''}` }, `Switch: ${DIR_LABEL[String(s.dir)]}`),
       h('span', { class: 'pill' }, `Knob ${s.knob}%`),
       h('span', { class: 'pill mono' }, outputLabel(s)),
       // N20 Hall encoder: output-shaft speed and position (turns since power-up, angle within the turn)
       s.enc ? h('span', { class: 'pill mono', title: `${s.enc.count} counts, ${s.enc.cpr} per turn` }, `${s.enc.rpm.toFixed(1)} rpm`) : null,
       s.enc ? h('span', { class: 'pill mono' }, `${s.enc.turns.toFixed(2)} turns · ${Math.round(s.enc.deg)}°`) : null,
-      story && !s.paused ? h('span', { class: 'pill on' }, 'Playing') : null);
+      story && !s.paused ? h('span', { class: 'pill on' }, 'Playing') : null,
+      s.fault ? h('span', { class: 'pill warn', title: s.fault }, 'Stopped: couldn\'t follow') : null].filter(Boolean));
   }
   const wired = !!s.switch_installed;
   document.querySelectorAll('#vSwitch button').forEach((/** @type {HTMLButtonElement} */ b) => {
@@ -292,6 +296,7 @@ async function editStory(name) {
   try {
     const s = await api('GET', `/api/stories/${encodeURIComponent(name)}`);
     state.editing = { name, orig: name, loop: s.loop !== false, steps: (s.steps || []).map((x) => ({ label: x.label || '', speed: x.speed, ms: x.ms, ramp: x.ramp ?? 300 })) };
+    if (s.track) { state.editing.track = s.track; state.editing.trackSig = beatSig(state.editing.steps); }
     state.isNew = false;
     render();
   } catch (e) { toast(e.message); }
@@ -382,6 +387,8 @@ function renderEditor() {
         h('label', { class: 'check', style: 'align-self:end' }, h('input', { type: 'checkbox', checked: st.loop, onchange: (e) => (st.loop = e.target.checked) }), 'Loop forever')),
       tl),
 
+    handCard(st),
+
     h('section', { class: 'card' },
       h('div', { class: 'row' },
         h('h2', { class: 'grow' }, 'Record by performing'),
@@ -396,7 +403,7 @@ function renderEditor() {
         oninput: (e) => recordInput(Number(e.target.value)) }),
       h('div', { class: 'row' },
         rec ? h('button', { class: 'btn stop', onclick: () => stopRecording(true) }, 'Finish recording')
-            : h('button', { class: 'btn primary', onclick: startRecording }, 'Record'))),
+            : h('button', { class: 'btn primary', disabled: state.status?.mode === 'teach', onclick: startRecording }, 'Record'))),
 
     h('section', { class: 'card' },
       h('h2', {}, `Beats (${st.steps.length})`),
@@ -411,12 +418,71 @@ function renderEditor() {
   ];
 }
 
+// ---- record by turning the shaft by hand (N20 with encoder)
+
+// The beats' timing and speeds: if they change, the story no longer matches its hand-recorded track.
+function beatSig(steps) { return JSON.stringify(steps.map((s) => [Math.round(s.speed), Math.round(s.ms), Math.round(s.ramp)])); }
+
+function handCard(st) {
+  const s = state.status || {};
+  if (!s.enc) return null;               // no encoder in this build
+  const teaching = s.mode === 'teach';
+  const secs = st.track ? (st.steps.reduce((a, b) => a + (+b.ms || 0) + (+b.ramp || 0), 0) / 1000).toFixed(1) : '';
+  return h('section', { class: 'card' },
+    h('div', { class: 'row' },
+      h('h2', { class: 'grow' }, 'Record by turning the shaft'),
+      teaching ? h('span', { class: 'rec' }, '● Recording') : null),
+    h('p', { class: 'muted', style: 'margin:0;font-size:14px' },
+      'Press Record, then turn the cam shaft by hand, the way the story should move. The motor lets go while you record. ' +
+      'Press Finish when you\'re done: the motion becomes this story, and the box plays it back by following the shaft\'s position. Up to 2 minutes.'),
+    teaching ? h('div', { class: 'mono', id: 'teachInfo' }, teachLabel(s)) : null,
+    st.track && !teaching ? h('p', { style: 'margin:0;font-size:14px' },
+      `Recorded by hand: ${secs} s. It plays the recorded motion; the beats below are worked out from it, for a box without an encoder. Editing the beats turns it back into an ordinary story.`) : null,
+    h('div', { class: 'row' },
+      teaching
+        ? [h('button', { class: 'btn stop', onclick: finishTeach }, 'Finish'), h('button', { class: 'btn', onclick: cancelTeach }, 'Cancel')]
+        : h('button', { class: 'btn primary', disabled: !!state.recording, onclick: startTeach }, 'Record')));
+}
+
+function teachLabel(s) {
+  const t = s.teach || {};
+  const turns = s.enc ? s.enc.turns.toFixed(2) : '0';
+  return `${((t.ms || 0) / 1000).toFixed(1)} s of ${((t.max_ms || 120000) / 1000).toFixed(0)} · ${turns} turns${t.full ? ' · full: press Finish' : ''}`;
+}
+
+async function startTeach() {
+  try { state.status = await api('POST', '/api/teach', { action: 'start' }); render(); }
+  catch (e) { toast(e.message); }
+}
+
+async function cancelTeach() {
+  try { state.status = await api('POST', '/api/teach', { action: 'cancel' }); render(); }
+  catch (e) { toast(e.message); }
+}
+
+async function finishTeach() {
+  const st = state.editing;
+  try {
+    const s = await api('POST', '/api/teach', { action: 'stop', name: st.name, loop: st.loop });
+    st.steps = (s.steps || []).map((x) => ({ label: x.label || '', speed: x.speed, ms: x.ms, ramp: x.ramp ?? 300 }));
+    st.track = s.track;
+    st.trackSig = beatSig(st.steps);
+    toast(`Recorded ${st.steps.length} beats. Name it and press Save.`);
+  } catch (e) { toast(`Nothing recorded: ${e.message}`); }
+  // stop answers with the take, not the status: the box has left teach mode either way
+  if (state.status) { state.status.mode = 'manual'; delete state.status.teach; }
+  render();
+}
+
 async function saveStory(andPlay) {
   const st = state.editing;
   const name = (st.name || '').trim();
   if (!/^[A-Za-z0-9_-]{1,31}$/.test(name)) { toast('Name: 1–31 letters, digits, - or _'); return; }
   if (name !== st.orig && state.stories.includes(name)) { toast(`A story called ${name} already exists. Pick another name.`); return; }
+  /** @type {any} */
   const body = { name, loop: st.loop, steps: st.steps.map((s) => ({ label: s.label, speed: Math.round(s.speed), ms: Math.max(0, Math.round(s.ms)), ramp: Math.max(0, Math.round(s.ramp)) })) };
+  if (st.track && beatSig(st.steps) === st.trackSig) body.track = st.track;
+  else if (st.track) { delete st.track; toast('The beats were edited, so the hand recording is dropped: the story now plays its beats.'); }
   try {
     await api('PUT', `/api/stories/${encodeURIComponent(name)}`, body);
     state.isNew = false;

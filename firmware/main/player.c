@@ -12,12 +12,15 @@
 #include "freertos/semphr.h"
 #include "esp_log.h"
 #include "esp_timer.h"
+#include "board.h"
+#include "encoder.h"
+#include "track.h"
 
 #define TICK_MS 20
 
 static const char *TAG = "player";
 
-typedef enum { MODE_MANUAL, MODE_STORY } mode_t_;
+typedef enum { MODE_MANUAL, MODE_STORY, MODE_TEACH } mode_t_;
 
 static SemaphoreHandle_t s_lock;
 static story_t s_story;
@@ -36,6 +39,27 @@ static int     s_master = 100;       // %
 static char    s_pl_name[32] = "";   // active playlist ("" = none)
 static char    s_pl[PLAYLIST_MAX][32];
 static int     s_pl_n = 0, s_pl_i = 0;
+
+// Hand-recorded stories. A story with a "track" plays it closed-loop when there's an encoder: the shaft
+// follows the recorded positions (time scaled by the master speed), instead of the beats' open-loop speeds.
+static track_t s_track;              // the loaded story's track (n = 0: none)
+static bool    s_follow = false;     // playing s_track with the encoder
+static float   s_tr_ms = 0;          // time into the take
+#if HAS_ENCODER
+static int32_t s_tr_base = 0;        // encoder count where this pass of the take started
+#endif
+static float   s_tr_err = 0;         // target - measured, counts
+static int     s_stall_ms = 0;
+static char    s_fault[80] = "";     // why the last followed story was stopped
+// Teach mode: the driver is released and the encoder is sampled every TEACH_EVERY ticks into s_rec.
+#define TEACH_EVERY (1000 / TRACK_HZ / TICK_MS)
+static int32_t *s_rec = NULL;
+static int     s_rec_n = 0;
+#if HAS_ENCODER
+static int     s_rec_tick = 0;
+static int32_t s_rec_base = 0;
+#endif
+static bool    s_rec_full = false;
 
 static float clampf(float v, float lo, float hi) { return v < lo ? lo : (v > hi ? hi : v); }
 
@@ -74,17 +98,21 @@ static esp_err_t load_story(const char *name)
 {
     char *txt = storage_read_story(name);
     if (!txt) return ESP_ERR_NOT_FOUND;
-    cJSON *j = cJSON_Parse(txt);
+    cJSON *j = cJSON_Parse(txt);          // a track is one string item, so this stays small
     free(txt);
     char err[80];
     story_t *tmp = malloc(sizeof *tmp);   // ~3 KB: too big for the player task's stack
     if (!tmp) { cJSON_Delete(j); return ESP_ERR_NO_MEM; }
     bool ok = story_from_json(j, tmp, err, sizeof err);
-    cJSON_Delete(j);
-    if (!ok) { ESP_LOGW(TAG, "%s: %s", name, err); free(tmp); return ESP_ERR_INVALID_ARG; }
+    if (!ok) { ESP_LOGW(TAG, "%s: %s", name, err); cJSON_Delete(j); free(tmp); return ESP_ERR_INVALID_ARG; }
     strncpy(tmp->name, name, sizeof(tmp->name) - 1);
+    track_t tr;
+    if (!track_from_json(j, &tr, err, sizeof err)) { ESP_LOGW(TAG, "%s: %s; playing its beats", name, err); memset(&tr, 0, sizeof tr); }
+    cJSON_Delete(j);
     s_story = *tmp;
     free(tmp);
+    track_free(&s_track);
+    s_track = tr;
     s_loaded = true;
     return ESP_OK;
 }
@@ -96,15 +124,42 @@ static void start_step(int i)
     s_step_from = s_story_speed;
 }
 
+// Leave teach mode: the driver takes commands again and the take is dropped (player_teach_stop takes it first).
+static void teach_end_locked(void)
+{
+    if (s_mode != MODE_TEACH) return;
+    servo_release(false);
+    free(s_rec);
+    s_rec = NULL;
+    s_mode = MODE_MANUAL;
+    s_manual = 0;
+}
+
+static void follow_begin(void)
+{
+#if HAS_ENCODER
+    s_follow = s_track.n > 1 && encoder_present();
+#else
+    s_follow = false;
+#endif
+    s_tr_ms = 0;
+    s_tr_err = 0;
+    s_stall_ms = 0;
+#if HAS_ENCODER
+    s_tr_base = encoder_count();
+#endif
+}
+
 static esp_err_t play_locked(const char *name)
 {
+    teach_end_locked();
     esp_err_t err = ESP_OK;
     if (name && name[0] && (!s_loaded || strcmp(name, s_story.name) != 0)) err = load_story(name);
     if (err == ESP_OK && s_loaded) {
-        if (s_mode != MODE_STORY || !s_paused) { s_loops = 0; s_resting = false; s_story_speed = 0; start_step(0); }
+        if (s_mode != MODE_STORY || !s_paused) { s_loops = 0; s_resting = false; s_story_speed = 0; start_step(0); follow_begin(); s_fault[0] = 0; }
         s_mode = MODE_STORY;
         s_paused = false;
-        ESP_LOGI(TAG, "playing %s (%d steps)", s_story.name, s_story.count);
+        ESP_LOGI(TAG, "playing %s (%d steps%s)", s_story.name, s_story.count, s_follow ? ", following its hand-recorded track" : "");
     } else if (err == ESP_OK) {
         err = ESP_ERR_NOT_FOUND;
     }
@@ -188,6 +243,7 @@ void player_toggle_pause(void)
 void player_stop(void)
 {
     xSemaphoreTake(s_lock, portMAX_DELAY);
+    teach_end_locked();
     s_mode = MODE_MANUAL;
     s_paused = false;
     s_resting = false;
@@ -215,6 +271,7 @@ void player_next(void)
 void player_manual(float speed)
 {
     xSemaphoreTake(s_lock, portMAX_DELAY);
+    teach_end_locked();
     s_mode = MODE_MANUAL;
     s_paused = false;
     s_manual = clampf(speed, -100, 100);
@@ -233,6 +290,7 @@ void player_on_control(ctl_event_t ev, int value)
     case CTL_BTN_DOUBLE: player_next(); break;
     case CTL_BTN_LONG:   player_stop(); break;
     case CTL_KNOB:
+        if (s_mode == MODE_TEACH) break;   // the shaft is being turned by hand
         if (s_mode == MODE_STORY) player_set_master(value);
         else player_manual((float)value);   // magnitude; the switch sets direction
         break;
@@ -275,6 +333,83 @@ static void advance_story(int dt)
     }
 }
 
+#if HAS_ENCODER
+// Stop a followed story that can't keep up (stalled, or an encoder counting the wrong way).
+static void follow_fault(const char *why)
+{
+    snprintf(s_fault, sizeof s_fault, "%s", why);
+    ESP_LOGW(TAG, "%s: stopped (%s)", s_story.name, why);
+    s_mode = MODE_MANUAL;
+    s_manual = 0;
+    s_story_speed = 0;
+    s_pl_n = 0;
+    s_pl_name[0] = 0;
+}
+
+// The beat whose time span holds t (for the status display).
+static void follow_beat(float t)
+{
+    int acc = 0;
+    for (int i = 0; i < s_story.count; i++) {
+        acc += s_story.steps[i].ramp_ms + s_story.steps[i].ms;
+        if (t < acc || i == s_story.count - 1) { s_step = i; return; }
+    }
+}
+
+// One tick of following the track: returns the duty to apply, -100..100. Time runs at the master speed,
+// so the knob slows the whole motion down rather than changing its shape.
+static float follow_tick(int dt)
+{
+    const float cps_full = g_settings.max_rpm * (float)ENC_COUNTS_PER_REV / 60.0f;
+    const float rate = s_master / 100.0f;
+    const int last = s_track.n - 1;
+    if (s_resting) {
+        s_rest_left -= dt;
+        if (s_rest_left <= 0) { s_resting = false; s_tr_ms = 0; }
+        return 0;
+    }
+    s_tr_ms += dt * rate;
+    float idx = s_tr_ms * s_track.hz / 1000.0f;
+    if (idx >= last) {                                  // end of the take
+        s_tr_base += s_track.pos[last];                 // carry on from where the take ended, not where the shaft is
+        if (s_pl_n > 0) { playlist_advance_locked(); return 0; }
+        s_loops++;
+        if (!s_story.loop) { s_mode = MODE_MANUAL; s_manual = 0; s_story_speed = 0; ESP_LOGI(TAG, "story finished"); return 0; }
+        s_tr_ms = 0;
+        idx = 0;
+        if (g_settings.rest_every > 0 && s_loops % g_settings.rest_every == 0 && g_settings.rest_ms > 0) {
+            s_resting = true;
+            s_rest_left = g_settings.rest_ms;
+            return 0;
+        }
+    }
+    int i = (int)idx;
+    float f = idx - i;
+    float d = (float)(s_track.pos[i + 1] - s_track.pos[i]);
+    float target = s_tr_base + s_track.pos[i] + d * f;
+    float vff = d * s_track.hz * rate;                  // counts per second the recording moves here
+    float err = target - (float)encoder_count();
+    s_tr_err = err;
+    follow_beat(s_tr_ms);
+    if (fabsf(err) > 2.0f * ENC_COUNTS_PER_REV) { follow_fault("the shaft is over 2 turns off the recording: check ENC_REVERSED"); return 0; }
+    s_stall_ms = fabsf(err) > ENC_COUNTS_PER_REV / 2.0f ? s_stall_ms + dt : 0;
+    if (s_stall_ms > 2000) { follow_fault("the shaft couldn't keep up for 2 s: stalled, or the cam is too heavy"); return 0; }
+    if (fabsf(vff) < 1.0f && fabsf(err) < 15.0f) return 0;   // still in the recording and close enough: rest
+    float cmd = vff / cps_full * 100.0f + g_settings.follow_gain * err / 100.0f;
+    cmd += (cmd > 0 ? 1.0f : -1.0f) * g_settings.min_duty;
+    return clampf(cmd, -100, 100);
+}
+
+static void teach_sample(void)
+{
+    if (!s_rec || s_rec_full) return;
+    if (++s_rec_tick < TEACH_EVERY) return;
+    s_rec_tick = 0;
+    s_rec[s_rec_n++] = encoder_count() - s_rec_base;
+    if (s_rec_n > TRACK_MAX) { s_rec_full = true; ESP_LOGI(TAG, "teach: take full (%d s)", TRACK_MAX / TRACK_HZ); }
+}
+#endif
+
 static void player_task(void *arg)
 {
     TickType_t last = xTaskGetTickCount();
@@ -283,6 +418,20 @@ static void player_task(void *arg)
         xSemaphoreTake(s_lock, portMAX_DELAY);
         int dir = controls_dir();
         float cmd;
+#if HAS_ENCODER
+        if (s_mode == MODE_TEACH) {             // the driver is released: just sample
+            teach_sample();
+            xSemaphoreGive(s_lock);
+            continue;
+        }
+        if (s_mode == MODE_STORY && s_follow) {
+            cmd = (!s_paused && dir != 0) ? follow_tick(TICK_MS) : 0;
+            if (s_mode == MODE_STORY && s_follow) servo_set_immediate(cmd);
+            else servo_set_target(s_mode == MODE_STORY ? s_story_speed * s_master / 100.0f : s_manual);
+            xSemaphoreGive(s_lock);
+            continue;
+        }
+#endif
         if (s_mode == MODE_STORY) {
             if (!s_paused && dir != 0) advance_story(TICK_MS);
             cmd = (s_paused || dir == 0) ? 0 : s_story_speed * s_master / 100.0f;
@@ -298,7 +447,7 @@ cJSON *player_status(void)
 {
     cJSON *j = cJSON_CreateObject();
     xSemaphoreTake(s_lock, portMAX_DELAY);
-    cJSON_AddStringToObject(j, "mode", s_mode == MODE_STORY ? "story" : "manual");
+    cJSON_AddStringToObject(j, "mode", s_mode == MODE_STORY ? "story" : s_mode == MODE_TEACH ? "teach" : "manual");
     cJSON_AddBoolToObject(j, "paused", s_paused);
     cJSON_AddBoolToObject(j, "resting", s_resting);
     cJSON_AddStringToObject(j, "story", s_loaded ? s_story.name : "");
@@ -311,6 +460,15 @@ cJSON *player_status(void)
     cJSON_AddNumberToObject(j, "pl_n", s_pl_n);
     cJSON_AddNumberToObject(j, "manual", s_manual);
     cJSON_AddNumberToObject(j, "master", s_master);
+    cJSON_AddBoolToObject(j, "follow", s_mode == MODE_STORY && s_follow);
+    if (s_mode == MODE_STORY && s_follow) cJSON_AddNumberToObject(j, "follow_err", lroundf(s_tr_err));
+    if (s_fault[0]) cJSON_AddStringToObject(j, "fault", s_fault);
+    if (s_mode == MODE_TEACH) {
+        cJSON *tj = cJSON_AddObjectToObject(j, "teach");
+        cJSON_AddNumberToObject(tj, "ms", s_rec_n > 1 ? (s_rec_n - 1) * 1000 / TRACK_HZ : 0);
+        cJSON_AddNumberToObject(tj, "max_ms", TRACK_MAX * 1000 / TRACK_HZ);
+        cJSON_AddBoolToObject(tj, "full", s_rec_full);
+    }
     xSemaphoreGive(s_lock);
     cJSON_AddNumberToObject(j, "dir", controls_dir());
     cJSON_AddBoolToObject(j, "switch_installed", g_settings.switch_installed);
@@ -321,6 +479,69 @@ cJSON *player_status(void)
     cJSON_AddNumberToObject(j, "duty", servo_duty_pct());
     cJSON_AddNumberToObject(j, "uptime_s", (double)(esp_timer_get_time() / 1000000));
     return j;
+}
+
+bool player_teaching(void) { return s_mode == MODE_TEACH; }
+
+esp_err_t player_teach_start(void)
+{
+#if HAS_ENCODER
+    if (!encoder_present()) return ESP_ERR_NOT_SUPPORTED;
+    int32_t *buf = malloc((TRACK_MAX + 1) * sizeof *buf);
+    if (!buf) return ESP_ERR_NO_MEM;
+    xSemaphoreTake(s_lock, portMAX_DELAY);
+    teach_end_locked();
+    free(s_rec);
+    s_rec = buf;
+    s_pl_n = 0;
+    s_pl_name[0] = 0;
+    s_paused = false;
+    s_resting = false;
+    servo_release(true);                  // driver asleep: the shaft turns freely by hand
+    s_rec_base = encoder_count();
+    s_rec[0] = 0;
+    s_rec_n = 1;
+    s_rec_tick = 0;
+    s_rec_full = false;
+    s_mode = MODE_TEACH;
+    xSemaphoreGive(s_lock);
+    ESP_LOGI(TAG, "teach: turn the shaft by hand (up to %d s)", TRACK_MAX / TRACK_HZ);
+    return ESP_OK;
+#else
+    return ESP_ERR_NOT_SUPPORTED;
+#endif
+}
+
+void player_teach_cancel(void)
+{
+    xSemaphoreTake(s_lock, portMAX_DELAY);
+    teach_end_locked();
+    xSemaphoreGive(s_lock);
+}
+
+cJSON *player_teach_stop(const char *name, bool loop, char *err, int errlen)
+{
+    xSemaphoreTake(s_lock, portMAX_DELAY);
+    if (s_mode != MODE_TEACH || !s_rec) { xSemaphoreGive(s_lock); snprintf(err, errlen, "not recording"); return NULL; }
+    int32_t *rec = s_rec;
+    int n = s_rec_n;
+    s_rec = NULL;
+    teach_end_locked();
+    xSemaphoreGive(s_lock);
+    // Trim the still time before the first move and after the last, keeping half a second of each.
+    const int32_t still = 20;              // counts, about 1.7 degrees of the output shaft
+    int a = 0, b = n - 1;
+    while (a < n - 1 && labs(rec[a] - rec[0]) <= still) a++;
+    while (b > 0 && labs(rec[b] - rec[n - 1]) <= still) b--;
+    if (a >= n - 1 || b <= 0 || a > b) { free(rec); snprintf(err, errlen, "the shaft didn't move"); return NULL; }
+    a = a - TRACK_HZ / 2 < 0 ? 0 : a - TRACK_HZ / 2;
+    b = b + TRACK_HZ / 2 > n - 1 ? n - 1 : b + TRACK_HZ / 2;
+    int32_t base = rec[a];
+    for (int i = a; i <= b; i++) rec[i] -= base;
+    cJSON *story = track_story_json(rec + a, b - a + 1, TRACK_HZ, name, loop);
+    free(rec);
+    if (!story) snprintf(err, errlen, "out of memory");
+    return story;
 }
 
 void player_init(void)

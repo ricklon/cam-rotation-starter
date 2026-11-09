@@ -23,6 +23,7 @@ static const char *TAG = "motor";
 static volatile float s_target = 0, s_speed = 0;
 static volatile int s_duty = 0;            // signed %, as last written
 static volatile bool s_awake = false;
+static volatile bool s_free = false;       // released for turning by hand: driver asleep, targets ignored
 
 static void write_in(ledc_channel_t ch, uint32_t duty)
 {
@@ -54,6 +55,14 @@ static void motor_task(void *arg)
     int idle_ms = 0;
     for (;;) {
         vTaskDelayUntil(&last, pdMS_TO_TICKS(TICK_MS));
+        if (s_free) {
+            // Asleep, the DRV8833's outputs are open, so the motor coasts and the gearbox can be turned by hand.
+            // Slow-decay braking (duty 0) would short the winding and make that much harder.
+            if (s_awake) { set_awake(false); s_duty = 0; }
+            s_target = s_speed = 0;
+            idle_ms = 0;
+            continue;
+        }
         float step = g_settings.slew * (TICK_MS / 1000.0f);
         float diff = s_target - s_speed;
         if (fabsf(diff) <= step) s_speed = s_target;
@@ -108,6 +117,15 @@ void servo_set_target(float speed)
     if (speed < -100) speed = -100;
     s_target = speed;
 }
+
+void servo_set_immediate(float speed)
+{
+    if (speed > 100) speed = 100;
+    if (speed < -100) speed = -100;
+    s_target = s_speed = speed;            // the motor task writes it on its next tick, without slew
+}
+
+void servo_release(bool free) { s_free = free; }
 
 float servo_get_speed(void)  { return s_speed; }
 float servo_get_target(void) { return s_target; }
