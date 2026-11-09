@@ -72,7 +72,7 @@ The module has two rows of six pins. Seen from the back, where the labels are pr
 
 Bold pins are used. On the perfboard, component side up, these rows land in columns D and H, read the other way round: [perfboard.md](perfboard.md#placement) has the hole for each pin. Check against the labels on your module before soldering.
 
-The three pictures below are from before the encoder motor (Fusion version 38 still routes the old motor pair): they show the 2-pin header J4 at J2/J3 and the red and black pair, which the cable W24–W29 replaces.
+The three pictures below are from before the encoder motor (they haven't been re-rendered since Fusion version 39): they show the 2-pin header J4 at J2/J3 and the red and black pair, which the cable W24–W29 replaces.
 
 ![Before the encoder motor: the electronics side of the drive with the cover off: the perfboard stands on its supports on the mount's -Y face. The PD board lies over the top-left corner of the perfboard with short red and black jumpers down to the buses, and its USB-C port and the Super Mini's both face left. The DRV8833 is at the right with D1 and the capacitor C1 standing above it, and the speed pot RV1, the hold-up capacitor C3 standing, and J4 are along the bottom edge, left to right: the pot stands on the board with its shaft and black knob cap pointing down, off the edge. The red and black motor pair leaves J4 downward.](images/perfboard.png)
 
@@ -111,7 +111,7 @@ The hole J4 and the plug J4 share a name only by chance.
 - **Route:** from the plug at the encoder's −Y end, under the base's −Y edge and in through the notch in the cover's bottom wall, as the motor pair ran before. W24–W27 go straight into J2–J5 along the board's edge. W28 and W29 run on over the DRV8833 and the Super Mini, under the cover (it sits 9 mm above the board; the modules stand about 5 mm), and down into I15 and I13 beside the Super Mini, clear of C3 and RV1.
 - **Soldering:** push each wire in from the component side and solder it underneath.
 - **Strain relief:** the cable's plug latches into the encoder's socket. Leave a little slack at the plug, and if the cable pulls, tie it to the cartridge's arms with their zip tie.
-- **Not yet in the model.** Fusion version 38 has the encoder but still routes the old W14/W15 pair, so the cut lengths for W24–W31 are estimates. The notch is 7 mm wide: check that the six wires pass it side by side.
+- **In the model from Fusion version 39** (`cad/fusion/wires.py`), with the cable's wires taken as 0.9 mm over the insulation (unconfirmed). At the notch they lie side by side at 1.04 mm pitch, in the order they land (W25, W24, W28, W29, W26, W27 from the +X end), with 0.1–0.4 mm to spare in its 7 mm. Between the plug and the base's edge they cross over to get into that order. W28 and W29 run 7.4 mm above the board, over C2 and the Super Mini's USB-C, and 1 mm under the cover. If your cable's wires are thicker than 0.9 mm, check the notch.
 
 ![The underside of the mount, from below, before the encoder motor: the plain N20 in its cartridge on the dowel axis, with the black zip tie round its arms and C2 across its terminals. The empty DRV8833 pocket and diode channel of the XIAO build are beside it. At the bottom of the picture the cover hangs below the base's edge, and the red and black motor pair (the old W14 and W15) comes out of the notch in its bottom wall, runs across under the base and down the motor's side. The encoder motor's cable takes the same path to the notch.](images/wiring_under_base.png)
 
@@ -125,7 +125,7 @@ The exception is the motor cable, **W24–W29**: the six wires of the cable that
 - **Keep the underside links flat** against the board, and press each one down along its lane before soldering the next.
 - **Current is fine.** 30 AWG is about 0.34 Ω per metre: about 30 mV drop on a 100 mm run at 1 A. The wires that carry motor current are W24 and W25 (the cable's motor leads), and on the 5 V and ground paths W1, W2, W16 and W18; W17 carries only the Super Mini's own current. Check your N20's stall current on its datasheet. The DRV8833 limits a channel to about 1.5 A, and 30 AWG handles a 1 A stall for the moment it lasts. If your motor stalls above 1 A, double up W1, W2, W16 and W18. The encoder draws a few mA through W27, W31 and W21.
 
-Follow this table one wire at a time and tick each off. The [step-by-step wiring guide](wiring-steps.md) takes the perfboard one wire at a time, with a picture and a check for each. The colours match the 3D model, except W24–W31, which aren't in it yet. The links on the perfboard's underside are listed in [perfboard.md](perfboard.md#links-underside), and their cut lengths are in the cut list below. The button's wires (W6, W11) come from the mount and go into the perfboard **from the underside** and are soldered on the component side.
+Follow this table one wire at a time and tick each off. The [step-by-step wiring guide](wiring-steps.md) takes the perfboard one wire at a time, with a picture and a check for each. The colours match the 3D model. The links on the perfboard's underside are listed in [perfboard.md](perfboard.md#links-underside), and their cut lengths are in the cut list below. The button's wires (W6, W11) come from the mount and go into the perfboard **from the underside** and are soldered on the component side.
 
 | Wire | Colour | From | To | Notes |
 |---|---|---|---|---|
@@ -183,18 +183,18 @@ When you're done, every terminal should hold exactly this many wires.
 
 ## Cut list
 
-Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm per end for stripping, rounded up to 5 mm. W6 and W11 are measured all the way from the button, through the pod and the base tunnel; W24–W29 from the back of the encoder plug. **W24–W31 aren't routed in the model yet**: their lengths are estimates, so cut them long and trim on the board. Also in [`cut-list.csv`](cut-list.csv).
+Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm per end for stripping, rounded up to 5 mm. W6 and W11 are measured all the way from the button, through the pod and the base tunnel; W24–W29 from the back of the encoder plug. Also in [`cut-list.csv`](cut-list.csv).
 
 | Wire | Colour | Gauge | Routed | **Cut** |
 |---|---|---|---|---|
 | W1 | red | 30 AWG stranded | 10 mm | **25** |
 | W2 | black | 30 AWG stranded | 8 mm | **20** |
-| W24 | white | motor cable wire (gauge unconfirmed) | about 50 mm | **70**, from the plug |
-| W25 | red | motor cable wire | about 52 mm | **70**, from the plug |
-| W26 | blue | motor cable wire | about 50 mm | **70**, from the plug |
-| W27 | black | motor cable wire | about 51 mm | **70**, from the plug |
-| W28 | green | motor cable wire | about 86 mm | **110**, from the plug |
-| W29 | yellow | motor cable wire | about 81 mm | **105**, from the plug |
+| W24 | white | motor cable wire (gauge unconfirmed) | 49 mm | **70**, from the plug |
+| W25 | red | motor cable wire | 58 mm | **80**, from the plug |
+| W26 | blue | motor cable wire | 47 mm | **65**, from the plug |
+| W27 | black | motor cable wire | 51 mm | **70**, from the plug |
+| W28 | green | motor cable wire | 105 mm | **135**, from the plug |
+| W29 | yellow | motor cable wire | 96 mm | **125**, from the plug |
 | W6 | white | 30 AWG stranded, or the button's own lead | 149 mm | **185**, from the button |
 | W11 | black | 30 AWG stranded, or the button's own lead | 150 mm | **185**, from the button |
 | W4 | black | 30 AWG stranded | 22 mm | **40** |
@@ -207,8 +207,8 @@ Lengths are measured along the routes in the 3D model, plus 15% slack and 5 mm p
 | W21 | yellow | 30 AWG stranded | 37 mm | **55** |
 | W22 | red | 30 AWG stranded | 35 mm | **50** |
 | W23 | black | 30 AWG stranded | 46 mm | **65** |
-| W30 | black | 30 AWG stranded | about 17 mm | **30** |
-| W31 | yellow | 30 AWG stranded | about 14 mm | **30** |
+| W30 | black | 30 AWG stranded | 17 mm | **30** |
+| W31 | yellow | 30 AWG stranded | 14 mm | **30** |
 
 ## Why it's wired this way
 

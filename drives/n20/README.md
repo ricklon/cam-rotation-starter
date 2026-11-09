@@ -114,7 +114,8 @@ The drive can take an N20 with a magnetic Hall encoder on its back: the MECCANIX
 - **Counts:** 7 pulses per motor turn on each channel (14-pole magnet), so 1050 per output turn at 1:150, or 4200 counting every edge of both channels.
 - **Wiring:** the motor unplugs at the encoder's own socket, now **J4**; the 2-pin header at J2/J3, W14, W15 and the cartridge's wire clamp aren't used. The cable's six wires (W24–W29) come in through the cover's notch: M1 and M2 to OUT3 and OUT4 (J3, J2), GND and VCC to J4 and J5, which the links W30 and W31 join to GND and 3V3, and C1 and C2 to GPIO0 and GPIO2 (I15, I13). C2 (100 nF) moved to the perfboard at I2/I3. See [docs/wiring.md](docs/wiring.md#j4-the-motor-cable) and the [schematic](docs/images/schematic.svg) (rev C.6).
 - **Firmware:** `HAS_ENCODER` in `firmware/main/board.h` (Super Mini N20 build), `firmware/main/encoder.c`. See [Firmware](#firmware).
-- **Still to do:** route W24–W31 in [`cad/fusion/wires.py`](cad/fusion/wires.py) and the model (the cut lengths are estimates until then), re-render the perfboard pictures and hole map, and check on hardware: the encoder's 3.3 V, the count direction (`ENC_REVERSED`), 4200 counts per turn, and that the six wires pass the cover's 7 mm notch.
+- **Model:** Fusion version 39 routes the cable and the two links ([`cad/fusion/wires.py`](cad/fusion/wires.py)), stands C2 at I2/I3, and hides the 2-pin header. The cut lengths come from those routes.
+- **Still to do:** re-render the perfboard pictures and redraw the hole map (perfboard.svg), and check on hardware: the encoder's 3.3 V, the count direction (`ENC_REVERSED`), 4200 counts per turn, that the six wires pass the cover's 7 mm notch (the model has 0.9 mm wires at 1.04 mm pitch), and the cable's real length.
 
 ## What changed on 2026-10-31 (rev C)
 

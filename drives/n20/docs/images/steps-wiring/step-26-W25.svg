@@ -6,7 +6,7 @@
 <text x="487" y="35" text-anchor="middle" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" font-weight="700" fill="#0e4a52">COMPONENT SIDE</text>
 <circle cx="38" cy="70" r="13" fill="#d12a1f" stroke="#1b1b1b" stroke-width="2"/>
 <text x="62" y="80" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="32" font-weight="700" fill="#1c2729">W25</text>
-<text x="142" y="80" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="24" fill="#1c2729">red · cut <tspan font-weight="700">70 mm</tspan> from the plug</text>
+<text x="142" y="80" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="24" fill="#1c2729">red · cut <tspan font-weight="700">80 mm</tspan> from the plug</text>
 <text x="24" y="122" font-family="IBM Plex Mono,ui-monospace,SFMono-Regular,Menlo,monospace" font-size="26" font-weight="700" fill="#1c2729">J4 pin 6 (M2) → J2</text>
 <text x="24" y="152" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" fill="#4f5b5e">the motor cable's own wire, in through the cover's notch (right)</text>
 <text x="24" y="196" font-family="IBM Plex Sans,ui-sans-serif,system-ui,sans-serif" font-size="16" font-weight="600" fill="#4f5b5e">Column A on the left, row 1 at the top.</text>

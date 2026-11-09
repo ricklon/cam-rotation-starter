@@ -104,10 +104,10 @@ Twelve links of 30 AWG stranded wire, ends tinned, run on the underside (solder 
 | W21 | yellow | A15 (3V3) | I10 (RV1 pin 1) | 3V3 end of the knob, 3.3 V only | 55 mm |
 | W22 | red | C2 (D1 cathode) | H7 (C3 +) | +5V, Super Mini side, to the hold-up capacitor | 50 mm |
 | W23 | black | A16 (GND) | H8 (C3 −) | GND to the hold-up capacitor | 65 mm |
-| W30 | black | I4 (encoder GND strip) | E4 (DRV GND) | GND to the encoder, along between rows 4 and 5. E4 and H4 end up under the DRV8833. | 30 mm (estimated) |
-| W31 | yellow | I5 (encoder 3V3 strip) | H10 (3V3) | 3.3 V to the encoder, along the lane between columns H and I. H10 ends up under the Super Mini. | 30 mm (estimated) |
+| W30 | black | I4 (encoder GND strip) | E4 (DRV GND) | GND to the encoder, along between rows 4 and 5. E4 and H4 end up under the DRV8833. | 30 mm |
+| W31 | yellow | I5 (encoder 3V3 strip) | H10 (3V3) | 3.3 V to the encoder, along the lane between columns H and I. H10 ends up under the Super Mini. | 30 mm |
 
-The cut lengths come from the routes in the 3D model, worked out the same way as every wire in the [cut list](cut-list.csv); trim each one to fit on the board. W17, W21, W22, W23, W30 and W31 cross other links. W30 and W31 aren't in the 3D model yet, so their lengths are estimates. Keep every link flat against the board: stranded wire springs up more than solid.
+The cut lengths come from the routes in the 3D model, worked out the same way as every wire in the [cut list](cut-list.csv); trim each one to fit on the board. W17, W21, W22, W23, W30 and W31 cross other links. Keep every link flat against the board: stranded wire springs up more than solid.
 
 **Laying a link:** solder one end, press the wire flat along its lane and pinch the corners square with tweezers, hold the corners down with Kapton tape, then solder the far end. Don't anchor a wire through a spare hole: every hole is part of a strip, so it would join that strip's net. Once the continuity check passes, a dab of hot glue can hold the link for good. W21 is yellow, not red, because red means 5 V on this board. The knob needs no wiper or ground link: its pins sit in the GPIO4 and GPIO3 strips.
 
@@ -127,7 +127,7 @@ The perfboard mounts on the mount's **electronics-side (−Y) face**, parallel t
 - **Screws:** three **M2 × 20** pan-head screws go through the cover posts and the board into the support pilots, about 7 mm deep. The fourth corner (A17, under U1, at −X by the box wall) rests on its support without a screw. All four supports have pilots, so the mount is the same whichever corner that is.
 - **Openings:**
   - The −X end is open over both USB-C ports, so both plugs and their overmoulds clear the cover.
-  - A 7 mm notch in the bottom (J-edge) wall lets the motor cable in by rows 2–5. With the encoder motor that's six wires, W24–W29: check that they pass side by side.
+  - A 7 mm notch in the bottom (J-edge) wall lets the motor cable in by rows 2–5. With the encoder motor that's six wires, W24–W29, side by side at about 1 mm pitch (see [wiring.md](wiring.md#j4-the-motor-cable)).
 - **J-edge wall and knob (2026-11-03, measured):** RV1's shaft centre is 5 mm above the board, and its threaded bushing sticks out 5 mm past the board's J edge. The cover's bottom wall sits 0.3 mm past the board edge and is 2 mm thick (`cover_knob_wall`), with a **Ø7.2 mm** hole at the shaft height. Round the hole, an **Ø11.5 × 0.8 mm recess** on the outside thins the wall to 1.2 mm, so the M7 nut and washer (about 2.5 mm together) get **3.5 mm** of thread. Without the recess there would be 2.7 mm.
 - **Shaft:** it points off the J edge, parallel to the board; the supplied cap (15.6 × 17 mm) pushes on outside the nut.
 
@@ -138,7 +138,7 @@ Everything else on the board is under 9 mm tall, except C1, C3 and RV1, which co
 - D1 standing: about 7 mm with its lead
 - the DRV8833: about 5.1 mm
 - C2 standing: about 6 mm
-- the cable's W28 and W29, lying over the DRV8833 and the Super Mini: about 6.5 mm
+- the cable's W28 and W29, run over C2, the DRV8833 and the Super Mini: about 7.9 mm (the wire's centre at 7.4 mm)
 - C3 standing: 14.5 mm (an 8 × 13 mm can 1.5 mm up), through a 9 mm hole in the cover's top
 - RV1's body standing: about 12.5 mm (assumed), through a notch in the cover's top at the J edge
 - C1 standing: 14.5 mm, through a **9 mm hole** in the cover's top, so its top stands about 3.5 mm proud of the cover .

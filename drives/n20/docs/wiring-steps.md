@@ -515,14 +515,14 @@ The encoder motor comes with its own 6-wire cable, plugged into the 6-pin socket
 
 **Do this:**
 
-1. Find the cable's red wire, the encoder plug's pin 6, M2. Measure 70 mm from the back of the plug, cut it there, strip 2 mm and tin it.
+1. Find the cable's red wire, the encoder plug's pin 6, M2. Measure 80 mm from the back of the plug, cut it there, strip 2 mm and tin it.
 2. Bring it in through the notch in the cover's bottom wall, along the right-hand edge.
 3. On top: push it into **J2** (printed A2 underneath).
 4. Turn the board over (underside up) and solder it at printed **A2** (top J2). Trim the stub.
 5. Check, as below.
 
 - **Wire:** W25, red, the motor cable's own wire
-- **Cut:** 70 mm, measured from the back of the encoder plug
+- **Cut:** 80 mm, measured from the back of the encoder plug
 - **From → to:** J4 pin 6 (M2) → J2
 - **Side:** in from the component side through the cover's notch, soldered underneath
 - **What it does:** Motor lead M2, to the driver's OUT4. Red here is a motor lead, not +5 V.
@@ -534,14 +534,14 @@ The encoder motor comes with its own 6-wire cable, plugged into the 6-pin socket
 
 **Do this:**
 
-1. Find the cable's blue wire, the encoder plug's pin 2, GND. Measure 70 mm from the back of the plug, cut it there, strip 2 mm and tin it.
+1. Find the cable's blue wire, the encoder plug's pin 2, GND. Measure 65 mm from the back of the plug, cut it there, strip 2 mm and tin it.
 2. Bring it in through the notch in the cover's bottom wall, along the right-hand edge.
 3. On top: push it into **J4** (printed A4 underneath).
 4. Turn the board over (underside up) and solder it at printed **A4** (top J4). Trim the stub.
 5. Check, as below.
 
 - **Wire:** W26, blue, the motor cable's own wire
-- **Cut:** 70 mm, measured from the back of the encoder plug
+- **Cut:** 65 mm, measured from the back of the encoder plug
 - **From → to:** J4 pin 2 (GND) → J4
 - **Side:** in from the component side through the cover's notch, soldered underneath
 - **What it does:** The encoder's ground, into strip 4 right, which W30 joins to GND. Blue is ground on this cable.
@@ -572,14 +572,14 @@ The encoder motor comes with its own 6-wire cable, plugged into the 6-pin socket
 
 **Do this:**
 
-1. Find the cable's green wire, the encoder plug's pin 3, C1. Measure 110 mm from the back of the plug, cut it there, strip 2 mm and tin it.
+1. Find the cable's green wire, the encoder plug's pin 3, C1. Measure 135 mm from the back of the plug, cut it there, strip 2 mm and tin it.
 2. From the notch, run it over the DRV8833 and the Super Mini (clear of C3 and RV1), keeping it low: the cover sits 9 mm above the board.
 3. On top: push it into **I15** (printed B15 underneath).
 4. Turn the board over (underside up) and solder it at printed **B15** (top I15). Trim the stub.
 5. Check, as below.
 
 - **Wire:** W28, green, the motor cable's own wire
-- **Cut:** 110 mm, measured from the back of the encoder plug
+- **Cut:** 135 mm, measured from the back of the encoder plug
 - **From → to:** J4 pin 3 (C1) → I15
 - **Side:** in from the component side through the cover's notch, soldered underneath
 - **What it does:** Encoder channel A (C1) to GPIO0. From the notch it runs over the DRV8833 and the Super Mini, under the cover, and down into I15 beside the Super Mini.
@@ -591,14 +591,14 @@ The encoder motor comes with its own 6-wire cable, plugged into the 6-pin socket
 
 **Do this:**
 
-1. Find the cable's yellow wire, the encoder plug's pin 4, C2. Measure 105 mm from the back of the plug, cut it there, strip 2 mm and tin it.
+1. Find the cable's yellow wire, the encoder plug's pin 4, C2. Measure 125 mm from the back of the plug, cut it there, strip 2 mm and tin it.
 2. From the notch, run it over the DRV8833 and the Super Mini (clear of C3 and RV1), keeping it low: the cover sits 9 mm above the board.
 3. On top: push it into **I13** (printed B13 underneath).
 4. Turn the board over (underside up) and solder it at printed **B13** (top I13). Trim the stub.
 5. Check, as below.
 
 - **Wire:** W29, yellow, the motor cable's own wire
-- **Cut:** 105 mm, measured from the back of the encoder plug
+- **Cut:** 125 mm, measured from the back of the encoder plug
 - **From → to:** J4 pin 4 (C2) → I13
 - **Side:** in from the component side through the cover's notch, soldered underneath
 - **What it does:** Encoder channel B (C2) to GPIO2, beside W28 over the modules, down into I13. Yellow here is a signal, not 3.3 V.
