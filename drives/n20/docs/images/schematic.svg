@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 860" role="img" aria-label="Schematic. Power: PD board 5 volt output to the DRV8833 VCC pin and through diode D1 to the ESP32-C6 Super Mini 5V pin; 470 microfarad capacitor C1 across the 5 volt supply; a second 470 microfarad capacitor C3 from D1's cathode to ground, so it can only feed the Super Mini through a motor start or stall; all grounds common. Drive: Super Mini GPIO18 to DRV8833 IN3, GPIO20 to IN4, GPIO19 to the sleep pin EEP (channel B of the module); DRV8833 OUT3 and OUT4 through the 2-pin plug J4 to the N20 motor, with a 0.1 microfarad capacitor C2 across the motor terminals. Controls: 12 millimetre stainless push button S1 from GPIO1 to ground; 10 kilohm speed knob RV1 (an RK097N on the perfboard) between 3.3 volts and GPIO3, which the firmware drives low as the knob's ground, with its wiper to GPIO4; no direction switch, so GPIO2 and GPIO0 are unused and the motor runs forward. The PD board, the Super Mini, the DRV8833, D1, C1, C3, the knob and J4 are on a perfboard. On a XIAO ESP32-C6 the same nets use D10, D9, D8 and D1 to D4, and the knob's low end goes to ground. The button's two wires run straight to the perfboard; there's no connector, so the pod doesn't unplug."><style>.grid{stroke:#e9eeed;stroke-width:1}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 860" role="img" aria-label="Schematic, rev C.6. Power: PD board 5 volt output to the DRV8833 VCC pin and through diode D1 to the ESP32-C6 Super Mini 5V pin; 470 microfarad capacitor C1 across the 5 volt supply; a second 470 microfarad capacitor C3 from D1's cathode to ground, so it can only feed the Super Mini through a motor start or stall; all grounds common. Drive: Super Mini GPIO18 to DRV8833 IN3, GPIO20 to IN4, GPIO19 to the sleep pin EEP (channel B of the module); DRV8833 OUT3 and OUT4 are the nets MOT_A and MOT_B, with a 0.1 microfarad capacitor C2 across them on the perfboard. Motor and encoder: the 6-pin plug J4 on the motor's encoder board carries MOT_A to pin 1 (M1) and MOT_B to pin 6 (M2) of the N20 motor M1 (6 volt, 1:150), and GND to pin 2, ENC_A to pin 3 (C1), ENC_B to pin 4 (C2) and plus 3.3 volts to pin 5 (VCC) of the Hall encoder ENC1. ENC_A is GPIO0 and ENC_B is GPIO2. Controls: 12 millimetre stainless push button S1 from GPIO1 to ground; 10 kilohm speed knob RV1 (an RK097N on the perfboard) between 3.3 volts and GPIO3, which the firmware drives low as the knob's ground, with its wiper to GPIO4; no direction switch, so the motor runs forward. The PD board, the Super Mini, the DRV8833, D1, C1, C2, C3 and the knob are on a perfboard; the motor's cable is soldered to it. On a XIAO ESP32-C6 the same nets use D10, D9, D8 and D1 to D4, the knob's low end goes to ground, and there is no encoder input. The button's two wires run straight to the perfboard; there's no connector, so the pod doesn't unplug."><style>.grid{stroke:#e9eeed;stroke-width:1}
 .w-pwr{stroke:#c23b2a;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .w-gnd{stroke:#2f3a3d;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .w-sig{stroke:#d07a1c;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -109,7 +109,10 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <text class="net c" x="696" y="345">BTN</text>
         <text class="net c" x="696" y="363">SPEED</text>
         <text class="net c" x="696" y="381">KNOB_LO</text>
-        <text class="small" x="640" y="408">unused (no switch)</text>
+        <!-- GPIO2 / GPIO0: the motor's Hall encoder (C.6) -->
+        <path class="w-ctl" d="M630 394 H690 M630 412 H690"/>
+        <text class="net c" x="696" y="399">ENC_B</text>
+        <text class="net c" x="696" y="417">ENC_A</text>
 
         <!-- XIAO to the DRV8833 inputs -->
         <path class="w-sig" d="M630 270 H790 M630 295 H790 M630 320 H790"/>
@@ -135,23 +138,15 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <circle class="dot-pwr" cx="855" cy="110" r="5"/>
         <circle class="dot-gnd" cx="855" cy="480" r="5"/>
 
-        <!-- J4: JST-PH 2-pin between the DRV8833 outputs and the motor -->
-        <path class="sym" d="M940 312 v16 M946 312 v16 M940 402 v16 M946 402 v16"/>
-        <text class="ref" x="952" y="300">J4</text>
-        <text class="pin" x="954" y="314">1</text>
-        <text class="pin" x="954" y="426">2</text>
-
-        <!-- M1 N20 gearmotor with C2 across its terminals -->
-        <path class="w-sig" d="M920 320 H1060 V352 M1060 368 V410 H920 M990 320 V336 M990 410 V384"/>
-        <circle class="sym" cx="990" cy="360" r="24"/>
-        <text class="name" x="990" y="366" text-anchor="middle">M</text>
-        <circle class="symfill" cx="990" cy="320" r="4"/>
-        <circle class="symfill" cx="990" cy="410" r="4"/>
-        <text class="ref" x="940" y="448">M1</text>
-        <text class="small" x="940" y="466">N20, 6 V, 100:1</text>
-        <path class="sym" d="M1044 352 H1076 M1044 368 H1076"/>
-        <text class="ref" x="1084" y="356">C2</text>
-        <text class="small" x="1084" y="374">0.1 µF</text>
+        <!-- C2 across the motor outputs, on the perfboard (C.6: the encoder board covers the motor's terminals) -->
+        <path class="w-sig" d="M920 320 H1000 M920 410 H1000 M950 320 V357 M950 373 V410"/>
+        <path class="sym" d="M936 357 H964 M936 373 H964"/>
+        <circle class="symfill" cx="950" cy="320" r="4"/>
+        <circle class="symfill" cx="950" cy="410" r="4"/>
+        <text class="ref" x="970" y="362">C2</text>
+        <text class="small" x="970" y="379">0.1 µF</text>
+        <text class="net s" x="1004" y="325">MOT_A</text>
+        <text class="net s" x="1004" y="415">MOT_B</text>
 
         <!-- C1 bulk capacitor across the supply -->
         <path class="w-pwr" d="M1140 110 V200"/>
@@ -162,15 +157,15 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <text class="ref" x="1128" y="150" text-anchor="end">C1</text>
         <text class="small" x="1128" y="168" text-anchor="end">470 µF ≥10 V</text>
 
-        <!-- Perfboard outline (rev C): U1, U2, U3, D1, C3, RV1 and J4 are on the ElectroCookie board, and from C.3 C1 too (second outline) -->
-        <rect x="92" y="150" width="838" height="305" rx="10" fill="none" stroke="#1f6670" stroke-width="1.5" stroke-dasharray="8 6"/>
+        <!-- Perfboard outline (rev C): U1, U2, U3, D1, C3, RV1 and (C.6) C2 are on the ElectroCookie board, and from C.3 C1 too (second outline) -->
+        <rect x="92" y="150" width="910" height="305" rx="10" fill="none" stroke="#1f6670" stroke-width="1.5" stroke-dasharray="8 6"/>
         <text class="lblm" x="636" y="448">PERFBOARD (docs/perfboard.md)</text>
         <rect x="1022" y="134" width="150" height="96" rx="10" fill="none" stroke="#1f6670" stroke-width="1.5" stroke-dasharray="8 6"/>
         <text class="small" x="1166" y="246" text-anchor="end">on the perfboard</text>
         <text class="small" x="24" y="500">On a XIAO ESP32-C6:</text>
         <text class="small" x="24" y="517">D10, D9, D8 = GPIO18, 20, 19;</text>
         <text class="small" x="24" y="534">D1–D4 = BTN, SPEED, FWD, REV;</text>
-        <text class="small" x="24" y="551">RV1's low end to GND.</text>
+        <text class="small" x="24" y="551">RV1's low end to GND; no encoder.</text>
 
         <!-- Ground symbol -->
         <path class="w-gnd" d="M560 480 V500"/>
@@ -178,7 +173,7 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
 
         <!-- ===== Control panel ===== -->
         <path class="divider" d="M24 562 H1156"/>
-        <text class="sect" x="24" y="586">CONTROLS · S1 in the pod, wired straight to the perfboard (W6 BTN, W11 GND) · RV1 on the perfboard · no direction switch</text>
+        <text class="sect" x="24" y="586">CONTROLS · MOTOR · S1 wired straight to the perfboard · RV1 on the perfboard · J4 at the motor · no direction switch</text>
 
         <!-- S1 push button: BTN to GND -->
         <text class="net c" x="40" y="665">BTN</text>
@@ -208,10 +203,45 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <text class="small" x="350" y="752">Speed knob, RK097N, on the perfboard:</text>
         <text class="small" x="350" y="769">pins straight into the GPIO4 / GPIO3 strips</text>
 
-        <!-- no direction switch (SW1 dropped, C.4; firmware without a switch input, C.5): GPIO2 / GPIO0 unused, forward -->
-        <text class="small" x="700" y="640">No direction switch: GPIO2 and GPIO0</text>
-        <text class="small" x="700" y="657">are unused, and the motor runs forward</text>
-        <text class="small" x="700" y="674">(the Super Mini build has no switch input).</text>
+        <!-- J4: the 6-pin socket on the motor's encoder board; its cable is soldered to the perfboard (W24-W29, C.6) -->
+        <rect class="part" x="840" y="606" width="22" height="128" rx="3"/>
+        <text class="ref" x="836" y="600">J4</text>
+        <path class="w-sig" d="M806 620 H840 M806 720 H840"/>
+        <path class="w-gnd" d="M806 640 H840"/>
+        <path class="w-ctl" d="M806 660 H840 M806 680 H840 M806 700 H840"/>
+        <text class="net s" x="800" y="625" text-anchor="end">MOT_A</text>
+        <text class="net g" x="800" y="645" text-anchor="end">GND</text>
+        <text class="net c" x="800" y="665" text-anchor="end">ENC_A</text>
+        <text class="net c" x="800" y="685" text-anchor="end">ENC_B</text>
+        <text class="net c" x="800" y="705" text-anchor="end">+3V3</text>
+        <text class="net s" x="800" y="725" text-anchor="end">MOT_B</text>
+        <text class="pin" x="851" y="624" text-anchor="middle">1</text>
+        <text class="pin" x="851" y="644" text-anchor="middle">2</text>
+        <text class="pin" x="851" y="664" text-anchor="middle">3</text>
+        <text class="pin" x="851" y="684" text-anchor="middle">4</text>
+        <text class="pin" x="851" y="704" text-anchor="middle">5</text>
+        <text class="pin" x="851" y="724" text-anchor="middle">6</text>
+        <!-- M1: the N20 between pins 1 and 6 -->
+        <path class="w-sig" d="M862 620 H1060 V646 M862 720 H1060 V694"/>
+        <circle class="sym" cx="1060" cy="670" r="24"/>
+        <text class="name" x="1060" y="676" text-anchor="middle">M</text>
+        <text class="ref" x="1092" y="652">M1</text>
+        <text class="small" x="1092" y="670">N20, 6 V</text>
+        <text class="small" x="1092" y="687">1:150</text>
+        <!-- ENC1: the Hall encoder on the motor's shaft, pins 2-5 -->
+        <path class="w-gnd" d="M862 640 H912"/>
+        <path class="w-ctl" d="M862 660 H912 M862 680 H912 M862 700 H912"/>
+        <rect class="part" x="912" y="630" width="96" height="80" rx="4"/>
+        <text class="pin" x="918" y="644">GND</text>
+        <text class="pin" x="918" y="664">C1 · A</text>
+        <text class="pin" x="918" y="684">C2 · B</text>
+        <text class="pin" x="918" y="704">VCC</text>
+        <path class="divider" d="M1008 670 H1036"/>
+        <text class="ref" x="912" y="752">ENC1</text>
+        <text class="small" x="958" y="752">Hall encoder, 3.3 V only</text>
+        <text class="small" x="912" y="769">4200 counts per output turn (x4)</text>
+        <text class="small" x="620" y="752">J4: the encoder's socket;</text>
+        <text class="small" x="620" y="769">cable soldered to the perfboard</text>
 
         <!-- Title block -->
         <rect class="tb" x="680" y="790" width="480" height="56"/>
@@ -219,7 +249,7 @@ text{font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif}</style><rect x="0" 
         <text class="tbt" x="692" y="809">TITLE</text>
         <text class="tbv" x="746" y="809">Cam Rotation N20</text>
         <text class="tbt" x="952" y="809">REV</text>
-        <text class="tbv" x="990" y="809">C.5 · 2026-11-02</text>
+        <text class="tbv" x="990" y="809">C.6 · 2026-11-08</text>
         <text class="tbt" x="692" y="837">SUPPLY</text>
         <text class="tbv" x="752" y="837">5 V USB-C PD</text>
         <text class="tbt" x="952" y="837">MCU</text>

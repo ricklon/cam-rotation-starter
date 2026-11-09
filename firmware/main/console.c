@@ -10,6 +10,7 @@
 #include "servo.h"
 #include "controls.h"
 #include "player.h"
+#include "encoder.h"
 #include "net.h"
 #include "esp_console.h"
 #include "esp_wifi.h"
@@ -95,6 +96,9 @@ static int cmd_status(int argc, char **argv)
 #else
     printf(", pulse %d us\n", servo_pulse_us());
 #endif
+    if (encoder_present())
+        printf("encoder %ld counts, %.2f turns, %.1f deg, %.1f rpm\n", (long)encoder_count(), encoder_turns(),
+               encoder_degrees(), encoder_rpm());
     cJSON *p = player_status();
     const cJSON *mode = cJSON_GetObjectItem(p, "mode");
     const cJSON *story = cJSON_GetObjectItem(p, "story");
@@ -303,6 +307,24 @@ static int cmd_play(int argc, char **argv)
     return 0;
 }
 
+// ---------- encoder ----------
+
+// `encoder` prints position and speed once; `encoder watch` prints them 5 times a second for 10 s, so you can
+// turn the shaft by hand or run the motor and watch the count; `encoder zero` makes here count 0.
+static int cmd_encoder(int argc, char **argv)
+{
+    if (!encoder_present()) { printf("no encoder in this build (Super Mini N20 only)\n"); return 1; }
+    if (argc == 2 && !strcmp(argv[1], "zero")) { encoder_zero(); printf("encoder zeroed\n"); return 0; }
+    int n = (argc == 2 && !strcmp(argv[1], "watch")) ? 50 : 1;
+    if (argc > 2 || (argc == 2 && n == 1)) { printf("use: encoder | encoder watch | encoder zero\n"); return 1; }
+    for (int i = 0; i < n; i++) {
+        if (i) vTaskDelay(pdMS_TO_TICKS(200));
+        printf("%9ld counts  %8.2f turns  %5.1f deg  %6.1f rpm\n", (long)encoder_count(), encoder_turns(),
+               encoder_degrees(), encoder_rpm());
+    }
+    return 0;
+}
+
 // ---------- system ----------
 
 static int cmd_log(int argc, char **argv)
@@ -343,7 +365,8 @@ void console_start(void)
         { .command = "motor", .help = "Run the motor by hand: motor <-100..100>", .func = cmd_motor },
         { .command = "stop", .help = "Stop the motor and any story", .func = cmd_stop },
         { .command = "play", .help = "Play a story: play <name>", .func = cmd_play },
-        { .command = "log", .help = "Log level: log none|error|warn|info|debug", .func = cmd_log },
+        { .command = "encoder", .help = "N20 Hall encoder: encoder | encoder watch | encoder zero", .func = cmd_encoder },
+        { .command = "log",.help = "Log level: log none|error|warn|info|debug", .func = cmd_log },
         { .command = "restart", .help = "Restart the board (applies network changes)", .func = cmd_restart },
         { .command = "reset-network", .help = "Put all Wi-Fi settings back to defaults", .func = cmd_reset_network },
     };

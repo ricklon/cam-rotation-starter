@@ -32,11 +32,18 @@
 #define PIN_KNOB          GPIO_NUM_4   // pot wiper (ADC1 ch4)
 #define PIN_KNOB_GND      GPIO_NUM_3   // pot's low end; driven low as an output, so the pot runs 3V3 -> GPIO3
 #define KNOB_REVERSED     1            // the pot's clockwise end is on GPIO3, so invert: clockwise is faster
-#define PIN_DIR_FWD       GPIO_NUM_2   // switch outer pin A to GND
-#define PIN_DIR_REV       GPIO_NUM_0   // switch outer pin B to GND
-// No direction switch on this board (the N20 rev C build has the knob and the button only): GPIO2/GPIO0 aren't set up
-// or read, switch_installed is always false, and direction is forward.
+// No direction switch on this board (the N20 rev C build has the knob and the button only): switch_installed is
+// always false, and direction is forward. Its old pins, GPIO2 and GPIO0, now take the N20's Hall encoder.
 #define BOARD_HAS_DIR_SWITCH 0
+#if CONFIG_CAM_DRIVE_N20
+// Hall encoder on the N20 (drives/n20/README.md, "Encoder motor"), powered from 3V3. Counted in x4 quadrature by
+// the PCNT unit with the glitch filter on; the internal pull-ups back up the encoder board's own.
+#define HAS_ENCODER       1
+#define PIN_ENC_A         GPIO_NUM_0   // encoder C1 (green), channel A
+#define PIN_ENC_B         GPIO_NUM_2   // encoder C2 (yellow), channel B
+#define ENC_COUNTS_PER_REV 4200        // 7 pulses per motor turn x 150:1 gearbox x 4 edges, per output-shaft turn
+#define ENC_REVERSED      0            // 1 if the count runs backwards while the motor turns forward
+#endif
 
 #define PIN_LED           GPIO_NUM_15  // on-board LED; check the level on the bench (15 is a strapping pin, fine as an output after boot)
 #define LED_ON_LEVEL      1
@@ -91,4 +98,8 @@
 #endif
 #ifndef BOARD_BTN_IS_BOOT
 #define BOARD_BTN_IS_BOOT 0
+#endif
+
+#ifndef HAS_ENCODER
+#define HAS_ENCODER       0            // only the Super Mini N20 build has an encoder wired
 #endif

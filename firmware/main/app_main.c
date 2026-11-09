@@ -8,6 +8,7 @@
 #include "net.h"
 #include "web.h"
 #include "console.h"
+#include "encoder.h"
 #include "nvs_flash.h"
 #include "driver/gpio.h"
 #include "freertos/FreeRTOS.h"
@@ -105,6 +106,7 @@ void app_main(void)
     settings_load();
     storage_mount();
     servo_init();
+    encoder_init();                      // N20 Hall encoder (Super Mini N20 build only; a no-op otherwise)
     player_init();                       // before controls: button events call into the player
     controls_init(player_on_control);
     check_wifi_reset();

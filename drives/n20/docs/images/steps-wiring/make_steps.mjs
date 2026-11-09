@@ -58,6 +58,9 @@ const ROUTE = {
   W21: () => [[hx('A'), hy(15)], [lane('A', 0.7), hy(14.5)], [lane('A', 0.7), hy(10.6)], [lane('I', -0.6), hy(10.6)], [hx('I'), hy(10)]],
   W22: () => [[hx('C'), hy(2)], [hx('C'), hy(1.6)], [lane('I', -0.7), hy(1.6)], [lane('I', -0.7), hy(6.6)], [hx('H'), hy(7)]],
   W23: () => [[hx('A'), hy(16)], [lane('A', -0.9), hy(15.65)], [lane('A', -0.9), hy(7.4)], [lane('H', -0.9), hy(7.4)], [hx('H'), hy(8)]],
+  // the encoder's ground and 3V3, from the strips its cable wires land in (4 and 5 right) to the nets
+  W30: () => [[hx('I'), hy(4)], [hx('I'), hy(4.45)], [hx('E'), hy(4.45)], [hx('E'), hy(4)]],
+  W31: () => [[hx('I'), hy(5)], [lane('H', 0.9), hy(5.4)], [lane('H', 0.9), hy(9.6)], [hx('H'), hy(10)]],
   W13: () => [[hx('C'), hy(13)], [lane('C', 1.9), hy(12.6)], [lane('C', 1.9), hy(6.5)], [hx('J'), hy(6.5)], [hx('J'), hy(6)]],
   // U1's pads to the buses, on the component side. Its - pad is the outer one (u -16.5) and its + pad the inner one (u -11):
   // W2 goes straight to A8, and W1 passes between A8 and B8 to A7, so they don't cross
@@ -83,10 +86,12 @@ const PART = {
       (g ? '' : `<rect x="${Math.min(hx('A'), hx('A') + sg() * 250) + (mirror ? -mm(1.2) : mm(1.2))}" y="${hy(4.5) - 14}" width="240" height="24" rx="5" fill="#ffffff" stroke="${INK}" stroke-width="1.5"/>` +
         `<text x="${hx('A') + sg() * (mm(1.2) + 120)}" y="${hy(4.5) + 4}" text-anchor="middle" ${FONT} font-size="15" font-weight="700" fill="${INK}">band on top, lead over to A2</text>`);
   },
-  J4(mode) {
-    const g = mode === 'done', u = cu('J'), vm = (rv(2) + rv(3)) / 2;
-    return rectU(u - 2.4, u + 2.1, vm - 3, vm + 3, `rx="2" fill="${g ? '#e6e9eb' : '#f4f0e2'}" stroke="${g ? DONE : '#1b1b1b'}" stroke-width="2"`) +
-      [2, 3].map(r => `<rect x="${hx('J') - mm(0.5)}" y="${hy(r) - mm(0.5)}" width="${mm(1)}" height="${mm(1)}" fill="${g ? DONE : '#111'}"/>`).join('');
+  C2(mode) {
+    // 100 nF ceramic disc standing on its legs in I2 / I3, seen edge-on from above
+    const g = mode === 'done', u = cu('I'), vm = (rv(2) + rv(3)) / 2;
+    return [2, 3].map(r => `<line x1="${hx('I')}" y1="${hy(r)}" x2="${ux(u)}" y2="${vy(vm)}" stroke="${g ? DONE : '#8d8d96'}" stroke-width="3"/>`).join('') +
+      rectU(u - 1.3, u + 1.3, vm - 2.6, vm + 2.6, `rx="5" fill="${g ? '#e6e9eb' : '#d9a441'}" stroke="${g ? DONE : '#1b1b1b'}" stroke-width="2"`) +
+      (g ? '' : `<text x="${ux(u - 2.2)}" y="${vy(vm) + 6}" text-anchor="end" ${FONT} font-size="15" font-weight="700" fill="${INK}">C2</text>`);
   },
   RV1(mode) {
     const g = mode === 'done', u = cu('J');
@@ -152,8 +157,17 @@ function offPath(id) {
   if (o.side === 'L') return [[x, y], [OX + 6, hy(o.ly)], [edge, hy(o.ly)]];
   return [[x, y], [x + mm(1.27), y], [x + mm(1.27), hy(o.ly)], [edge, hy(o.ly)]];
 }
-// the motor pair leaves J4's mouth toward the right-hand edge
-const motorPath = pin => { const r = pin === 1 ? 3 : 2; return [[hx('J') + mm(2.1), hy(r)], [OX + mm(W) + 34, hy(r)]]; };
+// the motor cable comes in through the notch in the cover's bottom wall (the right-hand edge, by rows 1-4); four wires
+// go straight into J2-J5, and the encoder's two signal wires run over the DRV8833 and the Super Mini to I15 and I13
+const EDGE = () => OX + mm(W) + 34;
+const CABLE = {
+  W24: () => [[EDGE(), hy(3)], [hx('J'), hy(3)]],
+  W25: () => [[EDGE(), hy(2)], [hx('J'), hy(2)]],
+  W26: () => [[EDGE(), hy(3.5)], [ux(cu('J') + 2.4), hy(3.5)], [hx('J'), hy(4)]],
+  W27: () => [[EDGE(), hy(3.75)], [ux(cu('J') + 3.2), hy(3.75)], [hx('J'), hy(5)]],
+  W28: () => [[EDGE(), hy(1.3)], [ux(3.6), hy(1.3)], [ux(3.6), hy(15)], [hx('I'), hy(15)]],
+  W29: () => [[EDGE(), hy(1.55)], [ux(5.0), hy(1.55)], [ux(5.0), hy(13)], [hx('I'), hy(13)]],
+};
 
 // ---- the steps, in perfboard.md's build order ----
 const STEPS = [
@@ -193,12 +207,18 @@ const STEPS = [
   { id: 'W23', kind: 'link', colour: 'black', from: 'A16', to: 'H8', fromRole: 'GND', toRole: 'C3 −',
     what: 'Ground to the strip where C3\'s − lead will go.',
     check: 'H8 connects to B8. H8 must not connect to H7 (5 V) or H9.' },
+  { id: 'W30', kind: 'link', colour: 'black', from: 'I4', to: 'E4', fromRole: 'enc GND', toRole: 'GND',
+    what: 'Ground for the encoder: from strip 4 right, where its blue wire (W26) will land, across to the driver\'s GND strip. **The DRV8833\'s H4 pin (OUT2) must be pulled**, or this would ground a driver output.',
+    check: 'I4 connects to B8. I4 must not connect to I3 (OUT3) or I5.' },
+  { id: 'W31', kind: 'link', colour: 'yellow', from: 'I5', to: 'H10', fromRole: 'enc 3V3', toRole: '3V3',
+    what: 'The encoder\'s 3.3 V supply: from strip 5 right, where its black VCC wire (W27) will land, to the knob\'s 3V3 strip (row 10 right). Yellow: 3.3 V only. **The DRV8833\'s H5 pin (OUT1) must be pulled.** H10 has no Super Mini pin, so its joint ends up under the module, like H8\'s.',
+    check: 'I5 connects to A15 (3V3). I5 must not connect to I4 or I6, and H10 must not connect to H9 or H11 (GPIO4).' },
 
-  { id: 'J4', kind: 'part', side: 'top', title: 'J4, the motor plug (JST-PH 2-pin, side entry)', colour: 'white', fromTo: 'pin 1 in J3, pin 2 in J2',
-    what: 'The motor\'s plug: pin 1 in the OUT3 strip (row 3 right), pin 2 in the OUT4 strip (row 2 right).',
-    how: 'Splay the 2 mm-pitch pins a little so they reach the holes, mouth toward the right-hand edge. Push in and solder from the underside.',
-    check: 'J3 must not connect to J2. Each pin sits flat, mouth facing off the board.',
-    ends: [{ hole: 'J3', role: 'pin 1' }, { hole: 'J2', role: 'pin 2' }], strips: ['J3', 'J2'] },
+  { id: 'C2', kind: 'part', side: 'top', title: 'C2, the 100 nF capacitor across the motor', colour: 'white', fromTo: 'legs in I3 and I2',
+    what: 'Absorbs the motor\'s brush noise, across OUT3 (row 3 right) and OUT4 (row 2 right). With the encoder motor it lives here, not on the motor\'s tabs: the encoder board covers them.',
+    how: 'A 104 ceramic with 2.54 mm leg spacing. Stand it on its legs as low as it goes, so it stays under the cover. Solder from the underside.',
+    check: 'I3 connects to H3 and I2 to H2; I3 must not connect to I2 (a meter on resistance reads open).',
+    ends: [{ hole: 'I3', role: 'OUT3' }, { hole: 'I2', role: 'OUT4' }], strips: ['I3', 'I2'] },
   { id: 'RV1', kind: 'part', side: 'top', title: 'RV1, the 10 kΩ speed knob', colour: 'green', fromTo: 'pins J10, J11, J12',
     what: 'The knob: pin 1 in the 3V3 strip (fed by W21), the wiper in the GPIO4 strip, pin 3 in the GPIO3 strip.',
     how: 'Snip off its two mounting tabs if it has them. Shaft up, body off the right-hand edge. Solder from the underside.',
@@ -241,12 +261,24 @@ const STEPS = [
     how: '**+ is the long leg, − is the striped side** (see the sketch). Slip heat-shrink over both leads: they cross the pads of rows 5 and 6 (IN3, IN4) on the way out. Stand the can 1.5 mm off the board over A4–C6, stripe toward row 4, bend the + lead out to C7 and the − lead to B4, and solder them from the underside.',
     check: 'The stripe faces row 4. C7 connects to A7, B4 connects to B8, and C7 must not connect to B4 (on resistance it shows the capacitor charging, then open). Neither lead touches the pads of rows 5 or 6: A5 and A6 must not connect to A7 or B8.',
     ends: [{ hole: 'C7', role: '+ long' }, { hole: 'B4', role: '− stripe' }], strips: ['C7', 'B4'] },
-  { id: 'W14', kind: 'motor', colour: 'red', from: 'motor tab', to: 'motor plug pin 1', toRole: 'motor plug (J4) pin 1 (hole J3, OUT3)', pin: 1,
-    what: 'The motor\'s own red lead, to the driver\'s OUT3 through pin 1 of the motor plug (J4).',
-    check: 'With the plug in, the motor plug\'s housing pin 1 connects to the motor tab its lead comes from, and to H3.' },
-  { id: 'W15', kind: 'motor', colour: 'black', from: 'motor tab', to: 'motor plug pin 2', toRole: 'motor plug (J4) pin 2 (hole J2, OUT4)', pin: 2,
-    what: 'The motor\'s own black lead, to the driver\'s OUT4 through pin 2 of the motor plug (J4).',
-    check: 'With the plug in, pin 2 connects to the other motor tab and to H2. On resistance, J3 to J2 reads the winding of the motor, a few ohms or more: 0 Ω means the leads or C2 are shorted.' },
+  { id: 'W24', kind: 'cable', colour: 'white', from: 'J4 pin 1 (M1)', to: 'J3', toRole: 'OUT3', plug: 'pin 1, M1',
+    what: 'Motor lead M1, to the driver\'s OUT3. If the motor runs backwards, swap W24 and W25.',
+    check: 'With the cable plugged into the motor, J3 to J2 reads the motor\'s winding, a few ohms or more: 0 Ω means a short, at C2 or between the wires.' },
+  { id: 'W25', kind: 'cable', colour: 'red', from: 'J4 pin 6 (M2)', to: 'J2', toRole: 'OUT4', plug: 'pin 6, M2',
+    what: 'Motor lead M2, to the driver\'s OUT4. Red here is a motor lead, not +5 V.',
+    check: 'J2 connects to H2 and to C2\'s leg in I2. J2 must not connect to J3 except through the motor.' },
+  { id: 'W26', kind: 'cable', colour: 'blue', from: 'J4 pin 2 (GND)', to: 'J4', toRole: 'enc GND', plug: 'pin 2, GND',
+    what: 'The encoder\'s ground, into strip 4 right, which W30 joins to GND. Blue is ground on this cable.',
+    check: 'Hole J4 connects to B8 (GND). It must not connect to J3 or J5.' },
+  { id: 'W27', kind: 'cable', colour: 'black', from: 'J4 pin 5 (VCC)', to: 'J5', toRole: 'enc 3V3', plug: 'pin 5, VCC',
+    what: 'The encoder\'s supply, into strip 5 right, which W31 joins to 3V3. **Black is the supply on this cable, and it must be 3.3 V**: the encoder pulls its outputs up to it, and the ESP32-C6 isn\'t 5 V tolerant.',
+    check: 'J5 connects to A15 (3V3). J5 must not connect to J4 (GND), J6 (EEP) or anything on 5 V (A7, A2).' },
+  { id: 'W28', kind: 'cable', colour: 'green', from: 'J4 pin 3 (C1)', to: 'I15', toRole: 'GPIO0', plug: 'pin 3, C1',
+    what: 'Encoder channel A (C1) to GPIO0. From the notch it runs over the DRV8833 and the Super Mini, under the cover, and down into I15 beside the Super Mini.',
+    check: 'I15 connects to H15 (GPIO0). I15 must not connect to I14 (the button) or I16.' },
+  { id: 'W29', kind: 'cable', colour: 'yellow', from: 'J4 pin 4 (C2)', to: 'I13', toRole: 'GPIO2', plug: 'pin 4, C2',
+    what: 'Encoder channel B (C2) to GPIO2, beside W28 over the modules, down into I13. Yellow here is a signal, not 3.3 V.',
+    check: 'I13 connects to H13 (GPIO2). I13 must not connect to I12 (GPIO3) or I14.' },
 ];
 
 // ---- cut list: the one source for colour, gauge and length ----
@@ -320,11 +352,7 @@ function drawItem(s, mode, viewSide) {
     return `<polyline points="${pts(p)}" fill="none" stroke="${c}" stroke-opacity="0.7" stroke-width="4" stroke-dasharray="9 6" stroke-linecap="round" stroke-linejoin="round"/>` +
       `<circle cx="${x}" cy="${y}" r="8" fill="#ffffff" stroke="#1b1b1b" stroke-width="2"/><circle cx="${x}" cy="${y}" r="6" fill="none" stroke="${c}" stroke-width="2.5"/><circle cx="${x}" cy="${y}" r="3" fill="${s.colour === 'white' ? '#444' : c}"/>`;
   }
-  if (s.kind === 'motor') {
-    const p = motorPath(s.pin);
-    if (mode === 'done') return wire(p, s.colour, 'done', false);
-    return PART.J4('now') + wire(p, s.colour, 'now', false);
-  }
+  if (s.kind === 'cable') return wire(CABLE[s.id](), s.colour, mode, false);
 }
 
 function endsOf(s) {
@@ -332,7 +360,7 @@ function endsOf(s) {
   if (s.kind === 'link') return [{ hole: s.from, role: s.fromRole, xy: hole(s.from) }, { hole: s.to, role: s.toRole, xy: hole(s.to) }];
   if (s.kind === 'jumper') { const p = ROUTE[s.id](); return [{ hole: s.from.replace(' ', ' '), role: 'pad', xy: p[0], pad: true }, { hole: s.to, role: s.toRole, xy: hole(s.to) }]; }
   if (s.kind === 'off') { const h = OFF[s.id].hole; return [{ hole: h, role: s.toRole, xy: hole(h), off: s.offText }]; }
-  if (s.kind === 'motor') { const h = s.pin === 1 ? 'J3' : 'J2'; return [{ hole: h, role: `J4 pin ${s.pin}`, xy: hole(h), motor: true }]; }
+  if (s.kind === 'cable') return [{ hole: s.to, role: s.toRole, xy: hole(s.to) }];
 }
 
 // the board seen edge-on, for a wire that comes from the mount: along the gap behind the board, up through its hole,
@@ -432,10 +460,10 @@ function svgFor(n, s) {
   } else {
     o.push(`<circle cx="38" cy="70" r="13" fill="${WIRE[s.colour]}" stroke="#1b1b1b" stroke-width="2"/>`);
     o.push(`<text x="62" y="80" ${FONT} font-size="32" font-weight="700" fill="${INK}">${s.id}</text>`);
-    o.push(`<text x="${62 + s.id.length * 22 + 14}" y="80" ${FONT} font-size="24" fill="${INK}">${s.colour} · cut <tspan font-weight="700">${s.cut} mm</tspan>${s.kind === 'motor' ? ' from the end cap' : ''}</text>`);
+    o.push(`<text x="${62 + s.id.length * 22 + 14}" y="80" ${FONT} font-size="24" fill="${INK}">${s.colour} · cut <tspan font-weight="700">${s.cut} mm</tspan>${s.kind === 'cable' ? ' from the plug' : ''}</text>`);
     o.push(`<text x="24" y="122" ${MONO} font-size="${(s.from + s.to).length > 22 ? 21 : 26}" font-weight="700" fill="${INK}">${esc(s.from)} → ${esc(s.to)}` +
       (viewSide === 'under' ? `<tspan ${FONT} font-size="18" font-weight="600" fill="${RING}">  printed ${under(s.from)} → ${under(s.to)} underneath</tspan>` : '') + `</text>`);
-    o.push(`<text x="24" y="152" ${FONT} font-size="16" fill="${MUTE}">${esc(s.kind === 'motor' ? 'the motor\'s own lead, about 26 AWG (assumed)' : s.gauge)}</text>`);
+    o.push(`<text x="24" y="152" ${FONT} font-size="16" fill="${MUTE}">${esc(s.kind === 'cable' ? 'the motor cable\'s own wire, in through the cover\'s notch (right)' : s.gauge)}</text>`);
   }
   const orient = viewSide === 'under' ? 'Underside, as you see it. Letters are as PRINTED here (mirrored).' : (s.kind === 'off' ? 'Push it up from the underside, solder on this side.' : 'Column A on the left, row 1 at the top.');
   o.push(`<text x="24" y="${OY - 40}" ${FONT} font-size="16" font-weight="600" fill="${viewSide === 'under' ? '#7a3e00' : MUTE}">${orient}</text>`);
@@ -471,11 +499,6 @@ function svgFor(n, s) {
       o.push(`<text x="${x}" y="${y - 6}" text-anchor="${left ? 'end' : 'start'}" ${MONO} font-size="20" font-weight="700" fill="${RING}">${e.hole}</text>`);
       o.push(`<text x="${x}" y="${y + 16}" text-anchor="${left ? 'end' : 'start'}" ${FONT} font-size="14" font-weight="600" fill="${INK}">behind board</text>`);
       o.push(`<text x="${x}" y="${y + 34}" text-anchor="${left ? 'end' : 'start'}" ${FONT} font-size="14" font-weight="600" fill="${INK}">→ ${esc(e.off.replace(/^the /, '').replace(/ \(lead .\)$/, ''))}</text>`);
-    }
-    if (e.motor) {
-      const x = OX + mm(W) + 38, y = e.xy[1];
-      o.push(`<text x="${x}" y="${y - 8}" ${FONT} font-size="17" font-weight="700" fill="${RING}">motor plug pin ${s.pin}</text>`);
-      o.push(`<text x="${x}" y="${y + 12}" ${FONT} font-size="14" font-weight="600" fill="${INK}">to the motor</text>`);
     }
   }
   // through-board wires: a key for the top view, then the board seen edge-on
@@ -514,7 +537,7 @@ function altFor(n, s, viewSide) {
   let now;
   if (s.kind === 'part') now = `${s.title.split(',')[0]} drawn in colour, ${s.fromTo}${s.ends.length ? ', its holes circled' : ''}`;
   else if (s.kind === 'off') now = `Hole ${OFF[s.id].hole} (printed ${under(OFF[s.id].hole)} on the underside) is marked with a dot in a ring where ${s.id}, ${s.colour}, comes up from below; a dashed line shows it running behind the board to the ${OFF[s.id].side === 'L' ? 'left' : 'right'} edge, on to ${s.offText}. Below, a side view shows the board edge-on over the mount: the wire runs along the gap behind the board, up through the hole, and is soldered on the component side with its stub trimmed`;
-  else if (s.kind === 'motor') now = `${s.id}, ${s.colour}, drawn bold from the motor plug's mouth off the right-hand edge; the motor plug (J4) pin ${s.pin} is hole ${s.pin === 1 ? 'J3' : 'J2'}`;
+  else if (s.kind === 'cable') now = `${s.id}, ${s.colour}, drawn bold from the cover's notch at the right-hand edge${/^I/.test(s.to) ? ', over the DRV8833 and the Super Mini,' : ''} into hole ${s.to}, circled; it is the encoder plug's (J4's) ${s.plug}`;
   else if (viewSide === 'under') now = `${s.id}, ${s.colour}, drawn bold from ${s.from} to ${s.to} (printed ${under(s.from)} and ${under(s.to)} on the underside), both ends circled and labelled with both names`;
   else now = `${s.id}, ${s.colour}, drawn bold from ${s.from} to ${s.to}, both ends circled`;
   return `Step ${n}: ${view}${prev}. ${now}.`;
@@ -605,8 +628,7 @@ const solderUnder = hs => `Turn the board over (underside up) and solder ${hs.le
 const DO = {
   D1: () => ['The banded end is the cathode (−); the plain end is the anode (+). See the sketch.',
     `On top: stand the anode lead in ${atTop('A3')}, band at the top, and bend the top lead over and down into ${atTop('A2')}.`, solderUnder(['A3', 'A2'])],
-  J4: () => ['Its mouth faces the right-hand edge, off the board. Splay the 2 mm-pitch pins a little so they reach the holes.',
-    `On top: pin 1 in ${atTop('J3')}, pin 2 in ${atTop('J2')}.`, solderUnder(['J3', 'J2'])],
+  C2: () => ['A 104 ceramic: either way round.', `On top: its legs in ${atTop('I3')} and ${atTop('I2')}, standing as low as it goes.`, solderUnder(['I3', 'I2'])],
   RV1: () => ['Snip off its two mounting tabs if it has them. Shaft up, body off the right-hand edge.',
     `On top: its three pins in ${atTop('J10')}, ${atTop('J11')} and ${atTop('J12')}.`, solderUnder(['J10', 'J11', 'J12'])],
   C3: () => ['The striped side is −; the other lead is +. See the sketch.',
@@ -640,10 +662,9 @@ function doThis(s) {
       'Run the wire behind the board, between the board and the mount.',
       `Push the other end up through the hole printed **${under(h)}** on the underside (top ${h}).`,
       `Turn to the top and solder it at **${h}**. Trim the stub.`];
-  } else if (s.kind === 'motor') a = [`Measure the motor's ${s.colour} lead ${s.cut} mm from the end cap, cut it there and strip 2 mm.`,
-    'Crimp a JST-PH contact on.',
-    `Push the contact into pin ${s.pin} of the motor plug's PHR-2 housing until it clicks.`,
-    s.pin === 1 ? 'Leave the housing unplugged until W15 is in it too.' : 'Plug the housing into the motor plug (J4) on the board.'];
+  } else if (s.kind === 'cable') a = [`Find the cable's ${s.colour} wire, the encoder plug's ${s.plug}. Measure ${s.cut} mm from the back of the plug, cut it there, strip 2 mm and tin it.`,
+    /^I/.test(s.to) ? 'From the notch, run it over the DRV8833 and the Super Mini (clear of C3 and RV1), keeping it low: the cover sits 9 mm above the board.' : 'Bring it in through the notch in the cover\'s bottom wall, along the right-hand edge.',
+    `On top: push it into ${atTop(s.to)}.`, `Turn the board over (underside up) and solder it at ${atUnder(s.to)}. Trim the stub.`];
   a.push('Check, as below.');
   return '**Do this:**\n\n' + a.map((t, i) => `${i + 1}. ${t}`).join('\n') + '\n';
 }
@@ -667,23 +688,23 @@ One wire, link or part per step, in the [build order](perfboard.md#build-order).
 
 ## Before you start
 
-- **Wire:** 30 AWG stranded, in red (+5 V), black (GND), green, blue, white and yellow. Only W14 and W15 differ: they're the motor's own leads.
+- **Wire:** 30 AWG stranded, in red (+5 V), black (GND), green, blue, white and yellow. Only W24–W29 differ: they're the motor cable's own wires, in its own colours.
 - **Tin every stripped end** before it goes through a hole, so the strands don't splay.
 - **Laying a link:** solder one end, press the wire flat along its lane and pinch the corners square with tweezers, hold the corners down with Kapton tape, then solder the far end. Keep it off the holes it crosses, and don't anchor wires through spare holes: every hole is part of a strip. Once the step's check passes, a dab of hot glue can hold it for good.
-- **Prepare the modules** (build step 1): desolder U1's screw terminal and set its switches to 5 V. Pull the unused pins out of the header strips: the DRV8833 keeps D3–D6 and H2, H3, H6; the Super Mini keeps D12–D17 and H11–H15 (H10, GPIO5, stays out). Fit the strips to the modules with the perfboard as a jig, and solder them **to the modules only**.
+- **Prepare the modules** (build step 1): desolder U1's screw terminal and set its switches to 5 V. Pull the unused pins out of the header strips: the DRV8833 keeps D3–D6 and H2, H3, H6 (**H4 and H5 must come out**: the encoder's GND and 3V3 use those strips); the Super Mini keeps D12–D17 and H11–H15 (H10, GPIO5, stays out). Fit the strips to the modules with the perfboard as a jig, and solder them **to the modules only**.
 `);
-const sections = { 1: '## On the bench: D1 and the links', 12: '## On the bench: J4, RV1 and C3', 15: '## On the bench: the modules and U1', 20: '## On the drive: the button wires (W11, W6), then C1', 23: '## The motor leads' };
+const sections = { D1: '## On the bench: D1 and the links', C2: '## On the bench: C2, RV1 and C3', U3: '## On the bench: the modules and U1', W11: '## On the drive: the button wires (W11, W6), then C1', W24: '## The motor cable' };
 const intro = {
-  2: '**The ten links** go on the underside, shortest first. Turn the board over: from here to step 11 the pictures show the underside as you see it, with the mirrored letters printed there; each hole is given by both names.',
-  20: 'With the board on the drive and the button in its pod mount. The button\'s two wires (W11, W6) run straight from it, through the base tunnel and behind the board: push each **up from the underside** and solder it on the component side. There\'s no direction switch and no panel connector, so the pod stays wired to the board. Both go in before C1: it stands over A4, the hole W11 uses.',
-  23: 'W14 and W15 are the N20\'s own factory leads, red and black, left soldered to its tabs (assumed about 26 AWG, unconfirmed). Solder C2 across the tabs first if it isn\'t on yet. Measure each lead from the motor\'s end cap, cut it, strip 2 mm and crimp a JST-PH contact on, then push the contact into the PHR-2 housing of the motor plug (J4). Routing and the wire clamp are in [wiring.md](wiring.md#j4-and-the-motor-wire-clamp). Red and black here don\'t mean +5 V and GND: this pair only runs from the motor to the motor plug (J4).',
+  W16: '**The twelve links** go on the underside: the ten for the drive, shortest first, then the two for the encoder. Turn the board over: from here to step 13 the pictures show the underside as you see it, with the mirrored letters printed there; each hole is given by both names.',
+  W11: 'With the board on the drive and the button in its pod mount. The button\'s two wires (W11, W6) run straight from it, through the base tunnel and behind the board: push each **up from the underside** and solder it on the component side. There\'s no direction switch and no panel connector, so the pod stays wired to the board. Both go in before C1: it stands over A4, the hole W11 uses.',
+  W24: 'The encoder motor comes with its own 6-wire cable, plugged into the 6-pin socket on the encoder board: that plug is **J4**, where the motor and its cartridge unplug. The cable\'s other end is cut to length and soldered into the board. All six wires come in through the notch in the cover\'s bottom wall. They keep the cable\'s own colours, which don\'t follow this board\'s: **black is the encoder\'s 3.3 V supply, blue is ground and red is a motor lead.** Routing is in [wiring.md](wiring.md#j4-the-motor-cable). Plug the cable into the motor first, so you can check each wire with a meter from the plug end.',
 };
 STEPS.forEach((s, i) => {
   const n = i + 1;
-  if (sections[n]) md.push(sections[n] + '\n');
-  if (intro[n]) md.push(intro[n] + '\n');
-  if (n === 20) md.push(`![${onDriveSvg().alt}](images/steps-wiring/on-the-drive.svg)\n`);
-  const side = s.kind === 'link' ? 'underside (link)' : s.kind === 'off' ? 'in from the underside, soldered on the component side' : s.kind === 'motor' ? 'off the board: crimped into the motor plug\'s (J4\'s) housing' : 'component side';
+  if (sections[s.id]) md.push(sections[s.id] + '\n');
+  if (intro[s.id]) md.push(intro[s.id] + '\n');
+  if (s.id === 'W11') md.push(`![${onDriveSvg().alt}](images/steps-wiring/on-the-drive.svg)\n`);
+  const side = s.kind === 'link' ? 'underside (link)' : s.kind === 'off' ? 'in from the underside, soldered on the component side' : s.kind === 'cable' ? 'in from the component side through the cover\'s notch, soldered underneath' : 'component side';
   if (s.kind === 'part') {
     md.push(`### Step ${n}: ${s.title}\n`);
     md.push(`![${altFor(n, s, 'top')}](images/steps-wiring/${file(n, s)})\n`);
@@ -698,8 +719,8 @@ STEPS.forEach((s, i) => {
     md.push(`### Step ${n}: ${s.id}, ${s.colour}, ${s.from} → ${s.to}\n`);
     md.push(`![${altFor(n, s, s.kind === 'link' ? 'under' : 'top')}](images/steps-wiring/${file(n, s)})\n`);
     md.push(doThis(s));
-    md.push(`- **Wire:** ${s.id}, ${s.colour}, ${s.kind === 'motor' ? 'the motor\'s own lead' : s.gauge}`);
-    md.push(`- **Cut:** ${s.cut} mm${s.kind === 'motor' ? ', measured from the motor\'s end cap' : ''}`);
+    md.push(`- **Wire:** ${s.id}, ${s.colour}, ${s.kind === 'cable' ? 'the motor cable\'s own wire' : s.gauge}`);
+    md.push(`- **Cut:** ${s.cut} mm${s.kind === 'cable' ? ', measured from the back of the encoder plug' : ''}`);
     md.push(`- **From → to:** ${s.from} → ${s.to}` + (s.kind === 'link' ? ` (printed ${under(s.from)} → ${under(s.to)} on the underside)` : s.kind === 'off' ? ` (push it in at printed ${under(OFF[s.id].hole)} on the underside)` : ''));
     md.push(`- **Side:** ${side}`);
     md.push(`- **What it does:** ${s.what}`);
@@ -709,8 +730,10 @@ STEPS.forEach((s, i) => {
 md.push(`## Last checks
 
 1. Go through the [terminal check](wiring.md#terminal-check): every terminal should hold exactly the wires it lists.
-2. **+5V, +3V3 and GND must not connect to each other**, or to the strip next door. Check B7 to B8, A15 to A16, and C17 to C16.
+2. **+5V, +3V3 and GND must not connect to each other**, or to the strip next door. Check B7 to B8, A15 to A16, C17 to C16, and J4 to J5 (the encoder's GND and 3V3).
 3. Then follow [bring-up](wiring.md#bring-up) before the first power-on.
+
+The encoder runs on **3.3 V only**: with the board powered and the motor cable unplugged at the motor, check that J5 reads 3.3 V to J4.
 
 The button's wires are covered in [wiring.md](wiring.md#the-button-s1): use its own leads if they reach, or splice in the pod. The pod no longer unplugs from the drive.
 

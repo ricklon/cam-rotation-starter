@@ -43,10 +43,11 @@ A version of the drive built around a 6 V N20 metal gearmotor and a DRV8833 moto
 | — | 1 | ElectroCookie mini solderable breadboard, 1/4 size (38.1 × 50.8 mm) | Rev C. Rows 1–17, A–E / F–J, no power rails. |
 | C3 | 1 | 470 µF electrolytic, ≥ 6.3 V (10 V preferred) | Rev C. Hold-up capacitor for the Super Mini, standing on the perfboard over I7/I8, its top through a hole in the cover (as built; see [perfboard.md](docs/perfboard.md#placement)). |
 | RV1 | 1 | RK097N 10 kΩ linear pot, 6 mm knurled shaft, with nut, washer and knob cap | Rev C. Replaces the pod's knob. |
-| J4 | 1 | JST-PH 2.0 mm 2-pin, side entry: S2B-PH-K-S header, PHR-2 housing, 2 crimp contacts | Rev C. The motor plug. |
+| J4 | — | The encoder motor's own 6-pin socket and its supplied 6-wire cable | From 2026-11-08: the motor unplugs at its encoder. The cable's far end is soldered into the perfboard (W24–W29). The plain N20 used a JST-PH 2-pin header (S2B-PH-K-S) at J2/J3 instead. |
+| C2 | 1 | 100 nF ceramic (104), 2.54 mm leg spacing | On the perfboard at I2/I3, across the motor's leads |
 | — | 3 | **M2 × 20** pan-head screws | Rev C. Cover and perfboard to the supports on the −Y face. |
 | — | 2 | Double-sided foam pads, 3 mm thick, about 10 × 4 mm | Rev C. Hold the PD board on the perfboard. |
-| — | — | 30 AWG stranded hook-up wire in red, black, green, blue, white and yellow | Rev C. Every wire in the drive except the motor's own leads (W14, W15), including the underside links; see the [cut list](docs/wiring.md#cut-list). |
+| — | — | 30 AWG stranded hook-up wire in red, black, green, blue, white and yellow | Rev C. Every wire in the drive except the motor cable's own wires (W24–W29), including the underside links; see the [cut list](docs/wiring.md#cut-list). |
 | — | — | Hot glue or CA | A dab to hold D1 in its channel. |
 
 ## Wiring plan
@@ -61,7 +62,9 @@ Rev C, on the perfboard with the ESP32-C6 Super Mini (rev B, with a XIAO, is in 
 | GPIO18 | DRV8833 IN3 | PWM forward |
 | GPIO20 | DRV8833 IN4 | PWM reverse |
 | GPIO19 | DRV8833 EEP (nSLEEP) | Keeps the driver asleep until the firmware is running, so the motor can't twitch at power-up. Leave the module's J1 jumper open: bridging it ties EEP high. |
-| DRV8833 OUT3, OUT4 | J4 → N20 terminals | Swap the two pins in J4's housing if forward runs backwards |
+| DRV8833 OUT3, OUT4 | Motor cable (W24, W25) → J4 → motor M1, M2; C2 across them on the perfboard | Swap W24 and W25 if forward runs backwards |
+| 3V3, GND | Motor cable (W27, W26) → J4 → encoder VCC, GND | The encoder runs on 3.3 V, not 5 V |
+| GPIO0, GPIO2 | Motor cable (W28, W29) → J4 → encoder C1 (channel A), C2 (channel B) | Counted by the C6's PCNT in x4 quadrature |
 | 3V3, GPIO4, GPIO3 (driven low) | RV1 (on the perfboard) | Speed knob |
 | GPIO1, GND | Button S1 | Two wires straight from the button (W6, W11); the pod no longer unplugs |
 
@@ -76,6 +79,7 @@ Both drives build from the one `firmware/` folder; the motor output and the boar
 - `motor_drv8833.c` has the same speed interface as the servo's `servo.c`: two LEDC PWM channels at 20 kHz (above hearing) in slow-decay mode, so the motor brakes between pulses and stops dead at zero
 - nSLEEP stays low until the firmware runs, and goes low again after the motor has been stopped for `idle_release_ms`
 - the web app hides the stop trim and the µs range on an N20 box
+- on the Super Mini, `encoder.c` counts the Hall encoder with the C6's pulse counter (PCNT) in x4 quadrature, 4200 counts per output-shaft turn, with a 1 µs glitch filter and the internal pull-ups as a fallback. It reports position and speed in the `status` and `encoder` console commands, `/api/status` (`enc`) and the web app's status pills. Nothing steers the motor from it yet.
 
 To check on hardware: the lowest speed at which your N20 still turns under the cam's load. If it stalls and hums at low knob settings, the firmware needs a minimum duty setting.
 
@@ -90,7 +94,7 @@ To check on hardware: the lowest speed at which your N20 still turns under the c
 
 ## Encoder motor (2026-11-08)
 
-The drive can take an N20 with a magnetic Hall encoder on its back: the MECCANIXITY 6 V, 1:150, 100 rpm encoder gearmotor (Amazon B0F8NGVNCH, sold in pairs). Fusion version 38 models the encoder (`N20_Encoder`, built by [`cad/fusion/encoder_motor.py`](cad/fusion/encoder_motor.py)) and trims the cartridge's snap hooks to clear it. The wiring and firmware for it aren't done yet.
+The drive can take an N20 with a magnetic Hall encoder on its back: the MECCANIXITY 6 V, 1:150, 100 rpm encoder gearmotor (Amazon B0F8NGVNCH, sold in pairs). Fusion version 38 models the encoder (`N20_Encoder`, built by [`cad/fusion/encoder_motor.py`](cad/fusion/encoder_motor.py)) and trims the cartridge's snap hooks to clear it. The wiring is in [docs/wiring.md](docs/wiring.md#j4-the-motor-cable) and the firmware counts it (2026-11-08); neither has been tried on hardware yet.
 
 - **Size (measured):** 40.5 mm from shaft tip to the back of the magnet cap, 30.5 mm from the gearbox face. The encoder board is 18 × 12 × 1 mm. Its front face is about 25 mm from the gearbox face. It's flush with one of the motor's flats, so it reaches 13 mm past the axis on the other side. The 6-pin plug overhangs the board's end by 1.5 mm, and the wires leave in the plane of the board.
 - **In the drive:** the plug end points −Y, toward the perfboard. The whole encoder hangs below the mount, between z −25 and −30.5, so the pod's interior limits don't apply. Clearances: 0.2 mm to the trimmed hooks, 0.3 mm from the magnet cap to the +Y wire clamp plate.
@@ -108,7 +112,9 @@ The drive can take an N20 with a magnetic Hall encoder on its back: the MECCANIX
 
   Black is the supply and blue is ground, and red is a motor lead, not power. Power the encoder from the Super Mini's 3V3: C1 and C2 seem to be pulled up to VCC on the board, and the ESP32-C6's inputs aren't 5 V tolerant.
 - **Counts:** 7 pulses per motor turn on each channel (14-pole magnet), so 1050 per output turn at 1:150, or 4200 counting every edge of both channels.
-- **Still to do:** J4 becomes a 6-pin connector, and C2 moves from the motor terminals to the perfboard. C1 and C2 (encoder) go to GPIO0 and GPIO2, free since the direction switch went, and the firmware needs to count them with the C6's pulse counter. W14, W15 and the +Y wire clamp aren't needed with this motor.
+- **Wiring:** the motor unplugs at the encoder's own socket, now **J4**; the 2-pin header at J2/J3, W14, W15 and the cartridge's wire clamp aren't used. The cable's six wires (W24–W29) come in through the cover's notch: M1 and M2 to OUT3 and OUT4 (J3, J2), GND and VCC to J4 and J5, which the links W30 and W31 join to GND and 3V3, and C1 and C2 to GPIO0 and GPIO2 (I15, I13). C2 (100 nF) moved to the perfboard at I2/I3. See [docs/wiring.md](docs/wiring.md#j4-the-motor-cable) and the [schematic](docs/images/schematic.svg) (rev C.6).
+- **Firmware:** `HAS_ENCODER` in `firmware/main/board.h` (Super Mini N20 build), `firmware/main/encoder.c`. See [Firmware](#firmware).
+- **Still to do:** route W24–W31 in [`cad/fusion/wires.py`](cad/fusion/wires.py) and the model (the cut lengths are estimates until then), re-render the perfboard pictures and hole map, and check on hardware: the encoder's 3.3 V, the count direction (`ENC_REVERSED`), 4200 counts per turn, and that the six wires pass the cover's 7 mm notch.
 
 ## What changed on 2026-10-31 (rev C)
 
@@ -181,7 +187,7 @@ Checked in the model with 2.5 mm and 1.5 mm hex keys, a small screwdriver and ro
     2. Lay the perfboard on the four supports on the −Y face, components out, row 17 (both USB-C ports) toward +X.
     3. Put the cover over it, with RV1's bushing through the Ø7.2 mm hole in its bottom (J-edge) wall, and C1's and C3's tops and RV1's body through the openings in its top. Put RV1's washer and nut on from outside. Drive the three M2 × 20 screws through the cover posts and the board into the supports.
     4. Fit RV1's washer, nut and knob cap.
-    5. Plug the motor into J4 through the cover's bottom notch.
+    5. Plug the motor cable into the encoder's socket (J4); the cable comes out of the cover's bottom notch.
 
     Power plugs in at the PD board's USB-C, at the +X end of the cover; programming is the Super Mini's USB-C beside it.
 
