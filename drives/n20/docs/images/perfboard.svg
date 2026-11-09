@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 800" role="img" aria-label="Perfboard hole map, component side, row 1 at the top, column A at the left. The DRV8833 module straddles the centre channel in rows 1 to 6 with header pins at D3 VCC, D4 GND, D5 IN3, D6 IN4, H2 OUT4, H3 OUT3 and H6 EEP. The ESP32-C6 Super Mini straddles it in rows 8 to 17, USB-C past row 17, with pins at D12 GPIO18, D13 GPIO19, D14 GPIO20, D15 3V3, D16 GND, D17 5V, H11 GPIO4, H12 GPIO3, H13 GPIO2, H14 GPIO1 and H15 GPIO0. The PD trigger board U1 lies over columns A to C, rows 9 to 17, its USB-C port also past row 17, with jumpers W1 from its plus pad to A7 and W2 from its minus pad to A8. Row 7 left is the 5 volt bus and row 8 left the ground bus. D1 stands at A3 with its cathode lead in A2. Underside links: W16 B7 to C3, W18 B8 to C4, W4 C8 to C16, W17 B2 to C17, W5 C12 to C5, W12 C14 to C6, W13 C13 to J6, W21 A15 to I10, W22 C2 to H7, W23 A16 to H8. The hold-up capacitor C3 stands over I7 (plus) and I8 (minus). The speed pot RV1 stands on its pins at J10 (3.3 volt end, fed by W21), J11 (wiper, in the GPIO4 strip) and J12 (low end, in the GPIO3 strip), its shaft pointing off the right-hand edge, parallel to the board, and the motor header J4 sits at J3 and J2. The bulk capacitor C1 stands over columns A to C, rows 4 to 7, with its plus lead to C7 and its minus lead to B4, its top through a hole in the cover. Wires from behind the board, straight from the button in the pod: W11 at A4 (GND) and W6 at I14 (GPIO1). There is no direction switch. The board mounts on three of its M2 corner holes.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 800" role="img" aria-label="Perfboard hole map, component side, row 1 at the top, column A at the left. The DRV8833 module straddles the centre channel in rows 1 to 6 with header pins at D3 VCC, D4 GND, D5 IN3, D6 IN4, H2 OUT4, H3 OUT3 and H6 EEP. The ESP32-C6 Super Mini straddles it in rows 8 to 17, USB-C past row 17, with pins at D12 GPIO18, D13 GPIO19, D14 GPIO20, D15 3V3, D16 GND, D17 5V, H11 GPIO4, H12 GPIO3, H13 GPIO2, H14 GPIO1 and H15 GPIO0. The PD trigger board U1 lies over columns A to C, rows 9 to 17, its USB-C port also past row 17, with jumpers W1 from its plus pad to A7 and W2 from its minus pad to A8. Row 7 left is the 5 volt bus and row 8 left the ground bus. D1 stands at A3 with its cathode lead in A2. Underside links: W16 B7 to C3, W18 B8 to C4, W4 C8 to C16, W17 B2 to C17, W5 C12 to C5, W12 C14 to C6, W13 C13 to J6, W21 A15 to I10, W22 C2 to H7, W23 A16 to H8. The hold-up capacitor C3 stands over I7 (plus) and I8 (minus). The speed pot RV1 stands on its pins at J10 (3.3 volt end, fed by W21), J11 (wiper, in the GPIO4 strip) and J12 (low end, in the GPIO3 strip), its shaft pointing off the right-hand edge, parallel to the board. C2, 100 nF, stands at I2 and I3. The encoder motor's six-wire cable comes in from the right-hand edge through the cover's notch: W25 (red, M2) into J2, W24 (white, M1) into J3, W26 (blue, encoder ground) into J4 and W27 (black, encoder 3.3 volts) into J5, while W28 (green, channel A) and W29 (yellow, channel B) run over the DRV8833 and the Super Mini into I15 (GPIO0) and I13 (GPIO2). Underside links W30 (I4 to E4) and W31 (I5 to H10) carry the encoder's ground and 3.3 volts on. The bulk capacitor C1 stands over columns A to C, rows 4 to 7, with its plus lead to C7 and its minus lead to B4, its top through a hole in the cover. Wires from behind the board, straight from the button in the pod: W11 at A4 (GND) and W6 at I14 (GPIO1). There is no direction switch. The board mounts on three of its M2 corner holes.">
 <style>
 .t{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;fill:#1c2729}
 .tb{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;font-weight:600;fill:#1c2729}
@@ -8,7 +8,7 @@
 .lbl{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;fill:#dfe8f5}
 </style>
 <rect width="1180" height="800" fill="#ffffff"/>
-<text class="h" x="24" y="36">N20 drive perfboard (ElectroCookie 1/4 size): component side, rev C</text>
+<text class="h" x="24" y="36">N20 drive perfboard (ElectroCookie 1/4 size): component side, rev C, encoder motor</text>
 <rect x="330" y="70" width="495.3" height="660.4" rx="26" fill="#1d4f8f"/>
 <rect x="384.34000000000003" y="124.33999999999996" width="155.48" height="23.400000000000002" rx="11.700000000000001" fill="#2f66a8"/>
 <rect x="615.48" y="124.33999999999996" width="155.47999999999993" height="23.400000000000002" rx="11.700000000000001" fill="#2f66a8"/>
@@ -313,9 +313,10 @@
 <circle cx="396.04" cy="202.07999999999998" r="17.55" fill="#151515" stroke="#ddd" stroke-width="2"/>
 <circle cx="396.04" cy="169.05999999999997" r="7.8" fill="#c9c9cf"/>
 <text class="lbl" x="372.64000000000004" y="189.56999999999996" text-anchor="end" style="fill:#fff;font-weight:600">D1</text>
-<rect x="728.06" y="146.57" width="58.5" height="78" rx="2" fill="#f2efe6" stroke="#fff"/>
-<rect x="752.76" y="195.57999999999998" width="13" height="13" fill="#111"/><rect x="752.76" y="162.55999999999997" width="13" height="13" fill="#111"/>
-<text class="lbl" x="790.46" y="189.57" style="fill:#fff;font-weight:600">J4</text>
+<!-- C2 100 nF standing on its legs in I2 / I3, across OUT4 / OUT3 (encoder motor, 2026-11-08) -->
+<polyline points="726.2,169.1 736.6,177.6" stroke="#c9c9cf" stroke-width="3" fill="none"/><polyline points="726.2,202.1 736.6,193.6" stroke="#c9c9cf" stroke-width="3" fill="none"/>
+<rect x="723.64" y="153.07" width="26" height="65" rx="10" fill="#d9a441" stroke="#fff" stroke-width="1.5"/>
+<text class="lbl" x="736.64" y="189.57" text-anchor="middle" style="fill:#1c2729;font-weight:600">C2</text>
 <rect x="740.8" y="401.23999999999995" width="84.5" height="130" rx="2" fill="#2a6e3a" fill-opacity="0.85" stroke="#fff" stroke-width="2" stroke-dasharray="7 5"/>
 <rect x="825.3" y="420.73999999999995" width="65" height="91" fill="#c9c9cf" stroke="#555"/><rect x="890.3" y="427.23999999999995" width="130" height="78" fill="#dcdce0" stroke="#555"/>
 <rect x="751.46" y="425.41999999999996" width="15.6" height="15.6" fill="#111" stroke="#fff"/>
@@ -333,6 +334,9 @@
 <polyline points="396.0,598.3 405.1,581.8 405.1,453.0 545.0,453.0 718.4,453.0 726.2,433.2" fill="none" stroke="#b08d10" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="462.1,169.1 462.1,155.9 717.1,155.9 717.1,321.0 693.2,334.2" fill="none" stroke="#c23b2a" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="396.0,631.3 384.3,619.8 384.3,347.4 681.5,347.4 693.2,367.2" fill="none" stroke="#2f3a3d" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
+<!-- encoder links (2026-11-08): W30 GND, W31 3V3 -->
+<polyline points="726.2,235.1 726.2,250.0 528.1,250.0 528.1,235.1" fill="none" stroke="#2f3a3d" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="726.2,268.1 704.9,281.3 704.9,420.0 693.2,433.2" fill="none" stroke="#b08d10" stroke-width="3.5" stroke-dasharray="8 4" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="326.75" y="384.59999999999997" width="143" height="364" rx="3" fill="#202020" fill-opacity="0.55" stroke="#fff" stroke-width="2" stroke-dasharray="7 5"/>
 <rect x="339.75" y="653.6999999999999" width="117" height="98.8" rx="4" fill="#bbb" fill-opacity="0.9" stroke="#fff"/>
 <text class="lbl" x="398.25" y="523.7" text-anchor="middle" style="fill:#fff;font-weight:600">U1 PD</text>
@@ -364,16 +368,30 @@
 <text class="tb" x="851.3" y="590.7629999999999" style="fill:#6b6b60">W6 from the button (BTN)</text>
 <text class="t" x="304" y="338.16" text-anchor="end" style="fill:#c23b2a;font-weight:600">row 7 left = +5V bus (W1 from U1 +)</text>
 <text class="t" x="304" y="371.18" text-anchor="end" style="fill:#2f3a3d;font-weight:600">row 8 left = GND bus (W2 from U1 −)</text>
-<text class="h" x="880" y="70" style="font-size:15px">Key</text>
+<!-- the motor cable W24-W29, from J4 (the plug on the encoder) in through the cover's notch (2026-11-08) -->
+<polyline points="862.0,169.1 759.3,169.1" fill="none" stroke="#111" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.55"/><polyline points="862.0,169.1 759.3,169.1" fill="none" stroke="#c23b2a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="759.26" cy="169.06" r="9" fill="none" stroke="#c23b2a" stroke-width="2.5"/>
+<polyline points="862.0,202.1 759.3,202.1" fill="none" stroke="#111" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.55"/><polyline points="862.0,202.1 759.3,202.1" fill="none" stroke="#eeeeea" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="759.26" cy="202.08" r="9" fill="none" stroke="#eeeeea" stroke-width="2.5"/>
+<polyline points="862.0,220.2 831.3,220.2 771.3,235.1 759.3,235.1" fill="none" stroke="#111" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.55"/><polyline points="862.0,220.2 831.3,220.2 771.3,235.1 759.3,235.1" fill="none" stroke="#3a6fd8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="759.26" cy="235.10" r="9" fill="none" stroke="#3a6fd8" stroke-width="2.5"/>
+<polyline points="862.0,228.5 827.3,228.5 771.3,268.1 759.3,268.1" fill="none" stroke="#111" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.55"/><polyline points="862.0,228.5 827.3,228.5 771.3,268.1 759.3,268.1" fill="none" stroke="#2f3a3d" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="759.26" cy="268.12" r="9" fill="none" stroke="#2f3a3d" stroke-width="2.5"/>
+<polyline points="862.0,145.9 632.3,145.9 632.3,598.3 726.2,598.3" fill="none" stroke="#111" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.55"/><polyline points="862.0,145.9 632.3,145.9 632.3,598.3 726.2,598.3" fill="none" stroke="#2e8b45" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="726.24" cy="598.32" r="9" fill="none" stroke="#2e8b45" stroke-width="2.5"/>
+<polyline points="862.0,154.2 653.0,154.2 653.0,532.3 726.2,532.3" fill="none" stroke="#111" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.55"/><polyline points="862.0,154.2 653.0,154.2 653.0,532.3 726.2,532.3" fill="none" stroke="#e0b81a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="726.24" cy="532.28" r="9" fill="none" stroke="#e0b81a" stroke-width="2.5"/>
+<text class="tb" x="868" y="149.95" style="fill:#1c2729">W28 C1 → I15 · W29 C2 → I13</text>
+<text class="tb" x="868" y="173.06" style="fill:#c23b2a">W25 M2 → J2</text>
+<text class="tb" x="868" y="198.08" style="fill:#1c2729">W24 M1 → J3</text>
+<text class="tb" x="868" y="226.24" style="fill:#3a6fd8">W26 GND → J4</text>
+<text class="tb" x="868" y="249.36" style="fill:#2f3a3d">W27 VCC 3.3 V → J5</text>
+<text class="ts" x="868" y="276.12">motor cable, from J4 on the encoder,</text>
+<text class="ts" x="868" y="292.12">in through the cover's notch</text>
+<g transform="translate(-856,360)"><text class="h" x="880" y="70" style="font-size:15px">Key</text>
 <g transform="translate(880,98)"><rect x="0" y="-9" width="14" height="14" fill="#111"/><text class="ts" x="36" y="3">header pin (fit only these)</text></g>
 <g transform="translate(880,124)"><line x1="0" y1="-2" x2="26" y2="-2" stroke="#d07a1c" stroke-width="3.5" stroke-dasharray="8 4"/><text class="ts" x="36" y="3">link on the underside</text></g>
 <g transform="translate(880,150)"><circle cx="7" cy="-2" r="8" fill="none" stroke="#c23b2a" stroke-width="3"/><text class="ts" x="36" y="3">off-board wire</text></g>
 <g transform="translate(880,176)"><rect x="0" y="-8" width="26" height="12" rx="6" fill="#2f66a8"/><text class="ts" x="36" y="3">strip of five joined holes (A–E, F–J)</text></g>
 <text class="ts" x="880" y="220">Check the DRV8833 labels before</text>
 <text class="ts" x="880" y="238">soldering (see perfboard.md).</text>
-<text class="ts" x="880" y="262">Mounts on three M2 corner holes.</text>
+<text class="ts" x="880" y="262">Mounts on three M2 corner holes.</text></g>
 <rect x="900" y="700" width="256" height="76" fill="#fff" stroke="#d5dddc" stroke-width="1.5"/>
 <text class="ts" x="912" y="722">Cam Rotation N20 · perfboard</text>
 <text class="ts" x="912" y="744">ElectroCookie 38.1 × 50.8 mm</text>
-<text class="tb" x="912" y="766">REV C</text>
+<text class="tb" x="912" y="766">REV C · encoder motor, 2026-11-08</text>
 </svg>
