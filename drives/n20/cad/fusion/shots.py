@@ -24,7 +24,6 @@ SHOTS = {
     'perfboard': dict(show=ELEC, hide=('N20_Electronics_Cover',), wires=('W1 ', 'W2 ', 'W24 ', 'W25 ', 'W26 ', 'W27 ', 'W28 ', 'W29 ', 'C2 ', 'D1 '),
         eye=(130, -300, 110), target=(5, -30, 14), ortho=True, extent=72),
     'perfboard_cover': dict(show=ELEC + CART + POD + ('Adapter_075', 'Bushing_075'), eye=(240, -260, -90), target=(5, -12, 6), ortho=True, extent=120),
-    'motor_clamp': dict(show=CART + ('Wiring',), wires=('W14 ', 'W15 ', 'C2'), eye=(90, 200, -120), target=(2, 3, -25), ortho=True, extent=30),
     'petg_fit_coupon': dict(show=('PETG_Fit_Coupon',), eye=(200, 0, 300), target=(200, 0, -7), up=(0, 1, 0), ortho=True, extent=108),
 }
 
