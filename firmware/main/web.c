@@ -7,6 +7,7 @@
 #include "player.h"
 #include "servo.h"
 #include "encoder.h"
+#include "track.h"
 #include "settings.h"
 #include "storage.h"
 #include "net.h"
@@ -154,13 +155,16 @@ static esp_err_t h_story_put(httpd_req_t *req)
     if (!name) return send_err(req, "400 Bad Request", "story names use letters, digits, - and _");
     char nm[40];
     strcpy(nm, name);
-    char *b = read_body(req, 16384);
+    char *b = read_body(req, 32768);     // a 120 s hand-recorded track is about 16 KB
     if (!b) return send_err(req, "400 Bad Request", "body missing or too large");
     cJSON *j = cJSON_Parse(b);
     free(b);
     story_t tmp;
+    track_t tr;
     char err[80] = "invalid JSON";
     if (!j || !story_from_json(j, &tmp, err, sizeof err)) { cJSON_Delete(j); return send_err(req, "400 Bad Request", err); }
+    if (!track_from_json(j, &tr, err, sizeof err)) { cJSON_Delete(j); return send_err(req, "400 Bad Request", err); }
+    track_free(&tr);
     cJSON_ReplaceItemInObject(j, "name", cJSON_CreateString(nm));
     if (!cJSON_HasObjectItem(j, "name")) cJSON_AddStringToObject(j, "name", nm);
     char *s = cJSON_Print(j);
@@ -247,6 +251,38 @@ static esp_err_t h_play(httpd_req_t *req)
     cJSON_Delete(j);
     if (e != ESP_OK) return send_err(req, "404 Not Found", "story or playlist not found or invalid");
     return send_json(req, full_status());
+}
+
+// Teach: record a story by turning the shaft by hand.
+//   {"action":"start"} -> status; {"action":"stop","name":"x","loop":true} -> the take as story JSON (not saved);
+//   {"action":"cancel"} -> status
+static esp_err_t h_teach(httpd_req_t *req)
+{
+    char *b = read_body(req, 256);
+    cJSON *j = b ? cJSON_Parse(b) : NULL;
+    free(b);
+    const cJSON *a = cJSON_GetObjectItemCaseSensitive(j, "action");
+    const char *act = cJSON_IsString(a) ? a->valuestring : "";
+    if (!strcmp(act, "start")) {
+        cJSON_Delete(j);
+        esp_err_t e = player_teach_start();
+        if (e == ESP_ERR_NOT_SUPPORTED) return send_err(req, "409 Conflict", "this build has no encoder");
+        if (e != ESP_OK) return send_err(req, "500 Internal Server Error", esp_err_to_name(e));
+        return send_json(req, full_status());
+    }
+    if (!strcmp(act, "stop")) {
+        const cJSON *nm = cJSON_GetObjectItemCaseSensitive(j, "name");
+        const cJSON *lp = cJSON_GetObjectItemCaseSensitive(j, "loop");
+        char err[80];
+        cJSON *story = player_teach_stop(cJSON_IsString(nm) && storage_valid_name(nm->valuestring) ? nm->valuestring : "",
+                                         cJSON_IsBool(lp) ? cJSON_IsTrue(lp) : true, err, sizeof err);
+        cJSON_Delete(j);
+        if (!story) return send_err(req, "409 Conflict", err);
+        return send_json(req, story);
+    }
+    cJSON_Delete(j);
+    if (!strcmp(act, "cancel")) { player_teach_cancel(); return send_json(req, full_status()); }
+    return send_err(req, "400 Bad Request", "action must be start, stop or cancel");
 }
 
 static esp_err_t h_pause(httpd_req_t *req) { player_toggle_pause(); return send_json(req, full_status()); }
@@ -409,6 +445,7 @@ void web_start(void)
     reg("/api/pause", HTTP_POST, h_pause);
     reg("/api/stop", HTTP_POST, h_stop);
     reg("/api/next", HTTP_POST, h_next);
+    reg("/api/teach", HTTP_POST, h_teach);
     httpd_uri_t ws = { .uri = "/ws", .method = HTTP_GET, .handler = h_ws, .is_websocket = true };
     httpd_register_uri_handler(s_server, &ws);
     reg("/*", HTTP_GET, h_static);   // last: app files + captive-portal fallback

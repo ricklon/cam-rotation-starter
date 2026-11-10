@@ -79,7 +79,8 @@ Both drives build from the one `firmware/` folder; the motor output and the boar
 - `motor_drv8833.c` has the same speed interface as the servo's `servo.c`: two LEDC PWM channels at 20 kHz (above hearing) in slow-decay mode, so the motor brakes between pulses and stops dead at zero
 - nSLEEP stays low until the firmware runs, and goes low again after the motor has been stopped for `idle_release_ms`
 - the web app hides the stop trim and the µs range on an N20 box
-- on the Super Mini, `encoder.c` counts the Hall encoder with the C6's pulse counter (PCNT) in x4 quadrature, 4200 counts per output-shaft turn, with a 1 µs glitch filter and the internal pull-ups as a fallback. It reports position and speed in the `status` and `encoder` console commands, `/api/status` (`enc`) and the web app's status pills. Nothing steers the motor from it yet.
+- on the Super Mini, `encoder.c` counts the Hall encoder with the C6's pulse counter (PCNT) in x4 quadrature, 4200 counts per output-shaft turn, with a 1 µs glitch filter and the internal pull-ups as a fallback. It reports position and speed in the `status` and `encoder` console commands, `/api/status` (`enc`) and the web app's status pills.
+- **Stories recorded by hand** (from 2026-11-08): turn the cam shaft by hand while the box records the encoder, and the box plays the motion back by following the shaft's position, closed-loop. Record from the story editor (*Record by turning the shaft*) or with `teach start` / `teach stop <name>` on the console. See [Recording a story by turning the shaft](../../firmware/README.md#recording-a-story-by-turning-the-shaft). The 1:150 gearbox has to be turned from the output shaft, which takes a firm hand: try it before relying on it.
 
 To check on hardware: the lowest speed at which your N20 still turns under the cam's load. If it stalls and hums at low knob settings, the firmware needs a minimum duty setting.
 

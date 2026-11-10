@@ -41,3 +41,12 @@ void      player_set_master(int pct);   // 0..100
 
 void      player_on_control(ctl_event_t ev, int value);
 cJSON    *player_status(void);
+
+// Teach: record a story by turning the shaft by hand (N20 with encoder only; ESP_ERR_NOT_SUPPORTED otherwise).
+// Start releases the motor and samples the encoder (up to 120 s); stop returns the take as a story
+// ({"name","loop","steps","track"}, not saved) with the still time at each end trimmed, or NULL and err.
+// A story with a "track" plays it closed-loop: the shaft follows the recorded positions.
+esp_err_t player_teach_start(void);
+cJSON    *player_teach_stop(const char *name, bool loop, char *err, int errlen);
+void      player_teach_cancel(void);
+bool      player_teaching(void);

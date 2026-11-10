@@ -16,6 +16,9 @@ static void defaults(settings_t *s)
     s->range_us = 400;
     s->slew = 150;
     s->idle_release_ms = 1500;
+    s->max_rpm = 80;          // 6 V 1:150 N20: about 100 rpm at 6 V, so about 80 at 5 V
+    s->min_duty = 12;
+    s->follow_gain = 10;
     s->knob_enabled = BOARD_HAS_KNOB;
     s->switch_installed = BOARD_HAS_DIR_SWITCH;
     s->autoplay = false;
@@ -77,6 +80,9 @@ void settings_apply_json(const cJSON *j)
     get_int(&g_settings.range_us, j, "range_us", 50, 900);
     get_int(&g_settings.slew, j, "slew", 10, 2000);
     get_int(&g_settings.idle_release_ms, j, "idle_release_ms", 0, 60000);
+    get_int(&g_settings.max_rpm, j, "max_rpm", 5, 2000);
+    get_int(&g_settings.min_duty, j, "min_duty", 0, 60);
+    get_int(&g_settings.follow_gain, j, "follow_gain", 1, 200);
     get_bool(&g_settings.knob_enabled, j, "knob_enabled");
 #if !BOARD_HAS_KNOB
     g_settings.knob_enabled = false;       // no pot on this board: ignore a saved or posted true
@@ -117,6 +123,9 @@ cJSON *settings_to_json(bool include_secrets)
     cJSON_AddNumberToObject(j, "range_us", g_settings.range_us);
     cJSON_AddNumberToObject(j, "slew", g_settings.slew);
     cJSON_AddNumberToObject(j, "idle_release_ms", g_settings.idle_release_ms);
+    cJSON_AddNumberToObject(j, "max_rpm", g_settings.max_rpm);
+    cJSON_AddNumberToObject(j, "min_duty", g_settings.min_duty);
+    cJSON_AddNumberToObject(j, "follow_gain", g_settings.follow_gain);
     cJSON_AddBoolToObject(j, "knob_enabled", g_settings.knob_enabled);
     cJSON_AddBoolToObject(j, "switch_installed", g_settings.switch_installed);
     cJSON_AddBoolToObject(j, "has_knob", BOARD_HAS_KNOB);               // read-only: the web app hides the checkbox when false
