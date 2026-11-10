@@ -14,6 +14,9 @@
 #include "esp_console.h"
 #include "esp_wifi.h"
 #include "esp_system.h"
+#include "esp_mac.h"
+#include "esp_chip_info.h"
+#include "esp_app_desc.h"
 #include "esp_timer.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
@@ -29,6 +32,32 @@ static void print_json(cJSON *j)
 static int save_or_complain(void)
 {
     if (settings_save() != ESP_OK) { printf("could not save settings\n"); return 1; }
+    return 0;
+}
+
+// ---------- info ----------
+
+static int cmd_info(int argc, char **argv)
+{
+    cJSON *n = net_status();
+    uint8_t sta[6], ap[6];
+    esp_read_mac(sta, ESP_MAC_WIFI_STA);
+    esp_read_mac(ap, ESP_MAC_WIFI_SOFTAP);
+    printf("name      %s (http://%s.local)\n", cJSON_GetObjectItem(n, "hostname")->valuestring,
+           cJSON_GetObjectItem(n, "hostname")->valuestring);
+    printf("ap        %s\n", cJSON_GetObjectItem(n, "ap_ssid")->valuestring);
+    cJSON_Delete(n);
+    printf("mac       sta %02x:%02x:%02x:%02x:%02x:%02x, ap %02x:%02x:%02x:%02x:%02x:%02x\n",
+           sta[0], sta[1], sta[2], sta[3], sta[4], sta[5], ap[0], ap[1], ap[2], ap[3], ap[4], ap[5]);
+    printf("board     %s, drive %s\n", BOARD_NAME, DRIVE_NAME);
+
+    const esp_app_desc_t *d = esp_app_get_description();
+    printf("firmware  %s %s (built %s %s)\n", d->project_name, d->version, d->date, d->time);
+    printf("idf       %s\n", esp_get_idf_version());
+
+    esp_chip_info_t ci;
+    esp_chip_info(&ci);
+    printf("chip      esp32c6 rev v%d.%d, %d core(s)\n", ci.revision / 100, ci.revision % 100, ci.cores);
     return 0;
 }
 
@@ -306,6 +335,7 @@ void console_start(void)
 {
     static const esp_console_cmd_t cmds[] = {
         { .command = "status", .help = "Board, Wi-Fi, knob, button, motor and player at a glance", .func = cmd_status },
+        { .command = "info", .help = "Name, MAC, firmware version and chip: for telling boards apart", .func = cmd_info },
         { .command = "wifi", .help = "Saved networks: wifi | scan | add <name> [password] | use <n|name> | join <name> [password] | remove <n|name> | forget", .func = cmd_wifi },
         { .command = "ap", .help = "CamBox access point: ap <name> [password] | ap default", .func = cmd_ap },
         { .command = "get", .help = "Show settings: get | get <name>", .func = cmd_get },

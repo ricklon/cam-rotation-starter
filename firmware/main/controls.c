@@ -51,6 +51,9 @@ static int read_dir_pins(void)
 
 static int read_knob_pct(void)
 {
+#if !BOARD_HAS_KNOB
+    return 0;
+#endif
     int sum = 0, raw = 0;
     for (int i = 0; i < 8; i++) {
         if (adc_oneshot_read(s_adc, s_knob_ch, &raw) == ESP_OK) sum += raw;
@@ -148,15 +151,19 @@ void controls_init(ctl_cb_t cb)
     };
     ESP_ERROR_CHECK(gpio_config(&io));
 
+#if BOARD_HAS_KNOB
     adc_unit_t unit;
     ESP_ERROR_CHECK(adc_oneshot_io_to_channel(PIN_KNOB, &unit, &s_knob_ch));
     adc_oneshot_unit_init_cfg_t ucfg = { .unit_id = unit };
     ESP_ERROR_CHECK(adc_oneshot_new_unit(&ucfg, &s_adc));
     adc_oneshot_chan_cfg_t ccfg = { .atten = ADC_ATTEN_DB_12, .bitwidth = ADC_BITWIDTH_12 };
     ESP_ERROR_CHECK(adc_oneshot_config_channel(s_adc, s_knob_ch, &ccfg));
+#endif
 
     xTaskCreate(controls_task, "controls", 3072, NULL, 8, NULL);
-#if BOARD_HAS_DIR_SWITCH
+#if !BOARD_HAS_KNOB
+    ESP_LOGI(TAG, "button GPIO%d, no knob, no direction switch", PIN_BTN);
+#elif BOARD_HAS_DIR_SWITCH
     ESP_LOGI(TAG, "button GPIO%d, knob GPIO%d (ADC ch %d), switch GPIO%d/GPIO%d",
              PIN_BTN, PIN_KNOB, (int)s_knob_ch, PIN_DIR_FWD, PIN_DIR_REV);
 #else

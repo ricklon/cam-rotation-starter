@@ -189,6 +189,8 @@ function updateLive() {
   if (!s) return;
   const story = s.mode === 'story';
   const set = (id, txt) => { const el = document.getElementById(id); if (el && el.textContent !== txt) el.textContent = txt; };
+  const name = s.net?.hostname;
+  if (name) { set('devName', name); document.title = `${name} · CamBox`; }
   const kind = s.playlist ? `Playlist ${s.playlist} (${s.pl_pos} of ${s.pl_n})` : 'Story';
   set('nowMode', story ? (s.resting ? 'Resting between loops' : s.paused ? `${kind} · paused` : `${kind} · playing`) : 'Manual');
   set('nowTitle', story ? s.story : (Math.abs(s.target) > 0.5 ? `Turning at ${Math.round(s.target)}%` : 'Stopped'));
@@ -564,7 +566,7 @@ function renderSettings() {
         servo && numField('range_us', 'Full-speed offset (µs)', 50, 900),
         numField('slew', 'Smoothing (% per second)', 10, 2000),
         numField('idle_release_ms', 'Release after stop (s, 0 = never)', 0, 60, 0.1, 1000)),
-      h('div', { class: 'grid2' }, check('knob_enabled', 'Use the speed knob'), s.has_dir_switch !== false && check('switch_installed', 'Direction switch is wired')),
+      h('div', { class: 'grid2' }, s.has_knob !== false && check('knob_enabled', 'Use the speed knob'), s.has_dir_switch !== false && check('switch_installed', 'Direction switch is wired')),
       h('button', { class: 'btn primary', style: 'justify-self:start', onclick: () => saveSettings(collect([...(servo ? ['range_us'] : []), 'slew', ['idle_release_ms', 1000], 'knob_enabled', 'switch_installed'])) }, 'Save motion')),
 
     h('section', { class: 'card' },

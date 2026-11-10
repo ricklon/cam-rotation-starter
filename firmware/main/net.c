@@ -13,6 +13,7 @@
 static const char *TAG = "net";
 static esp_netif_t *s_ap, *s_sta;
 static char s_ap_ssid[33];
+static char s_hostname[33];   // g_settings.hostname, or cambox-xxxx from the MAC when blank
 static char s_sta_ip[16] = "";
 static char s_cur_ssid[33] = "";      // network we are joined to
 static int  s_idx = 0;                // network being tried
@@ -77,6 +78,8 @@ void net_start(void)
     esp_read_mac(mac, ESP_MAC_WIFI_SOFTAP);
     if (g_settings.ap_ssid[0]) strncpy(s_ap_ssid, g_settings.ap_ssid, sizeof s_ap_ssid - 1);
     else snprintf(s_ap_ssid, sizeof s_ap_ssid, "CamBox-%02X%02X", mac[4], mac[5]);
+    if (g_settings.hostname[0]) strncpy(s_hostname, g_settings.hostname, sizeof s_hostname - 1);
+    else snprintf(s_hostname, sizeof s_hostname, "cambox-%02x%02x", mac[4], mac[5]);
 
     wifi_config_t ap = { 0 };
     strncpy((char *)ap.ap.ssid, s_ap_ssid, sizeof ap.ap.ssid);
@@ -102,12 +105,12 @@ void net_start(void)
     dns_server_start(ip.ip.addr);
 
     if (mdns_init() == ESP_OK) {
-        mdns_hostname_set(g_settings.hostname);
+        mdns_hostname_set(s_hostname);
         mdns_instance_name_set("CamBox cam drive");
         mdns_service_add(NULL, "_http", "_tcp", 80, NULL, 0);
     }
     ESP_LOGI(TAG, "access point \"%s\" (%s) at " IPSTR ", http://%s.local",
-             s_ap_ssid, ap.ap.authmode == WIFI_AUTH_OPEN ? "open" : "WPA2", IP2STR(&ip.ip), g_settings.hostname);
+             s_ap_ssid, ap.ap.authmode == WIFI_AUTH_OPEN ? "open" : "WPA2", IP2STR(&ip.ip), s_hostname);
 }
 
 esp_err_t net_use(int i)
@@ -149,6 +152,6 @@ cJSON *net_status(void)
     cJSON_AddStringToObject(j, "ap_ssid", s_ap_ssid);
     cJSON_AddStringToObject(j, "sta_ssid", s_cur_ssid);
     cJSON_AddStringToObject(j, "sta_ip", s_sta_ip);
-    cJSON_AddStringToObject(j, "hostname", g_settings.hostname);
+    cJSON_AddStringToObject(j, "hostname", s_hostname);
     return j;
 }

@@ -33,7 +33,7 @@ The full point-to-point wire list for the MG90S drive (W1–W11, L1–L3, J1–J
 | Button, short press | Play or pause. If nothing is playing it starts the autoplay story, or the first story. |
 | Button, double press | Next story. |
 | Button, hold 2 s | Stop and go to manual mode. |
-| Button held while powering up (5 s, LED flickers) | Reset the Wi-Fi settings to their defaults. |
+| Button held while powering up (5 s, LED flickers) | Reset the Wi-Fi settings to their defaults. (Bare XIAO build: hold BOOT 10 s while running instead.) |
 | Knob | Story speed (master %) while a story plays; manual speed otherwise. It can be disabled in Settings. |
 | Switch FWD / centre / REV | Sets direction for everything, including web commands. Centre stops the motor and pauses a story. If the switch isn't fitted, untick "Direction switch is wired" so the box always runs forward. The Super Mini board has no switch at all (`BOARD_HAS_DIR_SWITCH` 0 in `board.h`): it runs forward and the web app hides the setting. |
 
@@ -54,8 +54,8 @@ LED: steady while a story plays, a short blink every 2 s when ready.
 ## Connecting
 
 1. Power the box. Join the Wi-Fi network **CamBox-XXXX** (open by default; the last four characters come from the board's MAC address).
-2. Your phone should open the app automatically (captive portal). If it doesn't, go to `http://192.168.4.1` or `http://cambox.local`.
-3. Optional: in Settings → Wi-Fi, add your own network (or several: school, home, a phone hotspot) so the box joins the first one it can reach. Then use `http://cambox.local` from that network. Or do it over USB with the serial console (below).
+2. Your phone should open the app automatically (captive portal). If it doesn't, go to `http://192.168.4.1` or `http://cambox-XXXX.local` (the same four characters as the network name).
+3. Optional: in Settings → Wi-Fi, add your own network (or several: school, home, a phone hotspot) so the box joins the first one it can reach. Then use `http://cambox-XXXX.local` from that network (the box shows its name in Settings, and `status` on the console prints it). Or do it over USB with the serial console (below).
 
 ## Serial console
 
@@ -67,6 +67,7 @@ uvx --from pyserial pyserial-miniterm --eol CRLF COM3 115200    # or idf.py -p P
 
 | Command | What it does |
 |---|---|
+| `info` | Name (`cambox-XXXX`), access point, MAC addresses, board and drive, firmware version and build time, IDF version, chip revision |
 | `status` | Board, drive, uptime, free heap, access point, home network (IP, signal), knob, button, direction, motor speed and duty, player |
 | `wifi`, `wifi list` | The saved networks (up to 4), numbered in the order they're tried. `*` marks the one joined now. |
 | `wifi scan` | List the networks the board can hear. It's 2.4 GHz only, so a 5 GHz-only network won't appear. |
@@ -127,6 +128,8 @@ The default build is for the Seeed XIAO ESP32-C6. For the ESP32-C6 Super Mini, a
 idf.py -B build/n20-supermini -D SDKCONFIG=build/n20-supermini/sdkconfig -D SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.n20;sdkconfig.supermini" build
 idf.py -B build/n20-supermini -p PORT flash
 ```
+
+A third choice, **XIAO ESP32-C6, bare**, is for a XIAO with nothing wired to it yet (add `sdkconfig.xiao-bare`, which combines with either drive type like the others). The on-board **BOOT** button (GPIO9) is the panel button, and there is no knob or direction switch: the web app hides those settings, and the Play tab's virtual panel stands in for them. Because GPIO9 is a strapping pin, holding it at power-up enters the USB bootloader, so on this build the Wi-Fi reset is **hold BOOT for 10 s while the box is running** (the 2 s hold stops playback first; the LED flickers, then the box restarts).
 
 Only the pin map (`main/board.h`) and the antenna set-up differ. The boot log names both: `ready (n20 drive, supermini-c6 board)`. A build for the wrong board runs, but the motor and the panel controls won't respond.
 
@@ -202,7 +205,7 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 | `rest_every`, `rest_ms` | 0, 5000 | Pause for `rest_ms` after every N loops. |
 | `ap_ssid`, `ap_pass` | "" | The box's own network. Blank name = CamBox-XXXX; a password under 8 characters = open network. |
 | `networks` | [] | Up to 4 networks to join as well, `[{"ssid","pass"}]`, tried in order (3 attempts each). The API never returns passwords, only `pass_set`; an entry sent without `pass` keeps its saved password. A single `sta_ssid` / `sta_pass` from an older save becomes the first entry. |
-| `hostname` | cambox | mDNS name (`cambox.local`). |
+| `hostname` | "" | mDNS name. Blank = `cambox-XXXX` (the last four hex digits of the MAC, matching the access point `CamBox-XXXX`), so boxes on one network never share a name. A saved `cambox` from an older version counts as blank. |
 
 ## Layout
 
