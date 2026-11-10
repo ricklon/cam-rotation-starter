@@ -17,8 +17,10 @@ Firmware for the Cam Rotation Starter: an ESP32-C6 (a Seeed XIAO ESP32-C6 or an 
 | Button (to GND) | D1 | 1 | 1 | Internal pull-up. |
 | Speed knob wiper | D2 | 2 | 4 | 10 k pot. ADC1, 12 dB attenuation. XIAO: pot between 3V3 and GND. |
 | Speed knob low end | GND | — | 3 | Super Mini only: the pot runs 3V3 → pot → GPIO3, and the firmware drives GPIO3 low before reading the knob. The reading is inverted (`KNOB_REVERSED`) so clockwise is still faster. |
-| Direction switch FWD (to GND) | D3 | 21 | 2 | ON-OFF-ON switch, common to GND. |
-| Direction switch REV (to GND) | D4 | 22 | 0 | Centre position = both open = stop. |
+| Direction switch FWD (to GND) | D3 | 21 | — | ON-OFF-ON switch, common to GND. XIAO only: the Super Mini build has no direction switch. |
+| Direction switch REV (to GND) | D4 | 22 | — | Centre position = both open = stop. |
+| Encoder channel A, C1 (N20) | — | — | 0 | Super Mini N20 build only (`HAS_ENCODER`): the N20's Hall encoder, powered from 3V3. Counted by the PCNT peripheral in x4 quadrature, with a 1 µs glitch filter and the internal pull-ups as a fallback. |
+| Encoder channel B, C2 (N20) | — | — | 2 | 4200 counts per output-shaft turn: 7 pulses per motor turn × 150:1 × 4 edges (`ENC_COUNTS_PER_REV`). If the count runs backwards while the motor turns forward, set `ENC_REVERSED`. |
 | User LED | on board | 15 (active low) | 15 (active high, unconfirmed) | |
 | RF switch enable / antenna select | on board | 3 / 14 | none | XIAO only: driven low for the on-board antenna. The Super Mini has a fixed antenna. |
 
@@ -68,7 +70,8 @@ uvx --from pyserial pyserial-miniterm --eol CRLF COM3 115200    # or idf.py -p P
 | Command | What it does |
 |---|---|
 | `info` | Name (`cambox-XXXX`), access point, MAC addresses, board and drive, firmware version and build time, IDF version, chip revision |
-| `status` | Board, drive, uptime, free heap, access point, home network (IP, signal), knob, button, direction, motor speed and duty, player |
+| `status` | Board, drive, uptime, free heap, access point, home network (IP, signal), knob, button, direction, motor speed and duty, encoder (N20 on the Super Mini), player |
+| `encoder`, `encoder watch`, `encoder zero` | The N20 encoder's count, output-shaft turns, angle and rpm: once, or five times a second for 10 s. `zero` makes the present position count 0. |
 | `wifi`, `wifi list` | The saved networks (up to 4), numbered in the order they're tried. `*` marks the one joined now. |
 | `wifi scan` | List the networks the board can hear. It's 2.4 GHz only, so a 5 GHz-only network won't appear. |
 | `wifi add <name> [password]` | Save a network at the end of the list, or change the password of one already saved. Quote names with spaces: `wifi add "Dog Den" secret`. |
@@ -170,7 +173,7 @@ Stories are stored as JSON files in `/data/stories/<name>.json`. Names are 1–3
 
 | Method | Path | Body / result |
 |---|---|---|
-| GET | `/api/status` | Player status plus `net`, `drive` (`"mg90s"` or `"n20"`), `trim_us`, `free_heap`. The motor output is `pulse_us` (servo) or `duty` (N20, −100..100 %). |
+| GET | `/api/status` | Player status plus `net`, `drive` (`"mg90s"` or `"n20"`), `trim_us`, `free_heap`. The motor output is `pulse_us` (servo) or `duty` (N20, −100..100 %). With the N20 encoder (Super Mini build), `enc` has the output shaft's `count` (x4, + is forward), `turns`, `deg` (0–360), `rpm` and `cpr` (counts per turn, 4200); without one, `enc` is left out. |
 | GET | `/api/settings` | Settings. Passwords are not returned; `ap_pass_set` / `sta_pass_set` say whether one is stored. |
 | POST | `/api/settings` | Any subset of the settings fields. Returns the settings plus `restart_needed`. |
 | POST | `/api/wifi/use` | `{"ssid":"school"}`: moves that saved network to the top of `networks` and joins it now. Returns the settings plus `restart_needed` (true if the box started with no network saved). |

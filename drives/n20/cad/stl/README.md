@@ -9,7 +9,7 @@ Exported from the Fusion design *Cam Rotation N20* and oriented for printing (z 
 | N20_Bushing_075 | flange down | 34.0 × 29.0 × 6.0 | 478 |
 | N20_Bushing_0625 | flange down | 34.0 × 29.0 × 6.0 | 574 |
 | N20_Bushing_025 | flange down | 34.0 × 29.0 × 6.0 | 765 |
-| N20_Cartridge | on its side (-x face down), arms flat along the bed | 35.3 × 29.0 × 15.0 | 281 |
+| N20_Cartridge | on its side (-x face down), arms flat along the bed | 35.3 × 29.0 × 15.0 | 282 |
 | N20_Electronics_Cover | top plate down, walls and posts up | 42.0 × 55.2 × 12.5 | 2031 |
 | N20_Socket_Coupon | socket coupon: plate top down, as the mount | 20.5 × 27.0 × 12.4 | 318 |
 | N20_Latch_Key | flat on its side, the U on the bed | 12.2 × 16.7 × 7.0 | 109 |
@@ -52,6 +52,12 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 
 **Updated 2026-11-03 (version 34): `N20_Electronics_Cover` again, with the measured sizes.** RV1's shaft is 5 mm above the board and its bushing reaches 5 mm past the board edge, so the knob hole moved down and an Ø11.5 × 0.8 mm recess round it on the outside gives the M7 nut and washer 3.5 mm of thread. C3 is an 8 × 13 mm can like C1, through a 9 mm hole. Reprint the cover from this version.
 
+**Updated 2026-11-08 (version 38): `N20_Cartridge` only.** Both snap hooks now stop 24.8 mm below the gearbox face, so an N20 with a Hall encoder board on its back (the board's front face is about 25 mm from the gearbox face) fits. The −Y arm stops at the same height, because the encoder board runs under it. The catch is unchanged, but the sloped lead-in under each hook is gone: spread the arms with your fingers as the motor goes in. The plain N20 still fits. See [Encoder motor](../../README.md#encoder-motor-2026-11-08). The wire clamp below the +Y arm stays on the part but isn't used with the encoder motor: its cable plugs into the encoder, so nothing is soldered at the motor.
+
+**Updated 2026-11-08 (version 39): wiring only, print files unchanged.** The encoder motor's cable, the links W30 and W31 and C2 on the perfboard are routed in the model. The cable comes out through the cover's existing 7 mm notch.
+
+**Updated 2026-11-09 (version 41): `N20_Cartridge` only, fingers round the encoder board.** The version 38 print wouldn't clip over the encoder motor: its hooks had to drop into a gap of under 1 mm between the end cap and the board, which sits tilted 25–25.5 mm from the gearbox face. Now the −Y arm has no end-cap hook. Instead, two fingers (1.2 mm wide, split from the arm up to 15 mm below the gearbox face) pass the board's sides, 0.3 mm clear, and catch its back 26.6 mm from the gearbox face, 0.8 mm in, with a sloped lead-in, so they spread as the board goes past. The +x finger's catch is tapered at 45° so it prints without supports. The +Y arm keeps its end-cap hook, now with a 0.5 mm lead-in again (more would hit the board). The fingers flex across the layers, unlike the arms; the strain is under 1 %, but if one snaps, tell me. Clearances: 0.2 mm to the board, 0.3 mm to the magnet cap. With the plain N20 (no board), only the +Y hook holds it.
+
 **Updated 2026-11-03 (version 35): `N20_Mount` only.** The bushing's flange recess has moved from the underside of the top plate to the flat wall face: the bushing drops into the bore from the wall side, its Ø34 mm double-D flange sits in a 1.6 mm deep recess (flange 1.5 mm, so it sits 0.1 mm below the face), and the box wall holds it in once the mount is screwed on. Nothing has to slide in under the plate any more, where the 5/8 clamp left no room. The old recess under the plate is filled. Bore (Ø29.2 mm), bushing and dowel bores are unchanged, so the bushings don't need reprinting; reprint only the mount. The recess is on the bed face: its ceiling is a 2.6 mm ring overhang round the bore, which prints without supports. The box wall hole now only needs to pass the dowel: the dowel and its clamp go through the mount, then the bushing, before the mount goes on the wall (see the [assembly order](../../README.md#assembly-order-and-tool-access)). The MG90S drive has the same change (*Cam Rotation Starter* version 51).
 
 **Updated 2026-11-03 (version 33): `N20_Electronics_Cover` only.** Fitted to the board as built: RV1 stands with its shaft parallel to the board, pointing off the J edge, and C3 stands. The cover's J-edge wall moved in to just past RV1's face and carries the Ø7.2 mm knob hole; the top has a notch for RV1's body and a hole for C3's top; the C1 hole, the USB-C opening, the posts and the motor notch stay. It still prints top plate down with no supports (the knob hole is a horizontal Ø7.2 mm hole in a wall). RV1 and C3 sizes are assumed until measured: see `cad/fusion/cover_rv1.py`.
@@ -67,7 +73,7 @@ Parts the N20 drive shares with the MG90S drive aren't repeated here. Print them
 **Updated 2026-10-31 (version 25): rev C.** Reprint `N20_Mount` and `N20_Cartridge`, and print the new `N20_Electronics_Cover`. The socket and mount fit coupons didn't change.
 
 - **`N20_Mount`:** supports for the perfboard on the −Y face: two posts from the flange, two bosses with 45° gussets, and a rail past the face's +X edge, all with M2 pilots. The flange ear is unchanged.
-- **`N20_Cartridge`:** a wire clamp plate below the +Y snap arm, with two slots for a 2.5 mm zip tie.
+- **`N20_Cartridge`:** a wire clamp plate below the +Y snap arm, with two slots for a 2.5 mm zip tie (for the plain N20's soldered leads; the encoder motor doesn't use it).
 - **`N20_Electronics_Cover`:** goes over the perfboard as the mount's outer −Y wall, open at the −X end for both USB-C plugs, and carries the speed knob.
 
 The supports print up from the flange without supports of their own. See [What changed on 2026-10-31](../../README.md#what-changed-on-2026-10-31-rev-c).
@@ -96,7 +102,7 @@ Every hole has its size engraved under it. Find the one that fits in each row an
 
 ![The cartridge with the motor in it, from the side: the shaft out of the top plate, a latch tongue cut into the side wall with its bump near the top, the flange, and below it a snap arm along the motor with its hook over the end cap, and a black zip tie round both arms between their ribs.](../../docs/images/cartridge.png)
 
-Print them the way they load, with no supports: the cartridge lies on its side, the socket coupon on its plate face like the mount, the key flat. The coupon is the mount's own socket, cut out of it, so a latch that holds here holds in the mount. The catch face in each slot prints as a short bridge. **Before printing, measure your motor** from the gearbox face to the back of the end cap. The hooks are set for 24.1 mm (`n20_len`), so tell me if yours differs.
+Print them the way they load, with no supports: the cartridge lies on its side, the socket coupon on its plate face like the mount, the key flat. The coupon is the mount's own socket, cut out of it, so a latch that holds here holds in the mount. The catch face in each slot prints as a short bridge. **The cartridge needs no supports; turn them off for it.** Most of its overhang is one flat ceiling, the far wall of the gearbox cavity, which prints as a 10.6 mm bridge across the inside of the tube. Everything else is a short bridge (the zip-tie slots, the 0.5 mm slots beside the encoder fingers) or a 45° slope. Standard (grid) supports fill the motor cavity and the finger slots and are close to impossible to get out. If your bridge sags and you want support under it, use organic (tree) supports from the build plate only, and if your printer has a second material, print the support interface in PLA: PLA doesn't bond to PETG, so it peels off. **Before printing, measure your motor** from the gearbox face to the back of the end cap. The hooks are set for 24.1 mm (`n20_len`), so tell me if yours differs.
 
 | Check | If it's wrong |
 |---|---|
@@ -156,7 +162,7 @@ Tell me which hole fitted in each row of the PETG coupon, how the cartridge snap
 | Part | Material | Layer | Walls | Infill | Supports |
 |---|---|---|---|---|---|
 | N20_PETG_Fit_Coupon | PETG | 0.2 mm | 3 | 20% | none |
-| N20_Cartridge | PETG | 0.16 mm | 3 | 40% | none: printed on its side (as the file loads), so the snap arms and latch tongues bend along their layers |
+| N20_Cartridge | PETG (not PLA: the arms, fingers and latch tongues flex) | 0.16 mm | 3 | 40% | **none**: printed on its side (as the file loads), so the snap arms and latch tongues bend along their layers (the encoder fingers bend across them, gently). See the cartridge notes in section 2 if your slicer adds supports. |
 | N20_Socket_Coupon | PETG | 0.2 mm | 3 | 25% | none (same settings as the mount) |
 | N20_Latch_Key | PETG | 0.16 mm | 3 | 40% | none: printed flat, as the file loads |
 | N20_Mount_Fit_Coupon_Wall, _Base | PETG | 0.2 mm | 3 | 25% | none (same layer, walls and infill as the mount, so its fits come out the same) |
@@ -166,7 +172,7 @@ Tell me which hole fitted in each row of the PETG coupon, how the cartridge snap
 | N20_Mount | PETG | 0.2 mm | 3 | 25% | **yes**, build plate only: under the face plate (through the bushing hole) and the PD pad. The ear bosses print upright from the flange and need none. |
 | N20_Electronics_Cover | PETG | 0.2 mm | 3 | 20% | none: printed top plate down, as the file loads |
 
-PETG notes: print a little slower and hotter than PLA, turn off ironing, and use a glue stick or textured sheet on smooth PEI (PETG can bond too well). Holes usually come out slightly smaller than in PLA, which is what the coupon is for.
+PETG notes: print a little slower and hotter than PLA, turn off ironing, and use a glue stick or textured sheet on smooth PEI (PETG can bond too well). Where a part needs supports, organic (tree) supports come off far more easily than standard ones, and with a two-material printer a PLA support interface (or all-PLA supports) separates cleanly from PETG. Holes usually come out slightly smaller than in PLA, which is what the coupon is for.
 
 Printed flange down, the mount's face plate is a 29 mm bridge between the side walls, now with the cartridge socket through it. The supports under it stand in the open space the adapter turns in and come out through the open ends; the narrower slot above the plate, under the base, is filled solid so nothing gets trapped there. If yours sags, turn on supports everywhere (not just from the build plate) for that print. The PD board's pad also leaves a 3.5 mm overhang facing the bed; build-plate supports reach it.
 

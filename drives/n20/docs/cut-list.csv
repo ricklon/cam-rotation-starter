@@ -1,8 +1,12 @@
 wire,colour,gauge,from,to,routed_mm,cut_mm,notes
 W1,red,30 AWG stranded,U1 + pad,perfboard A7 (5V bus),10,25,jumper on the component side; U1's screw terminal removed
 W2,black,30 AWG stranded,U1 - pad,perfboard A8 (GND bus),8,20,jumper on the component side
-W14,red,motor factory lead, about 26 AWG (assumed),J4 pin 1 (DRV8833 OUT3),N20 terminal +,57,80,the motor's own lead; measure from the end cap and cut; crimp a PH contact into the PHR-2 housing at J4; out of the cover's bottom notch and under the base's -Y edge; tie at the cartridge's wire clamp
-W15,black,motor factory lead, about 26 AWG (assumed),J4 pin 2 (DRV8833 OUT4),N20 terminal -,68,90,the motor's own lead; measure from the end cap and cut; beside W14; along the clamp's tie bar and behind the end cap to the far terminal
+W24,white,motor cable wire, gauge unconfirmed,J4 pin 1 at the encoder (M1),perfboard J3 (DRV8833 OUT3),49,70,the cable's own wire; measure from the back of the plug and cut; in through the cover's bottom notch, soldered underneath
+W25,red,motor cable wire, gauge unconfirmed,J4 pin 6 at the encoder (M2),perfboard J2 (DRV8833 OUT4),58,80,the cable's own wire; red is a motor lead here
+W26,blue,motor cable wire, gauge unconfirmed,J4 pin 2 at the encoder (GND),perfboard J4 (strip 4 right; W30 to GND),47,65,the cable's own wire; blue is the encoder ground
+W27,black,motor cable wire, gauge unconfirmed,J4 pin 5 at the encoder (VCC),perfboard J5 (strip 5 right; W31 to 3V3),51,70,the cable's own wire; black is the encoder supply: 3.3 V only
+W28,green,motor cable wire, gauge unconfirmed,J4 pin 3 at the encoder (C1),perfboard I15 (GPIO0),105,135,the cable's own wire; channel A; from the notch over the DRV8833 and the Super Mini under the cover
+W29,yellow,motor cable wire, gauge unconfirmed,J4 pin 4 at the encoder (C2),perfboard I13 (GPIO2),96,125,the cable's own wire; channel B; beside W28
 W6,white,30 AWG stranded (or the button's own lead),S1 lead A (button),perfboard I14 (GPIO1),149,185,measured from the button: back through the pod / base tunnel / -Y face; in from the underside; splice in the pod if the button's lead is short
 W11,black,30 AWG stranded (or the button's own lead),S1 lead B (button),perfboard A4 (GND),150,185,measured from the button; beside W6; in from the underside
 W4,black,30 AWG stranded,perfboard C8 (GND bus),C16 (Super Mini GND),22,40,underside link
@@ -15,3 +19,5 @@ W18,black,30 AWG stranded,perfboard B8 (GND bus),C4 (DRV GND),11,25,underside li
 W21,yellow,30 AWG stranded,perfboard A15 (3V3),I10 (RV1 pin 1),37,55,underside link; crosses under both modules; 3.3 V only
 W22,red,30 AWG stranded,perfboard C2 (D1 cathode),H7 (C3 +),35,50,underside link; crosses W13
 W23,black,30 AWG stranded,perfboard A16 (GND),H8 (C3 -),46,65,underside link; crosses under both modules
+W30,black,30 AWG stranded,perfboard I4 (encoder GND strip),E4 (DRV GND),17,30,underside link; crosses W22; needs the DRV8833 H4 pin (OUT2) pulled
+W31,yellow,30 AWG stranded,perfboard I5 (encoder 3V3 strip),H10 (3V3; RV1 strip),14,30,underside link; crosses W13 and W22; 3.3 V only; needs the DRV8833 H5 pin (OUT1) pulled

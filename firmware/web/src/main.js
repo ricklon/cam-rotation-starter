@@ -202,6 +202,9 @@ function updateLive() {
       h('span', { class: `pill ${s.dir === 0 ? 'warn' : ''}` }, `Switch: ${DIR_LABEL[String(s.dir)]}`),
       h('span', { class: 'pill' }, `Knob ${s.knob}%`),
       h('span', { class: 'pill mono' }, outputLabel(s)),
+      // N20 Hall encoder: output-shaft speed and position (turns since power-up, angle within the turn)
+      s.enc ? h('span', { class: 'pill mono', title: `${s.enc.count} counts, ${s.enc.cpr} per turn` }, `${s.enc.rpm.toFixed(1)} rpm`) : null,
+      s.enc ? h('span', { class: 'pill mono' }, `${s.enc.turns.toFixed(2)} turns · ${Math.round(s.enc.deg)}°`) : null,
       story && !s.paused ? h('span', { class: 'pill on' }, 'Playing') : null);
   }
   const wired = !!s.switch_installed;

@@ -6,6 +6,7 @@
 #include "board.h"
 #include "player.h"
 #include "servo.h"
+#include "encoder.h"
 #include "settings.h"
 #include "storage.h"
 #include "net.h"
@@ -61,6 +62,8 @@ static cJSON *full_status(void)
     cJSON_AddStringToObject(j, "drive", DRIVE_NAME);
     cJSON_AddNumberToObject(j, "trim_us", g_settings.trim_us);
     cJSON_AddNumberToObject(j, "free_heap", esp_get_free_heap_size());
+    cJSON *enc = encoder_status();          // N20 Hall encoder: output-shaft position and speed
+    if (enc) cJSON_AddItemToObject(j, "enc", enc);
     return j;
 }
 
